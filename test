@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+make test
+for binary in ./debug/*; do
+	echo "===> $(basename $binary)"
+	$binary
+done
