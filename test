@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
-make test
+
+failed=""
+
+make test || exit 1
 for binary in ./debug/*; do
 	echo "===> $(basename $binary)"
-	$binary
+	$binary || failed="$failed$(basename $binary) "
 done
+
+if [ -n "$failed" ]; then
+	echo >&2
+	echo -e "\033[0;31mfailed tests: $failed\033[0m" >&2
+fi
