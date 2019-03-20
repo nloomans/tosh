@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   ft_strcpy.test.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nloomans <nloomans@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/03/19 18:27:26 by nloomans      #+#    #+#                 */
-/*   Updated: 2019/03/20 11:37:30 by nloomans      ########   odam.nl         */
+/*   Created: 2019/03/20 11:46:13 by nloomans      #+#    #+#                 */
+/*   Updated: 2019/03/20 11:54:51 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include <assert.h>
+#include <stdio.h>
 
-# include <stddef.h>
+#include <libft.h>
+#include <string.h>
 
-size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s1);
-char	*ft_strcpy(char *dst, const char *src);
+int		main(void)
+{
+	char src[4] = "foo";
+	char dst[4];
 
-#endif
+	ft_strcpy(dst, src);
+	assert(strcmp(src, dst) == 0);
+}

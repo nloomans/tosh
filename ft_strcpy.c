@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   ft_strcpy.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nloomans <nloomans@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/03/19 18:27:26 by nloomans      #+#    #+#                 */
-/*   Updated: 2019/03/20 11:37:30 by nloomans      ########   odam.nl         */
+/*   Created: 2019/03/20 11:38:10 by nloomans      #+#    #+#                 */
+/*   Updated: 2019/03/20 11:51:15 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+char	*ft_strcpy(char *dst, const char *src)
+{
+	unsigned int	i;
 
-# include <stddef.h>
-
-size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s1);
-char	*ft_strcpy(char *dst, const char *src);
-
-#endif
+	i = 0;
+	while (1)
+	{
+		dst[i] = src[i];
+		if (src[i] == '\0')
+			break ;
+		i++;
+	}
+	return (dst);
+}

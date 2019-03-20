@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   strdup.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nloomans <nloomans@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/03/19 18:27:26 by nloomans      #+#    #+#                 */
-/*   Updated: 2019/03/20 11:37:30 by nloomans      ########   odam.nl         */
+/*   Created: 2019/03/20 11:28:47 by nloomans      #+#    #+#                 */
+/*   Updated: 2019/03/20 11:45:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include <stdlib.h>
+#include "libft.h"
 
-# include <stddef.h>
-
-size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s1);
-char	*ft_strcpy(char *dst, const char *src);
-
-#endif
+char	*ft_strdup(const char *s1)
+{
+	size_t	len;
+	char	*dup;
+	
+	len = ft_strlen(s1);
+	dup = (char *)malloc(sizeof(*dup) * len);
+	if (dup == NULL)
+		return (NULL);
+	ft_strcpy(dup, s1);
+	return (dup);
+}
