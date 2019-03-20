@@ -15,9 +15,19 @@
 
 # include <stddef.h>
 
+/*
+** string.h
+*/
+
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
 char	*ft_strcpy(char *dst, const char *src);
 char	*ft_strncpy(char *dst, const char *src, size_t len);
+
+/*
+** ctype.h
+*/
+
+int		ft_isspace(int c);
 
 #endif
