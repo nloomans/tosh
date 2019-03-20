@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/20 18:12:18 by nloomans      ########   odam.nl          #
+#    Updated: 2019/03/20 18:25:11 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRC_FILES=		\
 				ft_strdup.c \
 				ft_strcpy.c \
 				ft_strncpy.c \
-				ft_isspace.c
+				ft_isspace.c \
+				ft_strdropwhile.c
 OBJ_FOLDER=		.obj
 OBJ_FILES=		$(patsubst %.c,$(OBJ_FOLDER)/%.o,$(SRC_FILES))
 DEBUG_FOLDER=	debug
