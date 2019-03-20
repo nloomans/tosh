@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   test_macros.h                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/03/19 18:27:26 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/20 12:21:20 by nloomans      ########   odam.nl         */
+/*   Created: 2019/03/20 13:26:27 by nloomans       #+#    #+#                */
+/*   Updated: 2019/03/20 13:46:57 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#ifndef TEST_MACROS_H
+# define TEST_MACROS_H
 
-# include <stddef.h>
-
-size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s1);
-char	*ft_strcpy(char *dst, const char *src);
-char	*ft_strncpy(char *dst, const char *src, size_t len);
+#define TEST(name, testf) void name(char *source, testf)
+#define PRINT() printf("testing (%s): %s\n", source, __func__)
+#define RUN(name, func_libft, func_libc) do {	\
+	name("libft", func_libft);					\
+	name("libc ", func_libc);					\
+} while (0)
 
 #endif

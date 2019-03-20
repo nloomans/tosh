@@ -3,10 +3,10 @@
 #                                                         ::::::::             #
 #    Makefile                                           :+:    :+:             #
 #                                                      +:+                     #
-#    By: nloomans <nloomans@student.codam.n>          +#+                      #
+#    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
-#    Created: 2019/03/19 10:52:40 by nloomans      #+#    #+#                  #
-#    Updated: 2019/03/20 11:53:30 by nloomans      ########   odam.nl          #
+#    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
+#    Updated: 2019/03/20 13:41:31 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ CFLAGS=			-Wall -Wextra -Werror
 SRC_FILES=		\
 				ft_strlen.c \
 				ft_strdup.c \
-				ft_strcpy.c
+				ft_strcpy.c \
+				ft_strncpy.c
 OBJ_FOLDER=		.obj
 OBJ_FILES=		$(patsubst %.c,$(OBJ_FOLDER)/%.o,$(SRC_FILES))
 DEBUG_FOLDER=	debug
@@ -29,7 +30,7 @@ test: $(NAME) $(DEBUG_FILES)
 $(NAME): $(OBJ_FILES)
 	ar rcs $@ $^
 
-$(DEBUG_FOLDER)/%: %.test.c $(NAME)
+$(DEBUG_FOLDER)/%: %.test.c $(NAME) test_macros.h
 	@mkdir -p $(DEBUG_FOLDER)
 	$(CC) $(CFLAGS) -L. -lft -I. -o $@ $<
 

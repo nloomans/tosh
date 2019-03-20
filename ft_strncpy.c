@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   ft_strncpy.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/03/19 18:27:26 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/20 12:21:20 by nloomans      ########   odam.nl         */
+/*   Created: 2019/03/20 12:18:06 by nloomans       #+#    #+#                */
+/*   Updated: 2019/03/20 13:42:05 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "libft.h"
 
-# include <stddef.h>
+char	*ft_strncpy(char *dst, const char *src, size_t len)
+{
+	unsigned int	i;
+	int				has_reached_end;
 
-size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s1);
-char	*ft_strcpy(char *dst, const char *src);
-char	*ft_strncpy(char *dst, const char *src, size_t len);
-
-#endif
+	i = 0;
+	has_reached_end = 0;
+	while (i < len)
+	{
+		if (src[i] == '\0')
+			has_reached_end = 1;
+		if (has_reached_end)
+			dst[i] = '\0';
+		else
+			dst[i] = src[i];
+		i++;
+	}
+	return (dst);
+}
