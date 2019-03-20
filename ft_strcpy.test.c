@@ -3,17 +3,16 @@
 /*                                                        ::::::::            */
 /*   ft_strcpy.test.c                                   :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: nloomans <nloomans@student.codam.n>          +#+                     */
+/*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/03/20 11:46:13 by nloomans      #+#    #+#                 */
-/*   Updated: 2019/03/20 11:54:51 by nloomans      ########   odam.nl         */
+/*   Created: 2019/03/20 11:46:13 by nloomans       #+#    #+#                */
+/*   Updated: 2019/03/20 12:47:14 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <assert.h>
 #include <stdio.h>
-
-#include <libft.h>
 #include <string.h>
 
 int		main(void)
@@ -22,5 +21,5 @@ int		main(void)
 	char dst[4];
 
 	ft_strcpy(dst, src);
-	assert(strcmp(src, dst) == 0);
+	assert(memcmp(src, dst, 4) == 0);
 }
