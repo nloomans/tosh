@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/19 18:27:26 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/20 12:21:20 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/20 18:28:29 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
 char	*ft_strcpy(char *dst, const char *src);
 char	*ft_strncpy(char *dst, const char *src, size_t len);
+
+/*
+** stdlib.h
+*/
+
+int		ft_atoi(const char *str);
 
 /*
 ** ctype.h
