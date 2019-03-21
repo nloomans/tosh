@@ -13,5 +13,10 @@ done
 if [ -n "$failed" ]; then
 	echo >&2
 	echo -e "\033[0;31mfailed tests: $failed\033[0m" >&2
-	exit 1
+fi
+
+if fd '^ft_[^\.]+\.c$' -X norminette | grep -E '^(Error|Warning)' 2>&1 >/dev/null; then
+	echo >&2
+	echo -e "\033[0;31mnorm failed:\033[0m" >&2
+	fd '^ft_[^\.]+\.c$' -X norminette
 fi
