@@ -13,4 +13,5 @@ done
 if [ -n "$failed" ]; then
 	echo >&2
 	echo -e "\033[0;31mfailed tests: $failed\033[0m" >&2
+	exit 1
 fi
