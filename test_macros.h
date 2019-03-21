@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/20 13:26:27 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/20 18:12:56 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/21 13:07:47 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # define TEST(name, testf) void name(char *source, testf)
 # define PRINT() printf("testing (%s): %s\n", source, __func__)
 # define RUN(name, func_libft, func_libc) do {	\
-	name("libft", func_libft);					\
 	name("libc ", func_libc);					\
+	name("libft", func_libft);					\
 } while (0)
 
 #endif

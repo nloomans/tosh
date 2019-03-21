@@ -4,8 +4,10 @@ failed=""
 
 make test || exit 1
 for binary in ./debug/*; do
-	echo "===> $(basename $binary)"
-	$binary || failed="$failed$(basename $binary) "
+	if [ -f $binary ]; then
+		echo "===> $(basename $binary)"
+		$binary || failed="$failed$(basename $binary) "
+	fi
 done
 
 if [ -n "$failed" ]; then

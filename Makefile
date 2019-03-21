@@ -6,13 +6,13 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/21 12:47:37 by nloomans      ########   odam.nl          #
+#    Updated: 2019/03/21 13:35:24 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=			libft.a
 CC=				gcc
-CFLAGS=			-Wall -Wextra -Werror
+CFLAGS=			-Wall -Wextra -Werror -g
 SRC_FILES=		\
 				ft_strlen.c \
 				ft_strdup.c \
@@ -47,8 +47,7 @@ $(OBJ_FOLDER)/%.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -f $(OBJ_FILES) $(DEBUG_FILES)
-	rm -fd $(OBJ_FOLDER) $(DEBUG_FOLDER)
+	rm -rf $(OBJ_FOLDER) $(DEBUG_FOLDER)
 
 fclean: clean
 	rm -f $(NAME)
