@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/19 18:27:26 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/20 18:28:29 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/21 12:36:13 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ int		ft_atoi(const char *str);
 */
 
 int		ft_isspace(int c);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+int		ft_isalnum(int c);
+int		ft_isascii(int c);
+int		ft_isprint(int c);
 
 /*
 ** custom
