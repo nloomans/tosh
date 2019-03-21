@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+norm() {
+	fd '^(libft.h|ft_[^\.]+\.c)$' -X norminette
+}
+
 failed=""
 
 make test || exit 1
@@ -15,8 +19,8 @@ if [ -n "$failed" ]; then
 	echo -e "\033[0;31mfailed tests: $failed\033[0m" >&2
 fi
 
-if fd '^ft_[^\.]+\.c$' -X norminette | grep -E '^(Error|Warning)' 2>&1 >/dev/null; then
+if norm | grep -E '^(Error|Warning)' 2>&1 >/dev/null; then
 	echo >&2
 	echo -e "\033[0;31mnorm failed:\033[0m" >&2
-	fd '^ft_[^\.]+\.c$' -X norminette
+	norm
 fi
