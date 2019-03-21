@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 18:34:10 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/21 18:50:24 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/21 19:11:52 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 TEST(test_basic, char *strchrf(const char *s, int c))
 {
 	PRINT();
-	char *str = "abcde";
+	char *str = "abccdec";
 	assert(strchrf(str, 'c') == str + 2);
 }
 
 TEST(test_find_null, char *strchrf(const char *s, int c))
 {
 	PRINT();
-	char *str = "abcde";
+	char *str = "abcde\0fg";
 	assert(strchrf(str, '\0') == str + 5);
 }
 
