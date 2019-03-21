@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/02/11 10:38:48 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/20 19:06:50 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/21 12:58:52 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ int			ft_atoi(const char *str)
 	str = ft_strdropwhile(str, ft_isspace);
 	str = ft_atoi_consume_plus_minus(str, &is_positive);
 	nb = 0;
-	while (*str >= '0' && *str <= '9')
+	while (ft_isdigit(*str))
 	{
 		nb *= 10;
-		nb -= *str - 48;
+		nb -= *str - '0';
 		str++;
 	}
 	if (is_positive)
