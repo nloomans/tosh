@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 18:34:10 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/22 11:19:47 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/22 14:56:02 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,17 @@ TEST(test_not_equal_non_ascii, int strcmpf(const char *s1, const char *s2))
 	assert(strcmpf("foo\x95", "foo\x90") > 0);
 }
 
+TEST(test_empty, int strcmpf(const char *s1, const char *s2))
+{
+	PRINT();
+	assert(strcmpf("", "") == 0);
+	assert(strcmpf("foo", "") > 0);
+}
+
 int		main(void)
 {
 	RUN(test_equal, ft_strcmp, strcmp);
 	RUN(test_not_equal_ascii, ft_strcmp, strcmp);
 	RUN(test_not_equal_non_ascii, ft_strcmp, strcmp);
+	RUN(test_empty, ft_strcmp, strcmp);
 }

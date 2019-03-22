@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 18:34:10 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/22 13:05:34 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/22 14:57:43 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,15 @@ TEST(	test_not_equal_non_ascii,
 	assert(strncmpf("foo\x95", "foo\x90", sizeof("foo\x90")) > 0);
 }
 
+TEST(test_empty, int strncmpf(const char *s1, const char *s2, size_t n))
+{
+	PRINT();
+	assert(strncmpf("", "", 0) == 0);
+	assert(strncmpf("", "", 1) == 0);
+	assert(strncmpf("foo", "", 0) == 0);
+	assert(strncmpf("foo", "", 5) > 0);
+}
+
 TEST(	test_n_short,
 		int strncmpf(const char *s1, const char *s2, size_t n))
 {
@@ -52,11 +61,20 @@ TEST(	test_n_long,
 	assert(strncmpf("foo", "foo", 10) == 0);
 }
 
+TEST(	test_n_0,
+		int strncmpf(const char *s1, const char *s2, size_t n))
+{
+	PRINT();
+	assert(strncmpf("foo", "bar", 0) == 0);
+}
+
 int		main(void)
 {
 	RUN(test_equal, ft_strncmp, strncmp);
 	RUN(test_not_equal_ascii, ft_strncmp, strncmp);
 	RUN(test_not_equal_non_ascii, ft_strncmp, strncmp);
+	RUN(test_empty, ft_strncmp, strncmp);
 	RUN(test_n_short, ft_strncmp, strncmp);
 	RUN(test_n_long, ft_strncmp, strncmp);
+	RUN(test_n_0, ft_strncmp, strncmp);
 }
