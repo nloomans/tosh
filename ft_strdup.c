@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/20 11:28:47 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/21 15:32:08 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/23 16:08:43 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strdup(const char *s1)
 	char	*dup;
 
 	len = ft_strlen(s1);
-	dup = (char *)malloc(sizeof(*dup) * len);
+	dup = (char *)malloc(sizeof(*dup) * (len + 1));
 	if (dup == NULL)
 		return (NULL);
 	ft_strcpy(dup, s1);

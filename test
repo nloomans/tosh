@@ -17,7 +17,11 @@ for binary in ./debug/*; do
 		success=true
 
 		echo "===> $basename"
-		$binary || success=false
+		if [ "$1" == "--quick" ]; then
+			$binary || success=false
+		else
+			valgrind --quiet --error-exitcode=42 $binary || success=false
+		fi
 
 		must_exist=$(cat "$test_file" | \
 					grep -E '^TEST\(\s*([a-z_]+).*$' | \
