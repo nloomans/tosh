@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_memdel.c                                        :+:    :+:            */
+/*   ft_strdel.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:29:04 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/25 18:38:11 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 18:38:01 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
-void	ft_memdel(void **ap)
+void	ft_strdel(char **as)
 {
-	if (ap == NULL)
-		return ;
-	free(*ap);
-	*ap = NULL;
+	ft_memdel((void *)as);
 }

@@ -1,22 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_memdel.c                                        :+:    :+:            */
+/*   ft_strdel.test.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/03/25 18:29:04 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/25 18:38:11 by nloomans      ########   odam.nl         */
+/*   Created: 2019/03/25 18:30:22 by nloomans       #+#    #+#                */
+/*   Updated: 2019/03/25 18:40:29 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "test_macros.h"
+#include <libft.h>
 #include <stdlib.h>
-#include "libft.h"
+#include <string.h>
 
-void	ft_memdel(void **ap)
+TEST(test_basic, void strdelf(char **as))
 {
-	if (ap == NULL)
-		return ;
-	free(*ap);
-	*ap = NULL;
+	PRINT();
+	char *mem = malloc(5);
+	strdelf(&mem);
+	assert(mem == NULL);
+}
+
+TEST(test_null, void strdelf(char **as))
+{
+	PRINT();
+	strdelf(NULL);
+}
+
+int		main(void)
+{
+	RUN(test_basic, ft_strdel);
+	RUN(test_null, ft_strdel);
 }

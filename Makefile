@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/25 18:32:02 by nloomans      ########   odam.nl          #
+#    Updated: 2019/03/25 18:40:01 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ SRC_FILES=		\
 				ft_memalloc.c \
 				ft_memdel.c \
 				ft_strnew.c \
+				ft_strdel.c \
 				ft_putstr.c \
 				ft_putstr_fd.c \
 				\
