@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/23 18:43:19 by nloomans      ########   odam.nl          #
+#    Updated: 2019/03/25 10:57:05 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,8 @@ SRC_FILES=		\
 				ft_isalnum.c \
 				ft_isascii.c \
 				ft_isprint.c \
+				ft_toupper.c \
+				ft_tolower.c \
 				ft_isspace.c \
 				ft_strdropwhile.c
 OBJ_FOLDER=		.obj
