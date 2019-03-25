@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/25 12:05:12 by nloomans      ########   odam.nl          #
+#    Updated: 2019/03/25 13:44:36 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ CC=				gcc
 CFLAGS=			-Wall -Wextra -Werror -g
 SRC_FILES=		\
 				ft_memset.c \
-				ft_bzero.c \
 				ft_memcpy.c \
 				ft_memccpy.c \
 				ft_memmove.c \
@@ -34,7 +33,11 @@ SRC_FILES=		\
 				ft_strnstr.c \
 				ft_strcmp.c \
 				ft_strncmp.c \
+				\
+				ft_bzero.c \
+				\
 				ft_atoi.c \
+				\
 				ft_isalpha.c \
 				ft_isdigit.c \
 				ft_isalnum.c \
@@ -42,6 +45,9 @@ SRC_FILES=		\
 				ft_isprint.c \
 				ft_toupper.c \
 				ft_tolower.c \
+				\
+				ft_putstr_fd.c \
+				\
 				ft_isspace.c \
 				ft_strdropwhile.c
 OBJ_FOLDER=		.obj
