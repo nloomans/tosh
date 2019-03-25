@@ -25,10 +25,9 @@ for binary in ./debug/*; do
 
 		must_exist=$(cat "$test_file" | \
 					grep -E '^TEST\(\s*([a-z_]+).*$' | \
-					sed -E 's/^TEST\([[:space:]]*([a-z_]+).*$/RUN\(\1/g')
+					sed -E 's/^TEST\([[:space:]]*([a-z_]+).*$/RUN[0-9]*(\1/g')
 		for regex in $must_exist; do
-			if  ! grep -q $regex "$test_file" && \
-				! grep -q '@test ignore_run_check' "$test_file"; then
+			if  ! grep -q $regex "$test_file"; then
 				echo -e "${color_red}RUN missing: $regex${color_reset}"
 				success=false
 			fi

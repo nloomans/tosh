@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/23 16:26:49 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/23 16:41:04 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ TEST(test_n_0, void *memcpyf(void *dst, const void *src, size_t n))
 
 int		main(void)
 {
-	RUN(test_basic, ft_memcpy, memcpy);
-	RUN(test_n_0, ft_memcpy, memcpy);
+	RUN2(test_basic, ft_memcpy, memcpy);
+	RUN2(test_n_0, ft_memcpy, memcpy);
 }

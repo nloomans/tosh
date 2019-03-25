@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/20 12:25:23 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/20 13:41:21 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ TEST(test_no_room, char *strncpyf(char *dst, const char *src, size_t len))
 
 int		main(void)
 {
-	RUN(test_more_room,		ft_strncpy, strncpy);
-	RUN(test_less_room,		ft_strncpy, strncpy);
-	RUN(test_no_room,		ft_strncpy, strncpy);
+	RUN2(test_more_room,		ft_strncpy, strncpy);
+	RUN2(test_less_room,		ft_strncpy, strncpy);
+	RUN2(test_no_room,		ft_strncpy, strncpy);
 }

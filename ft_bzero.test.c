@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 18:34:10 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/23 15:51:36 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ TEST(test_basic, void bzerof(void *b, size_t len))
 
 int		main(void)
 {
-	RUN(test_basic, ft_bzero, bzero);
+	RUN2(test_basic, ft_bzero, bzero);
 }

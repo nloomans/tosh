@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/20 18:07:46 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/20 18:13:04 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ TEST(test_basic, int isspacef(int c))
 
 int		main(void)
 {
-	RUN(test_basic, ft_isspace, isspace);
+	RUN2(test_basic, ft_isspace, isspace);
 }

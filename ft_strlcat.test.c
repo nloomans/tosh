@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 17:20:33 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/21 18:21:24 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ TEST(test_dst_invalid, size_t strlcatf(char *dst, const char *src, size_t size))
 
 int		main(void)
 {
-	RUN(test_basic, ft_strlcat, strlcat);
-	RUN(test_src_too_long, ft_strlcat, strlcat);
-	RUN(test_dst_full, ft_strlcat, strlcat);
-	RUN(test_dst_invalid, ft_strlcat, strlcat);
+	RUN2(test_basic, ft_strlcat, strlcat);
+	RUN2(test_src_too_long, ft_strlcat, strlcat);
+	RUN2(test_dst_full, ft_strlcat, strlcat);
+	RUN2(test_dst_invalid, ft_strlcat, strlcat);
 }

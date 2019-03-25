@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 10:50:15 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/25 10:57:41 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ TEST(test_from_other, int toupperf(int c))
 
 int		main(void)
 {
-	RUN(test_from_upper, ft_toupper, toupper);
-	RUN(test_from_lower, ft_toupper, toupper);
-	RUN(test_from_other, ft_toupper, toupper);
+	RUN2(test_from_upper, ft_toupper, toupper);
+	RUN2(test_from_lower, ft_toupper, toupper);
+	RUN2(test_from_other, ft_toupper, toupper);
 }

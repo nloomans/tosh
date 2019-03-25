@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   memcmp.test.c                                      :+:    :+:            */
+/*   ft_memcmp.test.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 12:02:44 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/25 12:04:56 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:25:37 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ TEST(test_empty, int memcmpf(const  void *s1, const void *s2, size_t n))
 
 int		main(void)
 {
-	RUN(test_equal, ft_memcmp, memcmp);
-	RUN(test_not_equal_ascii, ft_memcmp, memcmp);
-	RUN(test_not_equal_non_ascii, ft_memcmp, memcmp);
-	RUN(test_empty, ft_memcmp, memcmp);
+	RUN2(test_equal, ft_memcmp, memcmp);
+	RUN2(test_not_equal_ascii, ft_memcmp, memcmp);
+	RUN2(test_not_equal_non_ascii, ft_memcmp, memcmp);
+	RUN2(test_empty, ft_memcmp, memcmp);
 }

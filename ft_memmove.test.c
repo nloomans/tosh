@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/23 18:35:25 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/23 19:15:15 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ TEST(test_unsafe_overlap, void *memmovef(void *dst, const void *src, size_t len)
 
 int		main(void)
 {
-	RUN(test_no_overlap, ft_memmove, memmove);
-	RUN(test_safe_overlap, ft_memmove, memmove);
-	RUN(test_unsafe_overlap, ft_memmove, memmove);
+	RUN2(test_no_overlap, ft_memmove, memmove);
+	RUN2(test_safe_overlap, ft_memmove, memmove);
+	RUN2(test_unsafe_overlap, ft_memmove, memmove);
 }

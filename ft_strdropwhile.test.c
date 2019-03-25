@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/20 18:17:58 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/22 13:20:26 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:26:45 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ TEST(test_no_end, char *strdropwhilef(const char *str, int should_skip(int c)))
 
 int		main(void)
 {
-	/* @test ignore_run_check */
-	test_basic("libft", ft_strdropwhile);
-	test_no_end("libft", ft_strdropwhile);
+	RUN(test_basic, ft_strdropwhile);
+	RUN(test_no_end, ft_strdropwhile);
 }

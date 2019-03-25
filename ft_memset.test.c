@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 18:34:10 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/23 15:48:31 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ TEST(test_no_ascii, void *memsetf(void *b, int c, size_t len))
 
 int		main(void)
 {
-	RUN(test_basic, ft_memset, memset);
-	RUN(test_null, ft_memset, memset);
-	RUN(test_no_ascii, ft_memset, memset);
+	RUN2(test_basic, ft_memset, memset);
+	RUN2(test_null, ft_memset, memset);
+	RUN2(test_no_ascii, ft_memset, memset);
 }

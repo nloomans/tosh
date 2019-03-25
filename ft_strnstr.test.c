@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/22 15:48:47 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/23 15:28:01 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ TEST(	test_len,
 
 int		main(void)
 {
-	RUN(test_basic, ft_strnstr, strnstr);
-	RUN(test_empty_needle, ft_strnstr, strnstr);
-	RUN(test_len, ft_strnstr, strnstr);
+	RUN2(test_basic, ft_strnstr, strnstr);
+	RUN2(test_empty_needle, ft_strnstr, strnstr);
+	RUN2(test_len, ft_strnstr, strnstr);
 }

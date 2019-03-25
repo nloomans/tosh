@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 18:34:10 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/22 14:56:02 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ TEST(test_empty, int strcmpf(const char *s1, const char *s2))
 
 int		main(void)
 {
-	RUN(test_equal, ft_strcmp, strcmp);
-	RUN(test_not_equal_ascii, ft_strcmp, strcmp);
-	RUN(test_not_equal_non_ascii, ft_strcmp, strcmp);
-	RUN(test_empty, ft_strcmp, strcmp);
+	RUN2(test_equal, ft_strcmp, strcmp);
+	RUN2(test_not_equal_ascii, ft_strcmp, strcmp);
+	RUN2(test_not_equal_non_ascii, ft_strcmp, strcmp);
+	RUN2(test_empty, ft_strcmp, strcmp);
 }

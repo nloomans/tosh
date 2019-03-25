@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 11:40:00 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/25 11:48:45 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ TEST(test_n_0, void *memchrf(const void *s, int c, size_t n))
 
 int		main(void)
 {
-	RUN(test_basic, ft_memchr, memchr);
-	RUN(test_find_null, ft_memchr, memchr);
-	RUN(test_not_found, ft_memchr, memchr);
-	RUN(test_n_0, ft_memchr, memchr);
+	RUN2(test_basic, ft_memchr, memchr);
+	RUN2(test_find_null, ft_memchr, memchr);
+	RUN2(test_not_found, ft_memchr, memchr);
+	RUN2(test_n_0, ft_memchr, memchr);
 }

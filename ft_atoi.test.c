@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/20 18:39:53 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/20 19:11:13 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ TEST(test_invalid, int atoif(const char *str))
 
 int main(void)
 {
-	RUN(test_basic, ft_atoi, atoi);
-	RUN(test_tricky, ft_atoi, atoi);
-	RUN(test_invalid, ft_atoi, atoi);
+	RUN2(test_basic, ft_atoi, atoi);
+	RUN2(test_tricky, ft_atoi, atoi);
+	RUN2(test_invalid, ft_atoi, atoi);
 }

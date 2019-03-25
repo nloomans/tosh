@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 15:47:52 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/21 16:40:41 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ TEST(test_more_space, char *strncatf(char *s1, const char *s2, size_t n))
 
 int		main(void)
 {
-	RUN(test_basic, ft_strncat, strncat);
-	RUN(test_less_space, ft_strncat, strncat);
-	RUN(test_more_space, ft_strncat, strncat);
+	RUN2(test_basic, ft_strncat, strncat);
+	RUN2(test_less_space, ft_strncat, strncat);
+	RUN2(test_more_space, ft_strncat, strncat);
 }

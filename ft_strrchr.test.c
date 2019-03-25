@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 18:34:10 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/21 19:13:23 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/25 12:22:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ TEST(test_not_found, char *strrchrf(const char *s, int c))
 
 int		main(void)
 {
-	RUN(test_basic, ft_strrchr, strrchr);
-	RUN(test_find_null, ft_strrchr, strrchr);
-	RUN(test_not_found, ft_strrchr, strrchr);
+	RUN2(test_basic, ft_strrchr, strrchr);
+	RUN2(test_find_null, ft_strrchr, strrchr);
+	RUN2(test_not_found, ft_strrchr, strrchr);
 }
