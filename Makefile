@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/25 13:44:36 by nloomans      ########   odam.nl          #
+#    Updated: 2019/03/25 17:07:07 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC_FILES=		\
 				ft_toupper.c \
 				ft_tolower.c \
 				\
+				ft_putstr.c \
 				ft_putstr_fd.c \
 				\
 				ft_isspace.c \
