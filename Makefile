@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/25 10:57:05 by nloomans      ########   odam.nl          #
+#    Updated: 2019/03/25 11:10:29 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC_FILES=		\
 				ft_memcpy.c \
 				ft_memccpy.c \
 				ft_memmove.c \
+				ft_memchr.c \
 				ft_strlen.c \
 				ft_strdup.c \
 				ft_strcpy.c \
