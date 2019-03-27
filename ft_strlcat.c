@@ -6,14 +6,14 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 16:47:53 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/21 17:42:47 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/27 16:39:39 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include "libft.h"
 
-static size_t	ft_strlcat_strlen_max(const char *s, size_t max_len)
+static size_t	strlen_max(const char *s, size_t max_len)
 {
 	size_t	len;
 
@@ -28,7 +28,7 @@ size_t			ft_strlcat(char *dst, const char *src, size_t size)
 	size_t			dst_initial_len;
 	unsigned long	src_index;
 
-	dst_initial_len = ft_strlcat_strlen_max(dst, size);
+	dst_initial_len = strlen_max(dst, size);
 	src_index = 0;
 	while (dst_initial_len + src_index + 1 < size && src[src_index] != '\0')
 	{
