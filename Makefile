@@ -90,3 +90,6 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+.SECONDARY: $(OBJ_FILES)
+.PHONY: all test clean fclean re
