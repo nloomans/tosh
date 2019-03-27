@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/19 18:27:26 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/25 12:41:08 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/27 14:26:37 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int		ft_isspace(int c);
 ** custom
 */
 
+char	*ft_strstrim(const char *s);
 char	*ft_strdropwhile(const char *str, int should_skip(int c));
 
 #endif
