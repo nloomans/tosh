@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/28 12:34:56 by nloomans      ########   odam.nl          #
+#    Updated: 2019/03/28 13:04:15 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,8 +71,6 @@ SRC_FILES=		\
 				ft_strdropwhile.c
 OBJ_FOLDER=		.obj
 OBJ_FILES=		$(patsubst %.c,$(OBJ_FOLDER)/%.o,$(SRC_FILES))
-DEBUG_FOLDER=	debug
-DEBUG_FILES=	$(patsubst %.c,$(DEBUG_FOLDER)/%,$(SRC_FILES))
 
 all: $(NAME)
 
@@ -81,20 +79,16 @@ test: $(NAME) $(DEBUG_FILES)
 $(NAME): $(OBJ_FILES)
 	ar rcs $@ $^
 
-$(DEBUG_FOLDER)/%: %.test.c $(NAME) test_macros.h
-	@mkdir -p $(DEBUG_FOLDER)
-	$(CC) $(CFLAGS) -L. -lft -I. -o $@ $<
-
 $(OBJ_FOLDER)/%.o: %.c
 	@mkdir -p $(OBJ_FOLDER)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -rf $(OBJ_FOLDER) $(DEBUG_FOLDER)
+	rm -rf $(OBJ_FOLDER)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all test clean fclean re
+.PHONY: all clean fclean re
