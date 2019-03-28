@@ -6,11 +6,10 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/28 11:35:58 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/28 12:18:14 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:11:07 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include "libft.h"
 
 static size_t	calculate_strlen(int n)

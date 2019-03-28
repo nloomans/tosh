@@ -6,14 +6,11 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/23 18:25:40 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/25 10:47:48 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:11:54 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include "libft.h"
-
-#include <stdio.h>
 
 /*
 ** Returns 0 of there is no overlap between dst and src, of if there is safe

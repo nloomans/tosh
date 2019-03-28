@@ -6,11 +6,10 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 15:35:12 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/21 16:30:03 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:12:15 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include "libft.h"
 
 char	*ft_strncat(char *s1, const char *s2, size_t n)

@@ -6,11 +6,10 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:16:01 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/25 18:22:05 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:15:13 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
 char	*ft_strnew(size_t size)

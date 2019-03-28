@@ -6,11 +6,10 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/27 11:39:41 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/27 13:43:17 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:12:37 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include "libft.h"
 
 char	*ft_strsub(const char *s, unsigned int start, size_t len)

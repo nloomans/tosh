@@ -6,11 +6,10 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 18:24:59 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/21 19:10:52 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:12:35 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include "libft.h"
 
 char	*ft_strrchr(const char *s, int c)
