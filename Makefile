@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/28 19:58:30 by nloomans      ########   odam.nl          #
+#    Updated: 2019/03/28 20:03:15 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,20 +60,20 @@ SRC_FILES=		\
 				ft_strsub.c \
 				ft_strjoin.c \
 				ft_strtrim.c \
-				ft_strstrim.c \
 				ft_strsplit.c \
 				ft_itoa.c \
 				ft_putchar.c \
-				ft_putchar_fd.c \
 				ft_putstr.c \
-				ft_putstr_fd.c \
 				ft_putendl.c \
-				ft_putendl_fd.c \
 				ft_putnbr.c \
+				ft_putchar_fd.c \
+				ft_putstr_fd.c \
+				ft_putendl_fd.c \
 				ft_putnbr_fd.c \
 				\
 				ft_isspace.c \
-				ft_strdropwhile.c
+				ft_strdropwhile.c \
+				ft_strstrim.c
 OBJ_FOLDER=		.obj
 OBJ_FILES=		$(patsubst %.c,$(OBJ_FOLDER)/%.o,$(SRC_FILES))
 
