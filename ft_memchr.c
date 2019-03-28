@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 11:09:32 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/28 20:11:36 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:17:32 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
-	unsigned long	i;
+	size_t	i;
 
 	i = 0;
 	while (i < n)

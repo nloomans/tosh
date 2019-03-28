@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/22 15:00:50 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/28 20:12:29 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:19:03 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	unsigned long	i;
-	size_t			needle_len;
+	size_t	i;
+	size_t	needle_len;
 
 	i = 0;
 	needle_len = ft_strlen(needle);

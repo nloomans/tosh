@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/28 11:35:58 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/28 20:11:07 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:17:11 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static char		digit_to_char(int n)
 
 char			*ft_itoa(int n)
 {
-	char			*dst;
-	size_t			dst_len;
-	unsigned long	i;
+	char	*dst;
+	size_t	dst_len;
+	size_t	i;
 
 	dst_len = calculate_strlen(n);
 	dst = ft_strnew(dst_len);

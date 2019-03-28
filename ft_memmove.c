@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/23 18:25:40 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/28 20:11:54 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:19:18 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static int	has_unsafe_overlap(const void *dst, const void *src, size_t len)
 
 static void	*memcpy_reverse(void *dst, const void *src, size_t len)
 {
-	unsigned long	i;
-	unsigned long	str_index;
+	size_t	i;
+	size_t	str_index;
 
 	i = 0;
 	while (i < len)

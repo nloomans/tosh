@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/22 11:07:02 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/22 14:53:14 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:19:18 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	unsigned long	i;
+	size_t	i;
 
 	i = 0;
 	while (1)

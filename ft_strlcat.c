@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/21 16:47:53 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/28 20:12:03 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:18:21 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static size_t	strlen_max(const char *s, size_t max_len)
 
 size_t			ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t			dst_initial_len;
-	unsigned long	src_index;
+	size_t	dst_initial_len;
+	size_t	src_index;
 
 	dst_initial_len = strlen_max(dst, size);
 	src_index = 0;
