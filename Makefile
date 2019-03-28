@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/27 18:36:25 by nloomans      ########   odam.nl          #
+#    Updated: 2019/03/28 12:15:02 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRC_FILES=		\
 				ft_strtrim.c \
 				ft_strstrim.c \
 				ft_strsplit.c \
+				ft_itoa.c \
 				ft_putstr.c \
 				ft_putstr_fd.c \
 				\
