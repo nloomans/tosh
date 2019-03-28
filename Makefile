@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/28 19:06:02 by nloomans      ########   odam.nl          #
+#    Updated: 2019/03/28 19:18:05 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ SRC_FILES=		\
 				ft_putchar_fd.c \
 				ft_putstr.c \
 				ft_putstr_fd.c \
+				ft_putendl_fd.c \
 				\
 				ft_isspace.c \
 				ft_strdropwhile.c
