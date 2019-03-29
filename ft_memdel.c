@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:29:04 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/25 18:38:11 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/28 20:23:31 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 void	ft_memdel(void **ap)
 {
-	if (ap == NULL)
-		return ;
 	free(*ap);
 	*ap = NULL;
 }
