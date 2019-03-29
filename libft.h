@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/19 18:27:26 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/28 20:09:45 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/29 12:55:50 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <string.h>
+# include "libft.types.h"
 
 /*
 ** PART 1 - LIBC FUNCTIONS
@@ -100,17 +101,28 @@ void	ft_putnbr_fd(int n, int fd);
 ** BONUS PART
 */
 
+t_list	*ft_lstnew(const void *content, size_t content_size);
+t_list	*ft_lstdelone(t_list **alst, void del(void *, size_t));
+t_list	*ft_lstdel(t_list **alst, void del(void *, size_t));
+t_list	*ft_lstadd(t_list **alst, t_list *new);
+t_list	*ft_lstiter(t_list *lst, void f(t_list *elem));
+t_list	*ft_lstmap(t_list *lst, void f(t_list *elem));
+
 /*
-** non-mandatory
+** EXPANSION
 */
 
 int		ft_isspace(int c);
-
-/*
-** custom
-*/
-
 char	*ft_strstrim(const char *s);
 char	*ft_strdropwhile(const char *str, int should_skip(int c));
+
+/*
+** ft_print_memory
+** ft_sort
+** ft_swap
+** ft_lstdrop
+** ft_lstsort
+** ft_lstswap
+*/
 
 #endif
