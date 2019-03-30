@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/28 19:39:33 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/28 19:49:24 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/30 17:40:31 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,4 @@ void			ft_putnbr_fd(int n, int fd)
 	else
 		n *= -1;
 	ft_putnbr_fd_c(n, fd);
-	ft_putchar_fd('\n', fd);
 }
