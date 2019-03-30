@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/19 18:27:26 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/29 12:55:50 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/29 14:15:57 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,10 @@ void	ft_putnbr_fd(int n, int fd);
 */
 
 t_list	*ft_lstnew(const void *content, size_t content_size);
-t_list	*ft_lstdelone(t_list **alst, void del(void *, size_t));
-t_list	*ft_lstdel(t_list **alst, void del(void *, size_t));
-t_list	*ft_lstadd(t_list **alst, t_list *new);
-t_list	*ft_lstiter(t_list *lst, void f(t_list *elem));
+void	ft_lstdelone(t_list **alst, void del(void *, size_t));
+void	ft_lstdel(t_list **alst, void del(void *, size_t));
+void	ft_lstadd(t_list **alst, t_list *new);
+void	ft_lstiter(t_list *lst, void f(t_list *elem));
 t_list	*ft_lstmap(t_list *lst, void f(t_list *elem));
 
 /*
@@ -115,6 +115,8 @@ t_list	*ft_lstmap(t_list *lst, void f(t_list *elem));
 int		ft_isspace(int c);
 char	*ft_strstrim(const char *s);
 char	*ft_strdropwhile(const char *str, int should_skip(int c));
+void	ft_lstpush(t_list **alst, t_list *new);
+t_list	*ft_lstpop(t_list **alst);
 
 /*
 ** ft_print_memory

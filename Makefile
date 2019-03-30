@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/29 12:59:21 by nloomans      ########   odam.nl          #
+#    Updated: 2019/03/30 12:20:29 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,10 +72,15 @@ SRC_FILES=		\
 				ft_putnbr_fd.c \
 				\
 				ft_lstnew.c \
+				ft_lstdelone.c \
+				ft_lstdel.c \
+				ft_lstadd.c \
 				\
 				ft_isspace.c \
 				ft_strdropwhile.c \
-				ft_strstrim.c
+				ft_strstrim.c \
+				ft_lstpush.c \
+
 OBJ_FOLDER=		.obj
 OBJ_FILES=		$(patsubst %.c,$(OBJ_FOLDER)/%.o,$(SRC_FILES))
 
