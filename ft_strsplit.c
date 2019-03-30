@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/27 18:06:22 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/27 19:52:28 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/30 18:03:38 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char			**ft_strsplit(const char *s, char c)
 	char	**words;
 
 	words = (char **)ft_memalloc(sizeof(*words) * (word_count(s, c) + 1));
+	if (words == NULL)
+		return (NULL);
 	ft_strsplit_c(words, s, c);
 	return (words);
 }
