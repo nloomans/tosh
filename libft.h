@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/19 18:27:26 by nloomans       #+#    #+#                */
-/*   Updated: 2019/03/30 16:58:55 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/03/30 18:51:48 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,9 @@ char	*ft_strstrim(const char *s);
 char	*ft_strdropwhile(const char *str, int should_skip(int c));
 void	ft_lstpush(t_list **alst, t_list *new);
 t_list	*ft_lstpop(t_list **alst);
+void	ft_print_memory(const void *addr, size_t size);
 
 /*
-** ft_print_memory
 ** ft_sort
 ** ft_swap
 ** ft_segfault
