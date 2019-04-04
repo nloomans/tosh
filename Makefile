@@ -6,13 +6,13 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/03/30 19:02:15 by nloomans      ########   odam.nl          #
+#    Updated: 2019/04/04 15:11:35 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=			libft.a
 CC=				gcc
-CFLAGS=			-Wall -Wextra -Werror -g
+CFLAGS=			-Wall -Wextra -Werror
 SRC_FILES=		\
 				ft_memset.c \
 				ft_memcpy.c \
