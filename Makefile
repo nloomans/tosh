@@ -82,6 +82,7 @@ SRC_FILES=		\
 				ft_strdropwhile.c \
 				ft_strstrim.c \
 				ft_lstpush.c \
+				ft_lstpop.c \
 				ft_print_memory.c \
 				ft_sort.c \
 
