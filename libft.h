@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/19 18:27:26 by nloomans       #+#    #+#                */
-/*   Updated: 2019/04/04 12:39:50 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/04/09 17:41:28 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,6 @@ void			ft_lstpush(t_list **alst, t_list *new);
 t_list			*ft_lstpop(t_list **alst);
 void			ft_print_memory(const void *addr, size_t size);
 void			ft_sort(int ac, void **av, int cmpf());
+int				ft_strappendbytes(char **str, char *to_append, size_t len);
 
 #endif

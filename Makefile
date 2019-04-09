@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/04/04 15:11:35 by nloomans      ########   odam.nl          #
+#    Updated: 2019/04/09 17:42:50 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,6 +85,7 @@ SRC_FILES=		\
 				ft_lstpop.c \
 				ft_print_memory.c \
 				ft_sort.c \
+				ft_strappendbytes.c \
 
 OBJ_FOLDER=		.obj
 OBJ_FILES=		$(patsubst %.c,$(OBJ_FOLDER)/%.o,$(SRC_FILES))
