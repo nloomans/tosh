@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/05/06 15:11:37 by nloomans       #+#    #+#                 #
-#    Updated: 2019/05/20 14:56:10 by nmartins      ########   odam.nl          #
+#    Updated: 2019/05/20 15:54:34 by nmartins      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,14 +51,15 @@ libft_fclean:
 
 CC=				gcc
 SRC_DIR=		./src
+INC_DIR=		./inc
 OBJ_DIR=		./.obj
 EXTRA=			# Custom CFLAGS added by the user
 CFLAGS=			-Werror -Wall -Wextra -O2 $(EXTRA)
-IFLAGS=			$(LIBFT_IFLAGS) 
+IFLAGS=			$(LIBFT_IFLAGS) -I $(INC_DIR)
 LFLAGS=			$(LIBFT_LFLAGS)
 
 SRC_FILES=		$(wildcard $(SRC_DIR)/*.c)
-HEADER_FILES=	$(wildcard $(SRC_HEADER)/*.h)
+INC_FILES=		$(wildcard $(INC_DIR)/*.h)
 OBJ_FILES=		$(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
 $(NAME): $(LIBFT_A) $(OBJ_FILES)
@@ -66,7 +67,7 @@ $(NAME): $(LIBFT_A) $(OBJ_FILES)
 	@echo " λ Creating archive $(OK_COLOR)$(UNDERLINE)$(NAME)$(RESET)"
 	@ar rcs $(NAME) $(OBJ_FILES)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER_FILES)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
 	@mkdir -p $(OBJ_DIR)
 	@printf " λ Making object $(UNDERLINE)$(BLUE)$<$(RESET)\n"
 	@$(CC) -o $@ -c $< $(CFLAGS) $(IFLAGS)
