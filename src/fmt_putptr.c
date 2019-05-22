@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   fmt_putptr.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/20 15:26:18 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/22 21:05:31 by nmartins      ########   odam.nl         */
+/*   Created: 2019/05/22 19:33:43 by nmartins       #+#    #+#                */
+/*   Updated: 2019/05/22 20:46:24 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
-#include <libft.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/fcntl.h>
-#include <stdio.h>
-#include <limits.h>
+#include "fmt.h"
+#include "writer.h"
+#include "token.h"
+#include <stdarg.h>
 
+int				fmt_putptr(t_writer *writer, t_token *token, va_list vlist)
+{
+	void			*ptr;
+	size_t			written;
+	unsigned long	addr;
 
-int	main(void)
-{	
-	int res = ft_printf("%5%\n");
-	ft_printf("Returned: %d\n", res);
-	return (0);
+	(void)token;
+	written = writer_write(writer, "0x", 2);
+	ptr = va_arg(vlist, void*);
+	addr = (unsigned long)ptr;
+	intern_fmt_puthex(writer, addr, 0);
+	return (written);
 }

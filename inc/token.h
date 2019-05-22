@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 14:02:33 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/22 16:25:02 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/22 20:43:15 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ typedef enum	e_parameter_descriptor
 {
 	E_INT,
 	E_STR,
+	E_UNS,
+	E_PTR,
+	E_HEX,
+	E_CHR,
+	E_OCT,
 }				t_parameter_descriptor;
 
 typedef struct	s_literal
@@ -42,9 +47,21 @@ typedef struct	s_literal
 	size_t					length;
 }				t_literal;
 
+typedef enum	e_size
+{
+	E_HH,
+	E_H,
+	E_N,
+	E_L,
+	E_LL,
+}				t_size;
+
 typedef struct	s_parameter
 {
 	t_parameter_descriptor	type;
+	t_size					size;
+	int						capitalization;
+	int						prefix;
 }				t_parameter;
 
 typedef struct	s_token

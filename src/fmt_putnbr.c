@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   fmt_putnbr.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/20 15:26:18 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/22 21:05:31 by nmartins      ########   odam.nl         */
+/*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
+/*   Updated: 2019/05/22 20:13:41 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
 #include <libft.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/fcntl.h>
+#include "writer.h"
+#include "token.h"
+#include <stdarg.h>
 #include <stdio.h>
-#include <limits.h>
 
+int				fmt_putnbr(t_writer *writer, t_token *token, va_list vlist)
+{
+	char	*str;
 
-int	main(void)
-{	
-	int res = ft_printf("%5%\n");
-	ft_printf("Returned: %d\n", res);
-	return (0);
+	(void)token;
+	// TODO: lots.
+	// printf("Size %d\n", token->value.as_parameter.size);
+	str = ft_itoa(va_arg(vlist, int));
+	return (writer_write(writer, str, ft_strlen(str)));
 }

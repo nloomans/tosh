@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/22 16:44:45 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/22 20:43:35 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,14 @@ typedef int(*t_formatter)(t_writer *writer, t_token *token, va_list vlist);
 
 
 int				fmt_putstr(t_writer *writer, t_token *token, va_list vlist);
+int				fmt_putstrlit(t_writer *writer, t_token *token, va_list vlist);
+int				fmt_putpercent(t_writer *writer, t_token *token, va_list vlist);
+int				fmt_putnbr(t_writer *writer, t_token *token, va_list vlist);
+int				fmt_putptr(t_writer *writer, t_token *token, va_list vlist);
+int				fmt_puthex(t_writer *writer, t_token *token, va_list vlist);
+int				fmt_putoct(t_writer *writer, t_token *token, va_list vlist);
+int				fmt_putchr(t_writer *writer, t_token *token, va_list vlist);
+
+int				intern_fmt_puthex(t_writer *writer, unsigned value, int caps);
 
 #endif
