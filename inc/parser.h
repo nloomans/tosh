@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   parser.h                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/20 15:26:18 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/22 16:45:50 by nmartins      ########   odam.nl         */
+/*   Created: 2019/05/22 15:56:15 by nmartins       #+#    #+#                */
+/*   Updated: 2019/05/22 15:57:19 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
-#include <libft.h>
-#include <unistd.h>
+#ifndef PARSER_H
+# define PARSER_H
 
-int	main(void)
+# include "token.h"
+
+
+typedef	enum	e_fsm
 {
-	ft_printf("Hello, %% %d%d%s");
-	return (0);
-}
+	ST_ANY = 0,
+	ST_PARAM = 1,
+	ST_STR_LIT = 2,
+}				t_fsm;
+
+typedef	int(*t_st_handler)(t_fsm *st, t_token *dest, char **stream);
+
+#endif

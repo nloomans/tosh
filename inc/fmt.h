@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   fmt.h                                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/20 15:26:18 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/22 16:45:50 by nmartins      ########   odam.nl         */
+/*   Created: 2019/05/22 16:33:57 by nmartins       #+#    #+#                */
+/*   Updated: 2019/05/22 16:44:45 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
-#include <libft.h>
-#include <unistd.h>
+#ifndef FMT_H
+# define FMT_H
 
-int	main(void)
-{
-	ft_printf("Hello, %% %d%d%s");
-	return (0);
-}
+# include "writer.h"
+# include "token.h"
+
+typedef int(*t_formatter)(t_writer *writer, t_token *token, va_list vlist);
+
+
+int				fmt_putstr(t_writer *writer, t_token *token, va_list vlist);
+
+#endif

@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:35:33 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/20 15:49:23 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/22 16:30:18 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,34 @@
 #include <stdarg.h>
 
 #include "writer.h"
+#include "token.h"
 
-ssize_t	ft_vwprintf(t_writer *writer, char *fmt, va_list vlist)
+# include <stdio.h>
+
+ssize_t		ft_vwprintf(t_writer *writer, char *fmt, va_list vlist)
 {
-	(void)vlist;
-	return (writer_write(writer, fmt, ft_strlen(fmt)));
+	int			res;
+	ssize_t		count;
+	t_token		token;
+
+	printf("printf called with >> %s <<\n", fmt);
+	count = 0;
+	while (1)
+	{
+		// printf("fmt at this time '%s'; \n", fmt);
+		res = parse_token(&token, &fmt);
+		if (res < 0)
+			return (res);
+		res = run_token(writer, vlist, &token);
+		if (res < 0)
+			return (res);
+		if (*fmt == '\0')
+			return (count);
+	}
+	return (count);
 }
 
-ssize_t	ft_vprintf(char *fmt, va_list vlist)
+ssize_t		ft_vprintf(char *fmt, va_list vlist)
 {
 	t_writer_fd_state	fd;
 	t_writer			writer;
@@ -32,7 +52,7 @@ ssize_t	ft_vprintf(char *fmt, va_list vlist)
 	return (ft_vwprintf(&writer, fmt, vlist));
 }
 
-ssize_t	ft_vaprintf(char **dest, char *fmt, va_list vlist)
+ssize_t		ft_vaprintf(char **dest, char *fmt, va_list vlist)
 {
 	t_writer_alloc_state	st;
 	t_writer				writer;
@@ -44,10 +64,10 @@ ssize_t	ft_vaprintf(char **dest, char *fmt, va_list vlist)
 	return (ft_vwprintf(&writer, fmt, vlist));
 }
 
-ssize_t	ft_aprintf(char **dest, char *fmt, ...)
+ssize_t		ft_aprintf(char **dest, char *fmt, ...)
 {
-	va_list	vlist;
-	ssize_t	ret;
+	va_list		vlist;
+	ssize_t		ret;
 
 	va_start(vlist, fmt);
 	ret = ft_vaprintf(dest, fmt, vlist);
@@ -55,7 +75,7 @@ ssize_t	ft_aprintf(char **dest, char *fmt, ...)
 	return (ret);
 }
 
-ssize_t	ft_printf(char *fmt, ...)
+ssize_t		ft_printf(char *fmt, ...)
 {
 	va_list		vlist;
 	ssize_t		ret;

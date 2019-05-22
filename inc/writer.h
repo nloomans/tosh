@@ -6,13 +6,14 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:59:48 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/20 15:40:16 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/22 14:35:10 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WRITER_H
 # define WRITER_H
 # include <stddef.h>
+# include <sys/types.h>
 
 typedef struct	s_writer
 {
