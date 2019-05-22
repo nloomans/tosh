@@ -8,7 +8,7 @@ To build our project, make sure to recursively clone the submodules by passing `
 Other than that, simple run `make` in the project's root. This will make the `libftprintf.a` library file.
 
 # Modularity
-This printf, writes through a writer struct, in order to allow for modular printf derivatives.
+This printf writes through a writer struct in order to allow for creation of modular printf derivatives.
 This allows us to write not only to the output, but also to: files, strings, sockets, mail pidgeons, etc!
 A writer looks like this:
 ```c
