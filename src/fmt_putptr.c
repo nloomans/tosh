@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:33:43 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/22 20:46:24 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/23 00:47:49 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "token.h"
 #include <stdarg.h>
 
-int				fmt_putptr(t_writer *writer, t_token *token, va_list vlist)
+ssize_t			fmt_putptr(t_writer *writer, t_token *token, va_list vlist)
 {
 	void			*ptr;
 	size_t			written;

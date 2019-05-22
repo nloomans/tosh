@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fmt_putnbr.c                                       :+:    :+:            */
+/*   parse_utils.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/23 00:56:32 by nmartins      ########   odam.nl         */
+/*   Created: 2019/05/23 00:11:17 by nmartins       #+#    #+#                */
+/*   Updated: 2019/05/23 00:12:30 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include "writer.h"
-#include "token.h"
-#include <stdarg.h>
-#include <stdio.h>
+#include "parser.h"
 
-ssize_t			fmt_putnbr(t_writer *writer, t_token *token, va_list vlist)
+int	parse_atoi(char **stream)
 {
-	char	*str;
+	int	sum;
 
-	(void)token;
-	// TODO: lots.
-	str = ft_itoa(va_arg(vlist, int));
-	// printf(">>%s<<\n", str);
-	return (writer_write(writer, str, ft_strlen(str)));
+	sum = 0;
+	while (ft_isdigit(**stream))
+	{
+		sum = sum * 10 + (**stream - '0');
+		(*stream)++;
+	}
+	return (sum);
 }

@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/22 20:14:10 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/23 00:47:26 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char			to_hex(char num, int caps)
 	}
 }
 
-int				intern_fmt_puthex(t_writer *writer, unsigned value, int caps)
+ssize_t			intern_fmt_puthex(t_writer *writer, unsigned value, int caps)
 {
 	size_t	written;
 	char	c;
@@ -50,16 +50,16 @@ int				intern_fmt_puthex(t_writer *writer, unsigned value, int caps)
 	return (written);
 }
 
-int				fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
+ssize_t			fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
 {
 	size_t			written;
 	unsigned int	n;
 
 	(void)token;
 	written = 0;
-	if (token->prefix)
+	if (token->flags & FLAGS_HASH)
 		written += writer_write(writer,
-			token->capitalization ? "0X" : "0x", 2);
+			token->flags & FLAGS_CAPITAL ? "0X" : "0x", 2);
 	n = va_arg(vlist, unsigned int);
-	return (written + intern_fmt_puthex(writer, n, token->capitalization));
+	return (written + intern_fmt_puthex(writer, n, token->flags & FLAGS_CAPITAL));
 }

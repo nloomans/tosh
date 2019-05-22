@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 14:02:33 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/22 20:43:15 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/23 01:20:03 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 typedef enum	e_descriptor
 {
-	E_STRING,
+	E_TXT,
 	E_PERCENT,
 	E_INT,
 	E_STR,
@@ -28,7 +28,18 @@ typedef enum	e_descriptor
 	E_HEX,
 	E_CHR,
 	E_OCT,
+	E_FLOAT,
 }				t_descriptor;
+
+typedef	short	t_flags;
+
+# define FLAGS_ZEROPAD		(1 << 0)
+# define FLAGS_LEFTALIGN	(1 << 1)
+# define FLAGS_PLUS			(1 << 2)
+# define FLAGS_SPACE		(1 << 3)
+# define FLAGS_HASH			(1 << 4)
+# define FLAGS_PRECISION	(1 << 5)
+# define FLAGS_CAPITAL		(1 << 6)
 
 typedef enum	e_size
 {
@@ -42,11 +53,13 @@ typedef enum	e_size
 typedef struct	s_token
 {
 	t_descriptor			type;
-	char					*value;
-	size_t					length;
+	char					*s_value;
+	size_t					s_length;
 	t_size					size;
-	int						capitalization;
-	int						prefix;
+	t_flags					flags;
+
+	int						precision;
+	int						width;
 }				t_token;
 
 int				parse_token(t_token *dest, char **stream);

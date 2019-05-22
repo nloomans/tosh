@@ -6,13 +6,15 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 14:27:49 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/22 21:00:52 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/23 01:25:09 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 #include "parser.h"
 #include <libft.h>
+# include <stdio.h>
+# include <stdlib.h>
 
 int			st_handle_any(t_fsm *st, t_token *dest, char **stream)
 {
@@ -24,9 +26,9 @@ int			st_handle_any(t_fsm *st, t_token *dest, char **stream)
 	else
 	{
 		*st = ST_STR_LIT;
-		dest->type = E_STRING;
-		dest->value = *stream;
-		dest->length = 1;
+		dest->type = E_TXT;
+		dest->s_value = *stream;
+		dest->s_length = 1;
 	}
 	(*stream)++;
 	return (1);
@@ -37,59 +39,104 @@ int			st_handle_str_lit(t_fsm *st, t_token *dest, char **stream)
 	(void)st;
 	if (**stream == '%')
 		return (0);
-	dest->length++;
+	dest->s_length++;
 	(*stream)++;
 	return (1);
 }
 
+
 int			st_handle_param(t_fsm *st, t_token *dest, char **stream)
 {
 	(void)st;
-	if (**stream == '%')
+	dest->flags = 0;
+	if (**stream == '#')
 	{
-		dest->type = E_PERCENT;
+		dest->flags |= FLAGS_HASH;
 		(*stream)++;
-		return (0);
 	}
-	if (ft_strchr("diouxXcsp", **stream))
+	if (**stream == ' ')
 	{
-		if (**stream == 'd' || **stream == 'i')
-			dest->type = E_INT;
-		if (**stream == 's')
-			dest->type = E_STR;
-		if (**stream == 'u')
-			dest->type = E_UNS;
-		if (**stream == 'o')
-			dest->type = E_OCT;
-		if (**stream == 'p')
-			dest->type = E_PTR;
-		if (**stream == 'c')
-			dest->type = E_CHR;
-		if (**stream == 'x' || **stream == 'X')
-		{
-			dest->type = E_HEX;
-			dest->capitalization = **stream == 'X';
-		}
+		dest->flags |= FLAGS_SPACE;
 		(*stream)++;
-		return (0);
+	}
+	if (**stream == '0')
+	{
+		dest->flags |= FLAGS_ZEROPAD;
+		(*stream)++;
+	}
+	if (**stream == '+')
+	{
+		dest->flags |= FLAGS_PLUS;
+		(*stream)++;
+	}
+	if (**stream == '-')
+	{
+		dest->flags |= FLAGS_LEFTALIGN;
+		(*stream)++;
+	}
+	if (ft_isdigit(**stream))
+		dest->width = parse_atoi(stream);
+	if (**stream == '.')
+	{
+		(*stream)++;
+		dest->flags |= FLAGS_PRECISION;
+		dest->precision = parse_atoi(stream);
+	}
+	if (**stream == 'h')
+	{
+		if (**stream == 'h')
+		{
+			(*stream)++;
+			dest->size = E_HH;
+		}
+		else
+			dest->size = E_H;
+		(*stream)++;
+	}
+	else if (**stream == 'l')
+	{
+		if (**stream == 'l')
+		{
+			(*stream)++;
+			dest->size = E_LL;
+		}
+		else
+			dest->size = E_L;
+		(*stream)++;
+	}
+	else
+		dest->size = E_N;
+	if (**stream == 'd' || **stream == 'i')
+		dest->type = E_INT;
+	else if (**stream == 's')
+		dest->type = E_STR;
+	else if (**stream == 'o')
+		dest->type = E_OCT;
+	else if (**stream == 'p')
+		dest->type = E_PTR;
+	else if (**stream == 'c')
+		dest->type = E_CHR;
+	else if (**stream == '%')
+		dest->type = E_PERCENT;
+	else if (**stream == 'x' || **stream == 'X')
+	{
+		dest->type = E_HEX;
+		dest->flags |= **stream == 'X' ? FLAGS_CAPITAL : 0;
+	}
+	else if (**stream == 'f' || **stream == 'F')
+	{
+		dest->type = E_FLOAT;
+		dest->flags |= **stream == 'F' ? FLAGS_CAPITAL : 0;
 	}
 	else
 	{
-		if (**stream == 'l')
-			dest->size =
-				dest->size == E_L ? E_LL : E_L;
-		else if (**stream == 'h')
-			dest->size =
-				dest->size == E_H ? E_HH : E_H;
-		else if (**stream == '#')
-			dest->prefix = 1;
-		else
-		{
-			return (0);
-		}
-		(*stream)++;
-		return (1);
+		printf("at this point, we would throw\n");
+		exit(0);
 	}
+	
+	(*stream)++;
+	
+	return (0);
 }
 
 int			handle_state(t_fsm *st, t_token *dest, char **stream)

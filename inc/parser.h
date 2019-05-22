@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 15:56:15 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/22 15:57:19 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/23 00:12:19 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,7 @@ typedef	enum	e_fsm
 }				t_fsm;
 
 typedef	int(*t_st_handler)(t_fsm *st, t_token *dest, char **stream);
+
+int				parse_atoi(char **stream);
 
 #endif

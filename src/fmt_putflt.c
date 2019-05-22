@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fmt_putnbr.c                                       :+:    :+:            */
+/*   fmt_putflt.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/23 00:56:32 by nmartins      ########   odam.nl         */
+/*   Created: 2019/05/23 00:44:24 by nmartins       #+#    #+#                */
+/*   Updated: 2019/05/23 00:45:17 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,10 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-ssize_t			fmt_putnbr(t_writer *writer, t_token *token, va_list vlist)
+ssize_t			fmt_putflt(t_writer *writer, t_token *token, va_list vlist)
 {
-	char	*str;
-
-	(void)token;
-	// TODO: lots.
-	str = ft_itoa(va_arg(vlist, int));
-	// printf(">>%s<<\n", str);
-	return (writer_write(writer, str, ft_strlen(str)));
+    (void)writer;
+    (void)token;
+    (void)vlist;
+    return (0);
 }
