@@ -3,7 +3,9 @@
 
 A simple printf clone written in Norm-compliant C.
 
-# Buildinig
+# Building
+To build our project, make sure to recursively clone the submodules by passing `--recurse`.
+Other than that, simple run `make` in the project's root. This will make the `libftprintf.a` library file.
 
 # Modularity
 This printf, writes through a writer struct, in order to allow for modular printf derivatives.
