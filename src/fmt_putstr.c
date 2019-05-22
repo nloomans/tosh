@@ -39,8 +39,8 @@ int				fmt_putstr(t_writer *writer, t_token *token, va_list vlist)
 int				fmt_putstrlit(t_writer *writer, t_token *token, va_list vlist)
 {
 	(void)vlist;
-	return (writer_write(writer, token->value.as_literal.value,
-		token->value.as_literal.length));
+	return (writer_write(writer, token->value,
+		token->length));
 }
 
 int				fmt_putchr(t_writer *writer, t_token *token, va_list vlist)

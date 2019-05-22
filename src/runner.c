@@ -17,11 +17,9 @@
 
 int				run_token(t_writer *writer, va_list vlist, t_token *token)
 {
-	const t_formatter	lit_fmts[] = {
+	const t_formatter	fmts[] = {
 		fmt_putstrlit,
 		fmt_putpercent,
-	};
-	const t_formatter	par_fmts[] = {
 		fmt_putnbr,
 		fmt_putstr,
 		fmt_putnbr,
@@ -31,8 +29,5 @@ int				run_token(t_writer *writer, va_list vlist, t_token *token)
 		fmt_putoct
 	};
 
-	if (token->type == E_LITERAL)
-		return (lit_fmts[token->value.as_literal.type](writer, token, vlist));
-	else
-		return (par_fmts[token->value.as_parameter.type](writer, token, vlist));
+	return (fmts[token->type](writer, token, vlist));
 }

@@ -18,10 +18,9 @@
 #include <stdio.h>
 #include <limits.h>
 
-
 int	main(void)
 {	
-	int res = ft_printf("%5%\n");
+	int res = ft_printf("Hello, %s, %p, %#X\n", "World", "", 0XDEADBEEF);
 	ft_printf("Returned: %d\n", res);
 	return (0);
 }

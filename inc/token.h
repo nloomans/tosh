@@ -17,20 +17,10 @@
 # include <stdarg.h>
 # include <sys/types.h>
 
-typedef enum	e_token_descriptor
-{
-	E_LITERAL,
-	E_PARAMETER,
-}				t_token_descriptor;
-
-typedef enum	e_literal_descriptor
+typedef enum	e_descriptor
 {
 	E_STRING,
 	E_PERCENT,
-}				t_literal_descriptor;
-
-typedef enum	e_parameter_descriptor
-{
 	E_INT,
 	E_STR,
 	E_UNS,
@@ -38,14 +28,7 @@ typedef enum	e_parameter_descriptor
 	E_HEX,
 	E_CHR,
 	E_OCT,
-}				t_parameter_descriptor;
-
-typedef struct	s_literal
-{
-	t_literal_descriptor	type;
-	char					*value;
-	size_t					length;
-}				t_literal;
+}				t_descriptor;
 
 typedef enum	e_size
 {
@@ -56,21 +39,14 @@ typedef enum	e_size
 	E_LL,
 }				t_size;
 
-typedef struct	s_parameter
+typedef struct	s_token
 {
-	t_parameter_descriptor	type;
+	t_descriptor			type;
+	char					*value;
+	size_t					length;
 	t_size					size;
 	int						capitalization;
 	int						prefix;
-}				t_parameter;
-
-typedef struct	s_token
-{
-	t_token_descriptor	type;
-	union {
-		t_literal		as_literal;
-		t_parameter		as_parameter;
-	}					value;
 }				t_token;
 
 int				parse_token(t_token *dest, char **stream);

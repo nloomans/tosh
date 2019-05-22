@@ -38,7 +38,7 @@ int				fmt_putoct(t_writer *writer, t_token *token, va_list vlist)
 
 	written = 0;
 	n = va_arg(vlist, unsigned int);
-	if (token->value.as_parameter.prefix && n != 0)
+	if (token->prefix && n != 0)
 	{
 		written += writer_write(writer, "0", 1);
 	}

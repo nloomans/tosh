@@ -57,9 +57,9 @@ int				fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
 
 	(void)token;
 	written = 0;
-	if (token->value.as_parameter.prefix)
+	if (token->prefix)
 		written += writer_write(writer,
-			token->value.as_parameter.capitalization ? "0X" : "0x", 2);
+			token->capitalization ? "0X" : "0x", 2);
 	n = va_arg(vlist, unsigned int);
-	return (written + intern_fmt_puthex(writer, n, token->value.as_parameter.capitalization));
+	return (written + intern_fmt_puthex(writer, n, token->capitalization));
 }
