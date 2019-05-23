@@ -6,31 +6,26 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:46 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/23 01:20:48 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/23 19:59:08 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fmt.h"
+# include <stdio.h>
 #include <libft.h>
 
 ssize_t			fmt_putpercent(t_writer *writer, t_token *token, va_list vlist)
 {
+	ssize_t		written;
+
 	(void)vlist;
-	(void)token;
-	return (writer_write(writer, "%", 1));
-}
-
-ssize_t			intern_fmt_pad(t_writer *writer, char c, size_t amt)
-{
-	size_t i;
-
-	i = 0;
-	while (i < amt)
-	{
-		writer_write(writer, &c, 1);
-		i++;
-	}
-	return (i);
+	written = 0;
+	if ((token->flags & FLAGS_LEFTALIGN) == 0)
+		written += intern_fmt_pad(writer, ' ', ft_max(0, token->width - 1));
+	written += writer_write(writer, "%", 1);
+	if (token->flags & FLAGS_LEFTALIGN)
+		written += intern_fmt_pad(writer, ' ', ft_max(0, token->width - 1));
+	return (written);
 }
 
 ssize_t			fmt_putstr(t_writer *writer, t_token *token, va_list vlist)
@@ -49,7 +44,8 @@ ssize_t			fmt_putstr(t_writer *writer, t_token *token, va_list vlist)
 		len = ft_strlen(str);
 		write_amt = ft_min(len, (token->flags & FLAGS_PRECISION) ?
 			(size_t)token->precision : len);
-		return (intern_fmt_pad(writer, ' ', token->width - write_amt)
+		return (intern_fmt_pad(writer, ' ',
+			(ft_max(len, token->width)) - write_amt)
 			+ writer_write(writer, str, write_amt));
 	}
 }
@@ -63,9 +59,15 @@ ssize_t			fmt_putstrlit(t_writer *writer, t_token *token, va_list vlist)
 
 ssize_t			fmt_putchr(t_writer *writer, t_token *token, va_list vlist)
 {
-	char c;
+	char		c;
+	ssize_t		written;
 
-	(void)token;
+	written = 0;
 	c = (char)va_arg(vlist, int);
-	return (writer_write(writer, &c, 1));
+	if ((token->flags & FLAGS_LEFTALIGN) == 0)
+		written += intern_fmt_pad(writer, ' ', ft_max(0, token->width - 1));
+	written += writer_write(writer, &c, 1);
+	if (token->flags & FLAGS_LEFTALIGN)
+		written += intern_fmt_pad(writer, ' ', ft_max(0, token->width - 1));
+	return (written);
 }

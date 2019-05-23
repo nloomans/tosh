@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 15:17:29 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/23 01:20:20 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/23 19:33:18 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 static void		debug_token(t_token *token)
 {
-	const char *lookup[] = 
+	const char *lookup[] =
 	{
 		"E_TXT",
 		"E_PERCENT",
@@ -30,10 +30,13 @@ static void		debug_token(t_token *token)
 		"E_CHR",
 		"E_OCT",
 		"E_FLOAT",
+		"E_MEMORY"
 	};
 	printf("\n\nToken:\n");
 	printf("- Size:  % 2d\n", (int)token->size);
 	printf("- Length:% 2d\n", (int)token->s_length);
+	printf("- Precis:% 2d\n", (int)token->precision);
+	printf("- Width: % 2d\n", (int)token->width);
 	printf("- Flags: % 2d ( ", token->flags);
 	if (token->flags & FLAGS_HASH)
 		printf("HASH ");
@@ -66,6 +69,7 @@ int				run_token(t_writer *writer, va_list vlist, t_token *token)
 		fmt_putchr,
 		fmt_putoct,
 		fmt_putflt,
+		fmt_printmemory,
 	};
 
 	(void)debug_token;

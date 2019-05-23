@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 14:27:49 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/23 01:25:09 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/23 20:02:32 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ int			st_handle_str_lit(t_fsm *st, t_token *dest, char **stream)
 	return (1);
 }
 
-
 int			st_handle_param(t_fsm *st, t_token *dest, char **stream)
 {
 	(void)st;
+	dest->width = 0;
 	dest->flags = 0;
 	if (**stream == '#')
 	{
@@ -84,6 +84,7 @@ int			st_handle_param(t_fsm *st, t_token *dest, char **stream)
 	}
 	if (**stream == 'h')
 	{
+		(*stream)++;
 		if (**stream == 'h')
 		{
 			(*stream)++;
@@ -91,10 +92,10 @@ int			st_handle_param(t_fsm *st, t_token *dest, char **stream)
 		}
 		else
 			dest->size = E_H;
-		(*stream)++;
 	}
 	else if (**stream == 'l')
 	{
+		(*stream)++;
 		if (**stream == 'l')
 		{
 			(*stream)++;
@@ -102,40 +103,58 @@ int			st_handle_param(t_fsm *st, t_token *dest, char **stream)
 		}
 		else
 			dest->size = E_L;
-		(*stream)++;
 	}
 	else
 		dest->size = E_N;
-	if (**stream == 'd' || **stream == 'i')
-		dest->type = E_INT;
-	else if (**stream == 's')
-		dest->type = E_STR;
-	else if (**stream == 'o')
-		dest->type = E_OCT;
-	else if (**stream == 'p')
-		dest->type = E_PTR;
-	else if (**stream == 'c')
-		dest->type = E_CHR;
-	else if (**stream == '%')
-		dest->type = E_PERCENT;
-	else if (**stream == 'x' || **stream == 'X')
+	while (**stream)
 	{
-		dest->type = E_HEX;
-		dest->flags |= **stream == 'X' ? FLAGS_CAPITAL : 0;
+		if (ft_strchr("disopc%xXfFmM", **stream))
+		{
+			if (**stream == 'd' || **stream == 'i')
+				dest->type = E_INT;
+			else if (**stream == 's')
+				dest->type = E_STR;
+			else if (**stream == 'o')
+				dest->type = E_OCT;
+			else if (**stream == 'p')
+				dest->type = E_PTR;
+			else if (**stream == 'c')
+				dest->type = E_CHR;
+			else if (**stream == '%')
+				dest->type = E_PERCENT;
+			else if (**stream == 'm' || **stream == 'M')
+			{
+				dest->type = E_MEMORY;
+				dest->flags |= **stream == 'M' ? FLAGS_CAPITAL : 0;
+			}
+			else if (**stream == 'x' || **stream == 'X')
+			{
+				dest->type = E_HEX;
+				dest->flags |= **stream == 'X' ? FLAGS_CAPITAL : 0;
+			}
+			else if (**stream == 'f' || **stream == 'F')
+			{
+				dest->type = E_FLOAT;
+				dest->flags |= **stream == 'F' ? FLAGS_CAPITAL : 0;
+			}
+			(*stream)++;
+			return (0);
+		}
+		else
+		{
+			if (ft_isdigit(**stream))
+				dest->width = parse_atoi(stream);
+			else if (ft_strchr(" ", **stream))
+			{
+				(*stream)++;
+			}
+			else
+			{
+				printf("- Something went wrong -\n");
+				exit(0);
+			}
+		}
 	}
-	else if (**stream == 'f' || **stream == 'F')
-	{
-		dest->type = E_FLOAT;
-		dest->flags |= **stream == 'F' ? FLAGS_CAPITAL : 0;
-	}
-	else
-	{
-		printf("at this point, we would throw\n");
-		exit(0);
-	}
-	
-	(*stream)++;
-	
 	return (0);
 }
 

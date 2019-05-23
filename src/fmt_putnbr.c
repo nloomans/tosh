@@ -6,23 +6,66 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/23 00:56:32 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/23 20:24:43 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include "writer.h"
+#include "fmt.h"
 #include "token.h"
 #include <stdarg.h>
 #include <stdio.h>
 
+static size_t	num_size(long long n)
+{
+	if (n / 10)
+	{
+		return (1 + num_size(n / 10));
+	}
+	return (1);
+}
+
+ssize_t			intern_fmt_putnbr(t_writer *writer, long long n, t_size s)
+{
+	ssize_t	written;
+	char	c;
+
+	(void)s;
+	written = 0;
+	if (n / 10)
+	{
+		written += intern_fmt_putnbr(writer, n / 10, s);
+	}
+	c = '0' + (n % 10);
+	return (written + writer_write(writer, &c, 1));
+}
+
 ssize_t			fmt_putnbr(t_writer *writer, t_token *token, va_list vlist)
 {
-	char	*str;
+	long long	n;
+	size_t		len;
+	size_t		len_after_prec;
+	char		pad_char;
+	ssize_t		written;
 
-	(void)token;
-	// TODO: lots.
-	str = ft_itoa(va_arg(vlist, int));
-	// printf(">>%s<<\n", str);
-	return (writer_write(writer, str, ft_strlen(str)));
+	written = 0;
+	n = va_arg(vlist, long long);
+	len = num_size(n);
+	len_after_prec = token->flags & FLAGS_PRECISION
+		? ft_max(token->precision, len)
+		: len;
+	pad_char = token->flags & FLAGS_ZEROPAD ? '0' : ' ';
+	if ((token->flags & FLAGS_LEFTALIGN) == 0 &&
+		len_after_prec < (size_t)token->width)
+		written +=
+			intern_fmt_pad(writer, pad_char, token->width - len_after_prec);
+	if (token->flags & FLAGS_PRECISION && len < (size_t)token->precision)
+		written += intern_fmt_pad(writer, '0', token->precision - len);
+	written += intern_fmt_putnbr(writer, ft_abs(n), E_N);
+	if ((token->flags & FLAGS_LEFTALIGN) &&
+		len_after_prec < (size_t)token->width)
+		written +=
+			intern_fmt_pad(writer, pad_char, token->width - len_after_prec);
+	return (written);
 }
