@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:46 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 17:02:48 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 20:11:20 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,27 @@ void			fmt_putstr(t_writer *writer, t_token *token, va_list vlist)
 {
 	char	*str;
 	size_t	len;
-	size_t	write_amt;
+	size_t	trimmed_length;
+	char	pad_char;
 
 	intern_pop_wildcards(token, vlist);
-	str = va_arg(vlist, char*);
+	str = va_arg(vlist, char *);
+	pad_char = (token->flags & FLAGS_ZEROPAD) ? '0' : ' ';
 	if (str == NULL)
+	{
+		intern_fmt_pad_left(writer, token, pad_char, 6);
 		writer_write(writer, "(null)", 6);
+		intern_fmt_pad_right(writer, token, pad_char, 6);
+	}
 	else
 	{
 		len = ft_strlen(str);
-		write_amt = ft_min(len, (token->flags & FLAGS_PRECISION) ?
-			(size_t)token->precision : len);
-		intern_fmt_pad(writer, ' ', (ft_max(len, token->width)) - write_amt);
-		writer_write(writer, str, write_amt);
+		trimmed_length = token->flags & FLAGS_PRECISION
+			? ft_min(len, token->precision)
+			: len;
+		intern_fmt_pad_left(writer, token, pad_char, trimmed_length);
+		writer_write(writer, str, trimmed_length);
+		intern_fmt_pad_right(writer, token, pad_char, trimmed_length);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:04:21 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 16:42:45 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 19:22:44 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@ ssize_t	writer_alloc_write(void *void_state, char *str, size_t length)
 	char					*new;
 
 	state = (t_writer_alloc_state*)void_state;
-	new = ft_realloc(*state->str_ptr, state->len, state->len + length);
+	new = ft_realloc(*state->str_ptr, state->len, state->len + length + 1);
 	if (new == NULL)
 		return (-1);
 	*state->str_ptr = new;
 	if (ft_memcpy(*state->str_ptr + state->len, str, length) == NULL)
 		return (-1);
 	state->len += length;
+	new[state->len] = '\0';
 	return (length);
 }

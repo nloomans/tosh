@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/05/06 15:11:37 by nloomans       #+#    #+#                 #
-#    Updated: 2019/05/24 15:53:38 by nmartins      ########   odam.nl          #
+#    Updated: 2019/05/24 18:57:09 by nmartins      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,7 @@ SRC_FILES=		$(wildcard $(SRC_DIR)/*.c)
 INC_FILES=		$(wildcard $(INC_DIR)/*.h)
 OBJ_FILES=		$(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
-$(NAME): $(LIBFT_A) $(LIBCRITERION_A) $(OBJ_FILES)
+$(NAME): $(LIBFTPRINTF_A) $(LIBCRITERION_A) $(OBJ_FILES)
 	@$(CC) $(CFLAGS) -o $@ $(OBJ_FILES) $(LFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)

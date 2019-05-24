@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:26:18 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/23 20:09:42 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 20:20:31 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <sys/fcntl.h>
 #include <stdio.h>
 #include <limits.h>
+#include <stdlib.h>
 
 #define TEST(fmt, ...) do { \
 	printf("-- Test for >> %s", fmt);\
@@ -27,13 +28,11 @@
 
 int	main(void)
 {
-	TEST("The number is %-5d!\n", 42);
-	TEST("The number is %5d!\n", 42);
-	TEST("The number is %-5.3d!\n", 42);
-	TEST("The number is %5.3d!\n", 42);
-	TEST("The number is %10.0d!\n", 42);
-	TEST("The number is %0.10d!\n", 42);
-	TEST("The number is %-99d!\n", 42);
-	TEST("The number is %ld\n", -5234L);
+	char *dest;
+	int	len;
+
+	len = ft_aprintf(&dest, "%cHello\n", '\0');
+	ft_printf("%m\n", dest, len);	
+
 	return (0);
 }

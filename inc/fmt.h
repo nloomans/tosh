@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 16:58:59 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 17:32:11 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "writer.h"
 # include "token.h"
 
-typedef void(*t_formatter)(t_writer *writer, t_token *token, va_list vlist);
+typedef void	(*t_formatter)(t_writer *writer, t_token *token, va_list vlist);
 
 
 void			fmt_putstr(t_writer *writer, t_token *token, va_list vlist);
@@ -28,11 +28,32 @@ void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist);
 void			fmt_putoct(t_writer *writer, t_token *token, va_list vlist);
 void			fmt_putchr(t_writer *writer, t_token *token, va_list vlist);
 void			fmt_putflt(t_writer *writer, t_token *token, va_list vlist);
-void			fmt_printmemory(t_writer *writer, t_token *token, va_list vlist);
+void			fmt_printmemory(
+					t_writer *writer,
+					t_token *token,
+					va_list vlist);
 
-void			intern_fmt_puthex(t_writer *writer, unsigned long long value, int caps);
+void			intern_fmt_puthex(
+					t_writer *writer,
+					unsigned long long value,
+					int caps);
 void			intern_fmt_pad(t_writer *writer, char c, size_t amt);
 char			intern_to_hex(char num, int caps);
 void			intern_pop_wildcards(t_token *token, va_list vlist);
+void			intern_fmt_pad_auto(
+					t_writer *writer,
+					char c,
+					size_t pad_amount,
+					size_t length);
+void			intern_fmt_pad_left(
+					t_writer *writer,
+					t_token *token,
+					char c,
+					size_t length);
+void			intern_fmt_pad_right(
+					t_writer *writer,
+					t_token *token,
+					char c,
+					size_t length);
 
 #endif

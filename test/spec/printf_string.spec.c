@@ -68,11 +68,12 @@ Test(printf_string, normal_string_cutoff_wildcard)
 Test(printf_string, leftpad_normal_string)
 {
 	char *dest;
+	char *dest2;
 
 	ft_aprintf(&dest, "%-5s", "HI");
 	cr_expect_str_eq(dest, "HI   ");
-	ft_aprintf(&dest, "%-1s", "HI");
-	cr_expect_str_eq(dest, "HI");
+	ft_aprintf(&dest2, "%-1s", "HI");
+	cr_expect_str_eq(dest2, "HI");
 }
 
 Test(printf_string, leftpad_normal_string_wildcard)
@@ -81,7 +82,7 @@ Test(printf_string, leftpad_normal_string_wildcard)
 
 	ft_aprintf(&dest, "%-*s", 5, "HI");
 	cr_expect_str_eq(dest, "HI   ");
-	ft_aprintf(&dest, "%-*s", 1, "HI");
+	cr_expect_eq(ft_aprintf(&dest, "%-*s", 1, "HI"), 2);
 	cr_expect_str_eq(dest, "HI");
 }
 
