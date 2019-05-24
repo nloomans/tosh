@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/05/06 15:11:37 by nloomans       #+#    #+#                 #
-#    Updated: 2019/05/24 15:51:56 by nloomans      ########   odam.nl          #
+#    Updated: 2019/05/24 15:53:38 by nmartins      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,12 +75,12 @@ INC_FILES=		$(wildcard $(INC_DIR)/*.h)
 OBJ_FILES=		$(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
 $(NAME): $(LIBFT_A) $(LIBCRITERION_A) $(OBJ_FILES)
-	$(CC) $(CFLAGS) -o $@ $(OBJ_FILES) $(LFLAGS)
+	@$(CC) $(CFLAGS) -o $@ $(OBJ_FILES) $(LFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
 	@mkdir -p $(OBJ_DIR)
 	@printf " λ Making object $(UNDERLINE)$(BLUE)$<$(RESET)\n"
-	$(CC) -o $@ -c $< $(CFLAGS) $(IFLAGS)
+	@$(CC) -o $@ -c $< $(CFLAGS) $(IFLAGS)
 
 debug:
 	$(MAKE) -B "EXTRA=$(EXTRA) -g"
