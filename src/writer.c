@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:04:21 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/20 16:01:48 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 16:42:45 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 ssize_t	writer_write(t_writer *writer, char *str, size_t length)
 {
+	writer->written += length;
 	return (writer->write(writer->state, str, length));
 }
 

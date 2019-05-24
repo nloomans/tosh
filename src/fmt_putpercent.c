@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fmt_putptr.c                                       :+:    :+:            */
+/*   fmt_putpercent.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/22 19:33:43 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 16:58:16 by nmartins      ########   odam.nl         */
+/*   Created: 2019/05/24 16:36:15 by nmartins       #+#    #+#                */
+/*   Updated: 2019/05/24 17:01:51 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fmt.h"
-#include "writer.h"
-#include "token.h"
-#include <stdarg.h>
+#include <libft.h>
 
-void			fmt_putptr(t_writer *writer, t_token *token, va_list vlist)
+void			fmt_putpercent(t_writer *writer, t_token *token, va_list vlist)
 {
-	void			*ptr;
-	unsigned long	addr;
-
-	(void)token;
-	writer_write(writer, "0x", 2);
-	ptr = va_arg(vlist, void*);
-	addr = (unsigned long)ptr;
-	intern_fmt_puthex(writer, addr, 0);
+	(void)vlist;
+	if ((token->flags & FLAGS_LEFTALIGN) == 0)
+		intern_fmt_pad(writer, ' ', ft_max(0, token->width - 1));
+	writer_write(writer, "%", 1);
+	if (token->flags & FLAGS_LEFTALIGN)
+		intern_fmt_pad(writer, ' ', ft_max(0, token->width - 1));
 }

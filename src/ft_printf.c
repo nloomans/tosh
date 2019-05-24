@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:35:33 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 13:53:47 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 17:04:10 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,20 @@
 ssize_t		ft_vwprintf(t_writer *writer, char *fmt, va_list vlist)
 {
 	int			res;
-	ssize_t		count;
 	t_token		token;
 
-	count = 0;
 	while (1)
 	{
 		res = parse_token(&token, &fmt);
 		if (res < 0)
 			return (res);
-		res = run_token(writer, vlist, &token);
-		count += res;
-		if (res < 0)
-			return (res);
+		run_token(writer, vlist, &token);
+		if (writer->failed)
+			return (-1);
 		if (*fmt == '\0')
-			return (count);
+			return (writer->written);
 	}
-	return (count);
+	return (writer->written);
 }
 
 ssize_t		ft_vfprintf(int fd, char *fmt, va_list vlist)
@@ -44,6 +41,7 @@ ssize_t		ft_vfprintf(int fd, char *fmt, va_list vlist)
 	t_writer			writer;
 
 	st = fd;
+	ft_memset(&writer, 0, sizeof(t_writer));
 	writer.state = (void*)&st;
 	writer.write = &writer_fd_write;
 	return (ft_vwprintf(&writer, fmt, vlist));
@@ -54,8 +52,10 @@ ssize_t		ft_vaprintf(char **dest, char *fmt, va_list vlist)
 	t_writer_alloc_state	st;
 	t_writer				writer;
 
+	*dest = NULL;
 	st.len = 0;
 	st.str_ptr = dest;
+	ft_memset(&writer, 0, sizeof(t_writer));
 	writer.state = (void*)&st;
 	writer.write = &writer_alloc_write;
 	return (ft_vwprintf(&writer, fmt, vlist));

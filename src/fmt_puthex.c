@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/23 17:02:00 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 16:56:22 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,36 +48,28 @@ static int		hex_size(long long n)
 	return (count);
 }
 
-ssize_t			intern_fmt_puthex(t_writer *writer, unsigned long long value, int caps)
+void			intern_fmt_puthex(t_writer *writer, unsigned long long value, int caps)
 {
-	size_t	written;
 	char	c;
 
-	written = 0;
 	if (value > 16llu)
-	{
-		written += intern_fmt_puthex(writer, value / 16, caps);
-	}
+		intern_fmt_puthex(writer, value / 16, caps);
 	c = intern_to_hex(value % 16, caps);
-	written += writer_write(writer, &c, 1);
-	return (written);
+	writer_write(writer, &c, 1);
 }
 
-ssize_t			fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
+void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
 {
-	size_t				written;
 	unsigned long long	own_hex_size;
 	unsigned long long n;
 
 	(void)token;
-	written = 0;
 	n = va_arg(vlist, unsigned long long);
 	own_hex_size = ((token->flags & FLAGS_HASH) != 0) * 2 + hex_size(n);
 	if ((unsigned long long)token->width > own_hex_size)
-		written += intern_fmt_pad(writer, ' ', token->width - own_hex_size);
+		intern_fmt_pad(writer, ' ', token->width - own_hex_size);
 	if (token->flags & FLAGS_HASH)
-		written += writer_write(writer,
+		writer_write(writer,
 			token->flags & FLAGS_CAPITAL ? "0X" : "0x", 2);
-	return (written +
-		intern_fmt_puthex(writer, n, token->flags & FLAGS_CAPITAL));
+	intern_fmt_puthex(writer, n, token->flags & FLAGS_CAPITAL);
 }

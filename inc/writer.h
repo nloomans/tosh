@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:59:48 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/22 14:35:10 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 17:08:06 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ typedef struct	s_writer
 {
 	ssize_t	(*write)(void *state, char *str, size_t length);
 	void	*state;
+	size_t	written;
+	int		failed;
 }				t_writer;
 
 ssize_t			writer_write(t_writer *writer, char *str, size_t length);

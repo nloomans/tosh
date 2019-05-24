@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 14:02:33 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 13:34:51 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 17:03:27 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef	short	t_flags;
 # define FLAGS_PRECISION	(1 << 5)
 # define FLAGS_CAPITAL		(1 << 6)
 
+# define DEFERRED_WILDCARD (-1)
+
 typedef enum	e_size
 {
 	E_HH,
@@ -63,6 +65,6 @@ typedef struct	s_token
 }				t_token;
 
 int				parse_token(t_token *dest, char **stream);
-int				run_token(t_writer *writer, va_list vlist, t_token *token);
+void			run_token(t_writer *writer, va_list vlist, t_token *token);
 
 #endif

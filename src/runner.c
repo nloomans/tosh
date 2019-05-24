@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 15:17:29 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 13:36:41 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 17:03:10 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void		debug_token(t_token *token)
 	printf("- Type:   %s\n", lookup[token->type]);
 }
 
-int				run_token(t_writer *writer, va_list vlist, t_token *token)
+void			run_token(t_writer *writer, va_list vlist, t_token *token)
 {
 	const t_formatter	fmts[] = {
 		fmt_putstrlit,
@@ -74,5 +74,5 @@ int				run_token(t_writer *writer, va_list vlist, t_token *token)
 
 	(void)debug_token;
 	// debug_token(token);
-	return (fmts[token->type](writer, token, vlist));
+	fmts[token->type](writer, token, vlist);
 }
