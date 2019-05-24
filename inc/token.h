@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 14:02:33 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/23 16:38:21 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 13:34:51 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct	s_token
 	size_t					s_length;
 	t_size					size;
 	t_flags					flags;
-
 	int						precision;
 	int						width;
 }				t_token;

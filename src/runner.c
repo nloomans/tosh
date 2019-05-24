@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 15:17:29 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/23 19:33:18 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 13:36:41 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void		debug_token(t_token *token)
 	if (token->flags & FLAGS_HASH)
 		printf("HASH ");
 	if (token->flags & FLAGS_CAPITAL)
-		printf(" CAPITAL ");
+		printf("CAPITAL ");
 	if (token->flags & FLAGS_LEFTALIGN)
 		printf("LEFTALIGN ");
 	if (token->flags & FLAGS_PLUS)

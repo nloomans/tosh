@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 14:27:49 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/23 20:02:32 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/24 13:42:24 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,22 @@ int			st_handle_param(t_fsm *st, t_token *dest, char **stream)
 	}
 	if (ft_isdigit(**stream))
 		dest->width = parse_atoi(stream);
+	else if (**stream == '*')
+	{
+		dest->width = -1;
+		(*stream)++;
+	}
 	if (**stream == '.')
 	{
 		(*stream)++;
 		dest->flags |= FLAGS_PRECISION;
-		dest->precision = parse_atoi(stream);
+		if (ft_isdigit(**stream))
+			dest->precision = parse_atoi(stream);
+		else if (**stream == '*')
+		{
+			dest->precision = -1;
+			(*stream)++;
+		}
 	}
 	if (**stream == 'h')
 	{
@@ -108,7 +119,7 @@ int			st_handle_param(t_fsm *st, t_token *dest, char **stream)
 		dest->size = E_N;
 	while (**stream)
 	{
-		if (ft_strchr("disopc%xXfFmM", **stream))
+		if (ft_strchr("disopc%xXfFmMu", **stream))
 		{
 			if (**stream == 'd' || **stream == 'i')
 				dest->type = E_INT;
@@ -116,6 +127,8 @@ int			st_handle_param(t_fsm *st, t_token *dest, char **stream)
 				dest->type = E_STR;
 			else if (**stream == 'o')
 				dest->type = E_OCT;
+			else if (**stream == 'u')
+				dest->type = E_UNS;
 			else if (**stream == 'p')
 				dest->type = E_PTR;
 			else if (**stream == 'c')
