@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 14:02:33 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 17:03:27 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/26 00:18:52 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef enum	e_descriptor
 	E_OCT,
 	E_FLOAT,
 	E_MEMORY,
+	E_COLOR,
 }				t_descriptor;
 
 typedef	short	t_flags;

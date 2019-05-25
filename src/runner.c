@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 15:17:29 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 20:10:37 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/26 00:29:21 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static void		debug_token(t_token *token)
 		"E_CHR",
 		"E_OCT",
 		"E_FLOAT",
-		"E_MEMORY"
+		"E_MEMORY",
+		"E_COLOR",
 	};
 	printf("\n\nToken:\n");
 	printf("- Size:  % 2d\n", (int)token->size);
@@ -70,6 +71,7 @@ void			run_token(t_writer *writer, va_list vlist, t_token *token)
 		fmt_putoct,
 		fmt_putflt,
 		fmt_printmemory,
+		fmt_putcolor,
 	};
 
 	(void)debug_token;

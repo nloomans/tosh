@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/25 01:40:56 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/26 00:23:44 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void			fmt_putstr(t_writer *writer, t_token *token, va_list vlist);
 void			fmt_putstrlit(t_writer *writer, t_token *token, va_list vlist);
 void			fmt_putpercent(t_writer *writer, t_token *token, va_list vlist);
 void			fmt_putnbr(t_writer *writer, t_token *token, va_list vlist);
+void			fmt_putcolor(t_writer *writer, t_token *token, va_list vlist);
 void			fmt_putptr(t_writer *writer, t_token *token, va_list vlist);
 void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist);
 void			fmt_putoct(t_writer *writer, t_token *token, va_list vlist);

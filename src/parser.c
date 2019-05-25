@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 14:27:49 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 13:42:24 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/26 00:29:17 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,19 @@ int			st_handle_param(t_fsm *st, t_token *dest, char **stream)
 	(void)st;
 	dest->width = 0;
 	dest->flags = 0;
+	if (**stream == '{')
+	{
+		(*stream)++;
+		dest->type = E_COLOR;
+		dest->s_value = *stream;
+		while (**stream && **stream != '}')
+		{
+			dest->s_length++;
+			(*stream)++;
+		}
+		(*stream)++;
+		return (0);
+	}
 	if (**stream == '#')
 	{
 		dest->flags |= FLAGS_HASH;

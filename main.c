@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:26:18 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/25 01:58:02 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/26 00:31:52 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@
 
 int	main(void)
 {
-	char *dest;
-	char mem[1000];
-
-	ft_printf("%#m\n", mem, 1000);
+	ft_printf("%%{cyan}Hello, %{green}World%{reset}!\n");
 	return (0);
 }
