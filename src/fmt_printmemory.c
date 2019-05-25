@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 16:39:30 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/25 01:52:30 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/26 00:53:03 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ void			intern_fmt_printmemory(
 	size_t			column;
 
 	row = 0;
+	if (bytes == NULL)
+	{
+		writer_write(writer, "(null-pointer)\n", 15);
+	}
 	while (row < ((len - 1) / 16) + 1)
 	{
 		column = 0;

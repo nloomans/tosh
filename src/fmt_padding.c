@@ -6,23 +6,25 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/24 17:27:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 17:30:41 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/26 01:02:02 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fmt.h"
 #include "token.h"
+#include <libft.h>
+#include <stdlib.h>
 
 void	intern_fmt_pad(t_writer *writer, char c, size_t amt)
 {
-	size_t i;
+	char	*str;
 
-	i = 0;
-	while (i < amt)
-	{
-		writer_write(writer, &c, 1);
-		i++;
-	}
+	str = (char*)malloc(amt);
+	if (!str)
+		return ;
+	ft_memset(str, c, amt);
+	writer_write(writer, str, amt);
+	ft_strdel(&str);
 }
 
 void	intern_fmt_pad_auto(
@@ -31,17 +33,8 @@ void	intern_fmt_pad_auto(
 	size_t pad_amount,
 	size_t length)
 {
-	size_t	i;
-
-	i = 0;
 	if (pad_amount > length)
-	{
-		while (i < (pad_amount - length))
-		{
-			writer_write(writer, &c, 1);
-			i++;
-		}
-	}
+		intern_fmt_pad(writer, c, pad_amount - length);
 }
 
 void	intern_fmt_pad_left(
