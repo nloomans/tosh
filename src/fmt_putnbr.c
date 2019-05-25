@@ -46,7 +46,7 @@ void			fmt_putnbr(t_writer *writer, t_token *token, va_list vlist)
 	n = va_arg(vlist, long long);
 	len = num_size(n);
 	len_after_prec = token->flags & FLAGS_PRECISION
-		? ft_max(token->precision, len)
+		? (size_t)ft_max(token->precision, len)
 		: len;
 	pad_char = token->flags & FLAGS_ZEROPAD ? '0' : ' ';
 	if ((token->flags & FLAGS_LEFTALIGN) == 0 &&

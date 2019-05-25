@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 16:56:22 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/25 01:23:24 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char			intern_to_hex(char num, int caps)
 		return ('\0');
 }
 
-static int		hex_size(long long n)
+int		intern_hex_size(long long n)
 {
 	int	count;
 
@@ -52,7 +52,7 @@ void			intern_fmt_puthex(t_writer *writer, unsigned long long value, int caps)
 {
 	char	c;
 
-	if (value > 16llu)
+	if (value >= 16)
 		intern_fmt_puthex(writer, value / 16, caps);
 	c = intern_to_hex(value % 16, caps);
 	writer_write(writer, &c, 1);
@@ -65,7 +65,7 @@ void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
 
 	(void)token;
 	n = va_arg(vlist, unsigned long long);
-	own_hex_size = ((token->flags & FLAGS_HASH) != 0) * 2 + hex_size(n);
+	own_hex_size = ((token->flags & FLAGS_HASH) != 0) * 2 + intern_hex_size(n);
 	if ((unsigned long long)token->width > own_hex_size)
 		intern_fmt_pad(writer, ' ', token->width - own_hex_size);
 	if (token->flags & FLAGS_HASH)

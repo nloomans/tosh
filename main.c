@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:26:18 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 20:20:31 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/25 01:58:02 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@
 int	main(void)
 {
 	char *dest;
-	int	len;
+	char mem[1000];
 
-	len = ft_aprintf(&dest, "%cHello\n", '\0');
-	ft_printf("%m\n", dest, len);	
-
+	ft_printf("%#m\n", mem, 1000);
 	return (0);
 }

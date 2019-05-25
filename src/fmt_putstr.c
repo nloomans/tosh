@@ -34,7 +34,7 @@ void			fmt_putstr(t_writer *writer, t_token *token, va_list vlist)
 	{
 		len = ft_strlen(str);
 		trimmed_length = token->flags & FLAGS_PRECISION
-			? ft_min(len, token->precision)
+			? (size_t)ft_min(len, token->precision)
 			: len;
 		intern_fmt_pad_left(writer, token, pad_char, trimmed_length);
 		writer_write(writer, str, trimmed_length);
