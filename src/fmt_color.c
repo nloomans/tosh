@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/25 01:24:49 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/26 00:28:11 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/26 00:37:59 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ const char	*intern_fmt_color_lookup(t_color color)
 		COLOR_BLUE,
 		COLOR_MAGENTA,
 		COLOR_CYAN,
-		COLOR_WHITE
+		COLOR_WHITE,
+		COLOR_UNDERLINE,
+		COLOR_REVERSED,
 	};
 
 	return (lookup[color]);
@@ -53,7 +55,9 @@ void		fmt_putcolor(t_writer *writer, t_token *token, va_list vlist)
 		"blue",
 		"magenta",
 		"cyan",
-		"white"
+		"white",
+		"underline",
+		"reversed"
 	};
 	size_t		i;
 
