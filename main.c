@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:26:18 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 01:16:36 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 01:37:29 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@
 
 int	main(void)
 {
-	MCMPARE("%#-*llo", 50, 20);
+	MCMPARE("%#-*.*X", -40, 10, -4);
 	return (0);
 }
