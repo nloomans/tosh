@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 20:43:22 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 01:16:19 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 01:26:13 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void			fmt_putoct(t_writer *writer, t_token *token, va_list vlist)
 	intern_pop_wildcards(token, vlist);
 	n = va_arg(vlist, unsigned long long);
 	intern_auto_floor(token, &n);
-	idx = intern_ntoa(buf, n, 8);
+	idx = intern_ntoa(buf, n, 8, 0);
 	prefix = token->flags & FLAGS_HASH && n != 0;
 	intern_fmt_pad_left(writer, token, ' ', idx + prefix);
 	if (token->flags & FLAGS_HASH && n != 0)
