@@ -15,9 +15,9 @@ A writer looks like this:
 struct {
     / How many bytes we wrote
     |                      / A reference to the state pointer
-    |                      |            / The string  / The string length
-    v                      v            v             v
-  ssize_t  (*write)(void *state, char *str, size_t length);
+    |                      |                   / The string  / The string length
+    v                      v                   v             v
+  ssize_t  (*write)(struct s_writer *self, char *str, size_t length);
   
   // Internal state to be passed to the write call.
   void  *state;
@@ -36,14 +36,14 @@ int ft_fprintf(int fd, char *fmt, ...);
 
 ### Strings
 ```c
-// Writes to a string see example 1.
+// Writes to a *new* string see example 1.
 int ft_aprintf(char **dest, char *fmt, ...);
 
-// TODO
+// Writes to a string (does not check size, dangerous!)
 int ft_sprintf(char *dest, char *fmt, ...);
 
-// TODO
-int ft_snprintf(char **dest, size_t len, char *fmt, ...);
+// Writes to a string, taking a limit.
+int ft_snprintf(char *dest, size_t len, char *fmt, ...);
 ```
 
 # Examples
@@ -57,4 +57,8 @@ ft_aprintf(&str, "Hello, %s", "world!");
 ```
 
 # Tests
-No testing suite is currently implemented.
+### Testing framework
+Our printf uses [criterion](https://github.com/Snaipe/Criterion) for tests. All of our tests are ran on the `snprintf` writer and the `asprintf` writer only. As well as some internal tests.
+### Running them
+To run the tests, go into `test/`, and run the following command: `make test`.
+This will run the tests.
