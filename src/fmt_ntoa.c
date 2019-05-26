@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_printf.h                                        :+:    :+:            */
+/*   fmt_ntoa.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/20 15:27:11 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 00:50:00 by nmartins      ########   odam.nl         */
+/*   Created: 2019/05/27 00:06:55 by nmartins       #+#    #+#                */
+/*   Updated: 2019/05/27 00:38:13 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "fmt.h"
+#include <libft.h>
 
-# include <stdarg.h>
-# include <sys/types.h>
+size_t	intern_ntoa(char *buf_out, unsigned long long n, unsigned base)
+{
+	char	buf[128];
+	char 	dig;
+	size_t	len;
 
-ssize_t	ft_vprintf(char *fmt, va_list vlist);
-ssize_t	ft_printf(char *fmt, ...);
-ssize_t	ft_fprintf(int fd, char *fmt, ...);
-ssize_t	ft_asprintf(char **dest, char *fmt, ...);
-ssize_t	ft_snprintf(char *dest, ssize_t capacity, char *fmt, ...);
-ssize_t	ft_sprintf(char *dest, char *fmt, ...);
-
-#endif
+	len = 0;
+	while (len < 128u)
+	{
+		dig = n % base;
+		buf[len] = intern_to_hex(dig, 1);
+		len++;
+		n /= base;
+		if (!n)
+			break ;
+	}
+	buf[len] = '\0';
+	ft_strrev(buf);
+	ft_memcpy(buf_out, buf, len);
+	return (len);
+}

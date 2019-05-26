@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/25 01:23:24 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 00:36:09 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ char			intern_to_hex(char num, int caps)
 		return (hex_starter + (num - 10));
 	else if (num >= 0 && num <= 9)
 		return ('0' + num);
-	else
-		return ('\0');
+	return ('\0');
 }
 
 int		intern_hex_size(long long n)

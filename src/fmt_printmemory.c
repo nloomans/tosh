@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 16:39:30 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/26 00:53:03 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 01:01:58 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "color.h"
 
 #include <libft.h>
-# include <stdio.h>
 
 static void	intern_fmt_puthexchar(
 	t_writer *writer,
@@ -82,7 +81,12 @@ void			intern_fmt_printmemory(
 				writer_write(writer, " ", 1);
 			if (column + (row * 16) < len)
 			{
-				intern_fmt_color(writer, bytes[column + (row * 16)] ? E_CYAN : E_GRAY);
+				if (ft_isprint(bytes[column + (row * 16)]))
+					intern_fmt_color(writer, E_CYAN);
+				else if (bytes[column + (row * 16)])
+					intern_fmt_color(writer, E_MAGENTA);
+				else
+					intern_fmt_color(writer, E_GRAY);
 				intern_fmt_puthexchar(writer,
 					bytes[column + (row * 16)], flags);
 			}

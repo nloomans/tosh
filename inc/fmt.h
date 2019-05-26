@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/26 00:23:44 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 00:56:58 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,8 @@ void			intern_fmt_pad_right(
 					size_t length);
 int				intern_hex_size(long long n);
 void			intern_fmt_color(t_writer *writer, t_color color);
+size_t			intern_ntoa(char *buf_out, unsigned long long n, unsigned base);
+void			intern_auto_floor(t_token *token, unsigned long long* n);
+
 
 #endif

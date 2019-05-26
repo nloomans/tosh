@@ -6,13 +6,14 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 20:43:22 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/26 23:02:40 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 01:16:19 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include "writer.h"
 #include "token.h"
+#include "fmt.h"
 #include <stdarg.h>
 #include <stdio.h>
 
@@ -28,10 +29,19 @@ void			intern_fmt_putoct(t_writer *writer, unsigned value)
 
 void			fmt_putoct(t_writer *writer, t_token *token, va_list vlist)
 {
-	unsigned int	n;
+	unsigned long long	n;
+	char				buf[128];
+	size_t				idx;
+	int					prefix;
 
-	n = va_arg(vlist, unsigned int);
+	intern_pop_wildcards(token, vlist);
+	n = va_arg(vlist, unsigned long long);
+	intern_auto_floor(token, &n);
+	idx = intern_ntoa(buf, n, 8);
+	prefix = token->flags & FLAGS_HASH && n != 0;
+	intern_fmt_pad_left(writer, token, ' ', idx + prefix);
 	if (token->flags & FLAGS_HASH && n != 0)
 		writer_write(writer, "0", 1);
-	intern_fmt_putoct(writer, n);
+	writer_write(writer, buf, idx);
+	intern_fmt_pad_right(writer, token, ' ', idx + prefix);
 }
