@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 20:43:22 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 15:19:45 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/28 01:33:10 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,37 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-void			intern_fmt_putoct(t_writer *writer, unsigned value)
-{
-	char	c;
-
-	if (value > 8)
-		intern_fmt_putoct(writer, value / 8);
-	c = '0' + (value % 8);
-	writer_write(writer, &c, 1);
-}
 
 void			fmt_putoct(t_writer *writer, t_token *token, va_list vlist)
 {
-	unsigned long long	n;
 	char				buf[128];
 	size_t				idx;
+	size_t				actual_size;
 	t_number			number;
-	int					prefix;
 
 	intern_pop_wildcards(token, vlist);
-	n = va_arg(vlist, unsigned long long);
-	intern_auto_floor(token, &n);
+	number.value = va_arg(vlist, unsigned long long);
+	intern_auto_floor(token, &number.value);
 	number.base = 8U;
-	number.value = n;
 	idx = intern_ntoa(buf, number, 0);
-	prefix = token->flags & FLAGS_HASH && n != 0;
-	intern_fmt_pad_left(writer, token, ' ', idx + prefix);
-	if (token->flags & FLAGS_HASH && n != 0)
+	actual_size = idx;
+	if (token->flags & FLAGS_HASH)
+		actual_size++;
+	if (token->flags & FLAGS_PRECISION)
+	{
+		actual_size = ft_max(actual_size, token->precision);
+		if (token->precision == 0)
+			actual_size = 0;
+	}
+	intern_fmt_pad_left(writer, token, ' ', actual_size);
+	if (token->flags & FLAGS_HASH && number.value != 0)
 		writer_write(writer, "0", 1);
-	writer_write(writer, buf, idx);
-	intern_fmt_pad_right(writer, token, ' ', idx + prefix);
+	if (token->flags & FLAGS_PRECISION)
+		intern_fmt_pad_auto(writer, '0', token->precision, idx + !!(token->flags & FLAGS_HASH));
+	/* writing part */
+	if (token->flags & FLAGS_PRECISION && token->precision != 0)
+		writer_write(writer, buf, idx);
+	/* ------------ */
+
+	intern_fmt_pad_right(writer, token, ' ', actual_size);
 }

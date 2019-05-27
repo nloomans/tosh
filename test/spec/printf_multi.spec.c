@@ -85,7 +85,6 @@ Test(printf_multi, atf_complex)
 {
 	char *dest;
 
-	int ret = ft_asprintf(&dest, "%d%s%p%c%o", 42, "Hi", NULL, 65, 42);
-	printf("%d returned by ft_printf\n", ret);
+	ft_asprintf(&dest, "%d%s%p%c%o", 42, "Hi", NULL, 65, 42);
 	cr_expect_str_eq(dest, "42Hi0x0A52");
 }

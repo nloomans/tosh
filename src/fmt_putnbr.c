@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 19:06:26 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/28 00:23:48 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ void						intern_split_sign(
 	number->sign = value > 0 ? 1 : -1;
 	number->value = intern_abs(value);
 	number->base = base;
-	// printf("number->sign: %d\n", number->sign);
-	// printf("number->value: %llu\n", number->value);
-	// printf("number->base: %hhd\n", number->base);
 }
 
 char						intern_pad_char(t_token *token)
