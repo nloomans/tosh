@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/25 01:25:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/26 00:38:12 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 14:39:44 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef enum    e_color
 # ifdef __APPLE__
 #  define COLOR_RESET     "\x1b[0;0m"
 #  define COLOR_BLACK     "\x1b[0;30m"
-#  define COLOR_GRAY      "\x1b[0;31m"
+#  define COLOR_GRAY      "\x1b[0;37m"
 #  define COLOR_RED       "\x1b[0;31m"
 #  define COLOR_GREEN     "\x1b[0;32m"
 #  define COLOR_YELLOW    "\x1b[0;33m"

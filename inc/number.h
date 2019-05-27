@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fmt_ntoa.c                                         :+:    :+:            */
+/*   number.h                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/27 00:06:55 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 14:50:22 by nmartins      ########   odam.nl         */
+/*   Created: 2019/05/27 14:50:39 by nmartins       #+#    #+#                */
+/*   Updated: 2019/05/27 15:06:21 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fmt.h"
-#include <libft.h>
+#ifndef NUMBER_H
+# define NUMBER_H
 
-size_t	intern_ntoa(char *buf_out, unsigned long long n, unsigned base, int caps)
+# include <stddef.h> 
+
+typedef struct	s_number
 {
-	char	buf[128];
-	char 	dig;
-	size_t	len;
+	char				sign; 
+	unsigned long long	value;
+	unsigned char		base;
+}				t_number;
 
-	len = 0;
-	while (len < 128u)
-	{
-		dig = n % base;
-		buf[len] = intern_to_hex(dig, caps);
-		len++;
-		n /= base;
-		if (!n)
-			break ;
-	}
-	buf[len] = '\0';
-	ft_strrev(buf);
-	ft_memcpy(buf_out, buf, len);
-	return (len);
-}
+#endif

@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 16:31:58 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 01:36:11 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 14:19:45 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	intern_pop_wildcards(t_token *token, va_list vlist)
 		token->precision = va_arg(vlist, int);
 }
 
-void	intern_auto_floor(t_token *token, unsigned long long* n)
+void	intern_auto_floor(t_token *token, unsigned long long *n)
 {
 	if (token->size == E_HH)
 		*n = (unsigned long long)(unsigned char)*n;
