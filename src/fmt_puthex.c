@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 01:39:18 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 15:19:05 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,17 @@ void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
 {
 	unsigned long long	own_hex_size;
 	unsigned long long	n;
+	t_number			number;
 	char				buf[128];
 	size_t				idx;
 
 	intern_pop_wildcards(token, vlist);
 	n = va_arg(vlist, unsigned long long);
 	intern_auto_floor(token, &n);
+	number.value = n;
+	number.base = 16U;
 	own_hex_size = ((token->flags & FLAGS_HASH) != 0) * 2;
-	idx = intern_ntoa(buf, n, 16, token->flags & FLAGS_CAPITAL);
+	idx = intern_ntoa(buf, number, token->flags & FLAGS_CAPITAL);
 	own_hex_size += idx;
 	own_hex_size = token->flags & FLAGS_PRECISION
 		? (size_t)ft_max(token->precision, own_hex_size)

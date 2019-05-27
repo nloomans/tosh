@@ -6,14 +6,15 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 00:06:55 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 14:50:22 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 15:16:52 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fmt.h"
+#include "number.h"
 #include <libft.h>
 
-size_t	intern_ntoa(char *buf_out, unsigned long long n, unsigned base, int caps)
+size_t	intern_ntoa(char *buf_out, t_number number, int caps)
 {
 	char	buf[128];
 	char 	dig;
@@ -22,11 +23,11 @@ size_t	intern_ntoa(char *buf_out, unsigned long long n, unsigned base, int caps)
 	len = 0;
 	while (len < 128u)
 	{
-		dig = n % base;
+		dig = number.value % number.base;
 		buf[len] = intern_to_hex(dig, caps);
 		len++;
-		n /= base;
-		if (!n)
+		number.value /= number.base;
+		if (!number.value)
 			break ;
 	}
 	buf[len] = '\0';

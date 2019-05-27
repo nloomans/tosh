@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/24 17:01:00 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 19:06:26 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,45 +17,73 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-static size_t	num_size(long long n)
+static unsigned long long	intern_abs(long long source)
 {
-	if (n / 10)
-		return (1 + num_size(n / 10));
-	return (1);
+	if (source >= 0)
+		return ((unsigned long long)source);
+	else
+		return (-((unsigned long long)source));
 }
 
-void			intern_fmt_putnbr(t_writer *writer, long long n, t_size s)
+char						*intern_sign_for(t_number *number)
 {
-	char	c;
-
-	if (n / 10)
-		intern_fmt_putnbr(writer, n / 10, s);
-	c = '0' + (n % 10);
-	writer_write(writer, &c, 1);
+	if (number->sign == -1)
+		return ("-");
+	if (number->sign == 1)
+		return ("+");
+	return (NULL);
 }
 
-void			fmt_putnbr(t_writer *writer, t_token *token, va_list vlist)
+void						intern_split_sign(
+	t_token *token,
+	t_number *number,
+	long long value,
+	unsigned char base)
 {
-	long long	n;
-	size_t		len;
-	size_t		len_after_prec;
-	char		pad_char;
+	if (token->flags & FLAGS_PRECISION && token->precision < token->width)
+		token->flags &= ~FLAGS_ZEROPAD;
+	intern_auto_floor_signed(token, &value);
+	number->sign = value > 0 ? 1 : -1;
+	number->value = intern_abs(value);
+	number->base = base;
+	// printf("number->sign: %d\n", number->sign);
+	// printf("number->value: %llu\n", number->value);
+	// printf("number->base: %hhd\n", number->base);
+}
 
-	//TODO: handle size
-	intern_pop_wildcards(token, vlist);
-	n = va_arg(vlist, long long);
-	len = num_size(n);
-	len_after_prec = token->flags & FLAGS_PRECISION
-		? (size_t)ft_max(token->precision, len)
-		: len;
-	pad_char = token->flags & FLAGS_ZEROPAD ? '0' : ' ';
-	if ((token->flags & FLAGS_LEFTALIGN) == 0 &&
-		len_after_prec < (size_t)token->width)
-		intern_fmt_pad(writer, pad_char, token->width - len_after_prec);
-	if (token->flags & FLAGS_PRECISION && len < (size_t)token->precision)
-		intern_fmt_pad(writer, '0', token->precision - len);
-	intern_fmt_putnbr(writer, ft_abs(n), E_N);
-	if ((token->flags & FLAGS_LEFTALIGN) &&
-		len_after_prec < (size_t)token->width)
-		intern_fmt_pad(writer, pad_char, token->width - len_after_prec);
+char						intern_pad_char(t_token *token)
+{
+	return ((token->flags & FLAGS_ZEROPAD) ? '0' : ' ');
+}
+
+void						fmt_putnbr(
+	t_writer *writer,
+	t_token *tok,
+	va_list vlist)
+{
+	char		buf[128];
+	t_number	n;
+	size_t		idx;
+	size_t		actual_size;
+
+	intern_pop_wildcards(tok, vlist);
+	intern_split_sign(tok, &n, va_arg(vlist, long long), 10U);
+	idx = intern_ntoa(buf, n, 0);
+	actual_size = idx;
+	if (tok->flags & FLAGS_PRECISION)
+		actual_size = ft_max(idx, tok->precision);
+	if (n.value && (n.sign == -1 || tok->flags & (FLAGS_PLUS | FLAGS_SPACE)))
+		actual_size++;
+	if ((tok->flags & FLAGS_ZEROPAD) == 0)
+		intern_fmt_pad_left(writer, tok, intern_pad_char(tok), actual_size);
+	if (n.value != 0 && (n.sign == -1 || tok->flags & FLAGS_PLUS))
+		writer_write(writer, intern_sign_for(&n), 1);
+	if (n.value && n.sign == 1 && !(tok->flags & FLAGS_PLUS))
+		writer_write(writer, " ", !!(tok->flags & FLAGS_SPACE));
+	if (tok->flags & FLAGS_ZEROPAD)
+		intern_fmt_pad_left(writer, tok, intern_pad_char(tok), actual_size);
+	if (tok->flags & FLAGS_PRECISION)
+		intern_fmt_pad_auto(writer, '0', tok->precision, idx);
+	writer_write(writer, buf, idx);
+	intern_fmt_pad_right(writer, tok, intern_pad_char(tok), actual_size);
 }

@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:04:21 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/26 23:21:15 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 17:19:45 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	writer_write(t_writer *writer, char *str, size_t length)
 
 ssize_t	writer_fd_write(t_writer *self, char *str, size_t length)
 {
+	self->written += length;
 	return (write(*(t_writer_fd_state *)self->state, str, length));
 }
 

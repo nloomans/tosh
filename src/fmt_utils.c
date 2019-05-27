@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 16:31:58 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 14:19:45 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 17:36:35 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,16 @@ void	intern_auto_floor(t_token *token, unsigned long long *n)
 		*n = (unsigned long long)(unsigned int)*n;
 	if (token->size == E_L)
 		*n = (unsigned long long)(unsigned long)*n;
+}
+
+void	intern_auto_floor_signed(t_token *token, long long *n)
+{
+	if (token->size == E_HH)
+		*n = (long long)(char)*n;
+	if (token->size == E_H)
+		*n = (long long)(short)*n;
+	if (token->size == E_N)
+		*n = (long long)(int)*n;
+	if (token->size == E_L)
+		*n = (long long)(long)*n;
 }

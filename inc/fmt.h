@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 01:25:48 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 17:36:47 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "writer.h"
 # include "token.h"
 # include "color.h"
+# include "number.h"
 
 typedef void	(*t_formatter)(t_writer *writer, t_token *token, va_list vlist);
 
@@ -59,8 +60,9 @@ void			intern_fmt_pad_right(
 					size_t length);
 int				intern_hex_size(long long n);
 void			intern_fmt_color(t_writer *writer, t_color color);
-size_t			intern_ntoa(char *buf_out, unsigned long long n, unsigned base, int caps);
+size_t			intern_ntoa(char *buf_out, t_number number, int caps);
 void			intern_auto_floor(t_token *token, unsigned long long* n);
+void			intern_auto_floor_signed(t_token *token, long long *n);
 
 
 #endif
