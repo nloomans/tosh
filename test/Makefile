@@ -52,10 +52,13 @@ LIBCRITERION_IFLAGS=	-I $(HOME)/.brew/include
 LIBCRITERION_LFLAGS=	-L $(HOME)/.brew/lib -l$(LIBCRITERION_NAME)
 
 $(LIBCRITERION_A):
+ifeq ($(IGNORE_ERR),1)
+else
 	@echo "Please install criterion using first using:" >&2
 	@echo >&2
 	@echo "    brew install criterion" >&2
 	@exit 1
+endif
 
 ###########
 # Project #
