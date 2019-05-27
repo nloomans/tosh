@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 15:56:15 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/23 00:12:19 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 19:09:14 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,13 @@
 
 # include "token.h"
 
-
-typedef	enum	e_fsm
+typedef struct	e_char2descriptor
 {
-	ST_ANY = 0,
-	ST_PARAM = 1,
-	ST_STR_LIT = 2,
-}				t_fsm;
+	char			c;
+	t_descriptor	descriptor;
+}				t_char2descriptor;
 
-typedef	int(*t_st_handler)(t_fsm *st, t_token *dest, char **stream);
-
-int				parse_atoi(char **stream);
+int		parse_atoi(char **stream);
+int		parse_atoi_wildcard(char **stream);
 
 #endif

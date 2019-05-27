@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 15:17:29 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/26 00:29:21 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/27 20:45:48 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <libft.h>
 #include <stdio.h>
 
-static void		debug_token(t_token *token)
+void		debug_token(t_token *token)
 {
 	const char *lookup[] =
 	{
@@ -32,6 +32,7 @@ static void		debug_token(t_token *token)
 		"E_FLOAT",
 		"E_MEMORY",
 		"E_COLOR",
+		"E_INVALID",
 	};
 	printf("\n\nToken:\n");
 	printf("- Size:  % 2d\n", (int)token->size);

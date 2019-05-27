@@ -1,121 +1,94 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   parser.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2019/05/22 14:27:49 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 15:06:49 by nmartins      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
+#include <assert.h>
+#include <stddef.h>
+#include <libft.h>
 #include "token.h"
 #include "parser.h"
-#include <libft.h>
+
 # include <stdio.h>
-# include <stdlib.h>
 
-int			st_handle_any(t_fsm *st, t_token *dest, char **stream)
+static int			is_conversion_specification(const char *stream)
 {
-	if (**stream == '%')
-	{
-		*st = ST_PARAM;
-		dest->size = E_N;
-	}
+	assert(stream != NULL);
+	return (*stream == '%');
+}
+
+static int			is_color_specification(const char *stream)
+{
+	assert(stream != NULL);
+	return (stream[0] == '%' && stream[1] == '{');
+}
+
+static int			parse_color_specification(t_token *dest, char **stream)
+{
+	assert(dest != NULL && stream != NULL && *stream != NULL);
+	assert(is_color_specification(*stream));
+
+	(*stream) += 2;
+	dest->type = E_COLOR;
+	dest->s_value = *stream;
+	while (**stream != '}' && **stream != '\0')
+		(*stream)++;
+	dest->s_length = *stream - dest->s_value;
+	if (**stream == '\0')
+		return (-1);
 	else
-	{
-		*st = ST_STR_LIT;
-		dest->type = E_TXT;
-		dest->s_value = *stream;
-		dest->s_length = 1;
-	}
-	(*stream)++;
-	return (1);
+		(*stream)++;
+	return (**stream != '\0');
 }
 
-int			st_handle_str_lit(t_fsm *st, t_token *dest, char **stream)
+static int			parse_flags(char **stream)
 {
-	(void)st;
-	if (**stream == '%')
-		return (0);
-	dest->s_length++;
-	(*stream)++;
-	return (1);
+	t_flags		flags = 0;
+
+	assert(stream != NULL && *stream != NULL);
+	while (ft_strchr("# 0+-", **stream))
+	{
+		if (**stream == '#')
+			flags |= FLAGS_HASH;
+		else if (**stream == ' ')
+			flags |= FLAGS_SPACE;
+		else if (**stream == '0')
+			flags |= FLAGS_ZEROPAD;
+		else if (**stream == '+')
+			flags |= FLAGS_PLUS;
+		else if (**stream == '-')
+			flags |= FLAGS_LEFTALIGN;
+		else
+			assert(0);
+		(*stream)++;
+	}
+	return (flags);
 }
 
-int			st_handle_param(t_fsm *st, t_token *dest, char **stream)
+static int			parse_width(char **stream)
 {
-	(void)st;
-	dest->width = 0;
-	dest->flags = 0;
-	if (**stream == '{')
-	{
-		(*stream)++;
-		dest->type = E_COLOR;
-		dest->s_value = *stream;
-		while (**stream && **stream != '}')
-		{
-			dest->s_length++;
-			(*stream)++;
-		}
-		(*stream)++;
+	assert(stream != NULL && *stream != NULL);
+	return (parse_atoi_wildcard(stream));
+}
+
+static int			parse_precision(t_flags *flags, char **stream)
+{
+	assert(flags != NULL && stream != NULL && *stream != NULL);
+	if (**stream != '.')
 		return (0);
-	}
-	if (**stream == '#')
-	{
-		dest->flags |= FLAGS_HASH;
-		(*stream)++;
-	}
-	if (**stream == ' ')
-	{
-		dest->flags |= FLAGS_SPACE;
-		(*stream)++;
-	}
-	if (**stream == '0')
-	{
-		dest->flags |= FLAGS_ZEROPAD;
-		(*stream)++;
-	}
-	if (**stream == '+')
-	{
-		dest->flags |= FLAGS_PLUS;
-		(*stream)++;
-	}
-	if (**stream == '-')
-	{
-		dest->flags |= FLAGS_LEFTALIGN;
-		(*stream)++;
-	}
-	if (ft_isdigit(**stream))
-		dest->width = parse_atoi(stream);
-	else if (**stream == '*')
-	{
-		dest->width = -1;
-		(*stream)++;
-	}
-	if (**stream == '.')
-	{
-		(*stream)++;
-		dest->flags |= FLAGS_PRECISION;
-		if (ft_isdigit(**stream))
-			dest->precision = parse_atoi(stream);
-		else if (**stream == '*')
-		{
-			dest->precision = -1;
-			(*stream)++;
-		}
-	}
+	(*stream)++;
+	*flags |= FLAGS_PRECISION;
+	return (parse_atoi_wildcard(stream));
+}
+
+static t_size		parse_size(char **stream)
+{
+	assert(stream != NULL && *stream != NULL);
 	if (**stream == 'h')
 	{
 		(*stream)++;
 		if (**stream == 'h')
 		{
 			(*stream)++;
-			dest->size = E_HH;
+			return (E_HH);
 		}
 		else
-			dest->size = E_H;
+			return (E_H);
 	}
 	else if (**stream == 'l')
 	{
@@ -123,91 +96,90 @@ int			st_handle_param(t_fsm *st, t_token *dest, char **stream)
 		if (**stream == 'l')
 		{
 			(*stream)++;
-			dest->size = E_LL;
+			return (E_LL);
 		}
 		else
-			dest->size = E_L;
+			return (E_L);
 	}
 	else
-		dest->size = E_N;
-	while (**stream)
-	{
-		if (ft_strchr("disopc%xXfFmMu", **stream))
-		{
-			if (**stream == 'd' || **stream == 'i')
-				dest->type = E_INT;
-			else if (**stream == 's')
-				dest->type = E_STR;
-			else if (**stream == 'o')
-				dest->type = E_OCT;
-			else if (**stream == 'u')
-				dest->type = E_UNS;
-			else if (**stream == 'p')
-				dest->type = E_PTR;
-			else if (**stream == 'c')
-				dest->type = E_CHR;
-			else if (**stream == '%')
-				dest->type = E_PERCENT;
-			else if (**stream == 'm' || **stream == 'M')
-			{
-				dest->type = E_MEMORY;
-				dest->flags |= **stream == 'M' ? FLAGS_CAPITAL : 0;
-			}
-			else if (**stream == 'x' || **stream == 'X')
-			{
-				dest->type = E_HEX;
-				dest->flags |= **stream == 'X' ? FLAGS_CAPITAL : 0;
-			}
-			else if (**stream == 'f' || **stream == 'F')
-			{
-				dest->type = E_FLOAT;
-				dest->flags |= **stream == 'F' ? FLAGS_CAPITAL : 0;
-			}
-			(*stream)++;
-			return (0);
-		}
-		else
-		{
-			if (ft_isdigit(**stream))
-				dest->width = parse_atoi(stream);
-			else if (ft_strchr(" ", **stream))
-			{
-				(*stream)++;
-			}
-			else
-			{
-				printf("- Something went wrong -\n");
-				exit(0);
-			}
-		}
-	}
-	return (0);
+		return (E_N);
 }
 
-int			handle_state(t_fsm *st, t_token *dest, char **stream)
-{
-	const t_st_handler handlers[] = {
-		st_handle_any,
-		st_handle_param,
-		st_handle_str_lit,
-	};
+static const t_char2descriptor map_char2descriptor[] = {
+	{ 'd', E_INT },
+	{ 'i', E_INT },
+	{ 's', E_STR },
+	{ 'o', E_OCT },
+	{ 'u', E_UNS },
+	{ 'p', E_PTR },
+	{ 'c', E_CHR },
+	{ '%', E_PERCENT },
+	{ 'm', E_MEMORY },
+	{ 'x', E_HEX },
+	{ 'f', E_FLOAT },
+};
 
-	return ((handlers[*st])(st, dest, stream));
+static t_descriptor	parse_conversion_specifier(t_flags *flags, char **stream)
+{
+	char	c;
+	size_t	i;
+
+	assert(flags != NULL && stream != NULL && *stream != NULL);
+	c = **stream;
+	(*stream)++;
+	if (c == '\0')
+		return (E_INVALID);
+	if (c >= 'A' && c <= 'Z')
+	{
+		*flags |= FLAGS_CAPITAL;
+		c = ft_tolower(c);
+	}
+	i = 0;
+	while (i < sizeof(map_char2descriptor) / sizeof(t_char2descriptor))
+	{
+		if (map_char2descriptor[i].c == c)
+			return (map_char2descriptor[i].descriptor);
+		i++;
+	}
+	return (E_INVALID);
 }
 
-int			parse_token(t_token *dest, char **stream)
+static int			parse_conversion_specification(t_token *dest, char **stream)
 {
-	t_fsm		st;
-	int			ret;
+	assert(dest != NULL && stream != NULL && *stream != NULL);
+	assert(is_conversion_specification(*stream));
+	(*stream)++;
+	dest->flags = parse_flags(stream);
+	dest->width = parse_width(stream);
+	dest->precision = parse_precision(&dest->flags, stream);
+	dest->size = parse_size(stream);
+	dest->type = parse_conversion_specifier(&dest->flags, stream);
+	if (dest->type == E_INVALID)
+		return (-1);
+	return (**stream != '\0');
+}
 
-	ret = 1;
-	ft_memset(dest, 0, sizeof(t_token));
-	st = ST_ANY;
-	while (**stream)
-	{
-		ret = handle_state(&st, dest, stream);
-		if (ret == 0)
-			return (1);
-	}
-	return (0);
+static int			parse_string_literal(t_token *dest, char **stream)
+{
+	assert(dest != NULL && stream != NULL && *stream != NULL);
+	assert(!is_conversion_specification(*stream));
+
+	dest->type = E_TXT;
+	dest->s_value = *stream;
+	while (!is_conversion_specification(*stream) && **stream != '\0')
+		(*stream)++;
+	dest->s_length = *stream - dest->s_value;
+	return (**stream != '\0');
+}
+
+int		parse_token(t_token *dest, char **stream)
+{
+	assert(dest != NULL && stream != NULL && *stream != NULL);
+	ft_memset(dest, '\0', sizeof(t_token));
+	if (is_color_specification(*stream))
+		return (parse_color_specification(dest, stream));
+	else if (is_conversion_specification(*stream))
+		return (parse_conversion_specification(dest, stream));
+	else
+		return (parse_string_literal(dest, stream));
 }
