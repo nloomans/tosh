@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/05/06 15:11:37 by nloomans       #+#    #+#                 #
-#    Updated: 2019/05/24 18:57:09 by nmartins      ########   odam.nl          #
+#    Updated: 2019/05/28 13:13:29 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,8 +35,10 @@ LIBFTPRINTF_DIR=	..
 LIBFTPRINTF_A=		$(LIBFTPRINTF_DIR)/lib$(LIBFTPRINTF_NAME).a
 LIBFTPRINTF_IFLAGS=	-I $(LIBFTPRINTF_DIR)/inc
 LIBFTPRINTF_LFLAGS=	-L $(LIBFTPRINTF_DIR) -l$(LIBFTPRINTF_NAME)
+LIBFTPRINTF_DEPS=	$(wildcard $(LIBFTPRINTF_DIR)/src/*.c) \
+					$(wildcard $(LIBFTPRINTF_DIR)/inc/*.h)
 
-$(LIBFTPRINTF_A):
+$(LIBFTPRINTF_A): $(LIBFTPRINTF_DEPS)
 	@$(MAKE) -C $(LIBFTPRINTF_DIR)
 
 libftprintf_clean:
@@ -78,6 +80,7 @@ INC_FILES=		$(wildcard $(INC_DIR)/*.h)
 OBJ_FILES=		$(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
 $(NAME): $(LIBFTPRINTF_A) $(LIBCRITERION_A) $(OBJ_FILES)
+	@echo " λ Creating binary $(OK_COLOR)$(UNDERLINE)$@$(RESET)"
 	@$(CC) $(CFLAGS) -o $@ $(OBJ_FILES) $(LFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
