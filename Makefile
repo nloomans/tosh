@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/05/06 15:11:37 by nloomans       #+#    #+#                 #
-#    Updated: 2019/05/20 15:54:34 by nmartins      ########   odam.nl          #
+#    Updated: 2019/05/28 16:02:50 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,19 +69,25 @@ $(NAME): $(LIBFT_A) $(OBJ_FILES)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
 	@mkdir -p $(OBJ_DIR)
-	@printf " λ Making object $(UNDERLINE)$(BLUE)$<$(RESET)\n"
+	@echo " λ Making object $(UNDERLINE)$(BLUE)$<$(RESET)"
 	@$(CC) -o $@ -c $< $(CFLAGS) $(IFLAGS)
 
-debug:
-	$(MAKE) -B "EXTRA=$(EXTRA) -g"
+dev: main.c $(SRC_FILES) $(INC_FILES)
+	@echo " λ Everything below will be compiled with debug info"
+	@$(MAKE) "EXTRA=$(EXTRA) -g"
+	@echo " λ Creating binary $(OK_COLOR)$(UNDERLINE)$@$(RESET)"
+	@$(CC) -Wall -Wextra -g -o .obj/main.o -c main.c -I inc $(LIBFT_IFLAGS)
+	@$(CC) -Wall -Wextra -g -o $@ .obj/main.o -L . -lftprintf
 
 clean: libft_clean
 	@echo "$(RED)Cleaning objects$(RESET)"
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean libft_fclean
-	@echo "$(RED)Cleaning $(NAME)$(RESET)"
+	@echo "$(RED)Cleaning $(NAME) and ./dev$(RESET)"
 	@rm -rf $(NAME)
+	@rm -rf ./dev
+	@rm -rf ./dev.dSYM
 
 re:
 	$(MAKE) fclean

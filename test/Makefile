@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/05/06 15:11:37 by nloomans       #+#    #+#                 #
-#    Updated: 2019/05/28 13:13:29 by nloomans      ########   odam.nl          #
+#    Updated: 2019/05/28 15:43:31 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,13 +54,12 @@ LIBCRITERION_IFLAGS=	-I $(HOME)/.brew/include
 LIBCRITERION_LFLAGS=	-L $(HOME)/.brew/lib -l$(LIBCRITERION_NAME)
 
 $(LIBCRITERION_A):
-ifeq ($(IGNORE_ERR),1)
-else
-	@echo "Please install criterion using first using:" >&2
-	@echo >&2
-	@echo "    brew install criterion" >&2
-	@exit 1
-endif
+	@if ! [ -f $(LIBCRITERION_A) ]											;\
+	then	echo "Please install criterion using first using:" >&2			;\
+			echo >&2														;\
+			echo "    brew install criterion" >&2							;\
+			exit 1															;\
+	fi
 
 ###########
 # Project #
