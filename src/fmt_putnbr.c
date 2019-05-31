@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 17:42:04 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/05/31 17:52:31 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-static unsigned long long	intern_abs(long long source)
+unsigned long long			intern_abs(long long source)
 {
 	if (source >= 0)
 		return ((unsigned long long)source);
@@ -47,9 +47,9 @@ void						intern_split_sign(
 }
 
 static size_t				calculate_actual_size(
-	const t_token	*tok,
-	size_t			number_width,
-	const t_number	*number)
+	const t_token *tok,
+	size_t number_width,
+	const t_number *number)
 {
 	size_t		actual_size;
 

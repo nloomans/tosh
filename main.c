@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:26:18 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/28 01:34:15 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/31 17:12:30 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,19 +202,20 @@ int	extensive(void)
 int	main(void)
 {
 	// extensive();
-	int run = 0;
-	const int range[4] = { -100, 100
-						 , -100, 100 };
-	const char *acc_fmt = "%{blue}%02d%{reset}> %{cyan}Searched %{red}%d%{reset} to %{red}%d%{reset}, %{red}%d %{reset}to %{red}%d %{reset}(%{magenta}%d%{reset} total tests)\n";
-	{
-		const char *fmt_str = "%-*.*hho\n";
+	// int run = 0;
+	// const int range[4] = { -100, 100
+	// 					 , -100, 100 };
+	// const char *acc_fmt = "%{blue}%02d%{reset}> %{cyan}Searched %{red}%d%{reset} to %{red}%d%{reset}, %{red}%d %{reset}to %{red}%d %{reset}(%{magenta}%d%{reset} total tests)\n";
+	// {
+	// 	const char *fmt_str = "%-*.*hho\n";
 
-		for (int x = range[0]; x < range[1]; x++)
-			for (int y = range[2]; y < range[3]; y++)
-				for (int n = -100; n < 100; n += 10)
-					MCMPARE(fmt_str, x, y, n);
-		ft_printf(acc_fmt, run, range[0], range[1], range[2], range[3], (range[1] - range[0]) * (range[3] - range[2]));
-		run++;
-	}
+	// 	for (int x = range[0]; x < range[1]; x++)
+	// 		for (int y = range[2]; y < range[3]; y++)
+	// 			for (int n = -100; n < 100; n += 10)
+	// 				MCMPARE(fmt_str, x, y, n);
+	// 	ft_printf(acc_fmt, run, range[0], range[1], range[2], range[3], (range[1] - range[0]) * (range[3] - range[2]));
+	// 	run++;
+	// }
+	ft_printf("%C\n", 'x');
 	return (0);
 }

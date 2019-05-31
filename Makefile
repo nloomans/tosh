@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
+#    Makefile                                                :+:    :+:        #
 #                                                      +:+                     #
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/05/06 15:11:37 by nloomans       #+#    #+#                 #
-#    Updated: 2019/05/28 16:02:50 by nloomans      ########   odam.nl          #
+#    Updated: 2019/05/31 12:38:06 by nmartins            ########   odam.nl    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,8 +76,8 @@ dev: main.c $(SRC_FILES) $(INC_FILES)
 	@echo " λ Everything below will be compiled with debug info"
 	@$(MAKE) "EXTRA=$(EXTRA) -g"
 	@echo " λ Creating binary $(OK_COLOR)$(UNDERLINE)$@$(RESET)"
-	@$(CC) -Wall -Wextra -g -o .obj/main.o -c main.c -I inc $(LIBFT_IFLAGS)
-	@$(CC) -Wall -Wextra -g -o $@ .obj/main.o -L . -lftprintf
+	@$(CC) -Wall -Wextra $(EXTRA) -g -o .obj/main.o -c main.c -I inc $(LIBFT_IFLAGS)
+	@$(CC) -Wall -Wextra $(EXTRA) -g -o $@ .obj/main.o -L . -lftprintf
 
 clean: libft_clean
 	@echo "$(RED)Cleaning objects$(RESET)"
