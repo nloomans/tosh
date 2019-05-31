@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 15:20:17 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 15:20:19 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/31 19:13:54 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,5 @@ Test(printf_hex, hex_wildcard_complete)
 	ft_asprintf(&dest, "%-*.*X", 10, 5, 42);
 	cr_expect_str_eq(dest, "0002A     ");
 	ft_asprintf(&dest, "%#*.*X", -10, 5, 42);
-	cr_expect_str_eq(dest, "0X0002A     ");
+	cr_expect_str_eq(dest, "0X0002A   ");
 }

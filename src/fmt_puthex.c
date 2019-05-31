@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 17:38:30 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/05/31 19:27:18 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,14 @@ void			intern_fmt_puthex(t_writer *writer, unsigned long long value, int caps)
 	writer_write(writer, &c, 1);
 }
 
+static int		prefix_size(t_flags flags)
+{
+	if (flags & FLAGS_HASH)
+		return (2);
+	else
+		return (0);
+}
+
 void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
 {
 	unsigned long long	own_hex_size;
@@ -70,12 +78,11 @@ void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
 	n = intern_auto_floor(token->size, n);
 	number.value = n;
 	number.base = 16U;
-	own_hex_size = ((token->flags & FLAGS_HASH) != 0) * 2;
 	idx = intern_ntoa(buf, number, token->flags & FLAGS_CAPITAL);
-	own_hex_size += idx;
+	own_hex_size = prefix_size(token->flags);
 	own_hex_size = token->flags & FLAGS_PRECISION
-		? (size_t)ft_max(token->precision, own_hex_size)
-		: own_hex_size;
+		? (size_t)ft_max(token->precision + own_hex_size, own_hex_size + idx)
+		: own_hex_size + idx;
 	intern_fmt_pad_left(writer, token, ' ', own_hex_size);
 	if (token->flags & FLAGS_HASH)
 		writer_write(writer,
