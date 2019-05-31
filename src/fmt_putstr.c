@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:46 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/28 01:02:19 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/31 13:54:56 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void			fmt_putstr(t_writer *writer, t_token *token, va_list vlist)
 	str = va_arg(vlist, char *);
 	if (str == NULL)
 	{
-		do_print = (token->precision < 0 || token->precision >= 6) ? 6 : 0;
+		do_print = (!(token->flags & FLAGS_PRECISION) || token->precision >= 6)
+			? 6 : 0;
 		intern_fmt_pad_left(writer, token, ' ', do_print);
 		if (do_print)
 			writer_write(writer, "(null)", 6);
