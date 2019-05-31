@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 15:17:29 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 20:45:48 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/05/31 18:00:55 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void			run_token(t_writer *writer, va_list vlist, t_token *token)
 		fmt_putpercent,
 		fmt_putnbr,
 		fmt_putstr,
-		fmt_putnbr,
+		fmt_putuns,
 		fmt_putptr,
 		fmt_puthex,
 		fmt_putchr,
