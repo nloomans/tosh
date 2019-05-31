@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 20:43:22 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 14:05:36 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/05/31 17:42:17 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void			fmt_putoct(t_writer *writer, t_token *token, va_list vlist)
 
 	intern_pop_wildcards(token, vlist);
 	number.value = va_arg(vlist, unsigned long long);
-	intern_auto_floor(token, &number.value);
+	number.value = intern_auto_floor(token->size, number.value);
 	number.base = 8U;
 	idx = intern_ntoa(buf, number, 0);
 	actual_size = idx;

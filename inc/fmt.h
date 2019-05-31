@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 17:36:47 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/05/31 17:37:55 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,51 +18,63 @@
 # include "color.h"
 # include "number.h"
 
-typedef void	(*t_formatter)(t_writer *writer, t_token *token, va_list vlist);
+typedef void		(*t_formatter)(
+						t_writer *writer,
+						t_token *token,
+						va_list vlist);
 
 
-void			fmt_putstr(t_writer *writer, t_token *token, va_list vlist);
-void			fmt_putstrlit(t_writer *writer, t_token *token, va_list vlist);
-void			fmt_putpercent(t_writer *writer, t_token *token, va_list vlist);
-void			fmt_putnbr(t_writer *writer, t_token *token, va_list vlist);
-void			fmt_putcolor(t_writer *writer, t_token *token, va_list vlist);
-void			fmt_putptr(t_writer *writer, t_token *token, va_list vlist);
-void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist);
-void			fmt_putoct(t_writer *writer, t_token *token, va_list vlist);
-void			fmt_putchr(t_writer *writer, t_token *token, va_list vlist);
-void			fmt_putflt(t_writer *writer, t_token *token, va_list vlist);
-void			fmt_printmemory(
-					t_writer *writer,
-					t_token *token,
-					va_list vlist);
+void				fmt_putstr(t_writer *writer, t_token *token, va_list vlist);
+void				fmt_putstrlit(
+						t_writer *writer,
+						t_token *token,
+						va_list vlist);
+void				fmt_putpercent(
+						t_writer *writer,
+						t_token *token,
+						va_list vlist);
+void				fmt_putnbr(t_writer *writer, t_token *token, va_list vlist);
+void				fmt_putcolor(
+						t_writer *writer,
+						t_token *token,
+						va_list vlist);
+void				fmt_putptr(t_writer *writer, t_token *token, va_list vlist);
+void				fmt_puthex(t_writer *writer, t_token *token, va_list vlist);
+void				fmt_putoct(t_writer *writer, t_token *token, va_list vlist);
+void				fmt_putchr(t_writer *writer, t_token *token, va_list vlist);
+void				fmt_putflt(t_writer *writer, t_token *token, va_list vlist);
+void				fmt_printmemory(
+						t_writer *writer,
+						t_token *token,
+						va_list vlist);
 
-void			intern_fmt_puthex(
-					t_writer *writer,
-					unsigned long long value,
-					int caps);
-void			intern_fmt_pad(t_writer *writer, char c, size_t amt);
-char			intern_to_hex(char num, int caps);
-void			intern_pop_wildcards(t_token *token, va_list vlist);
-void			intern_fmt_pad_auto(
-					t_writer *writer,
-					char c,
-					size_t pad_amount,
-					size_t length);
-void			intern_fmt_pad_left(
-					t_writer *writer,
-					t_token *token,
-					char c,
-					size_t length);
-void			intern_fmt_pad_right(
-					t_writer *writer,
-					t_token *token,
-					char c,
-					size_t length);
-int				intern_hex_size(long long n);
-void			intern_fmt_color(t_writer *writer, t_color color);
-size_t			intern_ntoa(char *buf_out, t_number number, int caps);
-void			intern_auto_floor(t_token *token, unsigned long long* n);
-void			intern_auto_floor_signed(t_token *token, long long *n);
-
+void				intern_fmt_puthex(
+						t_writer *writer,
+						unsigned long long value,
+						int caps);
+void				intern_fmt_pad(t_writer *writer, char c, size_t amt);
+char				intern_to_hex(char num, int caps);
+void				intern_pop_wildcards(t_token *token, va_list vlist);
+void				intern_fmt_pad_auto(
+						t_writer *writer,
+						char c,
+						size_t pad_amount,
+						size_t length);
+void				intern_fmt_pad_left(
+						t_writer *writer,
+						t_token *token,
+						char c,
+						size_t length);
+void				intern_fmt_pad_right(
+						t_writer *writer,
+						t_token *token,
+						char c,
+						size_t length);
+int					intern_hex_size(long long n);
+void				intern_fmt_color(t_writer *writer, t_color color);
+size_t				intern_ntoa(char *buf_out, t_number number, int caps);
+unsigned long long	intern_auto_floor(t_size size, unsigned long long n);
+long long			intern_auto_floor_signed(t_size size, long long n);
+char				intern_pad_char(t_flags flags);
 
 #endif
