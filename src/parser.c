@@ -1,10 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parser.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2019/06/03 16:12:16 by nloomans       #+#    #+#                */
+/*   Updated: 2019/06/03 16:43:55 by nloomans      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <assert.h>
 #include <stddef.h>
 #include <libft.h>
 #include "token.h"
 #include "parser.h"
-
-# include <stdio.h>
 
 static int			is_conversion_specification(const char *stream)
 {
@@ -36,11 +46,12 @@ static int			parse_color_specification(t_token *dest, char **stream)
 	return (**stream != '\0');
 }
 
-static int			parse_flags(char **stream)
+static int			parse_flags(char **stream, int *has_errored)
 {
-	t_flags		flags = 0;
+	t_flags		flags;
 
 	assert(stream != NULL && *stream != NULL);
+	flags = 0;
 	while (ft_strchr("# 0+-", **stream))
 	{
 		if (**stream == '#')
@@ -53,6 +64,8 @@ static int			parse_flags(char **stream)
 			flags |= FLAGS_PLUS;
 		else if (**stream == '-')
 			flags |= FLAGS_LEFTALIGN;
+		else if (**stream == '\0')
+			*has_errored = 1;
 		else
 			assert(0);
 		(*stream)++;
@@ -105,7 +118,7 @@ static t_size		parse_size(char **stream)
 		return (E_N);
 }
 
-static const t_char2descriptor map_char2descriptor[] = {
+static const t_char2descriptor g_map_char2descriptor[] = {
 	{ 'd', E_INT },
 	{ 'i', E_INT },
 	{ 's', E_STR },
@@ -119,7 +132,10 @@ static const t_char2descriptor map_char2descriptor[] = {
 	{ 'f', E_FLOAT },
 };
 
-static t_descriptor	parse_conversion_specifier(t_flags *flags, char **stream)
+static t_descriptor	parse_conversion_specifier(
+	t_flags *flags,
+	char **stream,
+	int *has_errored)
 {
 	char	c;
 	size_t	i;
@@ -128,33 +144,42 @@ static t_descriptor	parse_conversion_specifier(t_flags *flags, char **stream)
 	c = **stream;
 	(*stream)++;
 	if (c == '\0')
-		return (E_INVALID);
+	{
+		*has_errored = 1;
+		return (0);
+	}
 	if (c >= 'A' && c <= 'Z')
 	{
 		*flags |= FLAGS_CAPITAL;
 		c = ft_tolower(c);
 	}
 	i = 0;
-	while (i < sizeof(map_char2descriptor) / sizeof(t_char2descriptor))
+	while (i < sizeof(g_map_char2descriptor) / sizeof(t_char2descriptor))
 	{
-		if (map_char2descriptor[i].c == c)
-			return (map_char2descriptor[i].descriptor);
+		if (g_map_char2descriptor[i].c == c)
+			return (g_map_char2descriptor[i].descriptor);
 		i++;
 	}
-	return (E_INVALID);
+	*has_errored = 1;
+	return (0);
 }
 
 static int			parse_conversion_specification(t_token *dest, char **stream)
 {
+	int		has_errored;
+
 	assert(dest != NULL && stream != NULL && *stream != NULL);
 	assert(is_conversion_specification(*stream));
+	has_errored = 0;
 	(*stream)++;
-	dest->flags = parse_flags(stream);
+	dest->flags = parse_flags(stream, &has_errored);
+	if (has_errored)
+		return (-1);
 	dest->width = parse_width(stream);
 	dest->precision = parse_precision(&dest->flags, stream);
 	dest->size = parse_size(stream);
-	dest->type = parse_conversion_specifier(&dest->flags, stream);
-	if (dest->type == E_INVALID)
+	dest->type = parse_conversion_specifier(&dest->flags, stream, &has_errored);
+	if (has_errored)
 		return (-1);
 	return (**stream != '\0');
 }
