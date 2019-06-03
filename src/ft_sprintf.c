@@ -1,71 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_printf.c                                        :+:    :+:            */
+/*   ft_sprintf.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/20 14:35:33 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/03 15:46:12 by nmartins      ########   odam.nl         */
+/*   Created: 2019/06/03 15:44:26 by nmartins       #+#    #+#                */
+/*   Updated: 2019/06/03 15:45:14 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <stdarg.h>
+#include "ft_printf.h"
 #include "writer.h"
-#include "token.h"
+#include <stdarg.h>
 
-ssize_t		ft_vwprintf(t_writer *writer, char *fmt, va_list vlist)
+ssize_t		ft_vsnprintf(char *dest, ssize_t capacity, char *fmt, va_list vlist)
 {
-	int			res;
-	t_token		token;
-
-	while (1)
-	{
-		res = parse_token(&token, &fmt);
-		if (res < 0)
-			return (res);
-		run_token(writer, vlist, &token);
-		if (writer->failed)
-			return (-1);
-		if (*fmt == '\0')
-			return (writer->written);
-	}
-	return (writer->written);
-}
-
-ssize_t		ft_vasprintf(char **dest, char *fmt, va_list vlist)
-{
-	t_writer_alloc_state	st;
+	t_writer_string_state	st;
 	t_writer				writer;
 
-	*dest = NULL;
-	st.len = 0;
+	st.maximum = capacity;
 	st.str_ptr = dest;
 	ft_memset(&writer, 0, sizeof(t_writer));
 	writer.state = (void*)&st;
-	writer.write = &writer_alloc_write;
+	writer.write = &writer_string_write;
 	return (ft_vwprintf(&writer, fmt, vlist));
 }
 
-ssize_t		ft_asprintf(char **dest, char *fmt, ...)
+ssize_t		ft_snprintf(char *dest, ssize_t capacity, char *fmt, ...)
 {
 	va_list		vlist;
 	ssize_t		ret;
 
 	va_start(vlist, fmt);
-	ret = ft_vasprintf(dest, fmt, vlist);
+	ret = ft_vsnprintf(dest, capacity, fmt, vlist);
 	va_end(vlist);
 	return (ret);
 }
 
-ssize_t		ft_printf(char *fmt, ...)
+ssize_t		ft_sprintf(char *dest, char *fmt, ...)
 {
 	va_list		vlist;
 	ssize_t		ret;
 
 	va_start(vlist, fmt);
-	ret = ft_vfprintf(1, fmt, vlist);
+	ret = ft_vsnprintf(dest, -1, fmt, vlist);
 	va_end(vlist);
 	return (ret);
 }

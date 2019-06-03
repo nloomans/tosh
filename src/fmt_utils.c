@@ -6,12 +6,11 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 16:31:58 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 17:42:52 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/03 15:34:50 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fmt.h"
-
 
 void				intern_pop_wildcards(t_token *token, va_list vlist)
 {

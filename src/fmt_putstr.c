@@ -6,12 +6,11 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:46 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 13:54:56 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/03 15:34:37 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fmt.h"
-# include <stdio.h>
 #include <libft.h>
 
 void			fmt_putstr(t_writer *writer, t_token *token, va_list vlist)
@@ -19,18 +18,16 @@ void			fmt_putstr(t_writer *writer, t_token *token, va_list vlist)
 	char	*str;
 	size_t	len;
 	size_t	trimmed_length;
-	char	do_print;
+	char	check;
 
 	intern_pop_wildcards(token, vlist);
 	str = va_arg(vlist, char *);
 	if (str == NULL)
 	{
-		do_print = (!(token->flags & FLAGS_PRECISION) || token->precision >= 6)
-			? 6 : 0;
-		intern_fmt_pad_left(writer, token, ' ', do_print);
-		if (do_print)
-			writer_write(writer, "(null)", 6);
-		intern_fmt_pad_right(writer, token, ' ', do_print);
+		check = (!(token->flags & FLAGS_PRECISION) || token->precision >= 6);
+		intern_fmt_pad_left(writer, token, ' ', check * 6);
+		writer_write(writer, "(null)", check * 6);
+		intern_fmt_pad_right(writer, token, ' ', check * 6);
 	}
 	else
 	{
@@ -38,8 +35,7 @@ void			fmt_putstr(t_writer *writer, t_token *token, va_list vlist)
 		if (token->precision < 0)
 			token->flags &= ~FLAGS_PRECISION;
 		trimmed_length = token->flags & FLAGS_PRECISION
-			? (size_t)ft_min(len, token->precision)
-			: len;
+			? ft_min(len, token->precision) : len;
 		intern_fmt_pad_left(writer, token, ' ', trimmed_length);
 		writer_write(writer, str, trimmed_length);
 		intern_fmt_pad_right(writer, token, ' ', trimmed_length);

@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 15:17:29 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 18:00:55 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/03 15:37:52 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,5 @@ void			run_token(t_writer *writer, va_list vlist, t_token *token)
 	};
 
 	(void)debug_token;
-	// debug_token(token);
 	fmts[token->type](writer, token, vlist);
 }
