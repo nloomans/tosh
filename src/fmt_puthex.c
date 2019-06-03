@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 19:27:18 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/03 16:04:01 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char			intern_to_hex(char num, int caps)
 	return ('\0');
 }
 
-int		intern_hex_size(long long n)
+int				intern_hex_size(long long n)
 {
 	int	count;
 
@@ -47,7 +47,10 @@ int		intern_hex_size(long long n)
 	return (count);
 }
 
-void			intern_fmt_puthex(t_writer *writer, unsigned long long value, int caps)
+void			intern_fmt_puthex(
+	t_writer *writer,
+	unsigned long long value,
+	int caps)
 {
 	char	c;
 

@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 16:39:30 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 01:01:58 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/03 16:03:16 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <libft.h>
 
-static void	intern_fmt_puthexchar(
+static void		intern_fmt_puthexchar(
 	t_writer *writer,
 	unsigned char c,
 	t_flags flags)
@@ -27,7 +27,7 @@ static void	intern_fmt_puthexchar(
 	writer_write(writer, (char*)&b, 1);
 }
 
-static void	intern_fmt_putmemchars(
+static void		intern_fmt_putmemchars(
 	t_writer *writer,
 	unsigned char *bytes,
 	size_t offset,
@@ -48,6 +48,35 @@ static void	intern_fmt_putmemchars(
 			writer_write(writer, ".", 1);
 		}
 		offset++;
+	}
+}
+
+static void		print_row(
+	t_writer *writer,
+	t_flags flags,
+	unsigned char *bytes,
+	size_t length)
+{
+	size_t		index;
+
+	index = 0;
+	while (index < 16)
+	{
+		if (index > 0 && index % 2 == 0)
+			writer_write(writer, " ", 1);
+		if (index < length)
+		{
+			if (ft_isprint(bytes[index]))
+				intern_fmt_color(writer, E_CYAN);
+			else if (bytes[index])
+				intern_fmt_color(writer, E_MAGENTA);
+			else
+				intern_fmt_color(writer, E_GRAY);
+			intern_fmt_puthexchar(writer, bytes[index], flags);
+		}
+		else
+			writer_write(writer, "  ", 2);
+		index++;
 	}
 }
 
@@ -75,25 +104,7 @@ void			intern_fmt_printmemory(
 			intern_fmt_puthex(writer, row * 16, flags & FLAGS_CAPITAL);
 			writer_write(writer, ": ", 2);
 		}
-		while (column < 16)
-		{
-			if (column > 0 && column % 2 == 0)
-				writer_write(writer, " ", 1);
-			if (column + (row * 16) < len)
-			{
-				if (ft_isprint(bytes[column + (row * 16)]))
-					intern_fmt_color(writer, E_CYAN);
-				else if (bytes[column + (row * 16)])
-					intern_fmt_color(writer, E_MAGENTA);
-				else
-					intern_fmt_color(writer, E_GRAY);
-				intern_fmt_puthexchar(writer,
-					bytes[column + (row * 16)], flags);
-			}
-			else
-				writer_write(writer, "  ", 2);
-			column++;
-		}
+		print_row(writer, flags, bytes + (row * 16), len - (row * 16));
 		writer_write(writer, " ", 1);
 		intern_fmt_color(writer, E_RED);
 		intern_fmt_putmemchars(writer, bytes, row * 16, len);

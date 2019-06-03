@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 00:06:55 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 15:16:52 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/03 15:47:48 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 size_t	intern_ntoa(char *buf_out, t_number number, int caps)
 {
 	char	buf[128];
-	char 	dig;
+	char	dig;
 	size_t	len;
 
 	len = 0;

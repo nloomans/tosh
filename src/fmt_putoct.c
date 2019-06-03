@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 20:43:22 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 17:42:17 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/03 16:05:10 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "fmt.h"
 #include <stdarg.h>
 #include <stdio.h>
-
 
 void			fmt_putoct(t_writer *writer, t_token *token, va_list vlist)
 {
@@ -39,7 +38,8 @@ void			fmt_putoct(t_writer *writer, t_token *token, va_list vlist)
 	if (token->flags & FLAGS_HASH && number.value != 0)
 		writer_write(writer, "0", 1);
 	if (token->flags & FLAGS_PRECISION)
-		intern_fmt_pad_auto(writer, '0', token->precision, idx + !!(token->flags & FLAGS_HASH));
+		intern_fmt_pad_auto(writer, '0', token->precision,
+			idx + !!(token->flags & FLAGS_HASH));
 	writer_write(writer, buf, idx);
 	intern_fmt_pad_right(writer, token, ' ', actual_size);
 }
