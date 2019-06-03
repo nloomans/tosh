@@ -6,10 +6,11 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/03 15:45:38 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/03 15:46:02 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/03 16:25:12 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include "ft_printf.h"
 #include "writer.h"
 
@@ -31,7 +32,7 @@ ssize_t		ft_dprintf(int fd, char *fmt, ...)
 	ssize_t		ret;
 
 	va_start(vlist, fmt);
-	ret = ft_vfprintf(fd, fmt, vlist);
+	ret = ft_vdprintf(fd, fmt, vlist);
 	va_end(vlist);
 	return (ret);
 }

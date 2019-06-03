@@ -6,12 +6,13 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:35:33 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/03 15:46:12 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/03 16:31:16 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <stdarg.h>
+#include "ft_printf.h"
 #include "writer.h"
 #include "token.h"
 
@@ -65,7 +66,7 @@ ssize_t		ft_printf(char *fmt, ...)
 	ssize_t		ret;
 
 	va_start(vlist, fmt);
-	ret = ft_vfprintf(1, fmt, vlist);
+	ret = ft_vdprintf(1, fmt, vlist);
 	va_end(vlist);
 	return (ret);
 }
