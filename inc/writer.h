@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:59:48 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/07 13:47:36 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/07 13:52:07 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,7 @@ typedef struct	s_writer_string_state
 void			writer_string_write(t_writer *self, char *str, size_t length);
 
 size_t			vector_cap_for_length(size_t length);
+
+ssize_t			ft_vwprintf(t_writer *writer, char *fmt, va_list vlist);
 
 #endif
