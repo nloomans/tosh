@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_dprintf.c                                       :+:    :+:            */
+/*   ft_fprintf.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
+/*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/06/03 15:45:38 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/07 12:30:44 by nloomans      ########   odam.nl         */
+/*   Created: 2019/06/07 12:20:27 by nloomans       #+#    #+#                */
+/*   Updated: 2019/06/07 12:30:59 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include "ft_printf.h"
 #include "writer.h"
 
-ssize_t		ft_vdprintf(int fd, char *fmt, va_list vlist)
+ssize_t		ft_vfprintf(FILE *file, char *fmt, va_list vlist)
 {
-	t_writer_fd_state	st;
+	t_writer_file_state	*st;
 	t_writer			writer;
 
-	st = fd;
+	st = file;
 	ft_memset(&writer, 0, sizeof(t_writer));
-	writer.state = (void*)&st;
-	writer.write = &writer_fd_write;
+	writer.state = (void*)st;
+	writer.write = &writer_file_write;
 	return (ft_vwprintf(&writer, fmt, vlist));
 }
 
-ssize_t		ft_dprintf(int fd, char *fmt, ...)
+ssize_t		ft_fprintf(FILE *file, char *fmt, ...)
 {
 	va_list		vlist;
 	ssize_t		ret;
 
 	va_start(vlist, fmt);
-	ret = ft_vdprintf(fd, fmt, vlist);
+	ret = ft_vfprintf(file, fmt, vlist);
 	va_end(vlist);
 	return (ret);
 }

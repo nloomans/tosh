@@ -6,11 +6,12 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:04:21 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 17:19:45 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/07 12:18:51 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdio.h>
 #include <libft.h>
 #include "writer.h"
 
@@ -23,6 +24,12 @@ ssize_t	writer_fd_write(t_writer *self, char *str, size_t length)
 {
 	self->written += length;
 	return (write(*(t_writer_fd_state *)self->state, str, length));
+}
+
+ssize_t	writer_file_write(t_writer *self, char *str, size_t length)
+{
+	self->written += length;
+	return (fwrite(str, length, 1, (t_writer_file_state *)self->state));
 }
 
 ssize_t	writer_alloc_write(t_writer *self, char *str, size_t length)

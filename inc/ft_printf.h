@@ -6,15 +6,15 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:27:11 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/03 16:30:41 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/07 12:30:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include <stdarg.h>
 # include <sys/types.h>
+# include <stdio.h>
 
 /*
 ** TODO: Don't pollute global scope with non ft_*
@@ -26,6 +26,8 @@ ssize_t	ft_printf(char *fmt, ...);
 ssize_t	ft_vprintf(char *fmt, va_list vlist);
 ssize_t	ft_dprintf(int fd, char *fmt, ...);
 ssize_t	ft_vdprintf(int fd, char *fmt, va_list vlist);
+ssize_t	ft_fprintf(FILE *file, char *fmt, ...);
+ssize_t ft_vfprintf(FILE *file, char *fmt, va_list vlist);
 ssize_t	ft_asprintf(char **dest, char *fmt, ...);
 ssize_t	ft_vasprintf(char **dest, char *fmt, va_list vlist);
 ssize_t	ft_snprintf(char *dest, ssize_t capacity, char *fmt, ...);

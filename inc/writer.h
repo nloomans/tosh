@@ -6,13 +6,14 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:59:48 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/26 23:24:06 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/07 12:52:53 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WRITER_H
 # define WRITER_H
 # include <stddef.h>
+# include <stdio.h>
 # include <sys/types.h>
 
 typedef struct	s_writer
@@ -26,10 +27,16 @@ typedef struct	s_writer
 void			writer_write(t_writer *writer, char *str, size_t length);
 
 /*
-** Write to stdout (1)
+** Write to an fd
 */
 typedef int		t_writer_fd_state;
 ssize_t			writer_fd_write(t_writer *self, char *str, size_t length);
+
+/*
+** Write to a FILE
+*/
+typedef FILE	t_writer_file_state;
+ssize_t			writer_file_write(t_writer *self, char *str, size_t length);
 
 /*
 ** Write to auto-allocated string
@@ -48,8 +55,5 @@ typedef struct	s_writer_string_state
 	ssize_t	maximum;
 }				t_writer_string_state;
 ssize_t			writer_string_write(t_writer *self, char *str, size_t length);
-
-
-
 
 #endif
