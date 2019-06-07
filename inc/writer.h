@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:59:48 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/07 13:05:25 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/07 13:47:36 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void			writer_file_write(t_writer *self, char *str, size_t length);
 
 /*
 ** Write to auto-allocated string
-** TODO: implement Vector
 */
 typedef struct	s_writer_alloc_state
 {
 	char	**str_ptr;
 	size_t	len;
+	size_t	cap;
 }				t_writer_alloc_state;
 void			writer_alloc_write(t_writer *self, char *str, size_t length);
 
@@ -55,5 +55,7 @@ typedef struct	s_writer_string_state
 	ssize_t	maximum;
 }				t_writer_string_state;
 void			writer_string_write(t_writer *self, char *str, size_t length);
+
+size_t			vector_cap_for_length(size_t length);
 
 #endif

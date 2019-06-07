@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:04:21 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/07 13:10:46 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/07 13:46:04 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,45 @@ void	writer_file_write(t_writer *self, char *str, size_t length)
 	fwrite(str, length, 1, (t_writer_file_state *)self->state);
 }
 
+/*
+** we append using a vector-ish method by doubling the size of the string if it
+** doesn't fit anymore
+**
+** cap: the total capisity of the array. This would be the value you get by
+**      running sizeof(str) if str was an array on the stack.
+** len: the amount of bytes actually used for the string, excluding the
+**      NULL-terminator.
+**
+** len + 1 must always be less-or-equal-to cap. The +1 ensures that a
+** NULL-terminator is always present.
+*/
+
 void	writer_alloc_write(t_writer *self, char *str, size_t length)
 {
 	t_writer_alloc_state	*state;
-	char					*new;
+	size_t					new_cap;
 
 	state = (t_writer_alloc_state*)self->state;
-	new = ft_realloc(*state->str_ptr, state->len, state->len + length + 1);
-	if (new == NULL)
-	{
-		self->failed = 1;
+	if (self->failed)
 		return ;
+	if (state->len + length + 1 > state->cap)
+	{
+		new_cap = vector_cap_for_length(state->len + length + 1);
+		*state->str_ptr = ft_realloc(*state->str_ptr, state->cap, new_cap);
+		state->cap = new_cap;
+		if (*state->str_ptr == NULL)
+		{
+			self->failed = 1;
+			return ;
+		}
 	}
-	*state->str_ptr = new;
 	if (ft_memcpy(*state->str_ptr + state->len, str, length) == NULL)
 	{
 		self->failed = 1;
 		return ;
 	}
 	state->len += length;
-	new[state->len] = '\0';
+	(*state->str_ptr)[state->len] = '\0';
 	self->written += length;
 }
 
