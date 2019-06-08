@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:46 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/03 15:34:37 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/09 00:16:29 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void			fmt_putstr(t_writer *writer, t_token *token, va_list vlist)
 		if (token->precision < 0)
 			token->flags &= ~FLAGS_PRECISION;
 		trimmed_length = token->flags & FLAGS_PRECISION
-			? ft_min(len, token->precision) : len;
+			? (size_t)ft_min(len, token->precision) : len;
 		intern_fmt_pad_left(writer, token, ' ', trimmed_length);
 		writer_write(writer, str, trimmed_length);
 		intern_fmt_pad_right(writer, token, ' ', trimmed_length);
