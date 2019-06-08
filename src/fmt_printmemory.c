@@ -87,7 +87,6 @@ void			intern_fmt_printmemory(
 	t_flags flags)
 {
 	size_t			row;
-	size_t			column;
 
 	row = 0;
 	if (bytes == NULL)
@@ -96,7 +95,6 @@ void			intern_fmt_printmemory(
 	}
 	while (row < ((len - 1) / 16) + 1)
 	{
-		column = 0;
 		if (flags & FLAGS_HASH)
 		{
 			intern_fmt_color(writer, E_GREEN);
