@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/05/06 15:11:37 by nloomans       #+#    #+#                 #
-#    Updated: 2019/05/28 15:43:31 by nloomans      ########   odam.nl          #
+#    Updated: 2019/06/12 14:14:48 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,12 @@ RESET=\x1b[0m
 UNDERLINE=\x1b[4m
 BLUE=\x1b[36m
 RED=\x1b[31m
+
+##################
+# Auto-configure #
+##################
+
+UNAME=$(shell uname)
 
 ############
 # Libaries #
@@ -49,6 +55,7 @@ libftprintf_fclean:
 
 # Criterion
 LIBCRITERION_NAME=		criterion
+ifeq ($(UNAME),Darwin)
 LIBCRITERION_A=			$(HOME)/.brew/lib/lib$(LIBCRITERION_NAME).dylib
 LIBCRITERION_IFLAGS=	-I $(HOME)/.brew/include
 LIBCRITERION_LFLAGS=	-L $(HOME)/.brew/lib -l$(LIBCRITERION_NAME)
@@ -60,6 +67,9 @@ $(LIBCRITERION_A):
 			echo "    brew install criterion" >&2							;\
 			exit 1															;\
 	fi
+else
+LIBCRITERION_LFLAGS=	-l$(LIBCRITERION_NAME)
+endif
 
 ###########
 # Project #
@@ -79,7 +89,7 @@ INC_FILES=		$(wildcard $(INC_DIR)/*.h)
 OBJ_FILES=		$(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
 $(NAME): $(LIBFTPRINTF_A) $(LIBCRITERION_A) $(OBJ_FILES)
-	@echo " λ Creating binary $(OK_COLOR)$(UNDERLINE)$@$(RESET)"
+	@printf " λ Creating binary $(OK_COLOR)$(UNDERLINE)$@$(RESET)\n"
 	@$(CC) $(CFLAGS) -o $@ $(OBJ_FILES) $(LFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
@@ -94,16 +104,16 @@ test: $(NAME)
 	@./$(NAME)
 
 clean: libftprintf_clean
-	@echo "$(RED)Cleaning objects$(RESET)"
+	@printf "$(RED)Cleaning objects$(RESET)\n"
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean libftprintf_fclean
-	@echo "$(RED)Cleaning $(NAME)$(RESET)"
+	@printf "$(RED)Cleaning $(NAME)$(RESET)\n"
 	@rm -rf $(NAME)
 
 re:
-	$(MAKE) fclean
-	$(MAKE)
+	@$(MAKE) fclean
+	@$(MAKE)
 
 .SECONDARY: $(OBJ_FILES)
 .PHONY: \
