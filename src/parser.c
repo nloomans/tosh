@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/03 16:12:16 by nloomans       #+#    #+#                */
-/*   Updated: 2019/06/03 16:43:55 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/12 16:26:06 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,33 +89,35 @@ static int			parse_precision(t_flags *flags, char **stream)
 	return (parse_atoi_wildcard(stream));
 }
 
+static const t_str2size g_map_str2size[] = {
+	{ "hh", E_HH },
+	{ "h", E_H },
+	{ "ll", E_LL },
+	{ "l", E_L },
+	{ "L", E_LL },
+	{ "", E_N },
+};
+
 static t_size		parse_size(char **stream)
 {
+	size_t				i;
+	size_t				str_len;
+	const 	t_str2size	*elem;
+
 	assert(stream != NULL && *stream != NULL);
-	if (**stream == 'h')
+	i = 0;
+	while (i < sizeof(g_map_str2size) / sizeof(t_str2size))
 	{
-		(*stream)++;
-		if (**stream == 'h')
+		elem = &g_map_str2size[i];
+		str_len = ft_strlen(elem->str);
+		if (ft_strnequ(*stream, elem->str, str_len))
 		{
-			(*stream)++;
-			return (E_HH);
+			(*stream) += str_len;
+			return (elem->size);
 		}
-		else
-			return (E_H);
+		i++;
 	}
-	else if (**stream == 'l')
-	{
-		(*stream)++;
-		if (**stream == 'l')
-		{
-			(*stream)++;
-			return (E_LL);
-		}
-		else
-			return (E_L);
-	}
-	else
-		return (E_N);
+	assert(0);
 }
 
 static const t_char2descriptor g_map_char2descriptor[] = {
