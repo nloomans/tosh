@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 00:44:24 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 17:05:00 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/14 12:39:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 void			fmt_putflt(t_writer *writer, t_token *token, va_list vlist)
 {
-	double				n;
+	long double			n;
 	double				fract;
 	t_number			num;
 	char				buf[128];
@@ -28,7 +28,7 @@ void			fmt_putflt(t_writer *writer, t_token *token, va_list vlist)
 	intern_pop_wildcards(token, vlist);
 	if (!(token->flags & FLAGS_PRECISION))
 		token->precision = 6;
-	n = va_arg(vlist, double);
+	n = intern_read_float(token->size, vlist);
 	num.base = 10U;
 	num.value = intern_abs((long long)n);
 	fract = n - (long long)n;

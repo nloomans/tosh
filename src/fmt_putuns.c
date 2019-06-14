@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 18:04:28 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/14 12:54:34 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static t_number				va_arg_unsigned_number(t_size size, va_list vlist)
 	t_number			number;
 	unsigned long long	input;
 
-	input = va_arg(vlist, unsigned long long);
-	input = intern_auto_floor(size, input);
+	input = intern_read_unsigned_int(size, vlist);
 	number.sign = 1;
 	number.value = input;
 	number.base = 10U;

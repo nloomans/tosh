@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 19:37:33 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/14 12:43:07 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,11 @@ void				intern_fmt_pad_right(
 int					intern_hex_size(long long n);
 void				intern_fmt_color(t_writer *writer, t_color color);
 size_t				intern_ntoa(char *buf_out, t_number number, int caps);
-unsigned long long	intern_auto_floor(t_size size, unsigned long long n);
-long long			intern_auto_floor_signed(t_size size, long long n);
 char				intern_pad_char(t_flags flags);
 unsigned long long	intern_abs(long long source);
 
+unsigned long long	intern_read_unsigned_int(t_size size, va_list vlist);
+long long			intern_read_signed_int(t_size size, va_list vlist);
+long double			intern_read_float(t_size size, va_list vlist);
 
 #endif

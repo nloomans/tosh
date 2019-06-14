@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 15:20:17 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 17:02:55 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/14 13:09:31 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,18 @@ Test(printf_float, precision)
 	cr_expect_str_eq(dest, "12345.000000");
 	ft_asprintf(&dest, "%.0f", 12345.0);
 	cr_expect_str_eq(dest, "12345");
+}
+
+Test(printf_float, size)
+{
+	char *dest;
+
+	ft_asprintf(&dest, "%Lf", 2.5L);
+	cr_expect_str_eq(dest, "2.500000");
+	ft_asprintf(&dest, "%llf", 1.0L);
+	cr_expect_str_eq(dest, "1.000000");
+	ft_asprintf(&dest, "%Lf", -2.0L);
+	cr_expect_str_eq(dest, "-2.000000");
+	ft_asprintf(&dest, "%Lf", 12345.0L);
+	cr_expect_str_eq(dest, "12345.000000");
 }

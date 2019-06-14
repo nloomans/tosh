@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/03 16:57:52 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/14 12:43:33 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
 	size_t				idx;
 
 	intern_pop_wildcards(token, vlist);
-	n = va_arg(vlist, unsigned long long);
-	n = intern_auto_floor(token->size, n);
+	n = intern_read_unsigned_int(token->size, vlist);
 	number.value = n;
 	number.base = 16U;
 	idx = intern_ntoa(buf, number, token->flags & FLAGS_CAPITAL);

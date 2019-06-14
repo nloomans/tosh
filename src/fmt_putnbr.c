@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 17:52:31 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/14 12:51:33 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,15 @@ char						*intern_sign_for(t_number *number)
 	return (NULL);
 }
 
-void						intern_split_sign(
-	t_token *token,
+void						intern_read_number(
 	t_number *number,
-	long long value,
-	unsigned char base)
+	t_size size,
+	unsigned char base,
+	va_list vlist)
 {
-	value = intern_auto_floor_signed(token->size, value);
+	long long	value;
+
+	value = intern_read_signed_int(size, vlist);
 	number->sign = value > 0 ? 1 : -1;
 	number->value = intern_abs(value);
 	number->base = base;
@@ -74,7 +76,7 @@ void						fmt_putnbr(
 	size_t		size;
 
 	intern_pop_wildcards(tok, vlist);
-	intern_split_sign(tok, &n, va_arg(vlist, long long), 10U);
+	intern_read_number(&n, tok->size, 10U, vlist);
 	idx = intern_ntoa(buf, n, 0);
 	size = calculate_actual_size(tok, idx, &n);
 	if (tok->flags & FLAGS_PRECISION && tok->precision < tok->width)
