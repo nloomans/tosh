@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 15:20:17 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/14 13:09:31 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/14 14:37:15 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,22 @@ Test(printf_float, size)
 	cr_expect_str_eq(dest, "-2.000000");
 	ft_asprintf(&dest, "%Lf", 12345.0L);
 	cr_expect_str_eq(dest, "12345.000000");
+}
+
+Test(printf_float, non_real)
+{
+	char *dest;
+
+	ft_asprintf(&dest, "%f", 0.0 / 0.0);
+	cr_expect_str_eq(dest, "nan");
+	ft_asprintf(&dest, "%f", 1.0 / 0.0);
+	cr_expect_str_eq(dest, "inf");
+	ft_asprintf(&dest, "%f", -1.0 / 0.0);
+	cr_expect_str_eq(dest, "-inf");
+	ft_asprintf(&dest, "%F", 0.0 / 0.0);
+	cr_expect_str_eq(dest, "NAN");
+	ft_asprintf(&dest, "%F", 1.0 / 0.0);
+	cr_expect_str_eq(dest, "INF");
+	ft_asprintf(&dest, "%F", -1.0 / 0.0);
+	cr_expect_str_eq(dest, "-INF");
 }
