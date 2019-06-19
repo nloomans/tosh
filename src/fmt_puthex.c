@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/14 12:43:33 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/19 15:57:34 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,15 @@ static int		prefix_size(t_flags flags)
 		return (0);
 }
 
-void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
+static void		fmt_do_puthex(
+	t_writer *writer,
+	t_token *token,
+	t_number number)
 {
 	unsigned long long	own_hex_size;
-	unsigned long long	n;
-	t_number			number;
 	char				buf[128];
 	size_t				idx;
 
-	intern_pop_wildcards(token, vlist);
-	n = intern_read_unsigned_int(token->size, vlist);
-	number.value = n;
-	number.base = 16U;
 	idx = intern_ntoa(buf, number, token->flags & FLAGS_CAPITAL);
 	own_hex_size = prefix_size(token->flags);
 	own_hex_size = token->flags & FLAGS_PRECISION
@@ -93,4 +90,21 @@ void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
 		intern_fmt_pad(writer, '0', token->precision - idx);
 	writer_write(writer, buf, idx);
 	intern_fmt_pad_right(writer, token, ' ', own_hex_size);
+}
+
+void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist)
+{
+	unsigned long long	n;
+	t_number			number;
+
+	intern_pop_wildcards(token, vlist);
+	n = intern_read_unsigned_int(token->size, vlist);
+	number.value = n;
+	number.base = 16U;
+	if (number.value == 0
+		&& token->flags & FLAGS_PRECISION
+		&& token->precision == 0)
+		intern_fmt_pad(writer, ' ', token->width);
+	else
+		fmt_do_puthex(writer, token, number);
 }
