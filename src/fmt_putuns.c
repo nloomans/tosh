@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/14 12:54:34 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/19 15:30:52 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void						fmt_putuns(
 	actual_size = idx;
 	if (tok->flags & FLAGS_PRECISION)
 		actual_size = ft_max(idx, tok->precision);
-	if (tok->flags & FLAGS_PRECISION && tok->precision < tok->width)
-		tok->flags &= ~FLAGS_ZEROPAD;
 	intern_fmt_pad_left(writer, tok, intern_pad_char(tok->flags), actual_size);
 	if (tok->flags & FLAGS_PRECISION)
 		intern_fmt_pad_auto(writer, '0', tok->precision, idx);

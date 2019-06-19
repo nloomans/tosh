@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/14 12:51:33 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/19 15:20:42 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ void						fmt_putnbr(
 	intern_read_number(&n, tok->size, 10U, vlist);
 	idx = intern_ntoa(buf, n, 0);
 	size = calculate_actual_size(tok, idx, &n);
-	if (tok->flags & FLAGS_PRECISION && tok->precision < tok->width)
-		tok->flags &= ~FLAGS_ZEROPAD;
 	if ((tok->flags & FLAGS_ZEROPAD) == 0)
 		intern_fmt_pad_left(writer, tok, intern_pad_char(tok->flags), size);
 	if (n.value != 0 && (n.sign == -1 || tok->flags & FLAGS_PLUS))

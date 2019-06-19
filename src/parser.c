@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/03 16:12:16 by nloomans       #+#    #+#                */
-/*   Updated: 2019/06/12 16:26:06 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/19 15:25:07 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ static int			parse_conversion_specification(t_token *dest, char **stream)
 	dest->type = parse_conversion_specifier(&dest->flags, stream, &has_errored);
 	if (has_errored)
 		return (-1);
+	truncate_flags(dest);
 	return (**stream != '\0');
 }
 

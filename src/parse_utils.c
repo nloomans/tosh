@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 00:11:17 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 17:51:02 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/19 15:28:53 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,14 @@ int		parse_atoi_wildcard(char **stream)
 		return (parse_atoi(stream));
 	else
 		return (0);
+}
+
+void	truncate_flags(t_token *dest)
+{
+	if (dest->flags & FLAGS_PRECISION)
+		dest->flags &= ~FLAGS_ZEROPAD;
+	if (dest->flags & FLAGS_PLUS)
+		dest->flags &= ~FLAGS_SPACE;
+	if (dest->flags & FLAGS_LEFTALIGN)
+		dest->flags &= ~FLAGS_ZEROPAD;
 }
