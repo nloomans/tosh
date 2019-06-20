@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   printf_hex.spec.c                                  :+:    :+:            */
+/*   printf_hex.spec.c                                       :+:    :+:       */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 15:20:17 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 19:13:54 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/20 14:57:59 by nmartins            ########   odam.nl   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ Test(printf_hex, capital_hex)
 	cr_expect_str_eq(dest, "12ABCDEF");
 }
 
-Test(printf_hex, hex_prefix)
+Test(printf_hex, prefix)
 {
 	char *dest;
 
@@ -57,7 +57,7 @@ Test(printf_hex, hex_prefix)
 	cr_expect_str_eq(dest, "0XEEFFAA");
 }
 
-Test(printf_hex, hex_padding)
+Test(printf_hex, padding)
 {
 	char *dest;
 
@@ -75,7 +75,7 @@ Test(printf_hex, hex_padding)
 	cr_expect_str_eq(dest, "0x2a");
 }
 
-Test(printf_hex, hex_padding_left_complex)
+Test(printf_hex, padding_left_complex)
 {
 	char *dest;
 
@@ -91,7 +91,7 @@ Test(printf_hex, hex_padding_left_complex)
 	cr_expect_str_eq(dest, "0X2A >>");
 }
 
-Test(printf_hex, hex_wildcard_complete)
+Test(printf_hex, wildcard_complete)
 {
 	char *dest;
 
@@ -99,4 +99,20 @@ Test(printf_hex, hex_wildcard_complete)
 	cr_expect_str_eq(dest, "0002A     ");
 	ft_asprintf(&dest, "%#*.*X", -10, 5, 42);
 	cr_expect_str_eq(dest, "0X0002A   ");
+}
+
+Test(printf_hex, null_null)
+{
+	char *dest;
+
+	ft_asprintf(&dest, "%5.X", 0);
+	cr_expect_str_eq(dest, "     ");
+	ft_asprintf(&dest, "%5.0x", 0);
+	cr_expect_str_eq(dest, "     ");
+	ft_asprintf(&dest, "%5.0x", 42);
+	cr_expect_str_eq(dest, "   2a");
+	ft_asprintf(&dest, "%.0x", 42);
+	cr_expect_str_eq(dest, "2a");
+	ft_asprintf(&dest, "%.x", 0);
+	cr_expect_str_eq(dest, "");
 }
