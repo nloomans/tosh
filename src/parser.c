@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/03 16:12:16 by nloomans       #+#    #+#                */
-/*   Updated: 2019/06/19 15:25:07 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/20 14:35:20 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ static int			parse_string_literal(t_token *dest, char **stream)
 	return (**stream != '\0');
 }
 
-int		parse_token(t_token *dest, char **stream)
+int					parse_token(t_token *dest, char **stream)
 {
 	assert(dest != NULL && stream != NULL && *stream != NULL);
 	ft_memset(dest, '\0', sizeof(t_token));
