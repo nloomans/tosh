@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 00:11:17 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/20 14:33:46 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/21 16:03:51 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,16 @@ int		parse_atoi_wildcard(char **stream)
 ** Fix token which can be parsed, but have to be corrected.
 **
 ** Relevent C Standard snippets:
+**  - For d, i, o, u, x, and X conversions, if a precision is specified, the 0
+**    flag is ignored.
 **  - If the space and + flags both appear, the space flag is ignored.
 **  - If the 0 and - flags both appear, the 0 flag is ignored.
-**  - If a precision is specified, the 0 flag is ignored.
 */
 
 void	truncate_flags(t_token *dest)
 {
-	if (dest->flags & FLAGS_PRECISION)
+	if ((dest->type == E_INT || dest->type == E_OCT || dest->type == E_UNS ||
+			dest->type == E_HEX) && dest->flags & FLAGS_PRECISION)
 		dest->flags &= ~FLAGS_ZEROPAD;
 	if (dest->flags & FLAGS_PLUS)
 		dest->flags &= ~FLAGS_SPACE;

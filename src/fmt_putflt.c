@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 00:44:24 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/18 19:17:09 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/21 16:10:27 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,28 @@
 #include "token.h"
 #include "fmt.h"
 
+/*
+** Calculate the size a float will be (excluding padding). This ashumes that
+** precision has been set to the default if it was unset.
+**
+** If n < 0 we count 1 extra to account for the `-'.
+** If precision > 0 we count 1 extra to account for the `.'.
+*/
+
+static size_t	float_size(t_token *token, size_t before_dot, long double n)
+{
+	size_t	size;
+
+	size = 0;
+	if (n < 0 || token->flags & FLAGS_PLUS || token->flags & FLAGS_SPACE)
+		size++;
+	size += before_dot;
+	if (token->precision > 0)
+		size++;
+	size += token->precision;
+	return (size);
+}
+
 static void		print_real_float(
 	t_writer *writer,
 	t_token *token,
@@ -27,13 +49,15 @@ static void		print_real_float(
 	t_number	num;
 	double		fract;
 	size_t		idx;
+	size_t		size;
 
 	num.base = 10U;
+	num.sign = n > 0 ? 1 : -1;
 	num.value = intern_abs((long long)n);
 	fract = n - (long long)n;
 	idx = intern_ntoa(buf, num, 0);
-	if (n < 0)
-		writer_write(writer, "-", 1);
+	size = float_size(token, idx, n);
+	intern_number_prefix(writer, token, num, size);
 	writer_write(writer, buf, idx);
 	if (token->precision > 0)
 		writer_write(writer, ".", 1);
@@ -46,6 +70,7 @@ static void		print_real_float(
 		writer_write(writer, buf, idx);
 		token->precision--;
 	}
+	intern_fmt_pad_right(writer, token, intern_pad_char(token->flags), size);
 }
 
 static void		print_fake_float(
