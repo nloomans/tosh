@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/19 15:20:42 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/20 15:45:01 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,6 @@ unsigned long long			intern_abs(long long source)
 		return ((unsigned long long)source);
 	else
 		return (-((unsigned long long)source));
-}
-
-char						*intern_sign_for(t_number *number)
-{
-	if (number->sign == -1)
-		return ("-");
-	if (number->sign == 1)
-		return ("+");
-	return (NULL);
 }
 
 void						intern_read_number(
@@ -79,15 +70,7 @@ void						fmt_putnbr(
 	intern_read_number(&n, tok->size, 10U, vlist);
 	idx = intern_ntoa(buf, n, 0);
 	size = calculate_actual_size(tok, idx, &n);
-	if ((tok->flags & FLAGS_ZEROPAD) == 0)
-		intern_fmt_pad_left(writer, tok, intern_pad_char(tok->flags), size);
-	if (n.value != 0 && (n.sign == -1 || tok->flags & FLAGS_PLUS))
-		writer_write(writer, intern_sign_for(&n), 1);
-	if (n.value && n.sign == 1 && !(tok->flags & FLAGS_PLUS) &&
-		(tok->flags & FLAGS_SPACE))
-		writer_write(writer, " ", 1);
-	if (tok->flags & FLAGS_ZEROPAD)
-		intern_fmt_pad_left(writer, tok, intern_pad_char(tok->flags), size);
+	intern_number_prefix(writer, tok, n, size);
 	if (tok->flags & FLAGS_PRECISION)
 		intern_fmt_pad_auto(writer, '0', tok->precision, idx);
 	writer_write(writer, buf, idx);

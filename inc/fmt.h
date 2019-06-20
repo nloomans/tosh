@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/14 12:43:07 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/20 15:44:19 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,12 @@ unsigned long long	intern_abs(long long source);
 unsigned long long	intern_read_unsigned_int(t_size size, va_list vlist);
 long long			intern_read_signed_int(t_size size, va_list vlist);
 long double			intern_read_float(t_size size, va_list vlist);
+
+char				*intern_sign_for(t_number *number);
+void				intern_number_prefix(
+						t_writer *writer,
+						t_token *token,
+						t_number n,
+						size_t size);
 
 #endif
