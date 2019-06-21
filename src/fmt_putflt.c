@@ -61,6 +61,7 @@ static void		print_real_float(
 	writer_write(writer, buf, idx);
 	if (token->precision > 0)
 		writer_write(writer, ".", 1);
+	// TODO: (required for deepthought) round the last digit
 	while (token->precision > 0)
 	{
 		fract *= 10;
