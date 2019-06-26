@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   number.h                                           :+:    :+:            */
+/*   parser_checkers.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/27 14:50:39 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/26 18:51:41 by nmartins      ########   odam.nl         */
+/*   Created: 2019/06/26 18:57:33 by nmartins       #+#    #+#                */
+/*   Updated: 2019/06/26 18:57:46 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NUMBER_H
-# define NUMBER_H
+#include <assert.h>
+#include <stddef.h>
+#include <libft.h>
+#include "token.h"
+#include "parser.h"
 
-# include <stddef.h>
-
-typedef struct	s_number
+int			is_conversion_specification(const char *stream)
 {
-	char				sign;
-	unsigned long long	value;
-	unsigned char		base;
-}				t_number;
+	assert(stream != NULL);
+	return (*stream == '%');
+}
 
-#endif
+int			is_color_specification(const char *stream)
+{
+	assert(stream != NULL);
+	return (stream[0] == '%' && stream[1] == '{');
+}

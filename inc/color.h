@@ -6,28 +6,28 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/25 01:25:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 14:39:44 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/26 18:51:13 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COLOR_H
 # define COLOR_H
 
-typedef enum    e_color
+typedef enum	e_color
 {
-    E_RESET,
+	E_RESET,
 	E_BLACK,
 	E_GRAY,
-    E_RED,
-    E_GREEN,
-    E_YELLOW,
-    E_BLUE,
-    E_MAGENTA,
-    E_CYAN,
+	E_RED,
+	E_GREEN,
+	E_YELLOW,
+	E_BLUE,
+	E_MAGENTA,
+	E_CYAN,
 	E_WHITE,
 	E_UNDERLINE,
 	E_REVERSED
-}               t_color;
+}				t_color;
 
 # ifdef __APPLE__
 #  define COLOR_RESET     "\x1b[0;0m"

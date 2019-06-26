@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/03 16:12:16 by nloomans       #+#    #+#                */
-/*   Updated: 2019/06/20 14:35:20 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/26 18:58:17 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,10 @@
 #include "token.h"
 #include "parser.h"
 
-static int			is_conversion_specification(const char *stream)
-{
-	assert(stream != NULL);
-	return (*stream == '%');
-}
-
-static int			is_color_specification(const char *stream)
-{
-	assert(stream != NULL);
-	return (stream[0] == '%' && stream[1] == '{');
-}
-
 static int			parse_color_specification(t_token *dest, char **stream)
 {
 	assert(dest != NULL && stream != NULL && *stream != NULL);
 	assert(is_color_specification(*stream));
-
 	(*stream) += 2;
 	dest->type = E_COLOR;
 	dest->s_value = *stream;
@@ -73,99 +60,6 @@ static int			parse_flags(char **stream, int *has_errored)
 	return (flags);
 }
 
-static int			parse_width(char **stream)
-{
-	assert(stream != NULL && *stream != NULL);
-	return (parse_atoi_wildcard(stream));
-}
-
-static int			parse_precision(t_flags *flags, char **stream)
-{
-	assert(flags != NULL && stream != NULL && *stream != NULL);
-	if (**stream != '.')
-		return (0);
-	(*stream)++;
-	*flags |= FLAGS_PRECISION;
-	return (parse_atoi_wildcard(stream));
-}
-
-static const t_str2size g_map_str2size[] = {
-	{ "hh", E_HH },
-	{ "h", E_H },
-	{ "ll", E_LL },
-	{ "l", E_L },
-	{ "L", E_LL },
-	{ "", E_N },
-};
-
-static t_size		parse_size(char **stream)
-{
-	size_t				i;
-	size_t				str_len;
-	const 	t_str2size	*elem;
-
-	assert(stream != NULL && *stream != NULL);
-	i = 0;
-	while (i < sizeof(g_map_str2size) / sizeof(t_str2size))
-	{
-		elem = &g_map_str2size[i];
-		str_len = ft_strlen(elem->str);
-		if (ft_strnequ(*stream, elem->str, str_len))
-		{
-			(*stream) += str_len;
-			return (elem->size);
-		}
-		i++;
-	}
-	assert(0);
-}
-
-static const t_char2descriptor g_map_char2descriptor[] = {
-	{ 'd', E_INT },
-	{ 'i', E_INT },
-	{ 's', E_STR },
-	{ 'o', E_OCT },
-	{ 'u', E_UNS },
-	{ 'p', E_PTR },
-	{ 'c', E_CHR },
-	{ '%', E_PERCENT },
-	{ 'm', E_MEMORY },
-	{ 'x', E_HEX },
-	{ 'f', E_FLOAT },
-};
-
-static t_descriptor	parse_conversion_specifier(
-	t_flags *flags,
-	char **stream,
-	int *has_errored)
-{
-	char	c;
-	size_t	i;
-
-	assert(flags != NULL && stream != NULL && *stream != NULL);
-	c = **stream;
-	(*stream)++;
-	if (c == '\0')
-	{
-		*has_errored = 1;
-		return (0);
-	}
-	if (c >= 'A' && c <= 'Z')
-	{
-		*flags |= FLAGS_CAPITAL;
-		c = ft_tolower(c);
-	}
-	i = 0;
-	while (i < sizeof(g_map_char2descriptor) / sizeof(t_char2descriptor))
-	{
-		if (g_map_char2descriptor[i].c == c)
-			return (g_map_char2descriptor[i].descriptor);
-		i++;
-	}
-	*has_errored = 1;
-	return (0);
-}
-
 static int			parse_conversion_specification(t_token *dest, char **stream)
 {
 	int		has_errored;
@@ -191,7 +85,6 @@ static int			parse_string_literal(t_token *dest, char **stream)
 {
 	assert(dest != NULL && stream != NULL && *stream != NULL);
 	assert(!is_conversion_specification(*stream));
-
 	dest->type = E_TXT;
 	dest->s_value = *stream;
 	while (!is_conversion_specification(*stream) && **stream != '\0')

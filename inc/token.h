@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 14:02:33 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/03 16:44:31 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/26 18:53:44 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,8 @@ typedef struct	s_token
 	t_descriptor			type;
 	t_flags					flags;
 	int						width;
-
-	/*
-	** always defined but only makes sense if type is a number
-	*/
 	t_size					size;
-
-	/*
-	** only defined if flags & FLAGS_PRECISION
-	*/
 	int						precision;
-
-	/*
-	** only defined if type = E_TXT
-	*/
 	char					*s_value;
 	size_t					s_length;
 }				t_token;

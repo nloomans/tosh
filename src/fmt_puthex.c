@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/19 15:57:34 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/06/26 16:45:14 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,6 @@
 #include "token.h"
 #include <stdarg.h>
 #include <stdio.h>
-
-char			intern_to_hex(char num, int caps)
-{
-	char hex_starter;
-
-	hex_starter = caps ? 'A' : 'a';
-	if (num >= 10 && num <= 15)
-		return (hex_starter + (num - 10));
-	else if (num >= 0 && num <= 9)
-		return ('0' + num);
-	return ('\0');
-}
 
 int				intern_hex_size(long long n)
 {

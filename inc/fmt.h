@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/20 15:44:19 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/26 18:57:02 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef void		(*t_formatter)(
 						t_writer *writer,
 						t_token *token,
 						va_list vlist);
-
 
 void				fmt_putstr(t_writer *writer, t_token *token, va_list vlist);
 void				fmt_putstrlit(

@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 16:31:58 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/20 15:57:56 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/26 16:45:30 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,16 @@ void	intern_number_prefix(
 		writer_write(writer, " ", 1);
 	if (token->flags & FLAGS_ZEROPAD)
 		intern_fmt_pad_left(writer, token, intern_pad_char(token->flags), size);
+}
+
+char	intern_to_hex(char num, int caps)
+{
+	char hex_starter;
+
+	hex_starter = caps ? 'A' : 'a';
+	if (num >= 10 && num <= 15)
+		return (hex_starter + (num - 10));
+	else if (num >= 0 && num <= 9)
+		return ('0' + num);
+	return ('\0');
 }

@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 00:44:24 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/21 16:10:27 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/06/26 18:58:48 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,20 @@ static size_t	float_size(t_token *token, size_t before_dot, long double n)
 	return (size);
 }
 
+/*
+** TODO: (required for deepthought) round the last digit
+*/
+
+static t_number	mk_float_number(long double n)
+{
+	t_number	num;
+
+	num.base = 10U;
+	num.sign = n > 0 ? 1 : -1;
+	num.value = intern_abs((long long)n);
+	return (num);
+}
+
 static void		print_real_float(
 	t_writer *writer,
 	t_token *token,
@@ -51,9 +65,7 @@ static void		print_real_float(
 	size_t		idx;
 	size_t		size;
 
-	num.base = 10U;
-	num.sign = n > 0 ? 1 : -1;
-	num.value = intern_abs((long long)n);
+	num = mk_float_number(n);
 	fract = n - (long long)n;
 	idx = intern_ntoa(buf, num, 0);
 	size = float_size(token, idx, n);
@@ -61,7 +73,6 @@ static void		print_real_float(
 	writer_write(writer, buf, idx);
 	if (token->precision > 0)
 		writer_write(writer, ".", 1);
-	// TODO: (required for deepthought) round the last digit
 	while (token->precision > 0)
 	{
 		fract *= 10;
