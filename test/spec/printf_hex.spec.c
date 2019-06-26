@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   printf_hex.spec.c                                       :+:    :+:       */
+/*   printf_hex.spec.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 15:20:17 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/20 14:57:59 by nmartins            ########   odam.nl   */
+/*   Updated: 2019/06/26 19:26:08 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,16 @@ Test(printf_hex, wildcard_complete)
 	cr_expect_str_eq(dest, "0002A     ");
 	ft_asprintf(&dest, "%#*.*X", -10, 5, 42);
 	cr_expect_str_eq(dest, "0X0002A   ");
+}
+
+Test(printf_hex, zeropad)
+{
+	char *dest;
+
+	ft_asprintf(&dest, "%0*X", 30, 0xFFFF);
+	cr_expect_str_eq(dest, "00000000000000000000000000FFFF");
+	ft_asprintf(&dest, "'%#-30X'", 0xFFFF);
+	cr_expect_str_eq(dest, "'0XFFFF                        '");
 }
 
 Test(printf_hex, null_null)
