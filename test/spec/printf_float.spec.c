@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 15:20:17 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/20 15:31:26 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/04 16:03:11 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ Test(printf_float, precision)
 {
 	char *dest;
 
-	ft_asprintf(&dest, "%.0f", 2.5);
-	cr_expect_str_eq(dest, "2");
+	ft_asprintf(&dest, "%.2f", 2.5);
+	cr_expect_str_eq(dest, "2.50");
 	ft_asprintf(&dest, "%.1f", 1.0);
 	cr_expect_str_eq(dest, "1.0");
 	ft_asprintf(&dest, "%.0f", -2.0);
@@ -59,6 +59,8 @@ Test(printf_float, precision)
 	cr_expect_str_eq(dest, "-2.0");
 	ft_asprintf(&dest, "%.2f", -2.0);
 	cr_expect_str_eq(dest, "-2.00");
+	ft_asprintf(&dest, "%.2f", -2.5);
+	cr_expect_str_eq(dest, "-2.50");
 	ft_asprintf(&dest, "%f", 12345.0);
 	cr_expect_str_eq(dest, "12345.000000");
 	ft_asprintf(&dest, "%.0f", 12345.0);
@@ -95,4 +97,22 @@ Test(printf_float, non_real)
 	cr_expect_str_eq(dest, "INF");
 	ft_asprintf(&dest, "%F", -1.0 / 0.0);
 	cr_expect_str_eq(dest, "-INF");
+}
+
+Test(printf_float, rounding)
+{
+	char *dest;
+
+	ft_asprintf(&dest, "%.0f", 1.5);
+	cr_expect_str_eq(dest, "2");
+	ft_asprintf(&dest, "%.0f", 2.5);
+	cr_expect_str_eq(dest, "3");
+	ft_asprintf(&dest, "%.0f", 2.4);
+	cr_expect_str_eq(dest, "2");
+	ft_asprintf(&dest, "%.1f", 2.99);
+	cr_expect_str_eq(dest, "3.0");
+	ft_asprintf(&dest, "%.1f", 2.09);
+	cr_expect_str_eq(dest, "2.1");
+	ft_asprintf(&dest, "%.1f", 4.15);
+	cr_expect_str_eq(dest, "4.2");
 }
