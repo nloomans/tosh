@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 16:44:01 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/09 00:23:48 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/01 16:09:53 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,32 @@ Test(printf_octal, basic)
 	cr_expect_str_eq(dest, "0");
 	ft_asprintf(&dest, "%o", 0u);
 	cr_expect_str_eq(dest, "0");
+}
+
+Test(printf_octal, width)
+{
+	char *dest;
+
+	ft_asprintf(&dest, "%5o", 42u);
+	cr_expect_str_eq(dest, "   52");
+	ft_asprintf(&dest, "%*o", 5, 42u);
+	cr_expect_str_eq(dest, "   52");
+	ft_asprintf(&dest, "%05o", 42u);
+	cr_expect_str_eq(dest, "00052");
+	ft_asprintf(&dest, "%#05o", 42u);
+	cr_expect_str_eq(dest, "00052");
+	ft_asprintf(&dest, "%#5o", 42u);
+	cr_expect_str_eq(dest, "  052");
+}
+
+Test(printf_octal, precision)
+{
+	char *dest;
+
+	ft_asprintf(&dest, "%.5o", 42u);
+	cr_expect_str_eq(dest, "00052");
+	ft_asprintf(&dest, "%#.5o", 42u);
+	cr_expect_str_eq(dest, "00052");
+	ft_asprintf(&dest, "%.o", 0u);
+	cr_expect_str_eq(dest, "");
 }
