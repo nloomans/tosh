@@ -3,6 +3,8 @@
 
 A simple printf clone written in Norm-compliant C.
 
+> :warning: Please don't actually use this in production
+
 # Building
 To build our project, make sure to recursively clone the submodules by passing `--recurse`.
 Other than that, simple run `make` in the project's root. This will make the `libftprintf.a` library file.
@@ -18,7 +20,7 @@ struct {
     |                      |                   / The string  / The string length
     v                      v                   v             v
   ssize_t  (*write)(struct s_writer *self, char *str, size_t length);
-  
+
   // Internal state to be passed to the write call.
   void  *state;
 };
