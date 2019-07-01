@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 16:44:01 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 19:08:25 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/01 13:53:40 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ Test(printf_number, basic)
 	cr_expect_str_eq(dest, "0");
 	ft_asprintf(&dest, "%d cheating", -42);
 	cr_expect_str_eq(dest, "-42 cheating");
+	ft_asprintf(&dest, "%+d reverse cheating", 42);
+	cr_expect_str_eq(dest, "+42 reverse cheating");
+	asprintf(&dest, "%+d special 0", 0);
+	cr_expect_str_eq(dest, "+0 special 0");
 	ft_asprintf(&dest, "bignum: %d", 2147483647);
 	cr_expect_str_eq(dest, "bignum: 2147483647");
 	ft_asprintf(&dest, "smallnum: %d", -2147483648);
@@ -38,6 +42,8 @@ Test(printf_number, padding)
 
 	ft_asprintf(&dest, "%5d", 42);
 	cr_expect_str_eq(dest, "   42");
+	ft_asprintf(&dest, "% d", 0);
+	cr_expect_str_eq(dest, " 0");
 	ft_asprintf(&dest, "%05d", 42);
 	cr_expect_str_eq(dest, "00042");
 	ft_asprintf(&dest, "%.5d", 42);
@@ -135,4 +141,8 @@ Test(printf_number, advanced_padding)
 	cr_expect_str_eq(dest, "     00057");
 	ft_asprintf(&dest, "%010.5hhd", 1337);
 	cr_expect_str_eq(dest, "     00057");
+	ft_asprintf(&dest, "%.d", 0);
+	cr_expect_str_eq(dest, "");
+	ft_asprintf(&dest, "%5.d", 0);
+	cr_expect_str_eq(dest, "     ");
 }

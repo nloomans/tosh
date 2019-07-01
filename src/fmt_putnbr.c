@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/20 15:45:01 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/01 13:54:27 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void						intern_read_number(
 	long long	value;
 
 	value = intern_read_signed_int(size, vlist);
-	number->sign = value > 0 ? 1 : -1;
+	number->sign = value >= 0 ? 1 : -1;
 	number->value = intern_abs(value);
 	number->base = base;
 }
@@ -68,6 +68,13 @@ void						fmt_putnbr(
 
 	intern_pop_wildcards(tok, vlist);
 	intern_read_number(&n, tok->size, 10U, vlist);
+	if (n.value == 0
+		&& tok->flags & FLAGS_PRECISION
+		&& tok->precision == 0)
+	{
+		intern_fmt_pad(writer, ' ', tok->width);
+		return ;
+	}
 	idx = intern_ntoa(buf, n, 0);
 	size = calculate_actual_size(tok, idx, &n);
 	intern_number_prefix(writer, tok, n, size);
