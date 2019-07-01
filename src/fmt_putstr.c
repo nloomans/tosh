@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:46 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/09 00:16:29 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/01 17:25:15 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void			fmt_putchr(t_writer *writer, t_token *token, va_list vlist)
 {
 	char		c;
 
+	intern_pop_wildcards(token, vlist);
 	c = (char)va_arg(vlist, int);
 	if ((token->flags & FLAGS_LEFTALIGN) == 0)
 		intern_fmt_pad(writer, ' ', ft_max(0, token->width - 1));

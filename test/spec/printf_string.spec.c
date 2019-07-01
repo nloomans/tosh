@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 15:20:13 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 15:20:14 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/01 17:24:44 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,20 @@ Test(printf_string, complicated_string)
 
 	ft_asprintf(&dest, "%-*.*s:%s", 10, 5, "fight me", "now");
 	cr_expect_str_eq(dest, "fight     :now");
+}
+
+Test(printf_char, basic)
+{
+	char *dest;
+
+	ft_asprintf(&dest, "%c", 'a');
+	cr_expect_str_eq(dest, "a");
+	ft_asprintf(&dest, "%5c", 'a');
+	cr_expect_str_eq(dest, "    a");
+	ft_asprintf(&dest, "%-5c", 'a');
+	cr_expect_str_eq(dest, "a    ");
+	ft_asprintf(&dest, "%*c", 5, 'a');
+	cr_expect_str_eq(dest, "    a");
+	ft_asprintf(&dest, "%*c", -5, 'a');
+	cr_expect_str_eq(dest, "a    ");
 }
