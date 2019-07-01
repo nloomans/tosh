@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 16:44:01 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 19:06:48 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/01 17:15:39 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,6 @@ Test(printf_unsigned_number, advanced_padding)
 	cr_expect_str_eq(dest, "     00057");
 	ft_asprintf(&dest, "%010.5hhd", 1337);
 	cr_expect_str_eq(dest, "     00057");
+	ft_asprintf(&dest, "%.u", 0u);
+	cr_expect_str_eq(dest, "");
 }

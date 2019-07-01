@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/19 15:30:52 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/01 17:16:01 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ void						fmt_putuns(
 
 	intern_pop_wildcards(tok, vlist);
 	n = va_arg_unsigned_number(tok->size, vlist);
+	if (n.value == 0
+		&& tok->flags & FLAGS_PRECISION
+		&& tok->precision == 0)
+	{
+		intern_fmt_pad(writer, ' ', tok->width);
+		return ;
+	}
 	idx = intern_ntoa(buf, n, 0);
 	actual_size = idx;
 	if (tok->flags & FLAGS_PRECISION)
