@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/01 13:54:27 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/01 17:00:03 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ static size_t				calculate_actual_size(
 		actual_size = ft_max(number_width, tok->precision);
 	else
 		actual_size = number_width;
-	if (number->value &&
-		(number->sign == -1 || tok->flags & (FLAGS_PLUS | FLAGS_SPACE)))
+	if (number->sign == -1 || tok->flags & (FLAGS_PLUS | FLAGS_SPACE))
 		actual_size++;
 	return (actual_size);
 }

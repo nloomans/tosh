@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 16:44:01 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/01 13:53:40 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/01 16:58:06 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ Test(printf_number, basic)
 	cr_expect_str_eq(dest, "bignum: 2147483647");
 	ft_asprintf(&dest, "smallnum: %d", -2147483648);
 	cr_expect_str_eq(dest, "smallnum: -2147483648");
+	ft_asprintf(&dest, "%+03d", 1);
+	cr_expect_str_eq(dest, "+01");
+	ft_asprintf(&dest, "%+03d", 0);
+	cr_expect_str_eq(dest, "+00");
 }
 
 Test(printf_number, padding)
