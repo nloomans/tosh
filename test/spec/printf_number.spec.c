@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 16:44:01 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/01 16:58:06 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/05 13:20:24 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ Test(printf_number, basic)
 	cr_expect_str_eq(dest, "-42 cheating");
 	ft_asprintf(&dest, "%+d reverse cheating", 42);
 	cr_expect_str_eq(dest, "+42 reverse cheating");
-	asprintf(&dest, "%+d special 0", 0);
+	ft_asprintf(&dest, "%+d special 0", 0);
 	cr_expect_str_eq(dest, "+0 special 0");
 	ft_asprintf(&dest, "bignum: %d", 2147483647);
 	cr_expect_str_eq(dest, "bignum: 2147483647");
