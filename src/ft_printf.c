@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:35:33 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/07 13:42:01 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/05 16:22:12 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ ssize_t		ft_vasprintf(char **dest, char *fmt, va_list vlist)
 	t_writer_alloc_state	st;
 	t_writer				writer;
 
-	*dest = NULL;
+	*dest = ft_strnew(0);
 	ft_memset(&st, '\0', sizeof(t_writer_alloc_state));
 	st.str_ptr = dest;
 	ft_memset(&writer, 0, sizeof(t_writer));

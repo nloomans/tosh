@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/26 19:23:10 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/05 16:18:30 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ static void		fmt_do_puthex(
 		writer_write(writer,
 			token->flags & FLAGS_CAPITAL ? "0X" : "0x", 2);
 	if (token->flags & FLAGS_ZEROPAD)
-		intern_fmt_pad(writer, '0', token->width - own_hex_size);
+		intern_fmt_pad(writer, '0', token->width - (int)own_hex_size);
 	if (token->flags & FLAGS_PRECISION && idx < (size_t)token->precision)
-		intern_fmt_pad(writer, '0', token->precision - idx);
+		intern_fmt_pad(writer, '0', token->precision - (int)idx);
 	writer_write(writer, buf, idx);
 	if (!(token->flags & FLAGS_ZEROPAD))
-		intern_fmt_pad_right(writer, token, ' ', own_hex_size);
+		intern_fmt_pad_right(writer, token, ' ', (int)own_hex_size);
 }
 
 void			fmt_puthex(t_writer *writer, t_token *token, va_list vlist)

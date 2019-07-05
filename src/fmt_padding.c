@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/24 17:27:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/05 15:52:05 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/05 16:16:17 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 #include <libft.h>
 #include <stdlib.h>
 
-void	intern_fmt_pad(t_writer *writer, char c, size_t amt)
+void	intern_fmt_pad(t_writer *writer, char c, int amt)
 {
 	char	*str;
 
+	if (amt <= 0)
+		return ;
 	str = (char*)malloc(amt);
 	if (!str)
 	{
@@ -33,8 +35,8 @@ void	intern_fmt_pad(t_writer *writer, char c, size_t amt)
 void	intern_fmt_pad_auto(
 	t_writer *writer,
 	char c,
-	size_t pad_amount,
-	size_t length)
+	int pad_amount,
+	int length)
 {
 	if (pad_amount > length)
 		intern_fmt_pad(writer, c, pad_amount - length);
@@ -44,7 +46,7 @@ void	intern_fmt_pad_left(
 	t_writer *writer,
 	t_token *token,
 	char c,
-	size_t length)
+	int length)
 {
 	if ((token->flags & FLAGS_LEFTALIGN) == 0)
 		intern_fmt_pad_auto(writer, c, token->width, length);
@@ -54,7 +56,7 @@ void	intern_fmt_pad_right(
 	t_writer *writer,
 	t_token *token,
 	char c,
-	size_t length)
+	int length)
 {
 	if (token->flags & FLAGS_LEFTALIGN)
 		intern_fmt_pad_auto(writer, c, token->width, length);
