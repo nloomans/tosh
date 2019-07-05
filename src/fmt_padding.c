@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/24 17:27:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/26 01:02:02 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/05 15:52:05 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	intern_fmt_pad(t_writer *writer, char c, size_t amt)
 
 	str = (char*)malloc(amt);
 	if (!str)
+	{
+		writer->failed = 1;
 		return ;
+	}
 	ft_memset(str, c, amt);
 	writer_write(writer, str, amt);
 	ft_strdel(&str);
