@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 15:20:06 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/27 20:05:14 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/05 17:07:56 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ Test(printf_multi, strings_large)
 	str[5] = 'a';
 	str[478] = 'z';
 	str[18977] = '*';
-	str[100000] = '\0';
+	str[99999] = '\0';
 	ft_asprintf(&dest, "%s", str);
 	cr_expect_str_eq(dest, str);
 	ft_asprintf(&dest, "%c%.10s", 65, str);
