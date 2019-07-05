@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 00:44:24 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/04 15:54:21 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/05 15:47:58 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static size_t	float_size(t_token *token, size_t before_dot, long double n)
 	return (size);
 }
 
-static void	mk_float_number(t_number *num, long double *n, int precision)
+static void		mk_float_number(t_number *num, long double *n, int precision)
 {
 	int i;
 
