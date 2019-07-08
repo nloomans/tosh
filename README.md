@@ -32,14 +32,14 @@ struct {
 int ft_printf(char *fmt, ...);
 
 // Writes to a file descriptor.
-int ft_fprintf(int fd, char *fmt, ...);
+int ft_dprintf(int fd, char *fmt, ...);
 ```
 
 
 ### Strings
 ```c
 // Writes to a *new* string see example 1.
-int ft_aprintf(char **dest, char *fmt, ...);
+int ft_asprintf(char **dest, char *fmt, ...);
 
 // Writes to a string (does not check size, dangerous!)
 int ft_sprintf(char *dest, char *fmt, ...);
