@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 15:20:17 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/26 19:26:08 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/08 14:46:37 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,10 @@ Test(printf_hex, zeropad)
 	cr_expect_str_eq(dest, "00000000000000000000000000FFFF");
 	ft_asprintf(&dest, "'%#-30X'", 0xFFFF);
 	cr_expect_str_eq(dest, "'0XFFFF                        '");
+	ft_asprintf(&dest, "%#05x", 0);
+	cr_expect_str_eq(dest, "00000");
+	ft_asprintf(&dest, "%#5x", 0);
+	cr_expect_str_eq(dest, "    0");
 }
 
 Test(printf_hex, null_null)

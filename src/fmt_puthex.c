@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/05 16:18:30 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/08 14:46:22 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void			intern_fmt_puthex(
 	writer_write(writer, &c, 1);
 }
 
-static int		prefix_size(t_flags flags)
+static int		prefix_size(t_number *num, t_flags flags)
 {
-	if (flags & FLAGS_HASH)
+	if (flags & FLAGS_HASH && num->value != 0)
 		return (2);
 	else
 		return (0);
@@ -66,7 +66,7 @@ static void		fmt_do_puthex(
 	size_t				idx;
 
 	idx = intern_ntoa(buf, number, token->flags & FLAGS_CAPITAL);
-	own_hex_size = prefix_size(token->flags);
+	own_hex_size = prefix_size(&number, token->flags);
 	own_hex_size = token->flags & FLAGS_PRECISION
 		? (size_t)ft_max(token->precision + own_hex_size, own_hex_size + idx)
 		: own_hex_size + idx;
