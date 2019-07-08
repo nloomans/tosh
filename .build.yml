@@ -1,0 +1,18 @@
+image: alpine/edge
+packages:
+- flex
+- bison
+sources:
+- https://git.sr.ht/~nloomans/libft
+- https://git.sr.ht/~sircmpwn/annotatec
+secrets:
+- d4504899-1b8c-4087-8939-a3f7b41483c1
+tasks:
+- annotatec: |
+    cd annotatec
+    make
+    sudo make install PREFIX=/usr
+- annotations: |
+    cd libft
+    find . -name "*.c" | xargs annotatec -g > annotations.json
+    ../upload-annotations annotations.json nloomans libft
