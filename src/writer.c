@@ -6,13 +6,13 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:04:21 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/09 00:17:10 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/08 16:38:35 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdio.h>
-#include <libft.h>
+#include "std.h"
 #include "writer.h"
 
 void	writer_write(t_writer *writer, char *str, size_t length)
@@ -56,7 +56,7 @@ void	writer_alloc_write(t_writer *self, char *str, size_t length)
 	if (state->len + length + 1 > state->cap)
 	{
 		new_cap = vector_cap_for_length(state->len + length + 1);
-		*state->str_ptr = ft_realloc(*state->str_ptr, state->cap, new_cap);
+		*state->str_ptr = std_realloc(*state->str_ptr, state->cap, new_cap);
 		state->cap = new_cap;
 		if (*state->str_ptr == NULL)
 		{
@@ -64,7 +64,7 @@ void	writer_alloc_write(t_writer *self, char *str, size_t length)
 			return ;
 		}
 	}
-	if (ft_memcpy(*state->str_ptr + state->len, str, length) == NULL)
+	if (std_memcpy(*state->str_ptr + state->len, str, length) == NULL)
 	{
 		self->failed = 1;
 		return ;
@@ -83,12 +83,12 @@ void	writer_string_write(t_writer *self, char *str, size_t length)
 	if (self->written + length > (size_t)state->maximum && state->maximum > 0)
 	{
 		to_write = state->maximum - self->written;
-		ft_memcpy(state->str_ptr + self->written, str, to_write);
+		std_memcpy(state->str_ptr + self->written, str, to_write);
 		self->written += to_write;
 	}
 	else
 	{
-		ft_memcpy(state->str_ptr + self->written, str, length);
+		std_memcpy(state->str_ptr + self->written, str, length);
 		self->written += length;
 	}
 }

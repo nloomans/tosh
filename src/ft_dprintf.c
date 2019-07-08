@@ -6,11 +6,11 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/03 15:45:38 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/07 12:30:44 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/08 16:38:02 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "std.h"
 #include <stdarg.h>
 #include "ft_printf.h"
 #include "writer.h"
@@ -21,7 +21,7 @@ ssize_t		ft_vdprintf(int fd, char *fmt, va_list vlist)
 	t_writer			writer;
 
 	st = fd;
-	ft_memset(&writer, 0, sizeof(t_writer));
+	std_memset(&writer, 0, sizeof(t_writer));
 	writer.state = (void*)&st;
 	writer.write = &writer_fd_write;
 	return (ft_vwprintf(&writer, fmt, vlist));

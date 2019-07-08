@@ -6,11 +6,11 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:33:43 by nmartins       #+#    #+#                */
-/*   Updated: 2019/05/31 16:06:06 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/08 17:03:10 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "std.h"
 #include <stdarg.h>
 #include "fmt.h"
 #include "writer.h"
@@ -32,7 +32,7 @@ void			fmt_putptr(t_writer *writer, t_token *token, va_list vlist)
 	actual_size = 2;
 	actual_size += idx;
 	actual_size = token->flags & FLAGS_PRECISION
-		? (size_t)ft_max(token->precision, actual_size)
+		? (size_t)std_max(token->precision, actual_size)
 		: actual_size;
 	intern_fmt_pad_left(writer, token, ' ', actual_size);
 	writer_write(writer, token->flags & FLAGS_CAPITAL ? "0X" : "0x", 2);

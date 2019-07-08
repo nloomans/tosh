@@ -6,12 +6,12 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 16:33:46 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/01 17:25:15 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/08 17:03:16 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fmt.h"
-#include <libft.h>
+#include "std.h"
 
 void			fmt_putstr(t_writer *writer, t_token *token, va_list vlist)
 {
@@ -31,11 +31,11 @@ void			fmt_putstr(t_writer *writer, t_token *token, va_list vlist)
 	}
 	else
 	{
-		len = ft_strlen(str);
+		len = std_strlen(str);
 		if (token->precision < 0)
 			token->flags &= ~FLAGS_PRECISION;
 		trimmed_length = token->flags & FLAGS_PRECISION
-			? (size_t)ft_min(len, token->precision) : len;
+			? (size_t)std_min(len, token->precision) : len;
 		intern_fmt_pad_left(writer, token, ' ', trimmed_length);
 		writer_write(writer, str, trimmed_length);
 		intern_fmt_pad_right(writer, token, ' ', trimmed_length);
@@ -55,8 +55,8 @@ void			fmt_putchr(t_writer *writer, t_token *token, va_list vlist)
 	intern_pop_wildcards(token, vlist);
 	c = (char)va_arg(vlist, int);
 	if ((token->flags & FLAGS_LEFTALIGN) == 0)
-		intern_fmt_pad(writer, ' ', ft_max(0, token->width - 1));
+		intern_fmt_pad(writer, ' ', std_max(0, token->width - 1));
 	writer_write(writer, &c, 1);
 	if (token->flags & FLAGS_LEFTALIGN)
-		intern_fmt_pad(writer, ' ', ft_max(0, token->width - 1));
+		intern_fmt_pad(writer, ' ', std_max(0, token->width - 1));
 }

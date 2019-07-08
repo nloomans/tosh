@@ -6,13 +6,13 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/24 17:27:57 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/05 16:16:17 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/08 16:40:56 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fmt.h"
 #include "token.h"
-#include <libft.h>
+#include "std.h"
 #include <stdlib.h>
 
 void	intern_fmt_pad(t_writer *writer, char c, int amt)
@@ -27,9 +27,9 @@ void	intern_fmt_pad(t_writer *writer, char c, int amt)
 		writer->failed = 1;
 		return ;
 	}
-	ft_memset(str, c, amt);
+	std_memset(str, c, amt);
 	writer_write(writer, str, amt);
-	ft_strdel(&str);
+	free(str);
 }
 
 void	intern_fmt_pad_auto(

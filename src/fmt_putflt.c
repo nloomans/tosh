@@ -6,11 +6,11 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 00:44:24 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/08 14:35:52 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/08 15:51:14 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "std.h"
 #include <stdarg.h>
 #include <stdio.h>
 #include <assert.h>

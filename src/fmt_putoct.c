@@ -6,11 +6,11 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 20:43:22 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/05 16:10:01 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/08 17:03:10 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "std.h"
 #include "writer.h"
 #include "token.h"
 #include "fmt.h"
@@ -34,7 +34,7 @@ void	do_fmt_putoct(t_writer *writer, t_token *token, t_number number)
 	if (token->flags & FLAGS_HASH)
 		actual_size++;
 	if (token->flags & FLAGS_PRECISION)
-		actual_size = ft_max(actual_size, token->precision);
+		actual_size = std_max(actual_size, token->precision);
 	intern_fmt_pad_left(writer, token,
 		intern_pad_char(token->flags), actual_size);
 	if ((token->flags & FLAGS_PRECISION))

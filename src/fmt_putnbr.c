@@ -6,11 +6,11 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/01 17:00:03 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/08 17:03:10 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "std.h"
 #include "writer.h"
 #include "fmt.h"
 #include "token.h"
@@ -47,7 +47,7 @@ static size_t				calculate_actual_size(
 	size_t		actual_size;
 
 	if (tok->flags & FLAGS_PRECISION)
-		actual_size = ft_max(number_width, tok->precision);
+		actual_size = std_max(number_width, tok->precision);
 	else
 		actual_size = number_width;
 	if (number->sign == -1 || tok->flags & (FLAGS_PLUS | FLAGS_SPACE))

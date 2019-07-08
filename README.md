@@ -64,3 +64,12 @@ Our printf uses [criterion](https://github.com/Snaipe/Criterion) for tests. All 
 ### Running them
 To run the tests, go into `test/`, and run the following command: `make test`.
 This will run the tests.
+
+# Debugging
+
+Snippet to print the current output string when in lldb and you are in a
+ft_asprintf formatter:
+
+```
+p *((struct s_writer_alloc_state *)((t_writer *)writer)->state)->str_ptr
+```

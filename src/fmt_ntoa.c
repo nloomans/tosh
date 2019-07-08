@@ -6,13 +6,13 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 00:06:55 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/03 15:47:48 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/08 16:38:12 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fmt.h"
 #include "number.h"
-#include <libft.h>
+#include "std.h"
 
 size_t	intern_ntoa(char *buf_out, t_number number, int caps)
 {
@@ -31,7 +31,7 @@ size_t	intern_ntoa(char *buf_out, t_number number, int caps)
 			break ;
 	}
 	buf[len] = '\0';
-	ft_strrev(buf);
-	ft_memcpy(buf_out, buf, len);
+	std_strrev(buf);
+	std_memcpy(buf_out, buf, len);
 	return (len);
 }

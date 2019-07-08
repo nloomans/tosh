@@ -6,14 +6,14 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 15:17:29 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/03 16:52:18 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/08 15:51:14 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
 #include "writer.h"
 #include "fmt.h"
-#include <libft.h>
+#include "std.h"
 #include <stdio.h>
 
 void			run_token(t_writer *writer, va_list vlist, t_token *token)

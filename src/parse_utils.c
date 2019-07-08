@@ -6,11 +6,11 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 00:11:17 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/21 16:03:51 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/08 17:02:56 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "std.h"
 #include "parser.h"
 #include "token.h"
 
@@ -19,7 +19,7 @@ int		parse_atoi(char **stream)
 	int	sum;
 
 	sum = 0;
-	while (ft_isdigit(**stream))
+	while (std_isdigit(**stream))
 	{
 		sum = sum * 10 + (**stream - '0');
 		(*stream)++;
@@ -34,7 +34,7 @@ int		parse_atoi_wildcard(char **stream)
 		(*stream)++;
 		return (DEFERRED_WILDCARD);
 	}
-	else if (ft_isdigit(**stream))
+	else if (std_isdigit(**stream))
 		return (parse_atoi(stream));
 	else
 		return (0);

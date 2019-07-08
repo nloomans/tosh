@@ -6,11 +6,11 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 19:45:05 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/08 14:46:22 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/08 17:03:10 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "std.h"
 #include "writer.h"
 #include "fmt.h"
 #include "token.h"
@@ -68,7 +68,7 @@ static void		fmt_do_puthex(
 	idx = intern_ntoa(buf, number, token->flags & FLAGS_CAPITAL);
 	own_hex_size = prefix_size(&number, token->flags);
 	own_hex_size = token->flags & FLAGS_PRECISION
-		? (size_t)ft_max(token->precision + own_hex_size, own_hex_size + idx)
+		? (size_t)std_max(token->precision + own_hex_size, own_hex_size + idx)
 		: own_hex_size + idx;
 	if (!(token->flags & FLAGS_ZEROPAD))
 		intern_fmt_pad_left(writer, token, ' ', own_hex_size);

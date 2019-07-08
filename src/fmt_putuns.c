@@ -6,11 +6,11 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/22 17:52:31 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/01 17:16:01 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/08 17:03:10 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "std.h"
 #include "writer.h"
 #include "fmt.h"
 #include "token.h"
@@ -51,7 +51,7 @@ void						fmt_putuns(
 	idx = intern_ntoa(buf, n, 0);
 	actual_size = idx;
 	if (tok->flags & FLAGS_PRECISION)
-		actual_size = ft_max(idx, tok->precision);
+		actual_size = std_max(idx, tok->precision);
 	intern_fmt_pad_left(writer, tok, intern_pad_char(tok->flags), actual_size);
 	if (tok->flags & FLAGS_PRECISION)
 		intern_fmt_pad_auto(writer, '0', tok->precision, idx);

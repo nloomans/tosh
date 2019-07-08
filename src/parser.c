@@ -6,13 +6,13 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/03 16:12:16 by nloomans       #+#    #+#                */
-/*   Updated: 2019/06/26 18:58:17 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/08 16:38:02 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <assert.h>
 #include <stddef.h>
-#include <libft.h>
+#include "std.h"
 #include "token.h"
 #include "parser.h"
 
@@ -39,7 +39,7 @@ static int			parse_flags(char **stream, int *has_errored)
 
 	assert(stream != NULL && *stream != NULL);
 	flags = 0;
-	while (ft_strchr("# 0+-", **stream))
+	while (std_strchr("# 0+-", **stream))
 	{
 		if (**stream == '#')
 			flags |= FLAGS_HASH;
@@ -96,7 +96,7 @@ static int			parse_string_literal(t_token *dest, char **stream)
 int					parse_token(t_token *dest, char **stream)
 {
 	assert(dest != NULL && stream != NULL && *stream != NULL);
-	ft_memset(dest, '\0', sizeof(t_token));
+	std_memset(dest, '\0', sizeof(t_token));
 	if (is_color_specification(*stream))
 		return (parse_color_specification(dest, stream));
 	else if (is_conversion_specification(*stream))

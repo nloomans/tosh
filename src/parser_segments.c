@@ -6,13 +6,13 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/26 16:46:16 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/26 16:50:07 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/08 17:02:36 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <assert.h>
 #include <stddef.h>
-#include <libft.h>
+#include "std.h"
 #include "token.h"
 #include "parser.h"
 
@@ -36,8 +36,8 @@ t_size							parse_size(char **stream)
 	while (i < sizeof(g_map_str2size) / sizeof(t_str2size))
 	{
 		elem = &g_map_str2size[i];
-		str_len = ft_strlen(elem->str);
-		if (ft_strnequ(*stream, elem->str, str_len))
+		str_len = std_strlen(elem->str);
+		if (std_strncmp(*stream, elem->str, str_len) == 0)
 		{
 			(*stream) += str_len;
 			return (elem->size);
@@ -80,7 +80,7 @@ t_descriptor					parse_conversion_specifier(
 	if (c >= 'A' && c <= 'Z')
 	{
 		*flags |= FLAGS_CAPITAL;
-		c = ft_tolower(c);
+		c = std_tolower(c);
 	}
 	i = 0;
 	while (i < sizeof(g_map_char2descriptor) / sizeof(t_char2descriptor))

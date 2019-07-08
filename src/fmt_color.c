@@ -6,13 +6,13 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/25 01:24:49 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/03 15:47:38 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/08 16:38:18 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fmt.h"
 #include "color.h"
-#include <libft.h>
+#include "std.h"
 
 static const char	*g_lookup_escape_codes[] = {
 	COLOR_RESET,
@@ -56,7 +56,7 @@ void		intern_fmt_color(t_writer *writer, t_color color)
 	writer_write(
 		writer,
 		(char *)str,
-		ft_strlen(str));
+		std_strlen(str));
 }
 
 void		fmt_putcolor(t_writer *writer, t_token *token, va_list vlist)
@@ -67,8 +67,8 @@ void		fmt_putcolor(t_writer *writer, t_token *token, va_list vlist)
 	(void)vlist;
 	while (i < sizeof(g_lookup_human_names) / sizeof(char*))
 	{
-		if (!ft_memcmp(g_lookup_human_names[i], token->s_value,
-			ft_strlen(g_lookup_human_names[i])))
+		if (!std_memcmp(g_lookup_human_names[i], token->s_value,
+			std_strlen(g_lookup_human_names[i])))
 			intern_fmt_color(writer, (t_color)i);
 		i++;
 	}

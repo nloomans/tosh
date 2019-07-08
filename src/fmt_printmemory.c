@@ -6,14 +6,14 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 16:39:30 by nmartins       #+#    #+#                */
-/*   Updated: 2019/06/03 16:03:16 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/07/08 16:59:25 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fmt.h"
 #include "color.h"
 
-#include <libft.h>
+#include "std.h"
 
 static void		intern_fmt_puthexchar(
 	t_writer *writer,
@@ -37,7 +37,7 @@ static void		intern_fmt_putmemchars(
 
 	while (offset < len && offset - start < 16)
 	{
-		if (ft_isprint(bytes[offset]))
+		if (std_isprint(bytes[offset]))
 		{
 			intern_fmt_color(writer, E_WHITE);
 			writer_write(writer, (char*)&bytes[offset], 1);
@@ -66,7 +66,7 @@ static void		print_row(
 			writer_write(writer, " ", 1);
 		if (index < length)
 		{
-			if (ft_isprint(bytes[index]))
+			if (std_isprint(bytes[index]))
 				intern_fmt_color(writer, E_CYAN);
 			else if (bytes[index])
 				intern_fmt_color(writer, E_MAGENTA);
