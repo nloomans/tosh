@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 00:44:24 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/05 15:47:58 by nmartins      ########   odam.nl         */
+/*   Updated: 2019/07/08 14:30:52 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ static void		mk_float_number(t_number *num, long double *n, int precision)
 	int i;
 
 	num->base = 10U;
-	num->sign = *n > 0 ? 1 : -1;
+	num->sign = *n >= 0 ? 1 : -1;
+	if (*n == 0 && 1.0 / *n == 1.0 / -0.0)
+		num->sign = -1;
 	if (num->sign == -1)
 		*n *= -1;
 	i = 0;
