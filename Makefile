@@ -11,8 +11,19 @@
 # **************************************************************************** #
 
 NAME=			libft.a
-CC=				gcc
-CFLAGS=			-Wall -Wextra -Werror
+
+##########
+# Colors #
+##########
+
+GREEN=\x1b[32;01m
+RED=\x1b[31m
+RESET=\x1b[0m
+
+###########
+# Project #
+###########
+
 SRC_FILES=		\
 				ft_memset.c \
 				ft_memcpy.c \
@@ -87,26 +98,38 @@ SRC_FILES=		\
 				ft_sort.c \
 				ft_strappendbytes.c \
 
-OBJ_FOLDER=		.obj
-OBJ_FILES=		$(patsubst %.c,$(OBJ_FOLDER)/%.o,$(SRC_FILES))
+OBJ_DIR=		obj
+OBJ_FILES=		$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
+
+CFLAGS=			-Wall -Wextra -Werror
 
 all: $(NAME)
 
 test: $(NAME) $(DEBUG_FILES)
 
 $(NAME): $(OBJ_FILES)
-	ar rcs $@ $^
+	@printf "$(GREEN)ARCHIVE$(RESET)\t%s\n" $@
 
-$(OBJ_FOLDER)/%.o: %.c
-	@mkdir -p $(OBJ_FOLDER)
-	$(CC) $(CFLAGS) -o $@ -c $<
+	@ar rcs $@ $^
+
+$(OBJ_DIR)/%.o: %.c
+	@printf "$(GREEN)CC$(RESET)\t%s\n" $@
+
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -rf $(OBJ_FOLDER)
+	@printf "$(RED)RM$(RESET)\t%s\n" $(OBJ_DIR)/*
+
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	@printf "$(RED)RM$(RESET)\t%s\n" $(NAME)
 
-re: fclean all
+	@rm -f $(NAME)
+
+re:
+	@$(MAKE) fclean
+	@$(MAKE) all
 
 .PHONY: all clean fclean re
