@@ -119,13 +119,9 @@ $(OBJ_DIR)/%.o: %.c
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	@printf "$(RED)RM$(RESET)\t%s\n" $(OBJ_DIR)/*
-
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@printf "$(RED)RM$(RESET)\t%s\n" $(NAME)
-
 	@rm -f $(NAME)
 
 re:
