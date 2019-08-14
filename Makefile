@@ -58,11 +58,9 @@ dev: main.c $(SRC_FILES) $(INC_FILES)
 	@$(CC) -Wall -Wextra $(EXTRA) -g -o $@ .obj/main.o -L . -lftprintf
 
 clean:
-	@printf "$(RED)Cleaning objects$(RESET)\n"
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@printf "$(RED)Cleaning $(NAME) and ./dev$(RESET)\n"
 	@rm -rf $(NAME)
 	@rm -rf ./dev
 	@rm -rf ./dev.dSYM
