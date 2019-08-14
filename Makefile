@@ -34,11 +34,11 @@ INC_DIR=		./inc
 OBJ_DIR=		./.obj
 EXTRA=			# Custom CFLAGS added by the user
 CFLAGS=			-Werror -Wall -Wextra -O2 $(EXTRA)
-IFLAGS=			-I $(INC_DIR)
+IFLAGS=			-I $(INC_DIR) -I .
 LFLAGS=
 
 SRC_FILES=		$(wildcard $(SRC_DIR)/*.c)
-INC_FILES=		$(wildcard $(INC_DIR)/*.h)
+INC_FILES=		$(wildcard $(INC_DIR)/*.h) ft_printf.h
 OBJ_FILES=		$(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
 $(NAME): $(OBJ_FILES)
