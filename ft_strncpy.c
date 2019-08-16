@@ -21,7 +21,7 @@ char	*ft_strncpy(char *dst, const char *src, size_t len)
 	has_reached_end = 0;
 	while (i < len)
 	{
-		if (src[i] == '\0')
+		if (!has_reached_end && src[i] == '\0')
 			has_reached_end = 1;
 		if (has_reached_end)
 			dst[i] = '\0';
