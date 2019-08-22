@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/04/09 17:42:50 by nloomans      ########   odam.nl          #
+#    Updated: 2019/08/22 13:45:11 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,9 @@ NAME=			libft.a
 # Colors #
 ##########
 
-GREEN=\x1b[32;01m
-RED=\x1b[31m
-RESET=\x1b[0m
+GREEN=\033[32;01m
+RED=\033[31m
+RESET=\033[0m
 
 ###########
 # Project #
