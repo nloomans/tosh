@@ -6,7 +6,7 @@
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 15:04:21 by nmartins       #+#    #+#                */
-/*   Updated: 2019/07/08 16:38:35 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/08/22 13:47:02 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	writer_write(t_writer *writer, char *str, size_t length)
 void	writer_fd_write(t_writer *self, char *str, size_t length)
 {
 	self->written += length;
-	write(*(t_writer_fd_state *)self->state, str, length);
+	if (write(*(t_writer_fd_state *)self->state, str, length) == -1)
+		self->failed = 1;
 }
 
 void	writer_file_write(t_writer *self, char *str, size_t length)

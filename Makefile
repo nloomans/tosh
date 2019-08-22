@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/05/06 15:11:37 by nloomans       #+#    #+#                 #
-#    Updated: 2019/07/08 17:08:23 by nloomans      ########   odam.nl          #
+#    Updated: 2019/08/22 13:46:36 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,11 @@ all: $(NAME)
 # Colors #
 ##########
 
-OK_COLOR=\x1b[32;01m
-RESET=\x1b[0m
-UNDERLINE=\x1b[4m
-BLUE=\x1b[36m
-RED=\x1b[31m
+OK_COLOR=\033[32;01m
+RESET=\033[0m
+UNDERLINE=\033[4m
+BLUE=\033[36m
+RED=\033[31m
 
 ###########
 # Project #
