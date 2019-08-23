@@ -14,5 +14,5 @@ tasks:
     sudo make install PREFIX=/usr
 - annotations: |
     cd libft
-    find . -name "*.c" | xargs annotatec -g > annotations.json
+    find . -name "*.c" | xargs annotatec -C "cpp -I ." -g > annotations.json
     ../upload-annotations annotations.json nloomans libft
