@@ -24,99 +24,102 @@ RESET=\033[0m
 # Project #
 ###########
 
-SRC_FILES=		\
-				ft_memset.c \
-				ft_memcpy.c \
-				ft_memccpy.c \
-				ft_memmove.c \
-				ft_memchr.c \
-				ft_memcmp.c \
-				ft_strlen.c \
-				ft_strdup.c \
-				ft_strcpy.c \
-				ft_strncpy.c \
-				ft_strcat.c \
-				ft_strncat.c \
-				ft_strlcat.c \
-				ft_strchr.c \
-				ft_strrchr.c \
-				ft_strstr.c \
-				ft_strnstr.c \
-				ft_strcmp.c \
-				ft_strncmp.c \
-				\
-				ft_bzero.c \
-				\
-				ft_atoi.c \
-				\
-				ft_isalpha.c \
-				ft_isdigit.c \
-				ft_isalnum.c \
-				ft_isascii.c \
-				ft_isprint.c \
-				ft_toupper.c \
-				ft_tolower.c \
-				\
-				ft_memalloc.c \
-				ft_memdel.c \
-				ft_strnew.c \
-				ft_strdel.c \
-				ft_strclr.c \
-				ft_striter.c \
-				ft_striteri.c \
-				ft_strmap.c \
-				ft_strmapi.c \
-				ft_strequ.c \
-				ft_strnequ.c \
-				ft_strsub.c \
-				ft_strjoin.c \
-				ft_strtrim.c \
-				ft_strsplit.c \
-				ft_itoa.c \
-				ft_putchar.c \
-				ft_putstr.c \
-				ft_putendl.c \
-				ft_putnbr.c \
-				ft_putchar_fd.c \
-				ft_putstr_fd.c \
-				ft_putendl_fd.c \
-				ft_putnbr_fd.c \
-				\
-				ft_lstnew.c \
-				ft_lstdelone.c \
-				ft_lstdel.c \
-				ft_lstadd.c \
-				ft_lstiter.c \
-				ft_lstmap.c \
-				\
-				ft_isspace.c \
-				ft_strdropwhile.c \
-				ft_strstrim.c \
-				ft_lstpush.c \
-				ft_lstpop.c \
-				ft_print_memory.c \
-				ft_sort.c \
-				ft_strappendbytes.c \
-
+SRC_DIR=		src
+INC_DIR=		.
 OBJ_DIR=		obj
-OBJ_FILES=		$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
+
+SRC_FILES=		\
+				memset \
+				memcpy \
+				memccpy \
+				memmove \
+				memchr \
+				memcmp \
+				strlen \
+				strdup \
+				strcpy \
+				strncpy \
+				strcat \
+				strncat \
+				strlcat \
+				strchr \
+				strrchr \
+				strstr \
+				strnstr \
+				strcmp \
+				strncmp \
+				\
+				bzero \
+				\
+				atoi \
+				\
+				isalpha \
+				isdigit \
+				isalnum \
+				isascii \
+				isprint \
+				toupper \
+				tolower \
+				\
+				memalloc \
+				memdel \
+				strnew \
+				strdel \
+				strclr \
+				striter \
+				striteri \
+				strmap \
+				strmapi \
+				strequ \
+				strnequ \
+				strsub \
+				strjoin \
+				strtrim \
+				strsplit \
+				itoa \
+				putchar \
+				putstr \
+				putendl \
+				putnbr \
+				putchar_fd \
+				putstr_fd \
+				putendl_fd \
+				putnbr_fd \
+				\
+				lstnew \
+				lstdelone \
+				lstdel \
+				lstadd \
+				lstiter \
+				lstmap \
+				\
+				isspace \
+				strdropwhile \
+				strstrim \
+				lstpush \
+				lstpop \
+				print_memory \
+				sort \
+				strappendbytes \
+
+INC_FILES=		libft.h
+OBJ_FILES=		$(patsubst %,$(OBJ_DIR)/ft_%.o,$(SRC_FILES))
 
 CFLAGS=			-Wall -Wextra -Werror
+IFLAGS=			-I $(INC_DIR)
 
 all: $(NAME)
-
-test: $(NAME) $(DEBUG_FILES)
 
 $(NAME): $(OBJ_FILES)
 	@printf "$(GREEN)ARCHIVE$(RESET)\t%s\n" $@
 
 	@ar rcs $@ $^
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
 	@printf "$(GREEN)CC$(RESET)\t%s\n" $@
 
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -o $@ -c $<
+	@$(CC) $(CFLAGS) $(IFLAGS) -o $@ -c $<
 
 clean:
 	@rm -rf $(OBJ_DIR)
