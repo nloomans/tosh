@@ -1,0 +1,25 @@
+diff --git a/Makefile b/Makefile
+index 9293e88..2587d23 100644
+--- a/Makefile
++++ b/Makefile
+@@ -52,20 +52,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
+ 	@printf " λ Making object $(UNDERLINE)$(BLUE)$<$(RESET)\n"
+ 	@$(CC) -o $@ -c $< $(CFLAGS) $(IFLAGS)
+ 
+-dev: main.c $(SRC_FILES) $(INC_FILES)
+-	@printf " λ Everything below will be compiled with debug info\n"
+-	@$(MAKE) "EXTRA=$(EXTRA) -g"
+-	@printf " λ Creating binary $(OK_COLOR)$(UNDERLINE)$@$(RESET)\n"
+-	@$(CC) -Wall -Wextra $(EXTRA) -g -o .obj/main.o -c main.c -I inc
+-	@$(CC) -Wall -Wextra $(EXTRA) -g -o $@ .obj/main.o -L . -lftprintf
+-
+ clean:
+ 	@rm -rf $(OBJ_DIR)
+ 
+ fclean: clean
+ 	@rm -rf $(NAME)
+-	@rm -rf ./dev
+-	@rm -rf ./dev.dSYM
+ 
+ re:
+ 	@$(MAKE) fclean
