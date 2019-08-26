@@ -81,15 +81,17 @@ void	writer_string_write(t_writer *self, char *str, size_t length)
 	size_t					to_write;
 
 	state = (t_writer_string_state*)self->state;
-	if (self->written + length > (size_t)state->maximum && state->maximum > 0)
+	self->written += length;
+	if ((state->actually_written + length > (size_t)state->maximum)
+		&& state->maximum >= 0)
 	{
-		to_write = state->maximum - self->written;
-		std_memcpy(state->str_ptr + self->written, str, to_write);
-		self->written += to_write;
+		to_write = state->maximum - state->actually_written;
+		std_memcpy(state->str_ptr + state->actually_written, str, to_write);
+		state->actually_written += to_write;
 	}
 	else
 	{
-		std_memcpy(state->str_ptr + self->written, str, length);
-		self->written += length;
+		std_memcpy(state->str_ptr + state->actually_written, str, length);
+		state->actually_written += length;
 	}
 }

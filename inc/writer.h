@@ -53,6 +53,7 @@ typedef struct	s_writer_string_state
 {
 	char	*str_ptr;
 	ssize_t	maximum;
+	size_t	actually_written;
 }				t_writer_string_state;
 void			writer_string_write(t_writer *self, char *str, size_t length);
 

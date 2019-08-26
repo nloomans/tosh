@@ -19,13 +19,18 @@ ssize_t		ft_vsnprintf(char *dest, ssize_t capacity, char *fmt, va_list vlist)
 {
 	t_writer_string_state	st;
 	t_writer				writer;
+	ssize_t					ret;
 
-	st.maximum = capacity;
+	st.maximum = capacity > 0 ? capacity - 1 : capacity;
 	st.str_ptr = dest;
+	st.actually_written = 0;
 	std_memset(&writer, 0, sizeof(t_writer));
 	writer.state = (void*)&st;
 	writer.write = &writer_string_write;
-	return (ft_vwprintf(&writer, fmt, vlist));
+	ret = ft_vwprintf(&writer, fmt, vlist);
+	if (capacity != 0)
+		dest[st.actually_written] = '\0';
+	return (ret);
 }
 
 ssize_t		ft_vsprintf(char *dest, char *fmt, va_list vlist)
