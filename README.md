@@ -4,3 +4,6 @@
 
 This is my libft, which I use in many of my [Codam](https://codam.nl/)
 projects.
+
+Send patches to
+[~nloomans/inbox@lists.sr.ht](https://lists.sr.ht/~nloomans/inbox)
