@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <string.h>
+# include <stdint.h>
 
 /*
 ** TYPES
@@ -131,5 +132,6 @@ t_list			*ft_lstpop(t_list **alst);
 void			ft_print_memory(const void *addr, size_t size);
 void			ft_sort(int ac, void **av, int cmpf());
 int				ft_strappendbytes(char **str, char *to_append, size_t len);
+intmax_t		ft_intlen(intmax_t n);
 
 #endif
