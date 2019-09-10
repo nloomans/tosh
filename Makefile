@@ -101,6 +101,7 @@ SRC_FILES=		\
 				print_memory \
 				sort \
 				strappendbytes \
+				intlen \
 
 INC_FILES=		libft.h
 OBJ_FILES=		$(patsubst %,$(OBJ_DIR)/ft_%.o,$(SRC_FILES))
