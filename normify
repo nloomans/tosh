@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+import os
+import sys
+import shutil
+from glob import glob
+
+os.chdir(sys.path[0])
+
+shutil.rmtree("normified", ignore_errors=True)
+os.mkdir("normified")
+
+shutil.copytree("src", "normified/src")
+shutil.copy("libft.h", "normified")
+shutil.copy("Makefile", "normified")
+shutil.copy("author", "normified")
