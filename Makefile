@@ -25,7 +25,7 @@ RESET=\033[0m
 ###########
 
 SRC_DIR=		src
-INC_DIR=		.
+INC_DIR=		inc
 OBJ_DIR=		obj
 
 SRC_FILES=		\
@@ -102,12 +102,13 @@ SRC_FILES=		\
 				sort \
 				strappendbytes \
 				intlen \
+				getline \
 
-INC_FILES=		libft.h
+INC_FILES=		libft.h inc/ft_getline.h
 OBJ_FILES=		$(patsubst %,$(OBJ_DIR)/ft_%.o,$(SRC_FILES))
 
 CFLAGS=			-Wall -Wextra -Werror
-IFLAGS=			-I $(INC_DIR)
+IFLAGS=			-I . -I $(INC_DIR)
 
 all: $(NAME)
 
