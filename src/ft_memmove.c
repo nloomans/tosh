@@ -45,7 +45,12 @@
 
 static int	has_unsafe_overlap(const void *dst, const void *src, size_t len)
 {
-	return (src < dst && dst <= src + len);
+	const char	*c_src;
+	const char	*c_dst;
+
+	c_src = src;
+	c_dst = dst;
+	return (c_src < c_dst && c_dst <= c_src + len);
 }
 
 static void	*memcpy_reverse(void *dst, const void *src, size_t len)

@@ -15,5 +15,5 @@ void	ft_striter(char *s, void f(char *))
 	if (*s == '\0')
 		return ;
 	f(s);
-	return (ft_striter(s + 1, f));
+	ft_striter(s + 1, f);
 }

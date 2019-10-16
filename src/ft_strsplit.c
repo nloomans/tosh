@@ -38,7 +38,10 @@ static void		ft_strsplit_c(char **words, const char *s, char c)
 	if (*s == '\0')
 		return ;
 	if (*s == c)
-		return (ft_strsplit_c(words, s + 1, c));
+	{
+		ft_strsplit_c(words, s + 1, c);
+		return ;
+	}
 	section_len = char_index(s, c);
 	*words = ft_strsub(s, 0, section_len);
 	ft_strsplit_c(words + 1, s + section_len, c);
