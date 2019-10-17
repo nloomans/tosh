@@ -6,7 +6,7 @@
 #    By: nloomans <nloomans@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/19 10:52:40 by nloomans       #+#    #+#                 #
-#    Updated: 2019/08/22 13:45:11 by nloomans      ########   odam.nl          #
+#    Updated: 2019/10/17 18:22:48 by nloomans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,6 +103,7 @@ SRC_FILES=		\
 				strappendbytes \
 				intlen \
 				getline \
+				strreplace \
 
 INC_FILES=		libft.h inc/ft_getline.h
 OBJ_FILES=		$(patsubst %,$(OBJ_DIR)/ft_%.o,$(SRC_FILES))

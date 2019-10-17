@@ -6,7 +6,7 @@
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/19 18:27:26 by nloomans       #+#    #+#                */
-/*   Updated: 2019/10/14 14:28:44 by nloomans      ########   odam.nl         */
+/*   Updated: 2019/10/17 18:21:53 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void			ft_sort(int ac, void **av, int cmpf());
 int				ft_strappendbytes(char **str, char *to_append, size_t len);
 intmax_t		ft_intlen(intmax_t n);
 int				ft_getline(const int fd, char **line);
+void			ft_strreplace(char **to_replace, char *new);
 
 
 #endif
