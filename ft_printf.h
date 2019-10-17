@@ -15,6 +15,7 @@
 
 # include <sys/types.h>
 # include <stdio.h>
+# include <stdarg.h>
 
 ssize_t	ft_printf(char *fmt, ...);
 ssize_t	ft_vprintf(char *fmt, va_list vlist);

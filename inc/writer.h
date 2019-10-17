@@ -13,6 +13,7 @@
 #ifndef WRITER_H
 # define WRITER_H
 # include <stddef.h>
+# include <stdarg.h>
 # include <stdio.h>
 # include <sys/types.h>
 
