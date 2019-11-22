@@ -71,12 +71,12 @@ libftprintf_deb = declare_dependency(
 
 if libcriterion.found()
   tester = executable(
-    'tester',
+    'test-libfrprintf',
     sources: test_files,
     dependencies: [libcriterion],
     link_with: [libftprintf],
     include_directories: inc_dir,
   )
 
-  test('Unit tests', tester)
+  test('libftprintf', tester)
 endif
