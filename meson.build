@@ -13,6 +13,7 @@ project(
 inc_dir = include_directories('inc')
 src_files = files([
   'src/ft_atoi.c',
+  'src/ft_arraydel.c',
   'src/ft_bzero.c',
   'src/ft_getline.c',
   'src/ft_intlen.c',

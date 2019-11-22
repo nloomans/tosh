@@ -135,6 +135,6 @@ int				ft_strappendbytes(char **str, char *to_append, size_t len);
 intmax_t		ft_intlen(intmax_t n);
 int				ft_getline(const int fd, char **line);
 void			ft_strreplace(char **to_replace, char *new);
-
+void			ft_arraydel(void ***array, void delf(void **));
 
 #endif
