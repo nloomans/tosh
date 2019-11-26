@@ -20,6 +20,7 @@
 ssize_t	ft_printf(char *fmt, ...);
 ssize_t	ft_vprintf(char *fmt, va_list vlist);
 ssize_t	ft_dprintf(int fd, char *fmt, ...);
+int		ft_eprintf(int exit_code, char *fmt, ...);
 ssize_t	ft_vdprintf(int fd, char *fmt, va_list vlist);
 ssize_t	ft_fprintf(FILE *file, char *fmt, ...);
 ssize_t ft_vfprintf(FILE *file, char *fmt, va_list vlist);

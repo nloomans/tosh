@@ -37,3 +37,21 @@ ssize_t		ft_dprintf(int fd, char *fmt, ...)
 	va_end(vlist);
 	return (ret);
 }
+
+/*
+** This function will print the format string to stderr and then return the
+** first argument.
+**
+** Example:
+**     if (err == -1)
+**         return (ft_eprintf(-1, "xyz went wrong\n"));
+*/
+int			ft_eprintf(int exit_code, char *fmt, ...)
+{
+	va_list		vlist;
+
+	va_start(vlist, fmt);
+	(void)ft_vdprintf(2, fmt, vlist);
+	va_end(vlist);
+	return (exit_code);
+}
