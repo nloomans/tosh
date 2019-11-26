@@ -64,6 +64,7 @@ src_files = files([
   'src/ft_striteri.c',
   'src/ft_strjoin.c',
   'src/ft_strlcat.c',
+  'src/ft_strlcpy.c',
   'src/ft_strlen.c',
   'src/ft_strmap.c',
   'src/ft_strmapi.c',

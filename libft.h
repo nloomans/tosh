@@ -126,6 +126,7 @@ t_list			*ft_lstmap(t_list *lst, t_list *f(t_list *elem));
 
 int				ft_isspace(int c);
 char			*ft_strstrim(const char *s);
+size_t			ft_strlcpy(char *dst, const char *src, size_t size);
 char			*ft_strdropwhile(const char *str, int should_skip(int c));
 void			ft_lstpush(t_list **alst, t_list *new);
 t_list			*ft_lstpop(t_list **alst);
