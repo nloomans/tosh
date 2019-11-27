@@ -76,6 +76,7 @@ src_files = files([
   'src/ft_strnstr.c',
   'src/ft_strrchr.c',
   'src/ft_strreplace.c',
+  'src/ft_strfoversplit.c',
   'src/ft_strsplit.c',
   'src/ft_strstr.c',
   'src/ft_strstrim.c',
