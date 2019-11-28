@@ -46,6 +46,7 @@ ssize_t		ft_dprintf(int fd, char *fmt, ...)
 **     if (err == -1)
 **         return (ft_eprintf(-1, "xyz went wrong\n"));
 */
+
 int			ft_eprintf(int exit_code, char *fmt, ...)
 {
 	va_list		vlist;
