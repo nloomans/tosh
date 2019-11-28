@@ -94,8 +94,9 @@ SRC_FILES=		\
 				lstmap \
 				\
 				isspace \
-				strdropwhile \
 				strstrim \
+				strlcpy \
+				strdropwhile \
 				lstpush \
 				lstpop \
 				print_memory \
@@ -104,6 +105,8 @@ SRC_FILES=		\
 				intlen \
 				getline \
 				strreplace \
+				arraydel \
+				strfoversplit \
 
 INC_FILES=		libft.h inc/ft_getline.h
 OBJ_FILES=		$(patsubst %,$(OBJ_DIR)/ft_%.o,$(SRC_FILES))

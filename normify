@@ -10,6 +10,7 @@ shutil.rmtree("normified", ignore_errors=True)
 os.mkdir("normified")
 
 shutil.copytree("src", "normified/src")
+shutil.copytree("inc", "normified/inc")
 shutil.copy("libft.h", "normified")
 shutil.copy("Makefile", "normified")
 shutil.copy("author", "normified")
