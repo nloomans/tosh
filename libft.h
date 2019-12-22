@@ -100,14 +100,6 @@ char			*ft_strjoin(const char *s1, const char *s2);
 char			*ft_strtrim(const char *s);
 char			**ft_strsplit(const char *s, char c);
 char			*ft_itoa(int n);
-void			ft_putchar(char c);
-void			ft_putstr(const char *s);
-void			ft_putendl(const char *s);
-void			ft_putnbr(int n);
-void			ft_putchar_fd(char c, int fd);
-void			ft_putstr_fd(const char *s, int fd);
-void			ft_putendl_fd(const char *s, int fd);
-void			ft_putnbr_fd(int n, int fd);
 
 /*
 ** BONUS PART
@@ -130,7 +122,6 @@ size_t			ft_strlcpy(char *dst, const char *src, size_t size);
 char			*ft_strdropwhile(const char *str, int should_skip(int c));
 void			ft_lstpush(t_list **alst, t_list *new);
 t_list			*ft_lstpop(t_list **alst);
-void			ft_print_memory(const void *addr, size_t size);
 void			ft_sort(int ac, void **av, int cmpf());
 int				ft_strappendbytes(char **str, char *to_append, size_t len);
 intmax_t		ft_intlen(intmax_t n);
