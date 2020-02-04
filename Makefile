@@ -77,14 +77,6 @@ SRC_FILES=		\
 				strtrim \
 				strsplit \
 				itoa \
-				putchar \
-				putstr \
-				putendl \
-				putnbr \
-				putchar_fd \
-				putstr_fd \
-				putendl_fd \
-				putnbr_fd \
 				\
 				lstnew \
 				lstdelone \
@@ -99,7 +91,6 @@ SRC_FILES=		\
 				strdropwhile \
 				lstpush \
 				lstpop \
-				print_memory \
 				sort \
 				strappendbytes \
 				intlen \
