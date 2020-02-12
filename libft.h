@@ -15,6 +15,7 @@
 
 # include <string.h>
 # include <stdint.h>
+# include <stdbool.h>
 
 /*
 ** TYPES
@@ -26,6 +27,17 @@ typedef struct	s_list
 	size_t			content_size;
 	struct s_list	*next;
 }				t_list;
+
+struct			s_ft_getopt
+{
+	char	*arg;
+	int		index;
+	int		group_index;
+	char	opt;
+	bool	illegal;
+};
+
+# define FT_GETOPT_DEFAULT (struct s_ft_getopt){0, 1, 1, 0, false}
 
 /*
 ** PART 1 - LIBC FUNCTIONS
@@ -129,5 +141,7 @@ int				ft_getline(const int fd, char **line);
 void			ft_strreplace(char **to_replace, char *new);
 void			ft_arraydel(void ***array, void delf(void **));
 char			**ft_strfoversplit(const char *s, int should_split(int c));
+bool			ft_getopt(struct s_ft_getopt *opt, int argc, char **argv,
+					const char *optstring);
 
 #endif

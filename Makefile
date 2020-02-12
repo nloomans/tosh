@@ -98,6 +98,7 @@ SRC_FILES=		\
 				strreplace \
 				arraydel \
 				strfoversplit \
+				getopt \
 
 INC_FILES=		libft.h inc/ft_getline.h
 OBJ_FILES=		$(patsubst %,$(OBJ_DIR)/ft_%.o,$(SRC_FILES))

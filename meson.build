@@ -75,6 +75,7 @@ src_files = files([
   'src/ft_strtrim.c',
   'src/ft_tolower.c',
   'src/ft_toupper.c',
+  'src/ft_getopt.c',
 ])
 
 libft = static_library(
