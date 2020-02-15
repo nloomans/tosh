@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+import os
+import sys
+import shutil
+import glob
+
+os.chdir(sys.path[0])
+
+shutil.rmtree("normified", ignore_errors=True)
+os.mkdir("normified")
+shutil.copytree("src", "normified/src")
+shutil.copytree("inc", "normified/inc")
+shutil.copy("ft_printf.h", "normified")
+shutil.copy("author", "normified")
+shutil.copy("Makefile", "normified")
+
+# patch file generated using
+#   git diff Makefile > normify-makefile.patch
+os.system("cd normified && " +
+  "patch -s --no-backup-if-mismatch < ../normify-makefile.patch")
+
+with open('normified/Makefile', 'r') as fd:
+  makefile = fd.read()
+
+makefile = makefile.replace(
+    "$(wildcard $(SRC_DIR)/*.c)",
+    " \\\n".join(glob.glob("./src/*.c")))
+
+makefile = makefile.replace(
+    "$(wildcard $(INC_DIR)/*.h)",
+    " \\\n".join(glob.glob("./inc/*.h")))
+
+with open('normified/Makefile', 'w') as fd:
+  fd.write(makefile)
