@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <criterion/criterion.h>
-#include "pub.h"
+#include "error.h"
 
 Test(is_error, detects_errors_as_errors) {
 	cr_assert_eq(is_error(errorf("unable to allocate memory")), true);

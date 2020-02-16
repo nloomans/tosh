@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <criterion/criterion.h>
-#include "pub.h"
+#include "error.h"
 
 Test(errorf, should_return_error) {
 	t_error	error;

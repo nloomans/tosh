@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_PUB_H
-# define ERROR_PUB_H
+#ifndef ERROR_H
+# define ERROR_H
 
 # include <stdbool.h>
 

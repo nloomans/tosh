@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <term.h>
-#include "pub.h"
+#include "term.h"
 
 void	term_init(const char *term_env)
 {

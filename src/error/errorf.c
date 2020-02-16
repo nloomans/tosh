@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <ft_printf.h>
-#include "pub.h"
+#include "error.h"
 
 t_error	errorf(char *fmt, ...)
 {

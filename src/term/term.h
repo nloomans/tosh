@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TERM_PUB_H
-# define TERM_PUB_H
+#ifndef TERM_H
+# define TERM_H
 
 # include <stddef.h>
-# include "../error/pub.h"
+# include "../error/error.h"
 
 struct				s_term_pos
 {

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdbool.h>
-#include "pub.h"
+#include "error.h"
 
 bool	is_error(t_error error)
 {

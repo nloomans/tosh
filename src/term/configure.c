@@ -12,7 +12,7 @@
 
 #include <termios.h>
 #include <unistd.h>
-#include "pub.h"
+#include "term.h"
 
 /*
 ** Modes changed:

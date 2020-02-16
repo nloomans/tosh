@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include <ft_printf.h>
 #include <unistd.h>
-#include "../error/pub.h"
-#include "../term/pub.h"
+#include "../error/error.h"
+#include "../term/term.h"
 
 void	tosh(void)
 {
