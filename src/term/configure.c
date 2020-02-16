@@ -10,25 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <ft_printf.h>
+#include <termios.h>
 #include <unistd.h>
-#include "../error/pub.h"
-#include "../term/pub.h"
+#include "pub.h"
 
-void	tosh(void)
+/*
+** Modes changed:
+** - ~ECHO: Disable the printing of keypresses into the terminal.
+** - ~ICANON: Read input char-by-char instead of line-by-line.
+** - VIM = 0: Read a minimum bytes to read to 0 bytes.
+** - VTIME = 1: A maximum of 100ms per keypress;
+*/
+
+void		term_configure(enum e_term_configure_action action)
 {
-	t_error				error;
-	struct s_term_pos	pos;
+	static struct termios	original;
+	struct termios			new;
 
-	term_init(getenv("TERM"));
-	term_configure(TERM_CONFIGURE_SETUP);
-	error = term_getcursor(&pos);
-	if (is_error(error))
+	if (action == TERM_CONFIGURE_SETUP)
 	{
-		ft_dprintf(STDERR_FILENO, "unable to get cursor pos: %s\n", error.msg);
-		return ;
+		tcgetattr(STDIN_FILENO, &original);
+		new = original;
+		new.c_lflag &= ~(ECHO | ICANON);
+		new.c_cc[VMIN] = 0;
+		new.c_cc[VTIME] = 1;
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &new);
 	}
-	ft_printf("pos: row %u column %u\n", pos.row, pos.column);
-	term_configure(TERM_CONFIGURE_RESTORE);
+	else
+	{
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &original);
+	}
 }

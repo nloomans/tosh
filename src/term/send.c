@@ -10,25 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <ft_printf.h>
+#include <term.h>
 #include <unistd.h>
-#include "../error/pub.h"
-#include "../term/pub.h"
+#include "priv.h"
 
-void	tosh(void)
+static int	putchar_stderr(int c)
 {
-	t_error				error;
-	struct s_term_pos	pos;
+	return (write(STDERR_FILENO, &c, 1));
+}
 
-	term_init(getenv("TERM"));
-	term_configure(TERM_CONFIGURE_SETUP);
-	error = term_getcursor(&pos);
-	if (is_error(error))
-	{
-		ft_dprintf(STDERR_FILENO, "unable to get cursor pos: %s\n", error.msg);
-		return ;
-	}
-	ft_printf("pos: row %u column %u\n", pos.row, pos.column);
-	term_configure(TERM_CONFIGURE_RESTORE);
+void		term__send(const char *entry)
+{
+	tputs(tgetstr((char *)entry, NULL), 0, putchar_stderr);
 }

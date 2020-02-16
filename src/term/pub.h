@@ -10,25 +10,39 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../error/pub.h"
-#include "../term/pub.h"
+#ifndef TERM_PUB_H
+# define TERM_PUB_H
 
-void	tosh(void)
+# include <stddef.h>
+# include "../error/pub.h"
+
+struct				s_term_pos
 {
-	t_error				error;
-	struct s_term_pos	pos;
+	size_t	row;
+	size_t	column;
+};
 
-	term_init(getenv("TERM"));
-	term_configure(TERM_CONFIGURE_SETUP);
-	error = term_getcursor(&pos);
-	if (is_error(error))
-	{
-		ft_dprintf(STDERR_FILENO, "unable to get cursor pos: %s\n", error.msg);
-		return ;
-	}
-	ft_printf("pos: row %u column %u\n", pos.row, pos.column);
-	term_configure(TERM_CONFIGURE_RESTORE);
-}
+enum				e_term_configure_action {
+	TERM_CONFIGURE_SETUP,
+	TERM_CONFIGURE_RESTORE,
+};
+
+/*
+** term_init loads the termcap entry. Call this before all other term_*
+** functions.
+*/
+void				term_init(const char *term_env);
+
+/*
+** term_configure changes the termios table in ways needed for precise terminal
+** manipulation.
+*/
+void				term_configure(enum e_term_configure_action action);
+
+/*
+** term_getcursor gets the position of the cursor. Terminal must be configured
+** using term_configure(TERM_CONFIGURE_SETUP) for this to work.
+*/
+t_error				term_getcursor(struct s_term_pos *out);
+
+#endif

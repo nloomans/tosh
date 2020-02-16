@@ -10,25 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../error/pub.h"
-#include "../term/pub.h"
+#ifndef TERM_PRIV_H
+# define TERM_PRIV_H
 
-void	tosh(void)
-{
-	t_error				error;
-	struct s_term_pos	pos;
+void	term__send(const char *entry);
 
-	term_init(getenv("TERM"));
-	term_configure(TERM_CONFIGURE_SETUP);
-	error = term_getcursor(&pos);
-	if (is_error(error))
-	{
-		ft_dprintf(STDERR_FILENO, "unable to get cursor pos: %s\n", error.msg);
-		return ;
-	}
-	ft_printf("pos: row %u column %u\n", pos.row, pos.column);
-	term_configure(TERM_CONFIGURE_RESTORE);
-}
+#endif
