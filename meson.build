@@ -22,6 +22,8 @@ libftprintf_deb = libftprintf_proj.get_variable('libftprintf_deb')
 src_files = files([
   'src/bootstrap/main.c',
   'src/bootstrap/tosh.c',
+  'src/error/errorf.c',
+  'src/error/is_error.c',
 ])
 
 executable(
