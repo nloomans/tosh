@@ -27,7 +27,6 @@ if not libcurses_deb.found()
 endif
 
 src_files = files([
-  'src/bootstrap/main.c',
   'src/bootstrap/tosh.c',
   'src/error/errorf.c',
   'src/error/is_error.c',
@@ -37,8 +36,25 @@ src_files = files([
   'src/term/send.c',
 ])
 
+main_file = files('src/bootstrap/main.c')
+
 executable(
   'tosh',
-  sources: src_files,
+  sources: src_files + main_file,
   dependencies: [libft_deb, libftprintf_deb, libcurses_deb],
 )
+
+libcriterion_deb = dependency('criterion', required: false)
+
+if libcriterion_deb.found()
+  test_files = src_files + files([
+    'src/error/errorf_test.c',
+    'src/error/is_error_test.c',
+  ])
+
+  tester = executable('test-tosh',
+    sources: test_files,
+    dependencies: [libft_deb, libftprintf_deb, libcurses_deb, libcriterion_deb])
+
+  test('tosh', tester)
+endif
