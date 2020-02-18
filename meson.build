@@ -58,3 +58,11 @@ if libcriterion_deb.found()
 
   test('tosh', tester)
 endif
+
+norminette = find_program('norminette', required: false)
+
+if norminette.found()
+  test('norm',
+    find_program('contrib/meson-norm.sh'),
+    args: src_files + main_file)
+endif
