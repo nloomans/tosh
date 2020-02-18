@@ -58,3 +58,7 @@ if norminette.found()
     find_program('scripts/meson-norminette'),
     args: src_files + main_file)
 endif
+
+test('header',
+  find_program('scripts/addheader'),
+  args: '-n')

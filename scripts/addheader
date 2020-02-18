@@ -1,12 +1,48 @@
 #!/usr/bin/env bash
+# addheader - automaticallty adds header to .c and .h files which don't have
+# one.
+#
+# Run with -n to only report missing headers, instead of automatically inserting
+# them.
+
 cd "$(dirname "$0")/.." || exit 1
 
-for file in src/**/*.c src/**/*.h; do
-	if ! diff -q <(head -n1 "$file") <(head -n1 contrib/header) >/dev/null; then
-		echo "addheader: $file"
+dryrun=
+while getopts n name
+do
+	case $name in
+	n) dryrun=1;;
+	?) printf "Usage: %s: [-n]\n" "$0" && exit 1;;
+	esac
+done
 
-		contents="$(cat "$file")"
-		cp contrib/header "$file"
-		echo "$contents" >> "$file"
+missing=
+invalid=
+for file in src/**/*.c src/**/*.h; do
+	if ! diff <(head -n1 "$file") <(head -n1 .header) >/dev/null; then
+		if [ -n "$dryrun" ]; then
+			echo "missing header: $file"
+			missing=1
+		else
+			echo "added header: $file"
+
+			contents="$(cat "$file")"
+			cp .header "$file"
+			echo "$contents" >> "$file"
+		fi
+	elif ! diff <(head -n12 "$file") .header >/dev/null; then
+		echo "invalid header: $file"
+		invalid=1
 	fi
 done
+
+if [ -n "$invalid" ]; then
+	echo >&2
+	echo "remove invalid headers and run ./scripts/addheader to correct this" >&2
+	exit 1
+fi
+if [ -n "$missing" ]; then
+	echo >&2
+	echo "run ./scripts/addheader to correct this" >&2
+	exit 1
+fi
