@@ -8,6 +8,15 @@ project(
   ]
 )
 
+src_files = files()
+test_files = files()
+
+subdir('src/bootstrap')
+subdir('src/term')
+subdir('src/error')
+
+main_file = files('src/bootstrap/main.c')
+
 add_project_arguments(
   '-DVERSION="' + meson.project_version() + '"',
   language: 'c'
@@ -23,20 +32,8 @@ libftprintf_deb = libftprintf_proj.get_variable('libftprintf_deb')
 
 libcurses_deb = cc.find_library('curses', required: false)
 if not libcurses_deb.found()
-	libcurses_deb = dependency('ncurses')
+  libcurses_deb = dependency('ncurses')
 endif
-
-src_files = files([
-  'src/bootstrap/tosh.c',
-  'src/error/errorf.c',
-  'src/error/is_error.c',
-  'src/term/configure.c',
-  'src/term/getcursor.c',
-  'src/term/init.c',
-  'src/term/send.c',
-])
-
-main_file = files('src/bootstrap/main.c')
 
 executable(
   'tosh',
@@ -47,13 +44,8 @@ executable(
 libcriterion_deb = dependency('criterion', required: false)
 
 if libcriterion_deb.found()
-  test_files = src_files + files([
-    'src/error/errorf_test.c',
-    'src/error/is_error_test.c',
-  ])
-
   tester = executable('test-tosh',
-    sources: test_files,
+    sources: src_files + test_files,
     dependencies: [libft_deb, libftprintf_deb, libcurses_deb, libcriterion_deb])
 
   test('tosh', tester)
