@@ -2,9 +2,9 @@
 /*                                                                            */
 /*   tosh - 21 Shell                                      ::::::::            */
 /*                                                      :+:    :+:            */
-/*   By: ivan-tey <ivan-tey@student.codam.nl>          +:+                    */
-/*       nloomans <nloomans@student.codam.nl>         +#+                     */
-/*       aholster <aholster@student.codam.nl>        +#+                      */
+/*   By: aholster <aholster@student.codam.nl>          +:+                    */
+/*       ivan-tey <ivan-tey@student.codam.nl>         +#+                     */
+/*       nloomans <nloomans@student.codam.nl>        +#+                      */
 /*                                                 #+#    #+#                 */
 /*   License: GPLv3                                ########   odam.nl         */
 /*                                                                            */
