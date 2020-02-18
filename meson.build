@@ -55,6 +55,6 @@ norminette = find_program('norminette', required: false)
 
 if norminette.found()
   test('norm',
-    find_program('contrib/meson-norm.sh'),
+    find_program('scripts/meson-norminette'),
     args: src_files + main_file)
 endif

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+cd "$(dirname "$0")/.." || exit 1
+
+for file in src/**/*.c src/**/*.h; do
+	if ! diff -q <(head -n1 "$file") <(head -n1 contrib/header) >/dev/null; then
+		echo "addheader: $file"
+
+		contents="$(cat "$file")"
+		cp contrib/header "$file"
+		echo "$contents" >> "$file"
+	fi
+done

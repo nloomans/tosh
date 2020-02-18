@@ -1,0 +1,36 @@
+#!/bin/sh
+modname="$1"
+moddir="$(dirname "$@")/../src/$modname"
+if [ -d "$moddir" ]; then
+	echo "module $modname already exists"
+	exit 1
+fi
+
+mkdir "$moddir"
+cat > "$moddir/meson.build" <<EOF
+src_files += files()
+
+test_files += files()
+EOF
+
+uppercase_modname=$(echo "$modname" | tr '[:lower:]' '[:upper:]')
+guard_name="$uppercase_modname"_H
+
+cat > "$moddir/$modname.h" <<EOF
+/* ************************************************************************** */
+/*                                                                            */
+/*   tosh - 21 Shell                                      ::::::::            */
+/*                                                      :+:    :+:            */
+/*   By: aholster <aholster@student.codam.nl>          +:+                    */
+/*       ivan-tey <ivan-tey@student.codam.nl>         +#+                     */
+/*       nloomans <nloomans@student.codam.nl>        +#+                      */
+/*                                                 #+#    #+#                 */
+/*   License: GPLv3                                ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef $guard_name
+# define $guard_name
+
+#endif
+EOF
