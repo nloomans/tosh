@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOSH_BOOTSTRAP_PRIV_H
-# define TOSH_BOOTSTRAP_PRIV_H
+#ifndef PRIVATE_H
+# define PRIVATE_H
 
 # define HELP_STR "usage: tosh [-v | -h]\n"
 

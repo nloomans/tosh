@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TERM_PRIV_H
-# define TERM_PRIV_H
+#ifndef PRIVATE_H
+# define PRIVATE_H
 
 void	term__send(const char *entry);
 

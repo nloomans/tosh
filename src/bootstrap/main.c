@@ -13,7 +13,7 @@
 #include <libft.h>
 #include <ft_printf.h>
 #include <unistd.h>
-#include "priv.h"
+#include "private.h"
 
 int		main(int argc, char **argv)
 {

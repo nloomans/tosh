@@ -15,7 +15,7 @@
 #include <ft_printf.h>
 #include <assert.h>
 #include "term.h"
-#include "priv.h"
+#include "private.h"
 
 /*
 ** u7 ("User string #7") requests the cursor position to be send on xterm
