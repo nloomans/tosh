@@ -1,6 +1,16 @@
 #!/bin/sh
+# mkmod - create the boilerplate files for a new module.
+#
+# Running `./scripts/mkmod foo` will create the `src/foo/foo.h` and
+# `src/foo/meson.build` files.
+
+if [ $# -ne 1 ]; then
+	echo "Usage: $0 <modname>"
+	exit 1
+fi
+
 modname="$1"
-moddir="$(dirname "$@")/../src/$modname"
+moddir="$(dirname "$0")/../src/$modname"
 if [ -d "$moddir" ]; then
 	echo "module $modname already exists"
 	exit 1
@@ -34,3 +44,9 @@ cat > "$moddir/$modname.h" <<EOF
 
 #endif
 EOF
+
+echo "directory src/$modname created, be sure to add"
+echo
+echo "  subdir('src/$modname')"
+echo
+echo "to the root meson.build file"

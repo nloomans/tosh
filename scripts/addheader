@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# addheader - automaticallty adds header to .c and .h files which don't have
+# addheader - automatically adds header to .c and .h files which don't have
 # one.
 #
 # Run with -n to only report missing headers, instead of automatically inserting
