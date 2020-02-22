@@ -52,6 +52,7 @@ src_files = files([
   'src/ft_strncat.c',
   'src/ft_strncmp.c',
   'src/ft_strncpy.c',
+  'src/ft_strndup.c',
   'src/ft_strnequ.c',
   'src/ft_strnew.c',
   'src/ft_strnstr.c',

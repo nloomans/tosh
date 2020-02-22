@@ -36,6 +36,7 @@ SRC_FILES=		\
 				memcmp \
 				strlen \
 				strdup \
+				strndub \
 				strcpy \
 				strncpy \
 				strcat \
