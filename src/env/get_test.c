@@ -22,13 +22,13 @@ Test(env_get, get_value) {
 	env.list = NULL;
 	ret = env_from_envp(&env, arr);
 	cr_assert_eq(ret, 0);
-	value = env_get(env, "UGH");
+	value = env_get(&env, "UGH");
 	cr_assert_str_eq(value, "ugh");
-	value = env_get(env, "BAR");
+	value = env_get(&env, "BAR");
 	cr_assert_str_eq(value, "bar");
-	value = env_get(env, "FOO");
+	value = env_get(&env, "FOO");
 	cr_assert_str_eq(value, "foo");
-	value = env_get(env, "NAHHH");
+	value = env_get(&env, "NAHHH");
 	cr_assert_str_eq(value, "nahhh");
 }
 
@@ -41,7 +41,7 @@ Test(env_get, get_value_null_key) {
 	env.list = NULL;
 	ret = env_from_envp(&env, arr);
 	cr_assert_eq(ret, 0);
-	value = env_get(env, NULL);
+	value = env_get(&env, NULL);
 	cr_assert_eq(value, NULL);
 }
 
@@ -50,7 +50,7 @@ Test(env_get, get_value_null_env) {
 	char		*value;
 	
 	env.list = NULL;
-	value = env_get(env, "FAKE");
+	value = env_get(&env, "FAKE");
 	cr_assert_eq(value, NULL);
 }
 
@@ -63,6 +63,6 @@ Test(env_get, get_value_fake) {
 	env.list = NULL;
 	ret = env_from_envp(&env, arr);
 	cr_assert_eq(ret, 0);
-	value = env_get(env, "FAKE");
+	value = env_get(&env, "FAKE");
 	cr_assert_eq(value, NULL);
 }

@@ -12,12 +12,12 @@
 
 #include "env.h"
 
-char					*env_get(t_env env, char *key)
+char					*env_get(t_env *env, char *key)
 {
 	char				*value;
 	struct s_env_list	*temp;
 
-	temp = env.list;
+	temp = env->list;
 	while (temp && key)
 	{
 		if (ft_strequ(temp->key, key) == 1)
