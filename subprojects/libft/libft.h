@@ -21,13 +21,6 @@
 ** TYPES
 */
 
-typedef struct	s_list
-{
-	void			*content;
-	size_t			content_size;
-	struct s_list	*next;
-}				t_list;
-
 struct			s_ft_getopt
 {
 	char	*arg;
@@ -114,17 +107,6 @@ char			**ft_strsplit(const char *s, char c);
 char			*ft_itoa(int n);
 
 /*
-** BONUS PART
-*/
-
-t_list			*ft_lstnew(const void *content, size_t content_size);
-void			ft_lstdelone(t_list **alst, void del(void *, size_t));
-void			ft_lstdel(t_list **alst, void del(void *, size_t));
-void			ft_lstadd(t_list **alst, t_list *new);
-void			ft_lstiter(t_list *lst, void f(t_list *elem));
-t_list			*ft_lstmap(t_list *lst, t_list *f(t_list *elem));
-
-/*
 ** EXPANSION
 */
 
@@ -132,16 +114,78 @@ int				ft_isspace(int c);
 char			*ft_strstrim(const char *s);
 size_t			ft_strlcpy(char *dst, const char *src, size_t size);
 char			*ft_strdropwhile(const char *str, int should_skip(int c));
-void			ft_lstpush(t_list **alst, t_list *new);
-t_list			*ft_lstpop(t_list **alst);
 void			ft_sort(int ac, void **av, int cmpf());
 int				ft_strappendbytes(char **str, char *to_append, size_t len);
 intmax_t		ft_intlen(intmax_t n);
-int				ft_getline(const int fd, char **line);
 void			ft_strreplace(char **to_replace, char *new);
 void			ft_arraydel(void ***array, void delf(void **));
 char			**ft_strfoversplit(const char *s, int should_split(int c));
 bool			ft_getopt(struct s_ft_getopt *opt, int argc, char **argv,
 					const char *optstring);
+
+/*
+** LINKED LIST
+*/
+
+/*
+** list - double linked list implementation.
+**
+** This linked list implementation has been inspired by the list.h from the
+** Linux kernel.
+**
+** The s_list2_conn struct contains pointers to the next and previous
+** s_list2_conn structs. The functions contained in this header will malipulate
+** these pointers. The struct contains only those pointers and therefor no
+** content. It should not be used standalone. Instead, put it inside of a
+** parrent struct as follows:
+**
+** struct s_example_node
+** {
+**   char         *foo;
+**   int          bar;
+**   [etc...]
+**   t_list2_conn conn;
+** }
+**
+** To insert an element, malloc the aforementioned struct and give list2_insert
+** a pointer to the conn member of the struct.
+**
+** To get the s_example_node struct from a conn, an unpack function must be
+** written. In this case the function would look like this:
+**
+** struct s_state_option    *unpack_example(struct s_list2_conn *conn)
+** {
+**     if (conn == NULL)
+**         return (NULL);
+**     return (struct s_example_node *)(
+**         (char *)conn - offsetof(struct s_example_node, conn));
+** }
+**
+** This function takes a pointer to the conn member of the example struct, and
+** returns a pointer to the example struct itself. It does this by calculating
+** the offset of the conn member relative to the start of the example struct.
+*/
+
+typedef struct	s_list_conn
+{
+	struct s_list_conn	*prev;
+	struct s_list_conn	*next;
+}				t_list_conn;
+
+typedef struct	s_list_meta
+{
+	struct s_list_conn	*first;
+	struct s_list_conn	*last;
+	size_t				len;
+}				t_list_meta;
+
+void			ft_list_insert(
+					t_list_meta *meta,
+					t_list_conn *prev,
+					t_list_conn *new);
+
+void			ft_list_unlink(
+					t_list_meta *meta,
+					t_list_conn *conn);
 
 #endif

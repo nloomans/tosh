@@ -25,7 +25,6 @@ RESET=\033[0m
 ###########
 
 SRC_DIR=		src
-INC_DIR=		inc
 OBJ_DIR=		obj
 
 SRC_FILES=		\
@@ -78,33 +77,26 @@ SRC_FILES=		\
 				strsplit \
 				itoa \
 				\
-				lstnew \
-				lstdelone \
-				lstdel \
-				lstadd \
-				lstiter \
-				lstmap \
-				\
 				isspace \
 				strstrim \
 				strlcpy \
 				strdropwhile \
-				lstpush \
-				lstpop \
 				sort \
 				strappendbytes \
 				intlen \
-				getline \
 				strreplace \
 				arraydel \
 				strfoversplit \
 				getopt \
+				\
+				list_insert \
+				list_unlink \
 
-INC_FILES=		libft.h inc/ft_getline.h
+INC_FILES=		libft.h
 OBJ_FILES=		$(patsubst %,$(OBJ_DIR)/ft_%.o,$(SRC_FILES))
 
 CFLAGS=			-Wall -Wextra -Werror
-IFLAGS=			-I . -I $(INC_DIR)
+IFLAGS=			-I .
 
 all: $(NAME)
 
