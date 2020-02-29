@@ -10,12 +10,10 @@ project(
   ]
 )
 
-inc_dir = include_directories('inc')
 src_files = files([
   'src/ft_atoi.c',
   'src/ft_arraydel.c',
   'src/ft_bzero.c',
-  'src/ft_getline.c',
   'src/ft_intlen.c',
   'src/ft_isalnum.c',
   'src/ft_isalpha.c',
@@ -24,14 +22,6 @@ src_files = files([
   'src/ft_isprint.c',
   'src/ft_isspace.c',
   'src/ft_itoa.c',
-  'src/ft_lstadd.c',
-  'src/ft_lstdel.c',
-  'src/ft_lstdelone.c',
-  'src/ft_lstiter.c',
-  'src/ft_lstmap.c',
-  'src/ft_lstnew.c',
-  'src/ft_lstpop.c',
-  'src/ft_lstpush.c',
   'src/ft_memalloc.c',
   'src/ft_memccpy.c',
   'src/ft_memchr.c',
@@ -76,12 +66,13 @@ src_files = files([
   'src/ft_tolower.c',
   'src/ft_toupper.c',
   'src/ft_getopt.c',
+  'src/ft_list_insert.c',
+  'src/ft_list_unlink.c',
 ])
 
 libft = static_library(
   'ft',
   sources: src_files,
-  include_directories: inc_dir,
 )
 
 external_inc_dir = include_directories('.')
