@@ -29,10 +29,10 @@ typedef enum	e_tok_machine_state{
 	redir_left,
 	redir_right,
 	redir_exit,
-	qoute_single,
-	qoute_slash,
-	qoute_double,
-	qoute_double_slash,
+	quote_single,
+	quote_slash,
+	quote_double,
+	quote_double_slash,
 	eof,
 }				t_tok_machine_state;
 
@@ -46,7 +46,9 @@ struct			s_fsm_rule
 struct			s_fsm_state
 {
 	struct s_fsm_rule	rules[256];
-	struct s_fsm_rule	catch_state;
+	struct s_fsm_rule	catch_rule;
 };
+
+extern const struct s_fsm_state g_machine_table[];
 
 #endif

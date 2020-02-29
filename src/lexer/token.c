@@ -13,7 +13,7 @@
 #include "lexer.h"
 
 const char *const	g_token_type_names[] = {
-	"CONTINUE",
+	"UNDETERMINED",
 	"WORD",
 	"IO_NUMBER",
 	"OP_REDIR",

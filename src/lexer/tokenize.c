@@ -14,115 +14,6 @@
 
 #include <stdlib.h>
 
-/*
-** @INSERT_HERE@
-*/
-
-const static struct s_fsm_state g_machine_table[] = {
-	[blank] = {
-		{
-			['\0'] = { eof, UNDETERMINED, false },
-			[' '] = { blank, UNDETERMINED, false },
-			['\t'] = { blank, UNDETERMINED, false },
-			['\n'] = { blank, UNDETERMINED, false },
-			['\r'] = { blank, UNDETERMINED, false },
-			['\f'] = { blank, UNDETERMINED, false },
-			['\v'] = { blank, UNDETERMINED, false },
-			['0'] = { io_number, UNDETERMINED, true },
-			['1'] = { io_number, UNDETERMINED, true },
-			['2'] = { io_number, UNDETERMINED, true },
-			['3'] = { io_number, UNDETERMINED, true },
-			['4'] = { io_number, UNDETERMINED, true },
-			['5'] = { io_number, UNDETERMINED, true },
-			['6'] = { io_number, UNDETERMINED, true },
-			['7'] = { io_number, UNDETERMINED, true },
-			['8'] = { io_number, UNDETERMINED, true },
-			['9'] = { io_number, UNDETERMINED, true },
-			['>'] = { redir_right, UNDETERMINED, true },
-			['<'] = { redir_left, UNDETERMINED, true },
-		},
-		{ word, UNDETERMINED, true },
-	},
-	[word] = {
-		{
-			['\0'] = { eof, WORD, false },
-			[' '] = { blank, WORD, false },
-			['\t'] = { blank, WORD, false },
-			['\n'] = { blank, WORD, false },
-			['\r'] = { blank, WORD, false },
-			['\f'] = { blank, WORD, false },
-			['\v'] = { blank, WORD, false },
-			['>'] = { redir_right, WORD, true },
-			['<'] = { redir_left, WORD, true },
-		},
-		{ word, UNDETERMINED, true },
-	},
-	[io_number] = {
-		{
-			['\0'] = { eof, WORD, false },
-			['0'] = { io_number, UNDETERMINED, true },
-			['1'] = { io_number, UNDETERMINED, true },
-			['2'] = { io_number, UNDETERMINED, true },
-			['3'] = { io_number, UNDETERMINED, true },
-			['4'] = { io_number, UNDETERMINED, true },
-			['5'] = { io_number, UNDETERMINED, true },
-			['6'] = { io_number, UNDETERMINED, true },
-			['7'] = { io_number, UNDETERMINED, true },
-			['8'] = { io_number, UNDETERMINED, true },
-			['9'] = { io_number, UNDETERMINED, true },
-			['<'] = { redir_left, IO_NUMBER, true },
-			['>'] = { redir_right, IO_NUMBER, true },
-			[' '] = { blank, WORD, false },
-			['\t'] = { blank, WORD, false },
-			['\n'] = { blank, WORD, false },
-			['\r'] = { blank, WORD, false },
-			['\f'] = { blank, WORD, false },
-			['\v'] = { blank, WORD, false },
-		},
-		{ word, UNDETERMINED, true },
-	},
-	[redir_left] = {
-		{
-			['\0'] = { eof, OP_REDIR, false },
-			['<'] = { redir_exit, UNDETERMINED, true },
-			[' '] = { blank, OP_REDIR, false },
-			['\t'] = { blank, OP_REDIR, false },
-			['\n'] = { blank, OP_REDIR, false },
-			['\r'] = { blank, OP_REDIR, false },
-			['\f'] = { blank, OP_REDIR, false },
-			['\v'] = { blank, OP_REDIR, false },
-		},
-		{ word, OP_REDIR, true },
-	},
-	[redir_right] = {
-		{
-			['\0'] = { eof, OP_REDIR, false },
-			['>'] = { redir_exit, UNDETERMINED, true },
-			[' '] = { blank, OP_REDIR, false },
-			['\t'] = { blank, OP_REDIR, false },
-			['\n'] = { blank, OP_REDIR, false },
-			['\r'] = { blank, OP_REDIR, false },
-			['\f'] = { blank, OP_REDIR, false },
-			['\v'] = { blank, OP_REDIR, false },
-		},
-		{ word, OP_REDIR, true },
-	},
-	[redir_exit] = {
-		{
-			['\0'] = { eof, OP_REDIR, false },
-			['<'] = { redir_left, OP_REDIR, true },
-			['>'] = { redir_right, OP_REDIR, true },
-			[' '] = { blank, OP_REDIR, false },
-			['\t'] = { blank, OP_REDIR, false },
-			['\n'] = { blank, OP_REDIR, false },
-			['\r'] = { blank, OP_REDIR, false },
-			['\f'] = { blank, OP_REDIR, false },
-			['\v'] = { blank, OP_REDIR, false },
-		},
-		{ word, OP_REDIR, true },
-	},
-};
-
 static int	add_char(struct s_string *const cur_token, const char c)
 {
 	char	*temp;
@@ -233,7 +124,7 @@ int			lexer_tokenize(
 	{
 		cur_state = g_machine_table[state];
 		cur_rule = (cur_state.rules[(*memory_tape & 0xff)].new_state == noop)
-			? cur_state.catch_state
+			? cur_state.catch_rule
 			: cur_state.rules[(*memory_tape & 0xff)];
 		if (handle_current_state(all_token, &cur_token, cur_rule, *memory_tape))
 			return (-1);
