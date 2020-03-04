@@ -3,6 +3,8 @@ src_files += files(
 	'get.c',
 	'set.c',
 	'unset.c',
+	'to_envp.c',
+	'unpack.c',
 )
 
 test_files += files(
@@ -10,4 +12,5 @@ test_files += files(
 	'get_test.c',
 	'set_test.c',
 	'unset_test.c',
+	'to_envp_test.c',
 )

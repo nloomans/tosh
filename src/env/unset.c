@@ -12,18 +12,20 @@
 
 #include "env.h"
 
-void					env_unset(t_env *env, char *key)
+void					env_unset(t_env *env, char const *const key)
 {
-	struct s_env_list	**iter;
 	struct s_env_list	*del_holder;
+	struct s_env_list	*temp;
+	t_list_conn			**iter;
 
-	iter = &(env->list);
+	iter = &env->meta.first;
 	while (*iter)
 	{
-		if (ft_strequ((*iter)->key, key) == 1)
+		temp = unpack_env(*iter);
+		if (ft_strequ(temp->key, key) == 1)
 		{
-			del_holder = *iter;
-			*iter = (*iter)->next;
+			del_holder = temp;
+			ft_list_unlink(&env->meta, &temp->conn);
 			ft_strdel(&del_holder->key);
 			ft_strdel(&del_holder->value);
 			ft_bzero(del_holder, sizeof(struct s_env_list));
@@ -31,8 +33,6 @@ void					env_unset(t_env *env, char *key)
 			break ;
 		}
 		else
-		{
 			iter = &((*iter)->next);
-		}
 	}
 }

@@ -13,25 +13,6 @@
 #include <assert.h>
 #include "env.h"
 
-static void		add(struct s_env_list **start_lst, struct s_env_list *new)
-{
-	struct s_env_list	*temp;
-
-	if (*start_lst == NULL)
-	{
-		*start_lst = new;
-		new->next = NULL;
-	}
-	else
-	{
-		temp = *start_lst;
-		while (temp->next != NULL)
-			temp = temp->next;
-		temp->next = new;
-		new->next = NULL;
-	}
-}
-
 int				env_from_envp(t_env *env, char **envp)
 {
 	size_t				i;
@@ -50,7 +31,7 @@ int				env_from_envp(t_env *env, char **envp)
 		new->value = ft_strdup(&envp[i][equal_index + 1]);
 		if (new->key == NULL || new->value == NULL)
 			return (-1);
-		add(&env->list, new);
+		ft_list_insert(&env->meta, env->meta.last, &new->conn);
 		i++;
 	}
 	return (0);

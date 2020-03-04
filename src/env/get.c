@@ -12,20 +12,20 @@
 
 #include "env.h"
 
-char					*env_get(t_env *env, char *key)
+char					*env_get(t_env const *const env, char const *const key)
 {
-	char				*value;
 	struct s_env_list	*temp;
+	t_list_conn			*iter;
 
-	temp = env->list;
-	while (temp && key)
+	iter = env->meta.first;
+	while (iter)
 	{
+		temp = unpack_env(iter);
 		if (ft_strequ(temp->key, key) == 1)
 		{
-			value = ft_strdup(temp->value);
-			return (value);
+			return (temp->value);
 		}
-		temp = temp->next;
+		iter = iter->next;
 	}
 	return (NULL);
 }

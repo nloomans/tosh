@@ -10,33 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#include <criterion/criterion.h>
+#include "env.h"
 
-# include <libft.h>
-# include <stdlib.h>
+Test(from_env_to_envp, to_envp) {
+	char		*arr[] = {"FOO=1", "BAR=2", "UGH=3", NULL};
+	t_env		env_lst;
+	int			ret;
+	char		**env_arr;
+	
+	ft_bzero(&env_lst, sizeof(t_env));
+	ret = env_from_envp(&env_lst, arr);
+	cr_assert_eq(ret, 0);
 
-struct					s_env_list
-{
-	char				*key;
-	char				*value;
-	t_list_conn			conn;
-};
-
-typedef struct			s_env
-{
-	t_list_meta			meta;
-}						t_env;
-
-struct s_env_list		*unpack_env(t_list_conn *const node);
-
-int						env_from_envp(t_env *env, char **envp);
-char					**env_to_envp(t_env *const env);
-
-char					*env_get(t_env const *const env, char const *const key);
-void					env_unset(t_env *env, char const *const key);
-int						env_set(t_env *const env,
-								char const *const key,
-								char const *const value);
-
-#endif
+	env_arr = env_to_envp(&env_lst);
+	cr_assert_str_eq(env_arr[0], "FOO=1");
+	cr_assert_str_eq(env_arr[1], "BAR=2");
+	cr_assert_str_eq(env_arr[2], "UGH=3");
+	cr_assert_eq(env_arr[3], NULL);
+}
