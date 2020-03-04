@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include "env.h"
+#include "private.h"
 
-struct s_env_list			*unpack_env(t_list_conn *const node)
+struct s_env_pair			*unpack_env(t_list_conn *const node)
 {
 	if (node == NULL)
 	{
@@ -21,7 +21,7 @@ struct s_env_list			*unpack_env(t_list_conn *const node)
 	}
 	else
 	{
-		return ((struct s_env_list *)\
-			((char *)node - offsetof(struct s_env_list, conn)));
+		return ((struct s_env_pair *)
+			((char *)node - offsetof(struct s_env_pair, conn)));
 	}
 }

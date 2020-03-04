@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <criterion/criterion.h>
-#include "env.h"
+#include "private.h"
 
 Test(env_set, set_env) {
 	char		*arr[] = {"FOO=foo", "BAR=bar", "UGH=ugh", "NAHHH=nahhh", NULL};
@@ -75,17 +75,4 @@ Test(env_set, change_middle_env_value) {
 	cr_assert_eq(ret, 0);
 	value = env_get(&env, "UGH");
 	cr_assert_str_eq(value, "yasss");
-}
-
-Test(env_set, set_env_null) {
-	char		*arr[] = {"FOO=foo", "BAR=bar", "UGH=ugh", "NAHHH=nahhh", NULL};
-	t_env		env;
-	int			ret;
-
-	ft_bzero(&env, sizeof(t_env));
-	ret = env_from_envp(&env, arr);
-	cr_assert_eq(ret, 0);
-
-	ret = env_set(&env, NULL, "yeey");
-	cr_assert_eq(ret, -1);
 }

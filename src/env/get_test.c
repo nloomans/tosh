@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <criterion/criterion.h>
-#include "env.h"
+#include "private.h"
 
 Test(env_get, get_value) {
 	char		*arr[] = {"FOO=foo", "BAR=bar", "UGH=ugh", "NAHHH=nahhh", NULL};

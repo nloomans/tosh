@@ -10,33 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "private.h"
+#include <assert.h>
 
 int						env_set(t_env *const env,
 							char const *const key,
 							char const *const value)
 {
-	struct s_env_list	*new;
+	struct s_env_pair	*new;
 
-	if (key == NULL || value == NULL)
-		return (-1);
+	assert(key != NULL || value != NULL);
 	env_unset(env, key);
-	new = (struct s_env_list *)ft_memalloc(sizeof(*new));
+	new = (struct s_env_pair *)ft_memalloc(sizeof(*new));
 	if (new == NULL)
 		return (-1);
 	new->key = ft_strdup(key);
 	if (new->key == NULL)
 	{
-		free(new);
+		ft_memdel((void **)new);
 		return (-1);
 	}
 	new->value = ft_strdup(value);
 	if (new->value == NULL)
 	{
 		ft_strdel(&new->key);
-		free(new);
+		ft_memdel((void **)new);
 		return (-1);
 	}
-	ft_list_insert(&env->meta, env->meta.last, &new->conn);
+	ft_list_insert(&env->list, env->list.last, &new->conn);
 	return (0);
 }

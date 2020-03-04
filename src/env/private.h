@@ -10,28 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private.h"
+#ifndef PRIVATE_H
+# define PRIVATE_H
 
-void					env_unset(t_env *env, char const *const key)
+# include "env.h"
+# include <libft.h>
+
+struct					s_env_pair
 {
-	struct s_env_pair	*del_holder;
-	struct s_env_pair	*temp;
-	t_list_conn			**iter;
+	char				*key;
+	char				*value;
+	t_list_conn			conn;
+};
 
-	iter = &env->list.first;
-	while (*iter)
-	{
-		temp = unpack_env(*iter);
-		if (ft_strequ(temp->key, key) == 1)
-		{
-			del_holder = temp;
-			ft_list_unlink(&env->list, &temp->conn);
-			ft_strdel(&del_holder->key);
-			ft_strdel(&del_holder->value);
-			ft_memdel((void **)del_holder);
-			break ;
-		}
-		else
-			iter = &((*iter)->next);
-	}
-}
+typedef struct			s_env
+{
+	t_list_meta			list;
+}						t_env;
+
+struct s_env_pair		*unpack_env(t_list_conn *const node);
+
+#endif

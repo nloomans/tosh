@@ -13,22 +13,7 @@
 #ifndef ENV_H
 # define ENV_H
 
-# include <libft.h>
-# include <stdlib.h>
-
-struct					s_env_list
-{
-	char				*key;
-	char				*value;
-	t_list_conn			conn;
-};
-
-typedef struct			s_env
-{
-	t_list_meta			meta;
-}						t_env;
-
-struct s_env_list		*unpack_env(t_list_conn *const node);
+typedef struct s_env	t_env;
 
 int						env_from_envp(t_env *env, char **envp);
 char					**env_to_envp(t_env *const env);

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <criterion/criterion.h>
-#include "env.h"
+#include "private.h"
 
 Test(env_from_envp, import_envp) {
 	char		*arr[] = {"FOO=1", "BAR=2", "UGH=3", NULL};
