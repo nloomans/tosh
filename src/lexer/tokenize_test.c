@@ -199,6 +199,45 @@ Test(lexer_tokenize, comment) {
 	}));
 }
 
+Test(lexer_tokenize, single_quotes) {
+	TOKEN_TESTER("cat 'file with spaces.txt'", ((struct s_token[]) {
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "'file with spaces.txt'" },
+	}));
+
+	TOKEN_TESTER("cat ''", ((struct s_token[]) {
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "''" },
+	}));
+
+	TOKEN_TESTER("cat 'test", ((struct s_token[]) {
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "'test" },
+	}));
+}
+
+Test(lexer_tokenize, double_quotes) {
+	TOKEN_TESTER("cat \"file with spaces.txt\"", ((struct s_token[]) {
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "\"file with spaces.txt\"" },
+	}));
+
+	TOKEN_TESTER("cat \"\"", ((struct s_token[]) {
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "\"\"" },
+	}));
+
+	TOKEN_TESTER("cat \"test", ((struct s_token[]) {
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "\"test" },
+	}));
+
+	TOKEN_TESTER("cat \"test \\\" hi\" ", ((struct s_token[]){
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "\"test \\\" hi\"" },
+	}));
+}
+
 Test(lexer_tokenize, blank) {
 	char *all_input[] = {
 		"hello world",
