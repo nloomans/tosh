@@ -16,6 +16,5 @@ const char *const	g_token_type_names[] = {
 	"UNDETERMINED",
 	"WORD",
 	"IO_NUMBER",
-	"OP_REDIR",
-	"OP_CONTROL",
+	"OPERATOR",
 };

@@ -24,8 +24,7 @@ enum						e_token_type
 	UNDETERMINED,
 	WORD,
 	IO_NUMBER,
-	OP_REDIR,
-	OP_CONTROL,
+	OPERATOR,
 };
 
 extern const char *const	g_token_type_names[5];

@@ -51,31 +51,31 @@ Test(lexer_tokenize, redirect) {
 		{ .type = WORD, .string = "cat" },
 		{ .type = WORD, .string = "foo.txt" },
 		{ .type = WORD, .string = "2" },
-		{ .type = OP_REDIR, .string = ">" },
+		{ .type = OPERATOR, .string = ">" },
 		{ .type = WORD, .string = "/dev/null" },
 	}));
 	TOKEN_TESTER("cat foo.txt 2 > /dev/null", ((struct s_token[]){
 		{ .type = WORD, .string = "cat" },
 		{ .type = WORD, .string = "foo.txt" },
 		{ .type = WORD, .string = "2" },
-		{ .type = OP_REDIR, .string = ">" },
+		{ .type = OPERATOR, .string = ">" },
 		{ .type = WORD, .string = "/dev/null" },
 	}));
 	TOKEN_TESTER(">/dev/null cat foo.txt", ((struct s_token[]){
-		{ .type = OP_REDIR, .string = ">" },
+		{ .type = OPERATOR, .string = ">" },
 		{ .type = WORD, .string = "/dev/null" },
 		{ .type = WORD, .string = "cat" },
 		{ .type = WORD, .string = "foo.txt" },
 	}));
 	TOKEN_TESTER("> /dev/null cat foo.txt", ((struct s_token[]){
-		{ .type = OP_REDIR, .string = ">" },
+		{ .type = OPERATOR, .string = ">" },
 		{ .type = WORD, .string = "/dev/null" },
 		{ .type = WORD, .string = "cat" },
 		{ .type = WORD, .string = "foo.txt" },
 	}));
 	TOKEN_TESTER("2 > /dev/null cat foo.txt", ((struct s_token[]){
 		{ .type = WORD, .string = "2" },
-		{ .type = OP_REDIR, .string = ">" },
+		{ .type = OPERATOR, .string = ">" },
 		{ .type = WORD, .string = "/dev/null" },
 		{ .type = WORD, .string = "cat" },
 		{ .type = WORD, .string = "foo.txt" },
@@ -87,43 +87,115 @@ Test(lexer_tokenize, redirect_io_number) {
 		{ .type = WORD, .string = "cat" },
 		{ .type = WORD, .string = "foo.txt" },
 		{ .type = IO_NUMBER, .string = "2" },
-		{ .type = OP_REDIR, .string = ">" },
+		{ .type = OPERATOR, .string = ">" },
 		{ .type = WORD, .string = "/dev/null" },
 	}));
 	TOKEN_TESTER("cat foo.txt 2> /dev/null", ((struct s_token[]){
 		{ .type = WORD, .string = "cat" },
 		{ .type = WORD, .string = "foo.txt" },
 		{ .type = IO_NUMBER, .string = "2" },
-		{ .type = OP_REDIR, .string = ">" },
+		{ .type = OPERATOR, .string = ">" },
 		{ .type = WORD, .string = "/dev/null" },
 	}));
 	TOKEN_TESTER("cat foo.txt 2>3", ((struct s_token[]){
 		{ .type = WORD, .string = "cat" },
 		{ .type = WORD, .string = "foo.txt" },
 		{ .type = IO_NUMBER, .string = "2" },
-		{ .type = OP_REDIR, .string = ">" },
+		{ .type = OPERATOR, .string = ">" },
 		{ .type = WORD, .string = "3" },
 	}));
 	TOKEN_TESTER("cat foo.txt 2> 3", ((struct s_token[]){
 		{ .type = WORD, .string = "cat" },
 		{ .type = WORD, .string = "foo.txt" },
 		{ .type = IO_NUMBER, .string = "2" },
-		{ .type = OP_REDIR, .string = ">" },
+		{ .type = OPERATOR, .string = ">" },
 		{ .type = WORD, .string = "3" },
 	}));
 	TOKEN_TESTER("2>3 cat foo.txt", ((struct s_token[]){
 		{ .type = IO_NUMBER, .string = "2" },
-		{ .type = OP_REDIR, .string = ">" },
+		{ .type = OPERATOR, .string = ">" },
 		{ .type = WORD, .string = "3" },
 		{ .type = WORD, .string = "cat" },
 		{ .type = WORD, .string = "foo.txt" },
 	}));
 	TOKEN_TESTER("2> 3 cat foo.txt", ((struct s_token[]){
 		{ .type = IO_NUMBER, .string = "2" },
-		{ .type = OP_REDIR, .string = ">" },
+		{ .type = OPERATOR, .string = ">" },
 		{ .type = WORD, .string = "3" },
 		{ .type = WORD, .string = "cat" },
 		{ .type = WORD, .string = "foo.txt" },
+	}));
+}
+
+Test(lexer_tokenize, op_control) {
+	TOKEN_TESTER("\n", ((struct s_token[]){
+		{ .type = OPERATOR, .string = "\n" },
+	}));
+
+	TOKEN_TESTER("\n\n", ((struct s_token[]){
+		{ .type = OPERATOR, .string = "\n" },
+		{ .type = OPERATOR, .string = "\n" },
+	}));
+
+	TOKEN_TESTER(";", ((struct s_token[]){
+		{ .type = OPERATOR, .string = ";" },
+	}));
+
+	TOKEN_TESTER("\n;", ((struct s_token[]){
+		{ .type = OPERATOR, .string = "\n" },
+		{ .type = OPERATOR, .string = ";" },
+	}));
+
+	TOKEN_TESTER("hello;world", ((struct s_token[]){
+		{ .type = WORD, .string = "hello" },
+		{ .type = OPERATOR, .string = ";" },
+		{ .type = WORD, .string = "world" },
+	}));
+
+	TOKEN_TESTER("hello\nworld", ((struct s_token[]){
+		{ .type = WORD, .string = "hello" },
+		{ .type = OPERATOR, .string = "\n" },
+		{ .type = WORD, .string = "world" },
+	}));
+
+	TOKEN_TESTER("hello \n world", ((struct s_token[]){
+		{ .type = WORD, .string = "hello" },
+		{ .type = OPERATOR, .string = "\n" },
+		{ .type = WORD, .string = "world" },
+	}));
+
+	TOKEN_TESTER("hello ; world", ((struct s_token[]){
+		{ .type = WORD, .string = "hello" },
+		{ .type = OPERATOR, .string = ";" },
+		{ .type = WORD, .string = "world" },
+	}));
+}
+
+Test(lexer_tokenize, comment) {
+	TOKEN_TESTER("cat foo.txt #nooooooooaaaahahsdal;dajk", ((struct s_token[]){
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "foo.txt" },
+	}));
+
+	TOKEN_TESTER("cat foo.txt # comment\ncat bar.txt", ((struct s_token[]){
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "foo.txt" },
+		{ .type = OPERATOR, .string = "\n" },
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "bar.txt" },
+	}));
+
+	TOKEN_TESTER("# comment\n", ((struct s_token[]){
+		{ .type = OPERATOR, .string = "\n" },
+	}));
+
+	TOKEN_TESTER("# comment 1\n# comment 2", ((struct s_token[]){
+		{ .type = OPERATOR, .string = "\n" },
+	}));
+
+	TOKEN_TESTER("# comment 1\n# comment 2\n", ((struct s_token[]){
+		{ .type = OPERATOR, .string = "\n" },
+		{ .type = OPERATOR, .string = "\n" },
 	}));
 }
 
@@ -162,5 +234,8 @@ Test(lexer_tokenize, empty) {
 	cr_expect_eq(all_token.len, 0);
 
 	lexer_tokenize(&all_token, " \t ");
+	cr_expect_eq(all_token.len, 0);
+
+	lexer_tokenize(&all_token, "# Hello World");
 	cr_expect_eq(all_token.len, 0);
 }

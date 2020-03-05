@@ -16,16 +16,17 @@ class State(Enum):
 	IO_NUMBER = 'io_number'
 	REDIR_LEFT = 'redir_left'
 	REDIR_RIGHT = 'redir_right'
-	REDIR_EXIT = 'redir_exit'
+	OPERATOR_EXIT = 'operator_exit'
 	QUOTE_SINGLE = 'quote_single'
 	QUOTE_SLASH = 'quote_slash'
 	QUOTE_DOUBLE = 'quote_double'
 	QUOTE_DOUBLE_SLASH = 'quote_double_slash'
+	COMMENT = 'comment'
 
 class Token(Enum):
 	WORD = 'WORD'
 	IO_NUMBER = 'IO_NUMBER'
-	OP_REDIR = 'OP_REDIR'
+	OPERATOR = 'OPERATOR'
 
 class Input(Enum):
 	NULL = auto()
@@ -36,6 +37,9 @@ class Input(Enum):
 	BACKSLASH = auto()
 	LEFT_ARROW = auto()
 	RIGHT_ARROW = auto()
+	NEWLINE = auto()
+	OP_CONTROL = auto()
+	POUNDSIGN = auto()
 
 input_map = {
 	Input.NULL: ['\\0'],
@@ -46,6 +50,9 @@ input_map = {
 	Input.BACKSLASH: ['\\\\'],
 	Input.LEFT_ARROW: ['<'],
 	Input.RIGHT_ARROW: ['>'],
+	Input.NEWLINE: ['\\n'],
+	Input.OP_CONTROL: ['\\n', ';'],
+	Input.POUNDSIGN: ['#'],
 }
 
 def fsm(all_rules):
@@ -80,6 +87,8 @@ output = fsm([
 
 		Input.NULL:			rule(State.EOF),
 		Input.BLANK:		rule(State.BLANK),
+		Input.POUNDSIGN:	rule(State.COMMENT),
+		Input.OP_CONTROL:	rule(State.OPERATOR_EXIT,							add_char=True),
 
 		Input.DIGIT:		rule(State.IO_NUMBER,								add_char=True),
 
@@ -96,6 +105,8 @@ output = fsm([
 
 		Input.NULL:			rule(State.EOF,				delimit=Token.WORD),
 		Input.BLANK:		rule(State.BLANK,			delimit=Token.WORD),
+		Input.POUNDSIGN:	rule(State.COMMENT,			delimit=Token.WORD),
+		Input.OP_CONTROL:	rule(State.OPERATOR_EXIT,	delimit=Token.WORD,		add_char=True),
 
 		Input.LEFT_ARROW:	rule(State.REDIR_LEFT,		delimit=Token.WORD,		add_char=True),
 		Input.RIGHT_ARROW:	rule(State.REDIR_RIGHT,		delimit=Token.WORD,		add_char=True),
@@ -110,6 +121,8 @@ output = fsm([
 
 		Input.NULL:			rule(State.EOF,				delimit=Token.WORD),
 		Input.BLANK:		rule(State.BLANK, 			delimit=Token.WORD),
+		Input.POUNDSIGN:	rule(State.COMMENT,			delimit=Token.WORD),
+		Input.OP_CONTROL:	rule(State.OPERATOR_EXIT,	delimit=Token.WORD,		add_char=True),
 
 		Input.DIGIT:		rule(State.IO_NUMBER,								add_char=True),
 
@@ -124,43 +137,51 @@ output = fsm([
 
 	rules(State.REDIR_LEFT, {
 
-		Input.NULL:			rule(State.EOF,				delimit=Token.OP_REDIR),
-		Input.BLANK:		rule(State.BLANK,			delimit=Token.OP_REDIR),
+		Input.NULL:			rule(State.EOF,				delimit=Token.OPERATOR),
+		Input.BLANK:		rule(State.BLANK,			delimit=Token.OPERATOR),
+		Input.POUNDSIGN:	rule(State.COMMENT,			delimit=Token.OPERATOR),
+		Input.OP_CONTROL:	rule(State.OPERATOR_EXIT,	delimit=Token.OPERATOR,	add_char=True),
 
-		Input.SINGLE_QUOTE:	rule(State.QUOTE_SINGLE,	delimit=Token.OP_REDIR,	add_char=True),
-		Input.DOUBLE_QUOTE:	rule(State.QUOTE_DOUBLE,	delimit=Token.OP_REDIR,	add_char=True),
-		Input.BACKSLASH:	rule(State.QUOTE_SLASH,		delimit=Token.OP_REDIR,	add_char=True),
+		Input.SINGLE_QUOTE:	rule(State.QUOTE_SINGLE,	delimit=Token.OPERATOR,	add_char=True),
+		Input.DOUBLE_QUOTE:	rule(State.QUOTE_DOUBLE,	delimit=Token.OPERATOR,	add_char=True),
+		Input.BACKSLASH:	rule(State.QUOTE_SLASH,		delimit=Token.OPERATOR,	add_char=True),
 
-		Input.LEFT_ARROW:	rule(State.REDIR_EXIT,								add_char=True),
+		Input.LEFT_ARROW:	rule(State.OPERATOR_EXIT,								add_char=True),
 
-	}, catch_rule=rule(State.WORD, delimit=Token.OP_REDIR, add_char=True)),
+	}, catch_rule=rule(State.WORD, delimit=Token.OPERATOR, add_char=True)),
 
 	rules(State.REDIR_RIGHT, {
 
-		Input.NULL:			rule(State.EOF,				delimit=Token.OP_REDIR),
-		Input.BLANK:		rule(State.BLANK,			delimit=Token.OP_REDIR),
+		Input.NULL:			rule(State.EOF,				delimit=Token.OPERATOR),
+		Input.BLANK:		rule(State.BLANK,			delimit=Token.OPERATOR),
+		Input.POUNDSIGN:	rule(State.COMMENT,			delimit=Token.OPERATOR),
+		Input.OP_CONTROL:	rule(State.OPERATOR_EXIT,	delimit=Token.OPERATOR,	add_char=True),
 
-		Input.SINGLE_QUOTE:	rule(State.QUOTE_SINGLE,	delimit=Token.OP_REDIR,	add_char=True),
-		Input.DOUBLE_QUOTE:	rule(State.QUOTE_DOUBLE,	delimit=Token.OP_REDIR,	add_char=True),
-		Input.BACKSLASH:	rule(State.QUOTE_SLASH,		delimit=Token.OP_REDIR,	add_char=True),
+		Input.SINGLE_QUOTE:	rule(State.QUOTE_SINGLE,	delimit=Token.OPERATOR,	add_char=True),
+		Input.DOUBLE_QUOTE:	rule(State.QUOTE_DOUBLE,	delimit=Token.OPERATOR,	add_char=True),
+		Input.BACKSLASH:	rule(State.QUOTE_SLASH,		delimit=Token.OPERATOR,	add_char=True),
 
-		Input.RIGHT_ARROW:	rule(State.REDIR_EXIT,								add_char=True),
+		Input.RIGHT_ARROW:	rule(State.OPERATOR_EXIT,							add_char=True),
 
-	}, catch_rule=rule(State.WORD, delimit=Token.OP_REDIR, add_char=True)),
+	}, catch_rule=rule(State.WORD, delimit=Token.OPERATOR, add_char=True)),
 
-	rules(State.REDIR_EXIT, {
+	rules(State.OPERATOR_EXIT, {
 
-		Input.NULL:			rule(State.EOF,				delimit=Token.OP_REDIR),
-		Input.BLANK:		rule(State.BLANK,			delimit=Token.OP_REDIR),
+		Input.NULL:			rule(State.EOF,				delimit=Token.OPERATOR),
+		Input.BLANK:		rule(State.BLANK,			delimit=Token.OPERATOR),
+		Input.POUNDSIGN:	rule(State.COMMENT,			delimit=Token.OPERATOR),
+		Input.OP_CONTROL:	rule(State.OPERATOR_EXIT,	delimit=Token.OPERATOR, add_char=True),
 
-		Input.SINGLE_QUOTE:	rule(State.QUOTE_SINGLE,	delimit=Token.OP_REDIR,	add_char=True),
-		Input.DOUBLE_QUOTE:	rule(State.QUOTE_DOUBLE,	delimit=Token.OP_REDIR,	add_char=True),
-		Input.BACKSLASH:	rule(State.QUOTE_SLASH,		delimit=Token.OP_REDIR,	add_char=True),
+		Input.DIGIT:		rule(State.IO_NUMBER,		delimit=Token.OPERATOR,	add_char=True),
 
-		Input.LEFT_ARROW:	rule(State.REDIR_LEFT,		delimit=Token.OP_REDIR, add_char=True),
-		Input.RIGHT_ARROW:	rule(State.REDIR_RIGHT,		delimit=Token.OP_REDIR, add_char=True),
+		Input.SINGLE_QUOTE:	rule(State.QUOTE_SINGLE,	delimit=Token.OPERATOR,	add_char=True),
+		Input.DOUBLE_QUOTE:	rule(State.QUOTE_DOUBLE,	delimit=Token.OPERATOR,	add_char=True),
+		Input.BACKSLASH:	rule(State.QUOTE_SLASH,		delimit=Token.OPERATOR,	add_char=True),
 
-	}, catch_rule=rule(State.WORD, delimit=Token.OP_REDIR, add_char=True)),
+		Input.LEFT_ARROW:	rule(State.REDIR_LEFT,		delimit=Token.OPERATOR, add_char=True),
+		Input.RIGHT_ARROW:	rule(State.REDIR_RIGHT,		delimit=Token.OPERATOR, add_char=True),
+
+	}, catch_rule=rule(State.WORD, delimit=Token.OPERATOR, add_char=True)),
 
 	rules(State.QUOTE_SINGLE, {
 
@@ -188,6 +209,13 @@ output = fsm([
 		Input.NULL:			rule(State.EOF,				delimit=Token.WORD),
 
 	}, catch_rule=rule(State.QUOTE_DOUBLE, add_char=True)),
+
+	rules(State.COMMENT, {
+
+		Input.NULL:			rule(State.EOF),
+		Input.NEWLINE:		rule(State.OPERATOR_EXIT,							add_char=True),
+
+	}, catch_rule=rule(State.COMMENT)),
 ])
 
 with open(header_file_name, 'r') as header_file:

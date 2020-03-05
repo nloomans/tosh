@@ -28,11 +28,12 @@ typedef enum	e_tok_machine_state{
 	io_number,
 	redir_left,
 	redir_right,
-	redir_exit,
+	operator_exit,
 	quote_single,
 	quote_slash,
 	quote_double,
 	quote_double_slash,
+	comment,
 	eof,
 }				t_tok_machine_state;
 
