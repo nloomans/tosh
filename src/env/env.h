@@ -24,4 +24,6 @@ int						env_set(t_env *const env,
 								char const *const key,
 								char const *const value);
 
+void					env_list_delete(t_env *env);
+
 #endif

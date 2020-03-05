@@ -5,6 +5,7 @@ src_files += files(
 	'unset.c',
 	'to_envp.c',
 	'unpack.c',
+	'list_delete.c',
 )
 
 test_files += files(
@@ -13,4 +14,5 @@ test_files += files(
 	'set_test.c',
 	'unset_test.c',
 	'to_envp_test.c',
+	'list_delete_test.c',
 )

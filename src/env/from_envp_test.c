@@ -14,7 +14,7 @@
 #include "private.h"
 
 Test(env_from_envp, import_envp) {
-	char		*arr[] = {"FOO=1", "BAR=2", "UGH=3", NULL};
+	char		*arr[] = {"FOO=123", "BAR=2345", "UGH=3", NULL};
 	t_env		env;
 	int			ret;
 	char		*value;
@@ -24,10 +24,10 @@ Test(env_from_envp, import_envp) {
 	cr_assert_eq(ret, 0);
 
 	value = env_get(&env, "FOO");
-	cr_assert_str_eq(value, "1");
+	cr_assert_str_eq(value, "123");
 
 	value = env_get(&env, "BAR");
-	cr_assert_str_eq(value, "2");
+	cr_assert_str_eq(value, "2345");
 
 	value = env_get(&env, "UGH");
 	cr_assert_str_eq(value, "3");

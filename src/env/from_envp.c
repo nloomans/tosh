@@ -13,13 +13,12 @@
 #include <assert.h>
 #include "private.h"
 
-static void		free_new(struct s_env_pair	*new)
+static int		free_new(struct s_env_pair	*new)
 {
-	ft_memdel((void **)new);
-	if (new->key != NULL)
-		ft_strdel(&new->key);
-	if (new->value != NULL)
-		ft_strdel(&new->value);
+	ft_strdel(&new->key);
+	ft_strdel(&new->value);
+	ft_memdel((void **)&new);
+	return (-1);
 }
 
 int				env_from_envp(t_env *env, char **envp)
@@ -31,17 +30,19 @@ int				env_from_envp(t_env *env, char **envp)
 	i = 0;
 	while (envp[i] != '\0')
 	{
-		new = (struct s_env_pair *)ft_memalloc(sizeof(*new));
+		new = ft_memalloc(sizeof(*new));
 		if (new == NULL)
+		{
+			env_list_delete(env);
 			return (-1);
+		}
 		assert(ft_strchr(envp[i], '=') != NULL);
 		equal_index = ft_strchr(envp[i], '=') - envp[i];
 		new->key = ft_strsub(envp[i], 0, equal_index);
 		new->value = ft_strdup(&envp[i][equal_index + 1]);
 		if (new->key == NULL || new->value == NULL)
 		{
-			free_new(new);
-			return (-1);
+			return (free_new(new));
 		}
 		ft_list_insert(&env->list, env->list.last, &new->conn);
 		i++;

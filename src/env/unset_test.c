@@ -27,6 +27,13 @@ Test(env_unset, unset_env) {
 	
 	value = env_get(&env, "BAR");
 	cr_assert_eq(value, NULL);
+
+	value = env_get(&env, "FOO");
+	cr_assert_str_eq(value, "foo");
+	value = env_get(&env, "UGH");
+	cr_assert_str_eq(value, "ugh");
+	value = env_get(&env, "NAHHH");
+	cr_assert_str_eq(value, "nahhh");
 }
 
 Test(env_unset, unset_env_first) {
@@ -43,6 +50,13 @@ Test(env_unset, unset_env_first) {
 	
 	value = env_get(&env, "FOO");
 	cr_assert_eq(value, NULL);
+
+	value = env_get(&env, "BAR");
+	cr_assert_str_eq(value, "bar");
+	value = env_get(&env, "UGH");
+	cr_assert_str_eq(value, "ugh");
+	value = env_get(&env, "NAHHH");
+	cr_assert_str_eq(value, "nahhh");
 }
 
 Test(env_unset, unset_env_last) {
@@ -59,6 +73,13 @@ Test(env_unset, unset_env_last) {
 	
 	value = env_get(&env, "NAHHH");
 	cr_assert_eq(value, NULL);
+
+	value = env_get(&env, "BAR");
+	cr_assert_str_eq(value, "bar");
+	value = env_get(&env, "UGH");
+	cr_assert_str_eq(value, "ugh");
+	value = env_get(&env, "FOO");
+	cr_assert_str_eq(value, "foo");
 }
 
 Test(env_unset, unset_env_middle) {
@@ -75,4 +96,11 @@ Test(env_unset, unset_env_middle) {
 	
 	value = env_get(&env, "UGH");
 	cr_assert_eq(value, NULL);
+
+	value = env_get(&env, "BAR");
+	cr_assert_str_eq(value, "bar");
+	value = env_get(&env, "FOO");
+	cr_assert_str_eq(value, "foo");
+	value = env_get(&env, "NAHHH");
+	cr_assert_str_eq(value, "nahhh");
 }

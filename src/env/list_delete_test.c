@@ -10,33 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <criterion/criterion.h>
 #include "private.h"
-#include <assert.h>
 
-int						env_set(t_env *const env,
-							char const *const key,
-							char const *const value)
-{
-	struct s_env_pair	*new;
+Test(env_list_delete, delete_env) {
+	char		*arr[] = {"FOO=123", "BAR=2345", "UGH=3", NULL};
+	t_env		env;
+	int			ret;
+	
+	ft_bzero(&env, sizeof(t_env));
+	ret = env_from_envp(&env, arr);
+	cr_assert_eq(ret, 0);
 
-	assert(key != NULL || value != NULL);
-	env_unset(env, key);
-	new = ft_memalloc(sizeof(*new));
-	if (new == NULL)
-		return (-1);
-	new->key = ft_strdup(key);
-	if (new->key == NULL)
-	{
-		ft_memdel((void **)&new);
-		return (-1);
-	}
-	new->value = ft_strdup(value);
-	if (new->value == NULL)
-	{
-		ft_strdel(&new->key);
-		ft_memdel((void **)&new);
-		return (-1);
-	}
-	ft_list_insert(&env->list, env->list.last, &new->conn);
-	return (0);
+	env_list_delete(&env);
+	cr_assert_eq(env.list.first, NULL);
+	cr_assert_eq(env.list.last, NULL);
+	cr_assert_eq(env.list.len, 0);
 }

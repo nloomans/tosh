@@ -28,7 +28,7 @@ void					env_unset(t_env *env, char const *const key)
 			ft_list_unlink(&env->list, &temp->conn);
 			ft_strdel(&del_holder->key);
 			ft_strdel(&del_holder->value);
-			ft_memdel((void **)del_holder);
+			ft_memdel((void **)&del_holder);
 			break ;
 		}
 		else
