@@ -18,7 +18,7 @@ Test(env_from_envp, import_envp) {
 	t_env		env;
 	int			ret;
 	char		*value;
-	
+
 	ft_bzero(&env, sizeof(t_env));
 	ret = env_from_envp(&env, arr);
 	cr_assert_eq(ret, 0);
@@ -38,13 +38,36 @@ Test(env_from_envp, import_envp_containing_equal) {
 	t_env		env;
 	int			ret;
 	char		*value;
-	
+
 	ft_bzero(&env, sizeof(t_env));
 	ret = env_from_envp(&env, arr);
 	cr_assert_eq(ret, 0);
 
 	value = env_get(&env, "FOO");
 	cr_assert_str_eq(value, "ugh=1");
+}
+
+Test(env_from_envp, import_envp_no_equal) {
+	char		*arr[] = {"FOO=123", "BAR2345", "UGH=3", NULL};
+	t_env		env;
+	int			ret;
+	char		*value;
+
+	ft_bzero(&env, sizeof(t_env));
+	ret = env_from_envp(&env, arr);
+	cr_assert_eq(ret, 0);
+
+	value = env_get(&env, "FOO");
+	cr_assert_str_eq(value, "123");
+
+	value = env_get(&env, "UGH");
+	cr_assert_str_eq(value, "3");
+
+	value = env_get(&env, "BAR2345");
+	cr_assert_eq(value, NULL);
+
+	value = env_get(&env, "BAR");
+	cr_assert_eq(value, NULL);
 }
 
 Test(env_from_envp, import_envp_null) {

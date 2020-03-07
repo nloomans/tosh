@@ -11,11 +11,17 @@
 /* ************************************************************************** */
 
 #include "private.h"
+#include "ft_printf.h"
 
 static int				fill_new(struct s_env_pair *new, char *envp)
 {
 	size_t				equal_index;
 
+	if (ft_strchr(envp, '=') == NULL)
+	{
+		ft_dprintf(2, "Warning: env: '%s', no '=' present\n", envp);
+		return (1);
+	}
 	equal_index = ft_strchr(envp, '=') - envp;
 	new->key = ft_strsub(envp, 0, equal_index);
 	new->value = ft_strdup(&envp[equal_index + 1]);
@@ -32,10 +38,11 @@ static int				fill_new(struct s_env_pair *new, char *envp)
 int						env_from_envp(t_env *env, char **envp)
 {
 	size_t				i;
+	int					ret;
 	struct s_env_pair	*new;
 
 	i = 0;
-	while (envp[i] != '\0')
+	while (envp[i] != NULL)
 	{
 		new = ft_memalloc(sizeof(*new));
 		if (new == NULL)
@@ -43,9 +50,11 @@ int						env_from_envp(t_env *env, char **envp)
 			env_list_delete(env);
 			return (-1);
 		}
-		if (fill_new(new, envp[i]) == -1)
+		ret = fill_new(new, envp[i]);
+		if (ret == -1)
 			return (-1);
-		ft_list_insert(&env->list, env->list.last, &new->conn);
+		else if (ret == 0)
+			ft_list_insert(&env->list, env->list.last, &new->conn);
 		i++;
 	}
 	return (0);
