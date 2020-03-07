@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include "private.h"
 
 static int				fill_new(struct s_env_pair *new, char *envp)
@@ -44,7 +43,6 @@ int						env_from_envp(t_env *env, char **envp)
 			env_list_delete(env);
 			return (-1);
 		}
-		assert(ft_strchr(envp[i], '=') != NULL);
 		if (fill_new(new, envp[i]) == -1)
 			return (-1);
 		ft_list_insert(&env->list, env->list.last, &new->conn);
