@@ -17,7 +17,7 @@ Test(env_list_delete, delete_env) {
 	char		*arr[] = {"FOO=123", "BAR=2345", "UGH=3", NULL};
 	t_env		env;
 	int			ret;
-	
+
 	ft_bzero(&env, sizeof(t_env));
 	ret = env_from_envp(&env, arr);
 	cr_assert_eq(ret, 0);

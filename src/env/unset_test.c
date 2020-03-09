@@ -24,7 +24,7 @@ Test(env_unset, unset_env) {
 	cr_assert_eq(ret, 0);
 
 	env_unset(&env, "BAR");
-	
+
 	value = env_get(&env, "BAR");
 	cr_assert_eq(value, NULL);
 
@@ -47,7 +47,7 @@ Test(env_unset, unset_env_first) {
 	cr_assert_eq(ret, 0);
 
 	env_unset(&env, "FOO");
-	
+
 	value = env_get(&env, "FOO");
 	cr_assert_eq(value, NULL);
 
@@ -70,7 +70,7 @@ Test(env_unset, unset_env_last) {
 	cr_assert_eq(ret, 0);
 
 	env_unset(&env, "NAHHH");
-	
+
 	value = env_get(&env, "NAHHH");
 	cr_assert_eq(value, NULL);
 
@@ -93,7 +93,7 @@ Test(env_unset, unset_env_middle) {
 	cr_assert_eq(ret, 0);
 
 	env_unset(&env, "UGH");
-	
+
 	value = env_get(&env, "UGH");
 	cr_assert_eq(value, NULL);
 

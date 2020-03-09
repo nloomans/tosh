@@ -18,7 +18,7 @@ Test(from_env_to_envp, to_envp) {
 	t_env		env_lst;
 	int			ret;
 	char		**env_arr;
-	
+
 	ft_bzero(&env_lst, sizeof(t_env));
 	ret = env_from_envp(&env_lst, arr);
 	cr_assert_eq(ret, 0);
