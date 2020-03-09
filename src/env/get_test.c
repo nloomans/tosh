@@ -18,7 +18,7 @@ Test(env_get, get_value) {
 	t_env		env;
 	int			ret;
 	char		*value;
-	
+
 	ft_bzero(&env, sizeof(t_env));
 	ret = env_from_envp(&env, arr);
 	cr_assert_eq(ret, 0);
@@ -35,7 +35,7 @@ Test(env_get, get_value) {
 Test(env_get, get_value_null_env) {
 	t_env		env;
 	char		*value;
-	
+
 	ft_bzero(&env, sizeof(t_env));
 	value = env_get(&env, "FAKE");
 	cr_assert_eq(value, NULL);
@@ -46,7 +46,7 @@ Test(env_get, get_value_fake) {
 	t_env		env;
 	int			ret;
 	char		*value;
-	
+
 	ft_bzero(&env, sizeof(t_env));
 	ret = env_from_envp(&env, arr);
 	cr_assert_eq(ret, 0);
