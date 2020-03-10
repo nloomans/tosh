@@ -15,6 +15,7 @@ subdir('src/bootstrap')
 subdir('src/env')
 subdir('src/error')
 subdir('src/lexer')
+subdir('src/parser')
 subdir('src/term')
 
 main_file = files('src/bootstrap/main.c')
