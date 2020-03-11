@@ -10,24 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+/*
+** remove printf
+*/
 
-# include "../lexer/lexer.h"
+#include "private.h"
+#include <ft_printf.h>
 
-enum	e_io_redirect_type
+bool	parser__is_token(const t_parser *const p,
+			const enum e_token_type type,
+			const char *const string)
 {
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	REDIRECT_OUT_APPEND,
-	REDIRECT_HEREDOC,
-};
+	struct s_token	*token;
 
-struct	s_io_redirect
-{
-	int						fd;
-	enum e_io_redirect_type type;
-	char					*file;
-};
-
-#endif
+	token = unpack_token(p->cursor);
+	if (token == NULL)
+		return (false);
+	if (token->type != type)
+		return (false);
+	if (string != NULL && ft_strcmp(token->string, string) != 0)
+		return (false);
+	return (true);
+}

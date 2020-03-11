@@ -10,24 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include <assert.h>
+#include "private.h"
 
-# include "../lexer/lexer.h"
-
-enum	e_io_redirect_type
+struct s_token			*parser__next_token(t_parser *p)
 {
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	REDIRECT_OUT_APPEND,
-	REDIRECT_HEREDOC,
-};
+	struct s_token *ret;
 
-struct	s_io_redirect
-{
-	int						fd;
-	enum e_io_redirect_type type;
-	char					*file;
-};
-
-#endif
+	assert(p->cursor != NULL);
+	ret = unpack_token(p->cursor);
+	p->cursor = p->cursor->next;
+	return (ret);
+}

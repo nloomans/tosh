@@ -10,24 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include <assert.h>
+#include "private.h"
 
-# include "../lexer/lexer.h"
-
-enum	e_io_redirect_type
+bool	parser__next_if_token(t_parser *const p,
+			const enum e_token_type type,
+			const char *const string)
 {
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	REDIRECT_OUT_APPEND,
-	REDIRECT_HEREDOC,
-};
-
-struct	s_io_redirect
-{
-	int						fd;
-	enum e_io_redirect_type type;
-	char					*file;
-};
-
-#endif
+	if (parser__is_token(p, type, string))
+	{
+		parser__next_token(p);
+		return (true);
+	}
+	return (false);
+}
