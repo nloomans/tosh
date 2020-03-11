@@ -10,24 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include <assert.h>
+#include "private.h"
 
-# include "../lexer/lexer.h"
-
-enum	e_io_redirect_type
+struct s_token			*parser__peek_token(const t_parser *const p)
 {
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	REDIRECT_OUT_APPEND,
-	REDIRECT_HEREDOC,
-};
-
-struct	s_io_redirect
-{
-	int						fd;
-	enum e_io_redirect_type type;
-	char					*file;
-};
-
-#endif
+	return (unpack_token(p->cursor));
+}

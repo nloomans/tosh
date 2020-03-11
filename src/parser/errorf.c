@@ -10,24 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include <stdarg.h>
+#include <ft_printf.h>
+#include "../error/error.h"
+#include "private.h"
 
-# include "../lexer/lexer.h"
-
-enum	e_io_redirect_type
+void	parser__errorf(t_parser *const p, const char *const fmt, ...)
 {
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	REDIRECT_OUT_APPEND,
-	REDIRECT_HEREDOC,
-};
+	va_list	vlist;
+	ssize_t	ret;
 
-struct	s_io_redirect
-{
-	int						fd;
-	enum e_io_redirect_type type;
-	char					*file;
-};
-
-#endif
+	if (is_error(p->error))
+		return ;
+	va_start(vlist, fmt);
+	// TODO: Update ft_*printf to take a const for fmt.
+	ret = ft_vsnprintf(p->error.msg, sizeof(p->error.msg), (char *)fmt, vlist);
+	va_end(vlist);
+	if (ret == -1)
+	{
+		p->error = ((t_error){
+			.msg = "an error occurred during the generation of this error" });
+	}
+}

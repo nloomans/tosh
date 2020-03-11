@@ -10,24 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef PRIVATE_H
+# define PRIVATE_H
 
-# include "../lexer/lexer.h"
+# include "../error/error.h"
+# include "parser.h"
 
-enum	e_io_redirect_type
+typedef struct			s_parser
 {
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	REDIRECT_OUT_APPEND,
-	REDIRECT_HEREDOC,
-};
+	t_list_meta			tokens;
+	t_list_conn			*cursor;
+	t_error				error;
+}						t_parser;
 
-struct	s_io_redirect
-{
-	int						fd;
-	enum e_io_redirect_type type;
-	char					*file;
-};
+void					parser__errorf(t_parser *const p,
+							const char *const fmt, ...);
+struct s_token			*parser__next_token(t_parser *const p);
+struct s_token			*parser__peek_token(const t_parser *const p);
+bool					parser__is_token(const t_parser *const p,
+							const enum e_token_type type,
+							const char *const string);
+bool					parser__next_if_token(t_parser *const p,
+							const enum e_token_type type,
+							const char *const string);
+
+struct s_io_redirect	*parse_io_redirect(t_parser *const p);
+void					del_io_redirect(struct s_io_redirect **const io_redirect);
 
 #endif
