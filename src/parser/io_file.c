@@ -10,65 +10,38 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include <stdlib.h>
+#include "private.h"
 
-# include "../lexer/lexer.h"
-
-struct	s_simple_command
+struct s_io_file		*parse_io_file(t_parser *const p)
 {
-	struct s_cmd_prefix		*prefix;
-	char					*word;
-	char					*name;
-	struct s_cmd_suffix		*suffix;
-};
+	struct s_io_file		*io_file;
 
-struct	s_cmd_prefix
+	io_file = ft_memalloc(sizeof(*io_file));
+	if (parser__next_if_token(p, OPERATOR, "<"))
+		io_file->type = REDIRECT_IN;
+	else if (parser__next_if_token(p, OPERATOR, ">"))
+		io_file->type = REDIRECT_OUT;
+	else if (parser__next_if_token(p, OPERATOR, ">>"))
+		io_file->type = REDIRECT_OUT_APPEND;
+	else
+	{
+		free_io_file(io_file);
+		return (NULL);
+	}
+	if (!parser__is_token(p, WORD, NULL))
+	{
+		parser__errorf(p, "no filename after redirect");
+		free_io_file(io_file);
+		return (NULL);
+	}
+	io_file->filename = ft_strdup(parser__next_token(p)->string);
+	return (io_file);
+}
+
+void					free_io_file(
+							struct s_io_file *const io_file)
 {
-	struct s_cmd_prefix		*prefix;
-	struct s_io_redirect	*redirect;
-	// for 42 shell
-	// const char				*assignment_word;
-};
-
-struct	s_cmd_suffix
-{
-	struct s_cmd_suffix		*suffix;
-	struct s_io_redirect	*redirect;
-	char					*word;
-};
-
-struct	s_redirect_list
-{
-	struct s_io_redirect	*redirect;
-	struct s_redirect_list	*next;
-};
-
-enum	e_io_redirect_type
-{
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	REDIRECT_OUT_APPEND,
-};
-
-struct	s_io_redirect
-{
-	int					fd;
-	struct s_io_file	*file;
-	struct s_io_here	*here;
-};
-
-struct	s_io_file
-{
-	enum e_io_redirect_type		type;
-	char						*filename;
-};
-
-struct	s_io_here
-{
-	// for 42sh
-	// enum e_io_heredoc_type	type;
-	char						*here_end;
-};
-
-#endif
+	free(io_file->filename);
+	free(io_file);
+}
