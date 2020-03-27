@@ -1,6 +1,8 @@
 src_files += files(
 	'errorf.c',
 	'io_redirect.c',
+	'io_file.c',
+	'io_here.c',
 	'is_token.c',
 	'next_token.c',
 	'next_if_token.c',

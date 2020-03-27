@@ -35,6 +35,13 @@ bool					parser__next_if_token(t_parser *const p,
 							const char *const string);
 
 struct s_io_redirect	*parse_io_redirect(t_parser *const p);
-void					del_io_redirect(struct s_io_redirect **const io_redirect);
+void					free_io_redirect(
+							struct s_io_redirect *const io_redirect);
+
+struct s_io_file		*parse_io_file(t_parser *const p);
+void					free_io_file(struct s_io_file *const io_file);
+
+struct s_io_here		*parse_io_here(t_parser *const p);
+void					free_io_here(struct s_io_here *const io_here);
 
 #endif
