@@ -36,6 +36,9 @@ struct s_io_here		*parse_io_here(t_parser *const p)
 void					free_io_here(
 							struct s_io_here *const io_here)
 {
-	free(io_here->here_end);
-	free(io_here);
+	if (io_here)
+	{
+		free(io_here->here_end);
+		free(io_here);
+	}
 }

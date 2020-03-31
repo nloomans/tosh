@@ -10,5 +10,6 @@ src_files += files(
 )
 
 test_files += files(
-	'io_redirect_test.c'
+	'check_test.c',
+	'io_redirect_test.c',
 )

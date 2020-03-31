@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include "private.h"
 
 struct s_token			*parser__peek_token(const t_parser *const p)
