@@ -10,59 +10,29 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef TEST_H
+# define TEST_H
 
-# include "../lexer/lexer.h"
+# include "private.h"
 
-struct	s_simple_command
-{
-	struct s_cmd_prefix		*prefix;
-	char					*word;
-	char					*name;
-	struct s_cmd_suffix		*suffix;
-};
-
-struct	s_cmd_prefix
-{
-	struct s_cmd_prefix		*prefix;
-	struct s_io_redirect	*redirect;
-	// for 42 shell
-	// const char				*assignment_word;
-};
-
-struct	s_cmd_suffix
-{
-	struct s_cmd_suffix		*suffix;
-	struct s_io_redirect	*redirect;
-	char					*word;
-};
-
-enum	e_io_redirect_type
-{
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	REDIRECT_OUT_APPEND,
-};
-
-struct	s_io_redirect
-{
-	int					fd;
-	struct s_io_file	*file;
-	struct s_io_here	*here;
-};
-
-struct	s_io_file
-{
-	enum e_io_redirect_type		type;
-	char						*filename;
-};
-
-struct	s_io_here
-{
-	// for 42sh
-	// enum e_io_heredoc_type	type;
-	char						*here_end;
-};
+void		check_string(const char *const a, const char *const b);
+void		check_simple_command(
+				const struct s_simple_command *const a,
+				const struct s_simple_command *const b);
+void		check_cmd_prefix(
+				const struct s_cmd_prefix *const a,
+				const struct s_cmd_prefix *const b);
+void		check_cmd_suffix(
+				const struct s_cmd_suffix *const a,
+				const struct s_cmd_suffix *const b);
+void		check_io_redirect(
+				const struct s_io_redirect *const a,
+				const struct s_io_redirect *const b);
+void		check_io_file(
+				const struct s_io_file *const a,
+				const struct s_io_file *const b);
+void		check_io_here(
+				const struct s_io_here *const a,
+				const struct s_io_here *const b);
 
 #endif

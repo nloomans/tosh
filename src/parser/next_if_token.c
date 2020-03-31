@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include "private.h"
 
 bool	parser__next_if_token(t_parser *const p,

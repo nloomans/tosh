@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include <stdlib.h>
 #include "private.h"
 
@@ -46,9 +45,10 @@ struct s_io_redirect	*parse_io_redirect(t_parser *const p)
 void					free_io_redirect(
 							struct s_io_redirect *const io_redirect)
 {
-	if (io_redirect->file)
+	if (io_redirect)
+	{
 		free_io_file(io_redirect->file);
-	if (io_redirect->here)
 		free_io_here(io_redirect->here);
-	free(io_redirect);
+		free(io_redirect);
+	}
 }

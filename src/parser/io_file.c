@@ -42,6 +42,9 @@ struct s_io_file		*parse_io_file(t_parser *const p)
 void					free_io_file(
 							struct s_io_file *const io_file)
 {
-	free(io_file->filename);
-	free(io_file);
+	if (io_file)
+	{
+		free(io_file->filename);
+		free(io_file);
+	}
 }

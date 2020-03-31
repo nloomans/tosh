@@ -10,12 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** remove printf
-*/
-
 #include "private.h"
-#include <ft_printf.h>
 
 bool	parser__is_token(const t_parser *const p,
 			const enum e_token_type type,
