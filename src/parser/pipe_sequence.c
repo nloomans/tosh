@@ -13,32 +13,43 @@
 #include <stdlib.h>
 #include "private.h"
 
-struct s_io_here		*parse_io_here(t_parser *const p)
+static void				parse_linebreak(t_parser *const p)
 {
-	struct s_io_here		*io_here;
-
-	io_here = ft_memalloc(sizeof(*io_here));
-	if (!parser__next_if_token(p, OPERATOR, "<<"))
-	{
-		free_io_here(io_here);
-		return (NULL);
-	}
-	if (!parser__is_token(p, WORD, NULL))
-	{
-		parser__errorf(p, "incomplete heredoc");
-		free_io_here(io_here);
-		return (NULL);
-	}
-	io_here->here_end = ft_strdup(parser__next_token(p)->string);
-	return (io_here);
+	while (parser__next_if_token(p, OPERATOR, "\n"));
 }
 
-void					free_io_here(
-							struct s_io_here *const io_here)
+struct s_pipe_sequence	*parse_pipe_sequence(t_parser *const p)
 {
-	if (io_here)
+	struct s_pipe_sequence *pipe_sequence;
+
+	pipe_sequence = ft_memalloc(sizeof(*pipe_sequence));
+	pipe_sequence->simple_command = parse_simple_command(p);
+	if (!pipe_sequence->simple_command)
 	{
-		free(io_here->here_end);
-		free(io_here);
+		free_pipe_sequence(pipe_sequence);
+		return (NULL);
+	}
+	if (parser__next_if_token(p, OPERATOR, "|"))
+	{
+		parse_linebreak(p);
+		pipe_sequence->pipe_sequence = parse_pipe_sequence(p);
+		if (!pipe_sequence->pipe_sequence)
+		{
+			parser__request_extra_input(p);
+			free_pipe_sequence(pipe_sequence);
+			return (NULL);
+		}
+	}
+	return (pipe_sequence);
+}
+
+void					free_pipe_sequence(
+							struct s_pipe_sequence *const pipe_sequence)
+{
+	if (pipe_sequence)
+	{
+		free_pipe_sequence(pipe_sequence->pipe_sequence);
+		free_simple_command(pipe_sequence->simple_command);
+		free(pipe_sequence);
 	}
 }

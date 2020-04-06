@@ -51,7 +51,7 @@ input_map = {
 	Input.LEFT_ARROW: ['<'],
 	Input.RIGHT_ARROW: ['>'],
 	Input.NEWLINE: ['\\n'],
-	Input.OP_CONTROL: ['\\n', ';'],
+	Input.OP_CONTROL: ['\\n', ';', '|'],
 	Input.POUNDSIGN: ['#'],
 }
 

@@ -76,3 +76,10 @@ endif
 test('header',
 	find_program('scripts/addheader'),
 	args: '-n')
+
+if run_command('[', '-f', 'dev.c', ']').returncode() == 0
+	executable('dev',
+		sources: src_files + files('dev.c'),
+		dependencies: [libft_deb, libftprintf_deb, libcurses_deb],
+		build_by_default: false)
+endif

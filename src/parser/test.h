@@ -16,6 +16,15 @@
 # include "private.h"
 
 void		check_string(const char *const a, const char *const b);
+void		check_complete_command(
+				const struct s_complete_command *const a,
+				const struct s_complete_command *const b);
+void		check_list(
+				const struct s_list *const a,
+				const struct s_list *const b);
+void		check_pipe_sequence(
+				const struct s_pipe_sequence *const a,
+				const struct s_pipe_sequence *const b);
 void		check_simple_command(
 				const struct s_simple_command *const a,
 				const struct s_simple_command *const b);

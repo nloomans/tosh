@@ -13,32 +13,42 @@
 #include <stdlib.h>
 #include "private.h"
 
-struct s_io_here		*parse_io_here(t_parser *const p)
+static char				*parse_name(t_parser *const p)
 {
-	struct s_io_here		*io_here;
-
-	io_here = ft_memalloc(sizeof(*io_here));
-	if (!parser__next_if_token(p, OPERATOR, "<<"))
+	if (parser__is_token(p, WORD, NULL))
 	{
-		free_io_here(io_here);
-		return (NULL);
+		return (ft_strdup(parser__next_token(p)->string));
 	}
-	if (!parser__is_token(p, WORD, NULL))
-	{
-		parser__errorf(p, "incomplete heredoc");
-		free_io_here(io_here);
-		return (NULL);
-	}
-	io_here->here_end = ft_strdup(parser__next_token(p)->string);
-	return (io_here);
+	return (NULL);
 }
 
-void					free_io_here(
-							struct s_io_here *const io_here)
+struct s_simple_command *parse_simple_command(t_parser *const p)
 {
-	if (io_here)
+	struct s_simple_command *simple_command;
+
+	simple_command = ft_memalloc(sizeof(*simple_command));
+	simple_command->prefix = parse_cmd_prefix(p);
+	simple_command->name = parse_name(p);
+	if (simple_command->name)
 	{
-		free(io_here->here_end);
-		free(io_here);
+		simple_command->suffix = parse_cmd_suffix(p);
+	}
+	if (!simple_command->prefix && !simple_command->name)
+	{
+		free_simple_command(simple_command);
+		return (NULL);
+	}
+	return (simple_command);
+}
+
+void                    free_simple_command(
+	                        struct s_simple_command *const simple_command)
+{
+	if (simple_command)
+	{
+		free_cmd_prefix(simple_command->prefix);
+		free_cmd_suffix(simple_command->suffix);
+		free(simple_command->name);
+		free(simple_command);
 	}
 }

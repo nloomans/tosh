@@ -36,13 +36,38 @@ void		check_string(const char *const a, const char *const b)
 		cr_expect_str_eq(a, b);
 }
 
+void		check_complete_command(
+				const struct s_complete_command *const a,
+				const struct s_complete_command *const b)
+{
+	ENSURE_PTRS(a, b);
+	check_list(a->list, b->list);
+}
+
+void		check_list(
+				const struct s_list *const a,
+				const struct s_list *const b)
+{
+	ENSURE_PTRS(a, b);
+	check_list(a->list, b->list);
+	check_pipe_sequence(a->pipe_sequence, b->pipe_sequence);
+}
+
+void		check_pipe_sequence(
+				const struct s_pipe_sequence *const a,
+				const struct s_pipe_sequence *const b)
+{
+	ENSURE_PTRS(a, b);
+	check_pipe_sequence(a->pipe_sequence, b->pipe_sequence);
+	check_simple_command(a->simple_command, b->simple_command);
+}
+
 void		check_simple_command(
 				const struct s_simple_command *const a,
 				const struct s_simple_command *const b)
 {
 	ENSURE_PTRS(a, b);
 	check_cmd_prefix(a->prefix, b->prefix);
-	check_string(a->word, b->word);
 	check_string(a->name, b->name);
 	check_cmd_suffix(a->suffix, b->suffix);
 }

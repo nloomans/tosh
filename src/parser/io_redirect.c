@@ -13,12 +13,12 @@
 #include <stdlib.h>
 #include "private.h"
 
-static int				parse_io_number(t_parser *p)
+static int				parse_io_number(t_parser *const p)
 {
 	char	*num_str;
 
 	if (!parser__is_token(p, IO_NUMBER, NULL))
-		return (1);
+		return (-1);
 	num_str = parser__next_token(p)->string;
 	return (ft_atoi(num_str));
 }

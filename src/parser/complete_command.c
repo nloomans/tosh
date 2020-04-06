@@ -13,32 +13,28 @@
 #include <stdlib.h>
 #include "private.h"
 
-struct s_io_here		*parse_io_here(t_parser *const p)
+struct s_complete_command	*parse_complete_command(t_parser *const p)
 {
-	struct s_io_here		*io_here;
+	struct s_complete_command *complete_command;
 
-	io_here = ft_memalloc(sizeof(*io_here));
-	if (!parser__next_if_token(p, OPERATOR, "<<"))
+	complete_command = ft_memalloc(sizeof(*complete_command));
+	complete_command->list = parse_list(p);
+	if (!complete_command->list)
 	{
-		free_io_here(io_here);
+		free_complete_command(complete_command);
 		return (NULL);
 	}
-	if (!parser__is_token(p, WORD, NULL))
-	{
-		parser__errorf(p, "incomplete heredoc");
-		free_io_here(io_here);
-		return (NULL);
-	}
-	io_here->here_end = ft_strdup(parser__next_token(p)->string);
-	return (io_here);
+	parser__next_if_token(p, OPERATOR, ";");
+	return (complete_command);
 }
 
-void					free_io_here(
-							struct s_io_here *const io_here)
+void						free_complete_command(
+								struct s_complete_command
+									*const complete_command)
 {
-	if (io_here)
+	if (complete_command)
 	{
-		free(io_here->here_end);
-		free(io_here);
+		free_list(complete_command->list);
+		free(complete_command);
 	}
 }
