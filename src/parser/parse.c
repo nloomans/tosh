@@ -10,35 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "private.h"
 
-struct s_io_here		*parse_io_here(t_parser *const p)
+t_error		parser_parse(
+				struct s_complete_command **const complete_command,
+				bool *const extra_input_requested,
+				t_list_meta *const all_token)
 {
-	struct s_io_here		*io_here;
+	t_parser p;
 
-	io_here = ft_memalloc(sizeof(*io_here));
-	if (!parser__next_if_token(p, OPERATOR, "<<"))
+	ft_memset(&p, '\0', sizeof(p));
+	p.all_token = *all_token;
+	p.cursor = p.all_token.first;
+	*complete_command = parse_complete_command(&p);
+	*extra_input_requested = p.extra_input_requested;
+	if (p.extra_input_requested || is_error(p.error))
 	{
-		free_io_here(io_here);
-		return (NULL);
+		free_complete_command(*complete_command);
+		*complete_command = NULL;
 	}
-	if (!parser__is_token(p, WORD, NULL))
+	if (*extra_input_requested)
 	{
-		parser__errorf(p, "incomplete heredoc");
-		free_io_here(io_here);
-		return (NULL);
+		return (ERROR_NONE);
 	}
-	io_here->here_end = ft_strdup(parser__next_token(p)->string);
-	return (io_here);
+	return (p.error);
 }
 
-void					free_io_here(
-							struct s_io_here *const io_here)
+void	parser_del(struct s_complete_command **const complete_command)
 {
-	if (io_here)
-	{
-		free(io_here->here_end);
-		free(io_here);
-	}
+	free_complete_command(*complete_command);
+	*complete_command = NULL;
 }

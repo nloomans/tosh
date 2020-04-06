@@ -13,32 +13,27 @@
 #include <stdlib.h>
 #include "private.h"
 
-struct s_io_here		*parse_io_here(t_parser *const p)
+struct s_cmd_prefix	*parse_cmd_prefix(t_parser *const p)
 {
-	struct s_io_here		*io_here;
+	struct s_cmd_prefix *cmd_prefix;
 
-	io_here = ft_memalloc(sizeof(*io_here));
-	if (!parser__next_if_token(p, OPERATOR, "<<"))
+	cmd_prefix = ft_memalloc(sizeof(*cmd_prefix));
+	cmd_prefix->redirect = parse_io_redirect(p);
+	if (!cmd_prefix->redirect)
 	{
-		free_io_here(io_here);
+		free_cmd_prefix(cmd_prefix);
 		return (NULL);
 	}
-	if (!parser__is_token(p, WORD, NULL))
-	{
-		parser__errorf(p, "incomplete heredoc");
-		free_io_here(io_here);
-		return (NULL);
-	}
-	io_here->here_end = ft_strdup(parser__next_token(p)->string);
-	return (io_here);
+	cmd_prefix->prefix = parse_cmd_prefix(p);
+	return (cmd_prefix);
 }
 
-void					free_io_here(
-							struct s_io_here *const io_here)
+void				free_cmd_prefix(struct s_cmd_prefix *const cmd_prefix)
 {
-	if (io_here)
+	if (cmd_prefix)
 	{
-		free(io_here->here_end);
-		free(io_here);
+		free_cmd_prefix(cmd_prefix->prefix);
+		free_io_redirect(cmd_prefix->redirect);
+		free(cmd_prefix);
 	}
 }
