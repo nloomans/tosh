@@ -1,0 +1,7 @@
+- parser wants more tokens, there are none
+- if a newline is possible:
+- parser marks p->request_extra = true;
+- parser returns NULL, propagates
+- function above parser sees p->requests_extra, reads and tokenizes new line
+- the previous and the new token lists are concatenated with a newline token
+- the complete token list is parsed again
