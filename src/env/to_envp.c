@@ -10,23 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <assert.h>
 #include "private.h"
 #include "ft_printf.h"
 
 char					**env_to_envp(t_env *const env)
 {
-	size_t				i;
-	t_list_conn			*iter;
-	struct s_env_pair	*temp;
-	char				**env_arr;
+	size_t					i;
+	t_list_conn				*iter;
+	const struct s_env_pair	*temp;
+	char					**env_arr;
 
 	i = 0;
 	iter = env->list.first;
 	env_arr = ft_memalloc(sizeof(char *) * (env->list.len + 1));
 	if (env_arr == NULL)
 		return (NULL);
-	while (i < env->list.len && iter)
+	while (i < env->list.len)
 	{
+		assert(iter != NULL);
 		temp = unpack_env(iter);
 		ft_asprintf(&env_arr[i], "%s=%s", temp->key, temp->value);
 		if (env_arr[i] == NULL)

@@ -13,7 +13,7 @@
 #include "private.h"
 #include "ft_printf.h"
 
-static int				fill_new(struct s_env_pair *new, char *envp)
+static int				fill_new(struct s_env_pair *const new, char *const envp)
 {
 	size_t				equal_index;
 
@@ -35,7 +35,7 @@ static int				fill_new(struct s_env_pair *new, char *envp)
 	return (0);
 }
 
-int						env_from_envp(t_env *env, char **envp)
+int						env_from_envp(t_env *const env, char **const envp)
 {
 	size_t				i;
 	int					ret;
@@ -47,7 +47,7 @@ int						env_from_envp(t_env *env, char **envp)
 		new = ft_memalloc(sizeof(*new));
 		if (new == NULL)
 		{
-			env_list_delete(env);
+			env_clear(env);
 			return (-1);
 		}
 		ret = fill_new(new, envp[i]);

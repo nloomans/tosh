@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private.h"
 #include <assert.h>
+#include "private.h"
 
 int						env_set(t_env *const env,
 							char const *const key,
@@ -19,21 +19,16 @@ int						env_set(t_env *const env,
 {
 	struct s_env_pair	*new;
 
-	assert(key != NULL || value != NULL);
 	env_unset(env, key);
 	new = ft_memalloc(sizeof(*new));
 	if (new == NULL)
 		return (-1);
 	new->key = ft_strdup(key);
-	if (new->key == NULL)
-	{
-		ft_memdel((void **)&new);
-		return (-1);
-	}
 	new->value = ft_strdup(value);
-	if (new->value == NULL)
+	if (new->key == NULL || new->value == NULL)
 	{
 		ft_strdel(&new->key);
+		ft_strdel(&new->value);
 		ft_memdel((void **)&new);
 		return (-1);
 	}

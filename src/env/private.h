@@ -13,8 +13,8 @@
 #ifndef PRIVATE_H
 # define PRIVATE_H
 
-# include "env.h"
 # include <libft.h>
+# include "env.h"
 
 struct					s_env_pair
 {

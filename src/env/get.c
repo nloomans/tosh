@@ -14,8 +14,8 @@
 
 char					*env_get(t_env const *const env, char const *const key)
 {
-	struct s_env_pair	*temp;
-	t_list_conn			*iter;
+	const struct s_env_pair		*temp;
+	t_list_conn					*iter;
 
 	iter = env->list.first;
 	while (iter)

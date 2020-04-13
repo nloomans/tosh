@@ -12,7 +12,7 @@
 
 #include "private.h"
 
-void					env_unset(t_env *env, char const *const key)
+void					env_unset(t_env *const env, const char *const key)
 {
 	struct s_env_pair	*del_holder;
 	struct s_env_pair	*temp;

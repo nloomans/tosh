@@ -104,3 +104,48 @@ Test(env_unset, unset_env_middle) {
 	value = env_get(&env, "NAHHH");
 	cr_assert_str_eq(value, "nahhh");
 }
+
+Test(env_unset, unset_nonexistent) {
+	char		*arr[] = {"FOO=foo", NULL};
+	t_env		env;
+	int			ret;
+	char		*value;
+
+	ft_bzero(&env, sizeof(t_env));
+	ret = env_from_envp(&env, arr);
+	cr_assert_eq(ret, 0);
+
+	env_unset(&env, "BAR");
+
+	value = env_get(&env, "FOO");
+	cr_assert_str_eq(value, "foo");
+	value = env_get(&env, "BAR");
+	cr_assert_eq(value, NULL);
+}
+
+Test(env_unset, unset_empty) {
+	t_env		env;
+	char		*value;
+
+	ft_bzero(&env, sizeof(t_env));
+
+	env_unset(&env, "BAR");
+
+	value = env_get(&env, "BAR");
+	cr_assert_eq(value, NULL);
+}
+
+Test(env_unset, unset_all) {
+	char		*arr[] = {"FOO=foo", "BAR=bar", NULL};
+	t_env		env;
+	int			ret;
+
+	ft_bzero(&env, sizeof(t_env));
+	ret = env_from_envp(&env, arr);
+	cr_assert_eq(ret, 0);
+
+	env_unset(&env, "FOO");
+	env_unset(&env, "BAR");
+
+	cr_assert_eq(env.list.len, 0);
+}

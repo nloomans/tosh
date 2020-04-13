@@ -13,8 +13,8 @@
 #include <criterion/criterion.h>
 #include "private.h"
 
-Test(from_env_to_envp, to_envp) {
-	char		*arr[] = {"FOO=1", "BAR=2", "UGH=3", NULL};
+Test(env_to_envp, to_envp) {
+	char		*arr[] = {"FOO=1", "BAR=2", "UGH=3", "TEST=FOO=1", NULL};
 	t_env		env_lst;
 	int			ret;
 	char		**env_arr;
@@ -27,5 +27,12 @@ Test(from_env_to_envp, to_envp) {
 	cr_assert_str_eq(env_arr[0], "FOO=1");
 	cr_assert_str_eq(env_arr[1], "BAR=2");
 	cr_assert_str_eq(env_arr[2], "UGH=3");
-	cr_assert_eq(env_arr[3], NULL);
+	cr_assert_str_eq(env_arr[3], "TEST=FOO=1");
+	cr_assert_eq(env_arr[4], NULL);
+}
+
+Test(env_to_envp, empty) {
+	t_env env;
+
+	ft_bzero(&env, sizeof(t_env));
 }

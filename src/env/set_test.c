@@ -25,8 +25,18 @@ Test(env_set, set_env) {
 
 	ret = env_set(&env, "YEEY", "yeey");
 	cr_assert_eq(ret, 0);
+
 	value = env_get(&env, "YEEY");
 	cr_assert_str_eq(value, "yeey");
+
+	value = env_get(&env, "FOO");
+	cr_assert_str_eq(value, "foo");
+	value = env_get(&env, "BAR");
+	cr_assert_str_eq(value, "bar");
+	value = env_get(&env, "UGH");
+	cr_assert_str_eq(value, "ugh");
+	value = env_get(&env, "NAHHH");
+	cr_assert_str_eq(value, "nahhh");
 }
 
 Test(env_set, change_first_env_value) {
@@ -43,6 +53,13 @@ Test(env_set, change_first_env_value) {
 	cr_assert_eq(ret, 0);
 	value = env_get(&env, "FOO");
 	cr_assert_str_eq(value, "yasss");
+
+	value = env_get(&env, "BAR");
+	cr_assert_str_eq(value, "bar");
+	value = env_get(&env, "UGH");
+	cr_assert_str_eq(value, "ugh");
+	value = env_get(&env, "NAHHH");
+	cr_assert_str_eq(value, "nahhh");
 }
 
 Test(env_set, change_last_env_value) {
@@ -59,6 +76,13 @@ Test(env_set, change_last_env_value) {
 	cr_assert_eq(ret, 0);
 	value = env_get(&env, "NAHHH");
 	cr_assert_str_eq(value, "yasss");
+
+	value = env_get(&env, "FOO");
+	cr_assert_str_eq(value, "foo");
+	value = env_get(&env, "BAR");
+	cr_assert_str_eq(value, "bar");
+	value = env_get(&env, "UGH");
+	cr_assert_str_eq(value, "ugh");
 }
 
 Test(env_set, change_middle_env_value) {
@@ -75,4 +99,24 @@ Test(env_set, change_middle_env_value) {
 	cr_assert_eq(ret, 0);
 	value = env_get(&env, "UGH");
 	cr_assert_str_eq(value, "yasss");
+
+	value = env_get(&env, "FOO");
+	cr_assert_str_eq(value, "foo");
+	value = env_get(&env, "BAR");
+	cr_assert_str_eq(value, "bar");
+	value = env_get(&env, "NAHHH");
+	cr_assert_str_eq(value, "nahhh");
+}
+
+Test(env_set, from_empty) {
+	t_env		env;
+	int			ret;
+	char		*value;
+
+	ft_bzero(&env, sizeof(t_env));
+
+	ret = env_set(&env, "FOO", "foo");
+	cr_assert_eq(ret, 0);
+	value = env_get(&env, "FOO");
+	cr_assert_str_eq(value, "foo");
 }

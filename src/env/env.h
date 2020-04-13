@@ -15,7 +15,7 @@
 
 typedef struct s_env	t_env;
 
-int						env_from_envp(t_env *env, char **envp);
+int						env_from_envp(t_env *const env, char **const envp);
 char					**env_to_envp(t_env *const env);
 
 char					*env_get(t_env const *const env, char const *const key);
@@ -24,6 +24,6 @@ int						env_set(t_env *const env,
 								char const *const key,
 								char const *const value);
 
-void					env_list_delete(t_env *env);
+void					env_clear(t_env *env);
 
 #endif
