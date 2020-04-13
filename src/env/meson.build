@@ -1,5 +1,5 @@
 src_files += files(
-	'clear.c',
+	'delete.c',
 	'from_envp.c',
 	'get.c',
 	'set.c',
@@ -9,7 +9,7 @@ src_files += files(
 )
 
 test_files += files(
-	'clear_test.c',
+	'delete_test.c',
 	'from_envp_test.c',
 	'get_test.c',
 	'set_test.c',

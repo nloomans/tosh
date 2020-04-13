@@ -14,25 +14,26 @@
 #include "private.h"
 
 Test(env_to_envp, to_envp) {
-	char		*arr[] = {"FOO=1", "BAR=2", "UGH=3", "TEST=FOO=1", NULL};
-	t_env		env_lst;
-	int			ret;
+	char		*arr[] = {"FOO=1", "BAR=2", "UGH=3", "TEST=FOO=1", "HI=", NULL};
+	t_env		*env;
 	char		**env_arr;
 
-	ft_bzero(&env_lst, sizeof(t_env));
-	ret = env_from_envp(&env_lst, arr);
-	cr_assert_eq(ret, 0);
+	env = env_from_envp(arr);
 
-	env_arr = env_to_envp(&env_lst);
+	env_arr = env_to_envp(env);
 	cr_assert_str_eq(env_arr[0], "FOO=1");
 	cr_assert_str_eq(env_arr[1], "BAR=2");
 	cr_assert_str_eq(env_arr[2], "UGH=3");
 	cr_assert_str_eq(env_arr[3], "TEST=FOO=1");
-	cr_assert_eq(env_arr[4], NULL);
+	cr_assert_str_eq(env_arr[4], "HI=");
+	cr_assert_eq(env_arr[5], NULL);
 }
 
 Test(env_to_envp, empty) {
-	t_env env;
+	t_env		*env;
+	char		**env_arr;
 
-	ft_bzero(&env, sizeof(t_env));
+	env = env_from_envp((char *[]){NULL});
+	env_arr = env_to_envp(env);
+	cr_assert_eq(env_arr[0], NULL);
 }

@@ -35,7 +35,7 @@ static int				fill_new(struct s_env_pair *const new, char *const envp)
 	return (0);
 }
 
-int						env_from_envp(t_env *const env, char **const envp)
+static int				fill_all(struct s_env *env, char **const envp)
 {
 	size_t				i;
 	int					ret;
@@ -46,16 +46,33 @@ int						env_from_envp(t_env *const env, char **const envp)
 	{
 		new = ft_memalloc(sizeof(*new));
 		if (new == NULL)
-		{
-			env_clear(env);
 			return (-1);
-		}
 		ret = fill_new(new, envp[i]);
 		if (ret == -1)
+		{
+			ft_memdel((void **)&new);
 			return (-1);
-		else if (ret == 0)
+		}
+		if (ret == 0)
+		{
 			ft_list_insert(&env->list, env->list.last, &new->conn);
+		}
 		i++;
 	}
 	return (0);
+}
+
+t_env					*env_from_envp(char **const envp)
+{
+	struct s_env		*env;
+
+	env = ft_memalloc(sizeof(*env));
+	if (env == NULL)
+		return (NULL);
+	if (fill_all(env, envp) == -1)
+	{
+		env_delete(&env);
+		return (NULL);
+	}
+	return (env);
 }

@@ -10,20 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <criterion/criterion.h>
 #include "private.h"
 
-Test(env_clear, clear_all) {
-	char		*arr[] = {"FOO=123", "BAR=2345", "UGH=3", NULL};
-	t_env		env;
-	int			ret;
+void					env_delete(t_env **const env)
+{
+	t_list_conn			*current;
+	struct s_env_pair	*temp;
 
-	ft_bzero(&env, sizeof(t_env));
-	ret = env_from_envp(&env, arr);
-	cr_assert_eq(ret, 0);
-
-	env_clear(&env);
-	cr_assert_eq(env.list.first, NULL);
-	cr_assert_eq(env.list.last, NULL);
-	cr_assert_eq(env.list.len, 0);
+	while ((*env)->list.first)
+	{
+		current = (*env)->list.first;
+		ft_list_unlink(&(*env)->list, current);
+		temp = unpack_env(current);
+		ft_strdel(&temp->key);
+		ft_strdel(&temp->value);
+		ft_memdel((void **)&temp);
+	}
+	ft_memdel((void **)env);
 }
