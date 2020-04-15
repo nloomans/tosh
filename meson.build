@@ -12,9 +12,10 @@ src_files = files()
 test_files = files()
 
 subdir('src/bootstrap')
-subdir('src/term')
-subdir('src/error')
 subdir('src/env')
+subdir('src/error')
+subdir('src/lexer')
+subdir('src/term')
 
 main_file = files('src/bootstrap/main.c')
 
