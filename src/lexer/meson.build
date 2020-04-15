@@ -10,6 +10,7 @@ src_files += files(
 	'token.c',
 	'tokenize.c',
 	'unpack_token.c',
+	'clear.c',
 )
 src_files += fsm_c
 

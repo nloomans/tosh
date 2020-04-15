@@ -45,9 +45,10 @@ struct						s_string
 	char					*buffer;
 };
 
-struct s_token				*unpack_token(t_list_conn *node);
+struct s_token				*unpack_token(t_list_conn *const node);
 int							lexer_tokenize(
 								t_list_meta *const all_token,
 								char const *memory_tape);
+void						lexer_clear(t_list_meta *const all_token);
 
 #endif

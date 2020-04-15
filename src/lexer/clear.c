@@ -10,19 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include <stdlib.h>
 
 #include "lexer.h"
 
-struct s_token	*unpack_token(t_list_conn *const node)
+void	lexer_clear(t_list_meta *const all_token)
 {
-	if (node == NULL)
+	struct s_token	*temp;
+	t_list_conn		*iter;
+
+	while (all_token->first != NULL)
 	{
-		return (NULL);
-	}
-	else
-	{
-		return ((struct s_token *)
-			((char *)node - offsetof(struct s_token, conn)));
+		iter = all_token->first;
+		ft_list_unlink(all_token, iter);
+		temp = unpack_token(iter);
+		ft_strdel(&temp->string);
+		ft_bzero(temp, sizeof(*temp));
+		free(temp);
 	}
 }

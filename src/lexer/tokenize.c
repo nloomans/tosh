@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private.h"
-
 #include <stdlib.h>
+
+#include "private.h"
 
 static int	add_char(struct s_string *const cur_token, const char c)
 {
@@ -64,19 +64,9 @@ static void	clean_all(
 				t_list_meta *const all_token,
 				struct s_string *const cur_token)
 {
-	struct s_token	*temp;
-	t_list_conn		*iter;
-
 	ft_strdel(&cur_token->buffer);
 	ft_bzero(cur_token, sizeof(*cur_token));
-	while (all_token->first != NULL)
-	{
-		iter = all_token->first;
-		ft_list_unlink(all_token, iter);
-		temp = unpack_token(iter);
-		ft_strdel(&temp->string);
-		ft_bzero(temp, sizeof(*temp));
-	}
+	lexer_clear(all_token);
 }
 
 static int	handle_current_state(
