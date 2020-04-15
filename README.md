@@ -12,6 +12,7 @@ To compile this project, install the following packages:
 - `meson`
 - `ninja`
 - `pkg-config`
+- `python3`
 
 Then build the project using:
 

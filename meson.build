@@ -14,6 +14,7 @@ test_files = files()
 subdir('src/bootstrap')
 subdir('src/term')
 subdir('src/error')
+subdir('src/lexer')
 
 main_file = files('src/bootstrap/main.c')
 
