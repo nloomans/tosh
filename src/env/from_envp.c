@@ -35,7 +35,7 @@ static int				fill_new(struct s_env_pair *const new, char *const envp)
 	return (0);
 }
 
-static int				fill_all(struct s_env *env, char **const envp)
+static int				fill_all(struct s_env *const env, char **const envp)
 {
 	size_t				i;
 	int					ret;
