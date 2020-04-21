@@ -46,4 +46,16 @@ void				term_configure(enum e_term_configure_action action);
 */
 t_error				term_getcursor(struct s_term_pos *out);
 
+void				term_clearline(void);
+
+enum				e_term_move
+{
+	TERM_MOVE_UP,
+	TERM_MOVE_DOWN,
+	TERM_MOVE_LINE_START,
+	TERM_MOVE_RIGHT,
+};
+
+void				term_cursor_move(enum e_term_move direction);
+
 #endif

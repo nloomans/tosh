@@ -10,11 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRIVATE_H
-# define PRIVATE_H
+#include "private.h"
 
-# include "term.h"
-
-void	term__send(const char *entry);
-
-#endif
+void	term_clearline(void)
+{
+	term__send("ce");
+}
