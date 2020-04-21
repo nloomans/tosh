@@ -22,7 +22,8 @@ struct				s_term_pos
 	size_t	column;
 };
 
-enum				e_term_configure_action {
+enum				e_term_configure_action
+{
 	TERM_CONFIGURE_SETUP,
 	TERM_CONFIGURE_RESTORE,
 };
