@@ -33,11 +33,11 @@ t_error				term_getcursor(struct s_term_pos *out)
 	n = read(STDIN_FILENO, &response, sizeof(response) - 1);
 	if (strncmp(response, "\033[", 2) != 0)
 		return (errorf("expected terminal response to start with \\033["));
-	out->row = ft_atoi(response + 2);
+	out->row = ft_atoi(response + 2) - 1;
 	offset = ft_strdropwhile(response + 2, ft_isdigit) - response;
 	if (response[offset] != ';')
 		return (errorf("expected terminal response be seperated with ;"));
-	out->column = ft_atoi(response + offset);
+	out->column = ft_atoi(response + offset + 1) - 1;
 	offset = ft_strdropwhile(response + offset + 1, ft_isdigit) - response;
 	if (response[offset] != 'R')
 		return (errorf("expected terminal response to end with R"));
