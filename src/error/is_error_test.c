@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*   tosh - 21 Shell                                      ::::::::            */
-/*                                                      :+:    :+:            */
-/*   By: aholster <aholster@student.codam.nl>          +:+                    */
-/*       ivan-tey <ivan-tey@student.codam.nl>         +#+                     */
-/*       nloomans <nloomans@student.codam.nl>        +#+                      */
-/*                                                 #+#    #+#                 */
-/*   License: GPLv3                                ########   odam.nl         */
+/*                                                        ::::::::            */
+/*   TOSH                                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tosh <tosh@student.codam.nl>                 +#+                     */
+/*                                                   +#+                      */
+/*   Created: 1970/01/01 00:00:00 by tosh          #+#    #+#                 */
+/*   Updated: 1970/01/01 99:99:99 by tosh          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ Test(is_error, detects_errors_as_errors) {
 }
 
 Test(is_error, detects_non_errors_as_non_errors) {
-	cr_assert_eq(is_error(ERROR_NONE), false);
+	cr_assert_eq(is_error(error_none()), false);
 }

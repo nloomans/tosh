@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
 #include "error.h"
 
-bool	is_error(t_error error)
+t_error		error_none(void)
 {
-	return (error.msg[0] != '\0');
+	return ((t_error){ .msg = "" });
 }

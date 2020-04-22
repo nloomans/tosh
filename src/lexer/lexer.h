@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*   tosh - 21 Shell                                      ::::::::            */
-/*                                                      :+:    :+:            */
-/*   By: aholster <aholster@student.codam.nl>          +:+                    */
-/*       ivan-tey <ivan-tey@student.codam.nl>         +#+                     */
-/*       nloomans <nloomans@student.codam.nl>        +#+                      */
-/*                                                 #+#    #+#                 */
-/*   License: GPLv3                                ########   odam.nl         */
+/*                                                        ::::::::            */
+/*   TOSH                                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tosh <tosh@student.codam.nl>                 +#+                     */
+/*                                                   +#+                      */
+/*   Created: 1970/01/01 00:00:00 by tosh          #+#    #+#                 */
+/*   Updated: 1970/01/01 99:99:99 by tosh          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ enum						e_token_type
 
 extern const char *const	g_token_type_names[5];
 
-# define INITIAL_BUFF (64)
+# define INITIAL_BUFF 64
 
 struct						s_token
 {
