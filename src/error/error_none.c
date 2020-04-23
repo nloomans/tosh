@@ -10,22 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private.h"
+#include "error.h"
 
-char					*env_get(t_env const *const env, char const *const key)
+t_error		error_none(void)
 {
-	const struct s_env_pair		*temp;
-	t_list_conn					*iter;
-
-	iter = env->list.first;
-	while (iter)
-	{
-		temp = unpack_env(iter);
-		if (ft_strequ(temp->key, key) == 1)
-		{
-			return (temp->value);
-		}
-		iter = iter->next;
-	}
-	return (NULL);
+	return ((t_error){ .msg = "" });
 }

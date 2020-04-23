@@ -1,6 +1,7 @@
 src_files += files(
 	'errorf.c',
 	'is_error.c',
+	'error_none.c',
 )
 
 test_files += files(
