@@ -21,9 +21,9 @@ char					*env_get(t_env const *const env, char const *const key)
 	while (iter)
 	{
 		temp = unpack_env(iter);
-		if (ft_strequ(temp->key, key) == 1)
+		if (ft_strequ(temp->key, key))
 		{
-			return (temp->value);
+			return (ft_strdup(temp->value));
 		}
 		iter = iter->next;
 	}
