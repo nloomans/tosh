@@ -17,11 +17,6 @@ static int				fill_new(struct s_env_pair *const new, char *const envp)
 {
 	size_t				equal_index;
 
-	if (ft_strchr(envp, '=') == NULL)
-	{
-		ft_dprintf(2, "Warning: env: '%s', no '=' present\n", envp);
-		return (1);
-	}
 	equal_index = ft_strchr(envp, '=') - envp;
 	new->key = ft_strsub(envp, 0, equal_index);
 	new->value = ft_strdup(&envp[equal_index + 1]);
@@ -29,7 +24,6 @@ static int				fill_new(struct s_env_pair *const new, char *const envp)
 	{
 		ft_strdel(&new->key);
 		ft_strdel(&new->value);
-		ft_memdel((void **)&new);
 		return (-1);
 	}
 	return (0);
@@ -38,25 +32,26 @@ static int				fill_new(struct s_env_pair *const new, char *const envp)
 static int				fill_all(struct s_env *const env, char **const envp)
 {
 	size_t				i;
-	int					ret;
 	struct s_env_pair	*new;
 
 	i = 0;
 	while (envp[i] != NULL)
 	{
+		if (ft_strchr(envp[i], '=') == NULL)
+		{
+			ft_dprintf(2, "tosh: missing '=' in env '%s', ignoring\n", envp[i]);
+			i++;
+			continue ;
+		}
 		new = ft_memalloc(sizeof(*new));
 		if (new == NULL)
 			return (-1);
-		ret = fill_new(new, envp[i]);
-		if (ret == -1)
+		if (fill_new(new, envp[i]) == -1)
 		{
 			ft_memdel((void **)&new);
 			return (-1);
 		}
-		if (ret == 0)
-		{
-			ft_list_insert(&env->list, env->list.last, &new->conn);
-		}
+		ft_list_insert(&env->list, env->list.last, &new->conn);
 		i++;
 	}
 	return (0);
