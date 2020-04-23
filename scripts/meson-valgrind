@@ -1,0 +1,6 @@
+#!/bin/sh
+valgrind_exec="$1"
+shift
+! "$valgrind_exec" --quiet --trace-children=yes --track-origins=yes \
+	--leak-check=full --show-leak-kinds=definite "$@" 2>&1 \
+	| tee /dev/stderr | grep -E '^==[0-9]+==' >/dev/null
