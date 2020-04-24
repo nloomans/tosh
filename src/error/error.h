@@ -44,7 +44,7 @@ t_error			errorf(char *fmt, ...);
 /*
 ** is_error checks is error contains an error.
 **  - is_error(errorf(" ... some text ... ")) == true.
-**  - is_error(ERROR_NONE) == false.
+**  - is_error(error_none()) == false.
 */
 bool			is_error(t_error error);
 

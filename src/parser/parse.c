@@ -31,7 +31,7 @@ t_error		parser_parse(
 	}
 	if (*extra_input_requested)
 	{
-		return (ERROR_NONE);
+		return (error_none());
 	}
 	return (p.error);
 }
