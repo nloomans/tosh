@@ -37,6 +37,7 @@
 				i, expected_all_token[i].string, token->string);			\
 		token = unpack_token(token->conn.next);								\
 	}																		\
+	lexer_clear(&all_token);												\
 } while (0);
 
 Test(lexer_tokenize, basic_words) {
