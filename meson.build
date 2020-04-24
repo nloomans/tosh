@@ -53,6 +53,16 @@ if libcriterion_deb.found()
 			[libft_deb, libftprintf_deb, libcurses_deb, libcriterion_deb])
 
 	test('tosh', tester)
+
+	valgrind = find_program('valgrind', required: false)
+
+	if valgrind.found()
+		test('valgrind',
+			find_program('scripts/meson-valgrind'),
+			priority: -1,
+			timeout: 60,
+			args: [valgrind.path(), tester.full_path(), '--verbose'])
+	endif
 endif
 
 norminette = find_program('norminette', required: false)

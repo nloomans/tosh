@@ -27,7 +27,19 @@ ninja
 
 To run the tests, run `ninja test` from within the build directory. Install
 [`criterion`](https://github.com/Snaipe/Criterion) if you also want to run the
-unit tests.
+unit tests. Install [`valgrind`](https://valgrind.org/) if you want to check
+for leaks and other memory management bugs during the test execution.
+
+You can also run `../scripts/valgrind` from the build directory to run tests
+with valgrind. This gives you live output and allows you to filter tests. Any
+arguments given will be passed on to criterion. This allow you to, for example,
+run
+
+```
+../scripts/valgrind --filter="lexer_*"
+```
+
+to only check for memory management bugs in the lexer.
 
 ## Utilities
 

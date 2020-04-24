@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*   tosh - 21 Shell                                      ::::::::            */
-/*                                                      :+:    :+:            */
-/*   By: aholster <aholster@student.codam.nl>          +:+                    */
-/*       ivan-tey <ivan-tey@student.codam.nl>         +#+                     */
-/*       nloomans <nloomans@student.codam.nl>        +#+                      */
-/*                                                 #+#    #+#                 */
-/*   License: GPLv3                                ########   odam.nl         */
+/*                                                        ::::::::            */
+/*   Tosh-21Shell                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tosh <tosh@student.codam.nl>                 +#+                     */
+/*                                                   +#+                      */
+/*   Created: 1970/01/01 00:00:00 by tosh          #+#    #+#                 */
+/*   Updated: 1970/01/01 99:99:99 by tosh          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,17 @@ Test(env_unset, unset_env) {
 
 	value = env_get(env, "FOO");
 	cr_assert_str_eq(value, "foo");
+	ft_strdel(&value);
+
 	value = env_get(env, "UGH");
 	cr_assert_str_eq(value, "ugh");
+	ft_strdel(&value);
+
 	value = env_get(env, "NAHHH");
 	cr_assert_str_eq(value, "nahhh");
+	ft_strdel(&value);
+
+	env_delete(&env);
 }
 
 Test(env_unset, unset_env_first) {
@@ -47,10 +54,17 @@ Test(env_unset, unset_env_first) {
 
 	value = env_get(env, "BAR");
 	cr_assert_str_eq(value, "bar");
+	ft_strdel(&value);
+
 	value = env_get(env, "UGH");
 	cr_assert_str_eq(value, "ugh");
+	ft_strdel(&value);
+
 	value = env_get(env, "NAHHH");
 	cr_assert_str_eq(value, "nahhh");
+	ft_strdel(&value);
+
+	env_delete(&env);
 }
 
 Test(env_unset, unset_env_last) {
@@ -64,13 +78,21 @@ Test(env_unset, unset_env_last) {
 
 	value = env_get(env, "NAHHH");
 	cr_assert_eq(value, NULL);
+	ft_strdel(&value);
 
 	value = env_get(env, "BAR");
 	cr_assert_str_eq(value, "bar");
+	ft_strdel(&value);
+
 	value = env_get(env, "UGH");
 	cr_assert_str_eq(value, "ugh");
+	ft_strdel(&value);
+
 	value = env_get(env, "FOO");
 	cr_assert_str_eq(value, "foo");
+	ft_strdel(&value);
+
+	env_delete(&env);
 }
 
 Test(env_unset, unset_env_middle) {
@@ -87,10 +109,17 @@ Test(env_unset, unset_env_middle) {
 
 	value = env_get(env, "BAR");
 	cr_assert_str_eq(value, "bar");
+	ft_strdel(&value);
+
 	value = env_get(env, "FOO");
 	cr_assert_str_eq(value, "foo");
+	ft_strdel(&value);
+
 	value = env_get(env, "NAHHH");
 	cr_assert_str_eq(value, "nahhh");
+	ft_strdel(&value);
+
+	env_delete(&env);
 }
 
 Test(env_unset, unset_nonexistent) {
@@ -104,8 +133,13 @@ Test(env_unset, unset_nonexistent) {
 
 	value = env_get(env, "FOO");
 	cr_assert_str_eq(value, "foo");
+	ft_strdel(&value);
+
 	value = env_get(env, "BAR");
 	cr_assert_eq(value, NULL);
+	ft_strdel(&value);
+
+	env_delete(&env);
 }
 
 Test(env_unset, unset_empty) {
@@ -118,6 +152,9 @@ Test(env_unset, unset_empty) {
 
 	value = env_get(env, "BAR");
 	cr_assert_eq(value, NULL);
+	ft_strdel(&value);
+
+	env_delete(&env);
 }
 
 Test(env_unset, unset_all) {
@@ -130,4 +167,6 @@ Test(env_unset, unset_all) {
 	env_unset(env, "BAR");
 
 	cr_assert_eq(env->list.len, 0);
+
+	env_delete(&env);
 }

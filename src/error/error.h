@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*   tosh - 21 Shell                                      ::::::::            */
-/*                                                      :+:    :+:            */
-/*   By: aholster <aholster@student.codam.nl>          +:+                    */
-/*       ivan-tey <ivan-tey@student.codam.nl>         +#+                     */
-/*       nloomans <nloomans@student.codam.nl>        +#+                      */
-/*                                                 #+#    #+#                 */
-/*   License: GPLv3                                ########   odam.nl         */
+/*                                                        ::::::::            */
+/*   Tosh-21Shell                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tosh <tosh@student.codam.nl>                 +#+                     */
+/*                                                   +#+                      */
+/*   Created: 1970/01/01 00:00:00 by tosh          #+#    #+#                 */
+/*   Updated: 1970/01/01 99:99:99 by tosh          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ typedef struct	s_error
 }				t_error;
 
 /*
-** ERROR_NONE should be returned to indicate that no error occurred.
+** error_none should be returned to indicate that no error occurred.
 */
-# define ERROR_NONE (t_error){ .msg = "" }
+t_error			error_none(void);
 
 /*
 ** errorf creates a new error. For example errorf("unable to allocate memory")

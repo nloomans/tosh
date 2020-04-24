@@ -10,16 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <term.h>
-#include <unistd.h>
-#include "private.h"
+#include "error.h"
 
-static int	putchar_stderr(int c)
+t_error		error_none(void)
 {
-	return (write(STDERR_FILENO, &c, 1));
-}
-
-void		term__send(const char *entry)
-{
-	tputs(tgetstr((char *)entry, NULL), 0, putchar_stderr);
+	return ((t_error){ .msg = "" });
 }
