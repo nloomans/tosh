@@ -121,5 +121,6 @@ int			lexer_tokenize(
 		state = cur_rule.new_state;
 		memory_tape++;
 	}
+	ft_strdel(&cur_token.buffer);
 	return (0);
 }
