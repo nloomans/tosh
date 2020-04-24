@@ -90,6 +90,7 @@ Test(parse_simple_command, parses_a_simple_command)
 			},
 		},
 	});
+	free_simple_command(simple_command);
 }
 
 Test(parse_simple_command, parses_from_string)
@@ -101,6 +102,7 @@ Test(parse_simple_command, parses_from_string)
 	p.cursor = p.all_token.first;
 
 	struct s_simple_command *simple_command = parse_simple_command(&p);
+	lexer_clear(&p.all_token);
 
 	cr_assert_str_empty(p.error.msg);
 	cr_expect_eq(p.cursor, NULL);
@@ -135,6 +137,7 @@ Test(parse_simple_command, parses_from_string)
 			},
 		},
 	});
+	free_simple_command(simple_command);
 }
 
 Test(parse_simple_command, handles_heredoc_error)
@@ -145,7 +148,8 @@ Test(parse_simple_command, handles_heredoc_error)
 	lexer_tokenize(&p.all_token, "2>foo.txt ls -a <<");
 	p.cursor = p.all_token.first;
 
-	parse_simple_command(&p);
+	free_simple_command(parse_simple_command(&p));
+	lexer_clear(&p.all_token);
 
 	cr_assert_str_eq(p.error.msg, "incomplete heredoc");
 }
@@ -158,7 +162,8 @@ Test(parse_simple_command, handles_file_error)
 	lexer_tokenize(&p.all_token, "2>foo.txt ls -a >");
 	p.cursor = p.all_token.first;
 
-	parse_simple_command(&p);
+	free_simple_command(parse_simple_command(&p));
+	lexer_clear(&p.all_token);
 
 	cr_assert_str_eq(p.error.msg, "no filename after redirect");
 }

@@ -25,6 +25,8 @@ Test(parser_parse, parses)
 	lexer_tokenize(&all_token, "mkdir test ; cd test ; ls -a ; ls | cat | wc -c > fifi ; cat fifi");
 
 	error = parser_parse(&complete_command, &extra_input_requested, &all_token);
+	lexer_clear(&all_token);
+
 	cr_assert_not(is_error(error));
 	cr_assert_not(extra_input_requested);
 
@@ -118,4 +120,5 @@ Test(parser_parse, parses)
 			},
 		},
 	});
+	parser_del(&complete_command);
 }
