@@ -19,14 +19,16 @@ Test(env_to_envp, to_envp) {
 	char		**env_arr;
 
 	env = env_from_envp(arr);
-
 	env_arr = env_to_envp(env);
+	env_delete(&env);
+
 	cr_assert_str_eq(env_arr[0], "FOO=1");
 	cr_assert_str_eq(env_arr[1], "BAR=2");
 	cr_assert_str_eq(env_arr[2], "UGH=3");
 	cr_assert_str_eq(env_arr[3], "TEST=FOO=1");
 	cr_assert_str_eq(env_arr[4], "HI=");
 	cr_assert_eq(env_arr[5], NULL);
+	ft_arraydel((void ***)&env_arr, ft_memdel);
 }
 
 Test(env_to_envp, empty) {
@@ -35,5 +37,9 @@ Test(env_to_envp, empty) {
 
 	env = env_from_envp((char *[]){NULL});
 	env_arr = env_to_envp(env);
+	env_delete(&env);
+
 	cr_assert_eq(env_arr[0], NULL);
+
+	ft_arraydel((void ***)&env_arr, ft_memdel);
 }
