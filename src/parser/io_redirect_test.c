@@ -42,6 +42,7 @@ Test(parse_io_redirect, parses_simple_redirect)
 			.filename = "text.txt",
 		},
 	});
+	free_io_redirect(io_redirect);
 }
 
 Test(parse_io_redirect, parses_with_io_number)
@@ -76,6 +77,7 @@ Test(parse_io_redirect, parses_with_io_number)
 			.filename = "text.txt",
 		},
 	});
+	free_io_redirect(io_redirect);
 }
 
 Test(parse_io_redirect, errors_incomplete)
@@ -147,6 +149,7 @@ Test(parse_io_redirect, heredoc)
 		},
 		.file = NULL,
 	});
+	free_io_redirect(io_redirect);
 }
 
 Test(parse_io_redirect, filename_and_heredoc)
@@ -185,4 +188,5 @@ Test(parse_io_redirect, filename_and_heredoc)
 			.filename = "foo.txt",
 		},
 	});
+	free_io_redirect(io_redirect);
 }
