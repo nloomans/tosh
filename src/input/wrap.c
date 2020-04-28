@@ -10,23 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../error/error.h"
-#include "../term/term.h"
-#include "../input/input.h"
+#include <assert.h>
+#include <libft.h>
+#include "private.h"
 
-void	tosh(void)
+static size_t	chunk_width(size_t max_width, const char *buffer)
 {
-	char				*input;
-	t_error				error;
+	size_t width;
 
-	term_init(getenv("TERM"));
-	error = input_read(&input, "TOSH $ ", 7);
-	if (is_error(error))
+	width = ft_strlen(buffer);
+	if (width > max_width)
+		return (max_width);
+	return (width);
+}
+
+size_t			input__wrap(
+					char ***dest,
+					size_t terminal_width,
+					size_t prompt_width,
+					const char *buffer)
+{
+	size_t	line_count;
+	size_t	width;
+
+	assert(prompt_width <= terminal_width); // TODO: probably not a good idea.
+	*dest = ft_memalloc(ft_strlen(buffer) * sizeof(**dest));
+	if (*dest == NULL)
+		return (-1);
+	line_count = 0;
+	while (*buffer != '\0')
 	{
-		ft_dprintf(STDERR_FILENO, "unable to read input: %s\n", error.msg);
-		return ;
+		width = chunk_width(
+			line_count == 0 ? terminal_width - prompt_width : terminal_width,
+			buffer);
+		(*dest)[line_count] = ft_strsub(buffer, 0, width);
+		buffer += width;
+		line_count++;
 	}
+	return (line_count);
 }

@@ -10,23 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../error/error.h"
-#include "../term/term.h"
-#include "../input/input.h"
+#ifndef INPUT_H
+# define INPUT_H
 
-void	tosh(void)
-{
-	char				*input;
-	t_error				error;
+# include "../error/error.h"
 
-	term_init(getenv("TERM"));
-	error = input_read(&input, "TOSH $ ", 7);
-	if (is_error(error))
-	{
-		ft_dprintf(STDERR_FILENO, "unable to read input: %s\n", error.msg);
-		return ;
-	}
-}
+/*
+** input_read reads a single line of input to dest. prompt contains the text to
+** display before the input, prompt_width is the amount of space prompt contains
+** when printed to a terminal.
+**
+** Text wrapping is handled automatically.
+*/
+t_error		input_read(char **dest, const char *prompt, size_t prompt_width);
+
+#endif

@@ -10,23 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../error/error.h"
-#include "../term/term.h"
-#include "../input/input.h"
+#include <criterion/criterion.h>
+#include <libft.h>
+#include "private.h"
 
-void	tosh(void)
-{
-	char				*input;
-	t_error				error;
+Test(input__wrap, single_line) {
+	char **dest;
 
-	term_init(getenv("TERM"));
-	error = input_read(&input, "TOSH $ ", 7);
-	if (is_error(error))
-	{
-		ft_dprintf(STDERR_FILENO, "unable to read input: %s\n", error.msg);
-		return ;
-	}
+	input__wrap(&dest, 80, 20, "ls -al");
+	cr_expect_str_eq(dest[0], "ls -al");
+	cr_expect_eq(dest[1], NULL);
+	ft_arraydel((void ***)&dest, ft_memdel);
+}
+
+Test(input__wrap, multi_line) {
+	char **dest;
+
+	input__wrap(&dest, 80, 20, "echo 'this is a very long line which does not fit within the 80 characters of a standard terminal.'");
+	cr_expect_str_eq(dest[0], "echo 'this is a very long line which does not fit within the");
+	cr_expect_str_eq(dest[1], " 80 characters of a standard terminal.'");
+	cr_expect_eq(dest[2], NULL);
+	ft_arraydel((void ***)&dest, ft_memdel);
 }
