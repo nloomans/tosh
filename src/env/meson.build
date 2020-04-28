@@ -6,6 +6,8 @@ src_files += files(
 	'unset.c',
 	'to_envp.c',
 	'unpack.c',
+	'get_exit_status.c',
+	'set_exit_status.c',
 )
 
 test_files += files(

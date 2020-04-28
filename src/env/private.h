@@ -26,6 +26,7 @@ struct					s_env_pair
 typedef struct			s_env
 {
 	t_list_meta			list;
+	uint8_t				exit_status;
 }						t_env;
 
 struct s_env_pair		*unpack_env(t_list_conn *const node);
