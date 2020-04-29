@@ -18,14 +18,13 @@
 #include <unistd.h>
 #include <ft_printf.h>
 
-t_error		input_read(char **dest, const char *prompt, size_t prompt_width)
+t_error		input_read(char **dest,
+				const struct s_input_formatted_string *prompt)
 {
 	struct s_input__state		state;
 	struct s_input__draw_state	draw_state;
 
 	(void)dest;
-	(void)prompt;
-	(void)prompt_width;
 
 	ft_memset(&state, '\0', sizeof(state));
 	state.terminal_rows = 81;
@@ -37,7 +36,7 @@ t_error		input_read(char **dest, const char *prompt, size_t prompt_width)
 
 	term_configure(TERM_CONFIGURE_SETUP);
 
-	input__draw(&draw_state, state);
+	input__draw(&draw_state, state, prompt);
 	sleep(5);
 	ft_dprintf(STDERR_FILENO, "\n");
 

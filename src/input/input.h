@@ -16,12 +16,23 @@
 # include "../error/error.h"
 
 /*
+** s_input_formatted_string is a string with possibly control codes embedded
+** in it. The width represents the amount of columns the cursor will move
+** forward when printing the string.
+*/
+struct		s_input_formatted_string
+{
+	char	*string;
+	size_t	width;
+};
+
+/*
 ** input_read reads a single line of input to dest. prompt contains the text to
-** display before the input, prompt_width is the amount of space prompt contains
-** when printed to a terminal.
+** display before the input.
 **
 ** Text wrapping is handled automatically.
 */
-t_error		input_read(char **dest, const char *prompt, size_t prompt_width);
+t_error		input_read(char **dest,
+				const struct s_input_formatted_string *prompt);
 
 #endif

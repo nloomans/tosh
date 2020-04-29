@@ -46,7 +46,8 @@ static void	reposition_cursor(size_t current_cursor_row, struct s_term_pos dest)
 }
 
 static void	draw_text(struct s_input__draw_state *draw_state,
-				struct s_input__state state, const char *prompt)
+				struct s_input__state state,
+				const struct s_input_formatted_string *prompt)
 {
 	size_t		line_count;
 	char		**lines;
@@ -54,11 +55,11 @@ static void	draw_text(struct s_input__draw_state *draw_state,
 	reposition_cursor(draw_state->cursor_row, (struct s_term_pos){0, 0});
 	draw_state->cursor_row = 0;
 	line_count = input__wrap(&lines,
-		state.terminal_rows, ft_strlen(prompt), state.buffer);
+		state.terminal_rows, prompt->width, state.buffer);
 	draw_state->claimed_columns = draw_state->claimed_columns > line_count
 		? draw_state->claimed_columns
 		: line_count;
-	ft_dprintf(STDERR_FILENO, "%{green}%s%{reset}", prompt);
+	ft_dprintf(STDERR_FILENO, "%s", prompt->string);
 	while (true)
 	{
 		term_clearline();
@@ -75,12 +76,11 @@ static void	draw_text(struct s_input__draw_state *draw_state,
 }
 
 void		input__draw(struct s_input__draw_state *draw_state,
-				struct s_input__state state)
+				struct s_input__state state,
+				const struct s_input_formatted_string *prompt)
 {
-	const char	prompt[] = "tosh $ ";
-
 	draw_text(draw_state, state, prompt);
 	reposition_cursor(draw_state->cursor_row,
-		input__wrap_cursor(state.terminal_rows, ft_strlen(prompt),
+		input__wrap_cursor(state.terminal_rows, prompt->width,
 			state.cursor_position));
 }

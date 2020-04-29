@@ -14,6 +14,7 @@
 # define PRIVATE_H
 
 # include <stddef.h>
+# include "input.h"
 # include "../term/term.h"
 
 /*
@@ -38,7 +39,6 @@ struct		s_input__state
 **                  only go up.
 ** cursor_row       the row relative to the input line the cursor is right now.
 */
-
 struct		s_input__draw_state
 {
 	size_t	claimed_columns;
@@ -46,7 +46,8 @@ struct		s_input__draw_state
 };
 
 void		input__draw(struct s_input__draw_state *draw_state,
-				struct s_input__state state);
+				struct s_input__state state,
+				const struct s_input_formatted_string *prompt);
 
 /*
 ** input__wrap places the newlines at the best position in the buffer. buffer

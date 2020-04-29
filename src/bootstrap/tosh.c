@@ -21,9 +21,11 @@ void	tosh(void)
 {
 	char				*input;
 	t_error				error;
+	char				prompt[32];
 
 	term_init(getenv("TERM"));
-	error = input_read(&input, "TOSH $ ", 7);
+	ft_snprintf(prompt, sizeof(prompt), "%{green}TOSH $ %{reset}");
+	error = input_read(&input, &(struct s_input_formatted_string){prompt, 7});
 	if (is_error(error))
 	{
 		ft_dprintf(STDERR_FILENO, "unable to read input: %s\n", error.msg);
