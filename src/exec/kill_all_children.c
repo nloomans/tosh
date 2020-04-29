@@ -10,40 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/wait.h>
+#include <stdlib.h>
+#include <signal.h>
+
 #include <assert.h>
-#include <ft_printf.h>
 
 #include "private.h"
 
-__sig_atomic_t		g_terminate_sig = 0;
-
-void		exec_run(
-				const struct s_complete_command *const complete_command,
-				t_env *const env)
+void		exec__kill_all_children(t_list_meta *const pid_list)
 {
-	struct s_exec_state	status;
-	t_error				err;
-	const struct s_list	*list;
+	struct s_child	*child_process;
+	__pid_t			ret;
 
-	list = complete_command->list;
-	status.must_halt = false;
-	while (list && status.must_halt == 1)
+	while (pid_list->first)
 	{
-		assert(list->pipe_sequence != NULL); //parser error?
-		err = error_none();
-		if (list->pipe_sequence->pipe_sequence)
+		child_process = unpack_child(pid_list->first);
+		ft_list_unlink(pid_list, pid_list->first);
+		kill(child_process->pid, SIGINT);
+		ret = 0;
+		while (ret != 0)
 		{
-			err = exec__sequence(&status, list->pipe_sequence, env);
+			ret = waitpid(child_process->pid, NULL, WNOHANG);//think about zombies and error return
 		}
-		else
-		{
-			err = exec__single(&status, list->pipe_sequence->simple_command, env);
-		}
-		if (is_error(err))
-		{
-			ft_dprintf(2, "Tosh: %s\n", err.msg); //malloc, fork err etc
-		}
-		list = list->list;
+		assert(ret != -1); //programming error;
+		ft_bzero(child_process, sizeof(*child_process));
+		free(child_process);
 	}
-	g_terminate_sig = 0; //nonsense if handling background proccesses
 }

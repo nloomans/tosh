@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*   tosh - 21 Shell                                      ::::::::            */
-/*                                                      :+:    :+:            */
-/*   By: aholster <aholster@student.codam.nl>          +:+                    */
-/*       ivan-tey <ivan-tey@student.codam.nl>         +#+                     */
-/*       nloomans <nloomans@student.codam.nl>        +#+                      */
-/*                                                 #+#    #+#                 */
-/*   License: GPLv3                                ########   odam.nl         */
+/*                                                        ::::::::            */
+/*   Tosh-21Shell                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tosh <tosh@student.codam.nl>                 +#+                     */
+/*                                                   +#+                      */
+/*   Created: 1970/01/01 00:00:00 by tosh          #+#    #+#                 */
+/*   Updated: 1970/01/01 99:99:99 by tosh          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static t_error	loop_sequence(struct s_exec_state *const status,
 
 t_error			exec__sequence(struct s_exec_state *const status,
 					const struct s_pipe_sequence *sequence,
-					const t_env *const env)
+					t_env *const env)
 {
 	int		all_pipe[2][2];
 	t_error	err;
@@ -87,6 +87,7 @@ t_error			exec__sequence(struct s_exec_state *const status,
 	err = error_none();
 	if (pipe(all_pipe[0]) == -1 || pipe(all_pipe[1]) == -1)
 	{
+		env_set_exit_status(env, 255);
 		return(errorf("failed to create pipe"));
 	}
 	err = loop_sequence(status, all_pipe, sequence, env);
@@ -96,9 +97,8 @@ t_error			exec__sequence(struct s_exec_state *const status,
 	close(all_pipe[1][1]);
 	if (is_error(err))
 	{
+		env_set_exit_status(env, 255);
 		return (err);
 	}
-	// event loop for pipe termination goes here
-	return (err);
+	return (exec__child_process_control(&status->pid_list, env, status));
 }
-
