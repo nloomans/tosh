@@ -14,6 +14,7 @@
 # define PRIVATE_H
 
 # include <stddef.h>
+# include "../term/term.h"
 
 /*
 ** terminal_rows    the current width of the terminal.
@@ -60,5 +61,14 @@ size_t			input__wrap(
 					size_t terminal_width,
 					size_t prompt_width,
 					const char *buffer);
+
+/*
+** input__wrap_cursor will calculate the cursor position after the wrapping was
+** applied. term_pos is relative to the first user input.
+*/
+struct s_term_pos	input__wrap_cursor(
+						size_t terminal_width,
+						size_t prompt_width,
+						size_t cursor_pos);
 
 #endif

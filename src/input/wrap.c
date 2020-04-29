@@ -49,3 +49,28 @@ size_t			input__wrap(
 	}
 	return (line_count);
 }
+
+struct s_term_pos	input__wrap_cursor(
+						size_t terminal_width,
+						size_t prompt_width,
+						size_t cursor_pos)
+{
+	size_t				i;
+	struct s_term_pos	pos;
+
+	assert(prompt_width <= terminal_width); // TODO: probably not a good idea.
+	i = 0;
+	pos.row = 0;
+	pos.column = prompt_width;
+	while (i < cursor_pos)
+	{
+		i++;
+		pos.column++;
+		if (pos.column == terminal_width)
+		{
+			pos.column = 0;
+			pos.row++;
+		}
+	}
+	return (pos);
+}
