@@ -10,37 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRIVATE_H
-# define PRIVATE_H
+#include <sys/ioctl.h>
+#include <unistd.h>
+#include <libft.h>
+#include "term.h"
 
-# include <stddef.h>
-# include "input.h"
-# include "../term/term.h"
-
-/*
-** terminal_columns the current width of the terminal.
-** buffer           the text that the user has entered. Does not contain line
-**                  wrapping.
-** cursor_postion   the position of the cursor relative to the buffer. Does not
-**                  contain line wrapping.
-*/
-struct				s_input__state
+int		term_getsize(struct s_term_pos *out)
 {
-	size_t	terminal_columns;
-	char	*buffer;
-	size_t	cursor_position;
-};
+	struct winsize	w;
 
-void				input__draw(struct s_input__state state,
-						const struct s_input_formatted_string *prompt);
-
-/*
-** input__wrap_cursor will calculate the cursor position after the wrapping was
-** applied. term_pos is relative to the first user input.
-*/
-struct s_term_pos	input__wrap_cursor(
-						size_t terminal_width,
-						size_t prompt_width,
-						size_t cursor_pos);
-
-#endif
+	ft_memset(&w, '\0', sizeof(w));
+	if (ioctl(STDERR_FILENO, TIOCGWINSZ, &w) == -1)
+	{
+		return (-1);
+	}
+	out->row = w.ws_row;
+	out->column = w.ws_col;
+	return (0);
+}

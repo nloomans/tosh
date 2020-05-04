@@ -16,19 +16,12 @@
 #include "../term/term.h"
 #include "private.h"
 
-static void	reposition_cursor(size_t current_cursor_row, struct s_term_pos dest)
+static void	reposition_cursor(struct s_term_pos dest)
 {
 	size_t	amount_to_move;
 	size_t	i;
 
-	amount_to_move = current_cursor_row;
-	i = 0;
-	while (i < amount_to_move)
-	{
-		term_cursor_move(TERM_MOVE_UP);
-		i++;
-	}
-	term_cursor_move(TERM_MOVE_LINE_START);
+	term_cursor_move(TERM_MOVE_RESTORE);
 	amount_to_move = dest.row;
 	i = 0;
 	while (i < amount_to_move)
@@ -45,42 +38,15 @@ static void	reposition_cursor(size_t current_cursor_row, struct s_term_pos dest)
 	}
 }
 
-static void	draw_text(struct s_input__draw_state *draw_state,
-				struct s_input__state state,
+void		input__draw(struct s_input__state state,
 				const struct s_input_formatted_string *prompt)
 {
-	size_t		line_count;
-	char		**lines;
+	struct s_term_pos	cursor_pos;
 
-	reposition_cursor(draw_state->cursor_row, (struct s_term_pos){0, 0});
-	draw_state->cursor_row = 0;
-	line_count = input__wrap(&lines,
-		state.terminal_rows, prompt->width, state.buffer);
-	draw_state->claimed_columns = draw_state->claimed_columns > line_count
-		? draw_state->claimed_columns
-		: line_count;
-	ft_dprintf(STDERR_FILENO, "%s", prompt->string);
-	while (true)
-	{
-		term_clearline();
-		ft_dprintf(STDERR_FILENO, "%s", lines[draw_state->cursor_row]);
-		if (draw_state->cursor_row + 1 < draw_state->claimed_columns)
-		{
-			term_cursor_move(TERM_MOVE_DOWN);
-			draw_state->cursor_row++;
-		}
-		else
-			break ;
-	}
-	ft_arraydel((void ***)&lines, ft_memdel);
-}
-
-void		input__draw(struct s_input__draw_state *draw_state,
-				struct s_input__state state,
-				const struct s_input_formatted_string *prompt)
-{
-	draw_text(draw_state, state, prompt);
-	reposition_cursor(draw_state->cursor_row,
-		input__wrap_cursor(state.terminal_rows, prompt->width,
-			state.cursor_position));
+	reposition_cursor((struct s_term_pos){0, 0});
+	term_clear_to_end();
+	ft_dprintf(STDERR_FILENO, "%s%s", prompt->string, state.buffer);
+	cursor_pos = input__wrap_cursor(state.terminal_columns, prompt->width,
+			state.cursor_position);
+	reposition_cursor(cursor_pos);
 }

@@ -21,24 +21,37 @@
 t_error		input_read(char **dest,
 				const struct s_input_formatted_string *prompt)
 {
+	struct s_term_pos			term_size;
 	struct s_input__state		state;
-	struct s_input__draw_state	draw_state;
 
 	(void)dest;
 
 	ft_memset(&state, '\0', sizeof(state));
-	state.terminal_rows = 81;
-	state.cursor_position = 42;
-	state.buffer = "echo 'this is a very long line which does not fit within the 80 characters of a standard terminal.'";
-	ft_memset(&draw_state, '\0', sizeof(draw_state));
-	draw_state.cursor_row = 0;
-	draw_state.claimed_columns = 0;
+	state.cursor_position = 100;
+	state.buffer = "echo 'this is a very long line which does not fit within the 80 characters of a standard terminal.'; echo 'this is a very long line which does not fit within the 80 characters of a standard terminal.";
 
 	term_configure(TERM_CONFIGURE_SETUP);
 
-	input__draw(&draw_state, state, prompt);
-	sleep(5);
-	ft_dprintf(STDERR_FILENO, "\n");
+	// The input module works on the assumption that the saved cursor state
+	// will remain the same when the terminal emulator resizes stuff. I.e. if
+	// the terminal wraps a row into two, the saved cursor position is wrapped
+	// together with the text. This seems to work on all terminals I tried
+	// except for the builtin VSCode terminal. But zsh has the same issues as
+	// our shell on that terminal so it should be fine.
+	//
+	// TODO: Reposition the cursor to a sensible starting place. The cursor
+	// wrapping calculation only works when the saved cursor position has a
+	// column of 0.
+	term_cursor_move(TERM_MOVE_SAVE);
+
+	while (true)
+	{
+		if (term_getsize(&term_size) == -1)
+			return (errorf("unable to get terminal size"));
+		state.terminal_columns = term_size.column;
+		input__draw(state, prompt);
+		sleep(1);
+	}
 
 	term_configure(TERM_CONFIGURE_RESTORE);
 	return (error_none());

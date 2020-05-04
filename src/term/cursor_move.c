@@ -25,6 +25,10 @@ void	term_cursor_move(enum e_term_move direction)
 		ft_dprintf(STDERR_FILENO, "\r");
 	else if (direction == TERM_MOVE_RIGHT)
 		term__send("nd");
+	else if (direction == TERM_MOVE_SAVE)
+		term__send("sc");
+	else if (direction == TERM_MOVE_RESTORE)
+		term__send("rc");
 	else
-		assert(!"invalid direction");
+		assert(!"invalid enum e_term_move value");
 }

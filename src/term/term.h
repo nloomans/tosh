@@ -46,7 +46,14 @@ void				term_configure(enum e_term_configure_action action);
 */
 t_error				term_getcursor(struct s_term_pos *out);
 
-void				term_clearline(void);
+/*
+** term_getsize gets the size of the terminal. The returned struct s_term_pos
+** is equal to the maximum cursor row and column plus 1.
+*/
+int					term_getsize(struct s_term_pos *out);
+
+void				term_clear_line(void);
+void				term_clear_to_end(void);
 
 enum				e_term_move
 {
@@ -54,6 +61,8 @@ enum				e_term_move
 	TERM_MOVE_DOWN,
 	TERM_MOVE_LINE_START,
 	TERM_MOVE_RIGHT,
+	TERM_MOVE_SAVE,
+	TERM_MOVE_RESTORE,
 };
 
 void				term_cursor_move(enum e_term_move direction);

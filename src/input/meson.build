@@ -1,9 +1,9 @@
 src_files += files(
 	'draw.c',
 	'read.c',
-	'wrap.c',
+	'wrap_cursor.c',
 )
 
 test_files += files(
-	'wrap_test.c',
+	'wrap_cursor_test.c',
 )
