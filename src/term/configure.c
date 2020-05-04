@@ -13,6 +13,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include "term.h"
+#include "../error/error.h"
 
 /*
 ** Modes changed:
@@ -22,22 +23,26 @@
 ** - VTIME = 1: A maximum of 100ms per keypress;
 */
 
-void		term_configure(enum e_term_configure_action action)
+t_error		term_configure(enum e_term_configure_action action)
 {
 	static struct termios	original;
 	struct termios			new;
 
 	if (action == TERM_CONFIGURE_SETUP)
 	{
-		tcgetattr(STDIN_FILENO, &original);
+		if (tcgetattr(STDIN_FILENO, &original) == -1)
+			return (errorf("tcgetattr failed"));
 		new = original;
 		new.c_lflag &= ~(ECHO | ICANON);
 		new.c_cc[VMIN] = 0;
 		new.c_cc[VTIME] = 1;
-		tcsetattr(STDIN_FILENO, TCSAFLUSH, &new);
+		if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &new) == -1)
+			return (errorf("tcsetattr failed"));
 	}
 	else
 	{
-		tcsetattr(STDIN_FILENO, TCSAFLUSH, &original);
+		if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &original) == -1)
+			return (errorf("tcsetattr failed"));
 	}
+	return (error_none());
 }

@@ -1,4 +1,5 @@
 src_files += files(
+	'configure.c',
 	'draw.c',
 	'read.c',
 	'wrap_cursor.c',

@@ -38,7 +38,7 @@ void				term_init(const char *term_env);
 ** term_configure changes the termios table in ways needed for precise terminal
 ** manipulation.
 */
-void				term_configure(enum e_term_configure_action action);
+t_error				term_configure(enum e_term_configure_action action);
 
 /*
 ** term_getcursor gets the position of the cursor. Terminal must be configured
