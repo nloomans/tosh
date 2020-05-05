@@ -32,7 +32,7 @@ t_error					input__configure(enum e_input__configure_action action);
 ** terminal_columns the current width of the terminal.
 ** buffer           the text that the user has entered. Does not contain line
 **                  wrapping.
-** cursor_postion   the position of the cursor relative to the buffer. Does not
+** cursor_position  the position of the cursor relative to the buffer. Does not
 **                  contain line wrapping.
 */
 struct					s_input__state
@@ -55,6 +55,43 @@ struct s_term_pos		input__wrap_cursor(
 							size_t cursor_pos);
 
 /*
+** e_input__read_type contains the type of input that was read by read(2).
+**
+** INPUT__READ_TYPE_NONE:
+**     Nothing was read.
+** INPUT__READ_TYPE_REG:
+**     Just a normal chracter, like 'a', '$', and '\n'.
+** INPUT__READ_TYPE_ESC:
+**     A character prefixed by the '\x1b[' escape sequence.
+** INPUT__READ_TYPE_ESC_SQL:
+**     A character prefixed by the '\x1b[' escape sequence and suffixed by a
+**     '~'.
+*/
+enum					e_input__read_type
+{
+    INPUT__READ_TYPE_NONE,
+	INPUT__READ_TYPE_REG,
+	INPUT__READ_TYPE_ESC,
+	INPUT__READ_TYPE_ESC_SQL,
+};
+
+/*
+** s_input__read_seq contains the processed input read by read(2).
+*/
+struct					s_input__read_seq
+{
+	enum e_input__read_type	type;
+	char					c;
+};
+
+/*
+** input__read_seq reads input using read(2) and processes it to a
+** s_input__read_seq. seq->type will be INPUT__READ_TYPE_NONE if nothing was
+** read.
+*/
+t_error					input__read_seq(struct s_input__read_seq *seq);
+
+/*
 ** t_input__action is a function which will perform a certain action on the
 ** state. Example actions include moving the cursor and updating the terminal
 ** size.
@@ -67,6 +104,13 @@ typedef t_error			(*t_input__action)(struct s_input__state *state);
 */
 t_error					input__action_update_width(
 							struct s_input__state *state);
+
+/*
+** input__action_{left,right} moves the cursor by one. No action is taken if the
+** cursor is already at the edge.
+*/
+t_error					input__action_left(struct s_input__state *state);
+t_error					input__action_right(struct s_input__state *state);
 
 t_error					input__next_action(t_input__action *action);
 

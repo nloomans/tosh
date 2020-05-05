@@ -10,30 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <libft.h>
 #include "private.h"
 
-static const t_input__action	key_map[3][256] = {
-	[INPUT__READ_TYPE_ESC] = {
-		['D'] = input__action_left,
-		['C'] = input__action_right,
-	},
-};
-
-t_error							input__next_action(t_input__action *action)
+t_error					input__read_seq(struct s_input__read_seq *seq)
 {
-	t_error						error;
-	struct s_input__read_seq	read_seq;
+	ssize_t				read_amount;
+	char				buffer[4 + 1];
 
-	*action = NULL;
-	if (g_input__sigwinch > 0)
+	ft_memset(&buffer, '\0', sizeof(buffer));
+	read_amount = read(STDIN_FILENO, &buffer, sizeof(buffer) - 1);
+	if (read_amount == -1)
+		return (errorf("read syscall failed"));
+	if (read_amount == 0)
 	{
-		g_input__sigwinch--;
-		*action = input__action_update_width;
+		seq->type = INPUT__READ_TYPE_NONE;
+		seq->c = '\0';
 	}
-	error = input__read_seq(&read_seq);
-	if (is_error(error))
-		return (errorf("failed to read input: %s", error));
-	if (read_seq.type != INPUT__READ_TYPE_NONE)
-		*action = key_map[read_seq.type][(unsigned char)read_seq.c];
+	else if (buffer[0] == '\x1b' && buffer[1] == '[')
+	{
+		seq->type = buffer[3] == '~'
+			? INPUT__READ_TYPE_ESC_SQL
+			: INPUT__READ_TYPE_ESC;
+		seq->c = buffer[2];
+	}
+	else
+	{
+		seq->type = INPUT__READ_TYPE_REG;
+		seq->c = buffer[0];
+	}
 	return (error_none());
 }
