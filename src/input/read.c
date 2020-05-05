@@ -18,36 +18,53 @@
 #include <unistd.h>
 #include <ft_printf.h>
 
+static t_error	event_loop(const struct s_input_formatted_string *prompt)
+{
+	t_error					error;
+	struct s_input__state	state;
+	t_input__action			action;
+
+	ft_memset(&state, '\0', sizeof(state));
+	state.cursor_position = 100;
+	state.buffer = "echo 'this is a very long line which does not fit within the 80 characters of a standard terminal.'; echo 'this is a very long line which does not fit within the 80 characters of a standard terminal.";
+
+	error = input__action_update_width(&state);
+	if (is_error(error))
+		return (errorf("failed to get terminal width: %s", error.msg));
+	input__draw(state, prompt);
+	while (true)
+	{
+		error = input__next_action(&action);
+		if (is_error(error))
+			return (errorf("failed to get next action: %s", error.msg));
+		if (action == NULL)
+			continue ;
+		error = (*action)(&state);
+		if (is_error(error))
+			return (errorf("failed to run action: %s", error.msg));
+		input__draw(state, prompt);
+	}
+	// TODO: exit condition
+}
+
 t_error		input_read(char **dest,
 				const struct s_input_formatted_string *prompt)
 {
 	t_error						error;
-	struct s_term_pos			term_size;
-	struct s_input__state		state;
 
 	(void)dest;
 
 	error = input__configure(INPUT__CONFIGURE_SETUP);
 	if (is_error(error))
 	{
-		return (errorf("failed to configure terminal for interactive input: %s",
-			error.msg));
+		return (errorf("tosh: failed to configure terminal for interactive "
+			"input: %s", error.msg));
 	}
-
-	ft_memset(&state, '\0', sizeof(state));
-	state.cursor_position = 100;
-	state.buffer = "echo 'this is a very long line which does not fit within the 80 characters of a standard terminal.'; echo 'this is a very long line which does not fit within the 80 characters of a standard terminal.";
-
-	// TODO: create a real event loop
-	while (true)
+	error = event_loop(prompt);
+	if (is_error(error))
 	{
-		if (g_input__sigwinch == 0)
-			continue ;
-		g_input__sigwinch--;
-		if (term_getsize(&term_size) == -1)
-			return (errorf("unable to get terminal size"));
-		state.terminal_columns = term_size.column;
-		input__draw(state, prompt);
+		input__configure(INPUT__CONFIGURE_RESTORE); // best effort
+		return (errorf("tosh: %s", error.msg));
 	}
 
 	error = input__configure(INPUT__CONFIGURE_RESTORE);

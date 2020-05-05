@@ -1,6 +1,8 @@
 src_files += files(
+	'action_update_width.c',
 	'configure.c',
 	'draw.c',
+	'next_action.c',
 	'read.c',
 	'wrap_cursor.c',
 )

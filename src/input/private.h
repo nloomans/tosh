@@ -54,4 +54,20 @@ struct s_term_pos		input__wrap_cursor(
 							size_t prompt_width,
 							size_t cursor_pos);
 
+/*
+** t_input__action is a function which will perform a certain action on the
+** state. Example actions include moving the cursor and updating the terminal
+** size.
+*/
+typedef t_error			(*t_input__action)(struct s_input__state *state);
+
+/*
+** input__action_update_width reads out the width from the terminal and stores
+** it in the state.
+*/
+t_error					input__action_update_width(
+							struct s_input__state *state);
+
+t_error					input__next_action(t_input__action *action);
+
 #endif
