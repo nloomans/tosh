@@ -6,7 +6,7 @@ src_files += files(
 	'configure.c',
 	'draw.c',
 	'read.c',
-	'read_seq.c',
+	'read_keypress.c',
 	'run_next_action.c',
 	'wrap_cursor.c',
 )

@@ -14,7 +14,7 @@
 #include <libft.h>
 #include "private.h"
 
-t_error					input__read_seq(struct s_input__read_seq *seq)
+t_error					input__read_keypress(struct s_input__keypress *keypress)
 {
 	ssize_t				read_amount;
 	char				buffer[4 + 1];
@@ -25,20 +25,20 @@ t_error					input__read_seq(struct s_input__read_seq *seq)
 		return (errorf("read syscall failed"));
 	if (read_amount == 0)
 	{
-		seq->type = INPUT__READ_TYPE_NONE;
-		seq->c = '\0';
+		keypress->type = INPUT__READ_TYPE_NONE;
+		keypress->c = '\0';
 	}
 	else if (buffer[0] == '\x1b' && buffer[1] == '[')
 	{
-		seq->type = buffer[3] == '~'
+		keypress->type = buffer[3] == '~'
 			? INPUT__READ_TYPE_ESC_SQL
 			: INPUT__READ_TYPE_ESC;
-		seq->c = buffer[2];
+		keypress->c = buffer[2];
 	}
 	else
 	{
-		seq->type = INPUT__READ_TYPE_REG;
-		seq->c = buffer[0];
+		keypress->type = INPUT__READ_TYPE_REG;
+		keypress->c = buffer[0];
 	}
 	return (error_none());
 }

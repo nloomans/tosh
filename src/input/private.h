@@ -76,20 +76,21 @@ enum					e_input__read_type
 };
 
 /*
-** s_input__read_seq contains the processed input read by read(2).
+** s_input__keypress contains the processed input read by input__read_keypress.
 */
-struct					s_input__read_seq
+struct					s_input__keypress
 {
 	enum e_input__read_type	type;
 	char					c;
 };
 
 /*
-** input__read_seq reads input using read(2) and processes it to a
-** s_input__read_seq. seq->type will be INPUT__READ_TYPE_NONE if nothing was
+** input__read_keypress reads input using read(2) and processes it to a
+** s_input__read_keypress. seq->type will be INPUT__READ_TYPE_NONE if nothing was
 ** read.
 */
-t_error					input__read_seq(struct s_input__read_seq *seq);
+t_error					input__read_keypress(
+							struct s_input__keypress *keypress);
 
 /*
 ** input__action_update_width reads out the width from the terminal and stores
