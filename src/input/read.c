@@ -20,13 +20,13 @@
 
 static t_error	event_loop(const struct s_input_formatted_string *prompt)
 {
-	t_error					error;
-	struct s_input__state	state;
-	t_input__action			action;
+	t_error						error;
+	struct s_input__state		state;
+	bool						did_invalidate;
 
 	ft_memset(&state, '\0', sizeof(state));
-	state.cursor_position = 100;
-	state.buffer = "echo 'this is a very long line which does not fit within the 80 characters of a standard terminal.'; echo 'this is a very long line which does not fit within the 80 characters of a standard terminal.";
+	state.cursor_position = 0;
+	state.buffer = ft_strnew(0);
 
 	error = input__action_update_width(&state);
 	if (is_error(error))
@@ -34,15 +34,13 @@ static t_error	event_loop(const struct s_input_formatted_string *prompt)
 	input__draw(state, prompt);
 	while (true)
 	{
-		error = input__next_action(&action);
+		error = input__run_next_action(&state, &did_invalidate);
 		if (is_error(error))
-			return (errorf("failed to get next action: %s", error.msg));
-		if (action == NULL)
-			continue ;
-		error = (*action)(&state);
-		if (is_error(error))
-			return (errorf("failed to run action: %s", error.msg));
-		input__draw(state, prompt);
+			return (errorf("failed to run next action: %s", error.msg));
+		if (did_invalidate)
+		{
+			input__draw(state, prompt);
+		}
 	}
 	// TODO: exit condition
 }

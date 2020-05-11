@@ -43,7 +43,7 @@ struct					s_input__state
 };
 
 void					input__draw(struct s_input__state state,
-						const struct s_input_formatted_string *prompt);
+							const struct s_input_formatted_string *prompt);
 
 /*
 ** input__wrap_cursor will calculate the cursor position after the wrapping was
@@ -92,13 +92,6 @@ struct					s_input__read_seq
 t_error					input__read_seq(struct s_input__read_seq *seq);
 
 /*
-** t_input__action is a function which will perform a certain action on the
-** state. Example actions include moving the cursor and updating the terminal
-** size.
-*/
-typedef t_error			(*t_input__action)(struct s_input__state *state);
-
-/*
 ** input__action_update_width reads out the width from the terminal and stores
 ** it in the state.
 */
@@ -112,6 +105,14 @@ t_error					input__action_update_width(
 t_error					input__action_left(struct s_input__state *state);
 t_error					input__action_right(struct s_input__state *state);
 
-t_error					input__next_action(t_input__action *action);
+/*
+** input__action_insert inserts the character c at the cursor position.
+*/
+t_error					input__action_insert(struct s_input__state *state,
+							char c);
+
+t_error					input__run_next_action(
+							struct s_input__state *state,
+							bool *did_invalidate);
 
 #endif
