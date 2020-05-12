@@ -14,7 +14,7 @@
 #include "private.h"
 #include "ft_printf.h"
 
-char					**env_to_envp(t_env *const env)
+char					**env_to_envp(const t_env *const env)
 {
 	size_t					i;
 	t_list_conn				*iter;

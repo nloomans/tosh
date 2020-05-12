@@ -16,10 +16,9 @@
 # include <signal.h>
 
 # include "../parser/parser.h"
-# include "../error/error.h"
 # include "../env/env.h"
 
-extern sig_atomic_t	g_terminate_sig = 0;
+volatile sig_atomic_t	g_terminate_sig = 0;
 
 void		exec_run(const struct s_complete_command *const complete_command,
 				t_env *const env);

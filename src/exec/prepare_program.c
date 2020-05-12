@@ -10,38 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
-#include <ft_printf.h>
-
 #include "private.h"
 
-void		exec_run(
-				const struct s_complete_command *const complete_command,
-				t_env *const env)
+t_error		exec__prepare_program(struct s_program_stat *const all_arg,
+				const struct s_simple_command *const command,
+				const t_env *const env)
 {
-	struct s_exec__state	status;
-	t_error					err;
-	const struct s_list		*list;
+	t_error	err;
 
-	list = complete_command->list;
-	ft_bzero(&status, sizeof(status));
-	while (list && status.must_halt == 0)
+	err = error_none();
+	all_arg->env = env_to_envp(env);
+	if (all_arg->env == NULL)
 	{
-		assert(list->pipe_sequence != NULL); //parser error?
-		err = error_none();
-		if (list->pipe_sequence->pipe_sequence)
-		{
-			err = exec__sequence(&status, list->pipe_sequence, env);
-		}
-		else
-		{
-			err = exec__single(&status, list->pipe_sequence->simple_command, env);
-		}
-		if (is_error(err))
-		{
-			ft_dprintf(2, "Tosh: %s\n", err.msg); //malloc, fork err etc
-		}
-		list = list->list;
+		return (errorf("unable to allocate memory"));
 	}
-	g_terminate_sig = 0; //nonsense if handling background proccesses(?)
+	
+
+	return (err);
 }

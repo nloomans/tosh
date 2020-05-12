@@ -10,38 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
-#include <ft_printf.h>
-
 #include "private.h"
 
-void		exec_run(
-				const struct s_complete_command *const complete_command,
-				t_env *const env)
+t_error		exec__expand_family(t_list_meta *const pid_list, const __pid_t pid)
 {
-	struct s_exec__state	status;
-	t_error					err;
-	const struct s_list		*list;
+	struct s_child	*new;
 
-	list = complete_command->list;
-	ft_bzero(&status, sizeof(status));
-	while (list && status.must_halt == 0)
+	new = ft_memalloc(sizeof(*new));
+	if (new == NULL)
 	{
-		assert(list->pipe_sequence != NULL); //parser error?
-		err = error_none();
-		if (list->pipe_sequence->pipe_sequence)
-		{
-			err = exec__sequence(&status, list->pipe_sequence, env);
-		}
-		else
-		{
-			err = exec__single(&status, list->pipe_sequence->simple_command, env);
-		}
-		if (is_error(err))
-		{
-			ft_dprintf(2, "Tosh: %s\n", err.msg); //malloc, fork err etc
-		}
-		list = list->list;
+		return (errorf("unable to allocate memory"));
 	}
-	g_terminate_sig = 0; //nonsense if handling background proccesses(?)
+	new->pid = pid;
+	ft_list_insert(pid_list, pid_list->last, &new->conn);
+	return (error_none());
 }

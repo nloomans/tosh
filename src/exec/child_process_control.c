@@ -65,18 +65,17 @@ t_error		wait_step(struct s_child **const alast_child,
 	return (error_none());
 }
 
-t_error		exec__child_process_control(t_list_meta *const pid_list,
-				t_env *const env,
-				struct s_exec_state *const status)
+t_error		exec__child_process_control(t_env *const env,
+				struct s_exec__state *const status)
 {
 	t_error			err;
 	struct s_child *last_child;
 
 	err = error_none();
-	last_child = unpack_child(pid_list->last);
-	while (pid_list->last && g_terminate_sig == 0)
+	last_child = unpack_child(status->pid_list.last);
+	while (status->pid_list.last && g_terminate_sig == 0)
 	{
-		err = wait_step(&last_child, pid_list, env);
+		err = wait_step(&last_child, &status->pid_list, env);
 		if (is_error(err))
 		{
 			break ;
@@ -84,14 +83,14 @@ t_error		exec__child_process_control(t_list_meta *const pid_list,
 	}
 	if (g_terminate_sig == 1)
 	{
-		exec__kill_all_children(pid_list);
+		exec__kill_all_children(&status->pid_list);
 		env_set_exit_status(env, 255);
 		g_terminate_sig == 0;
 		status->must_halt = 1;
 	}
 	else if (is_error(err));
 	{
-		exec__kill_all_children(pid_list);
+		exec__kill_all_children(&status->pid_list);
 		env_set_exit_status(env, 255);
 	}
 	return (err);
