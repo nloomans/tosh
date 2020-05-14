@@ -15,7 +15,7 @@
 
 # include "exec.h"
 
-typedef uint8_t	(*t_builtin)(int , char **, t_env *const);
+typedef uint8_t	(t_builtin)(int, char **, t_env *const);
 
 struct s_builtin_tbl{
 	const char	*name;
@@ -33,10 +33,17 @@ struct s_child{
 	struct s_list_conn	conn;
 };
 
+struct s_redirection{
+	int			origin;
+	int			dest;
+	t_list_conn	conn;
+}; //only handles basic numbers for now
+
 struct s_program_stat{
-	char	**arg;
-	int		arg_count;
-	char	**env;
+	char		**arg;
+	int			arg_count;
+	char		**env;
+	t_list_meta	redirections;
 };
 
 struct s_child	*unpack_child(const struct s_list_conn *const node);
@@ -48,12 +55,16 @@ void			exec__kill_all_children(t_list_meta *const pid_list);
 t_error			exec__child_process_control(t_env *const env,
 					struct s_exec__state *const status);
 
+t_error			exec__handle_redirections(
+					const struct s_simple_command *const command);
+
+
 t_error			exec__prepare_program(struct s_program_stat *const all_arg,
 					const struct s_simple_command *const command,
 					const t_env *const env);
 void			exec__clear_program(struct s_program_stat *const all_arg);
 
-t_builtin		exec__identify_builtin(const char *const name);
+t_builtin		*exec__identify_builtin(const char *const name);
 void			exec__identify_executable(
 					const struct s_program_stat *const all_arg);
 

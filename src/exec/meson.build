@@ -9,6 +9,8 @@ src_files += files(
 	'_identify_builtin.c',
 	'_identify_executable.c',
 	'prepare_program.c',
+	'_clear_program.c',
+	'_handle_redirections.c',
 )
 
 test_files += files()

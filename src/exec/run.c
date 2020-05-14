@@ -15,6 +15,8 @@
 
 #include "private.h"
 
+extern volatile sig_atomic_t	g_terminate_sig;
+
 void		exec_run(
 				const struct s_complete_command *const complete_command,
 				t_env *const env)
@@ -23,6 +25,7 @@ void		exec_run(
 	t_error					err;
 	const struct s_list		*list;
 
+	g_terminate_sig = 0; //remove later
 	list = complete_command->list;
 	ft_bzero(&status, sizeof(status));
 	while (list && status.must_halt == 0)

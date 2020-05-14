@@ -10,47 +10,47 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <assert.h>
+
 #include "private.h"
 
-static const struct s_builtin_tbl g_table[] = {
-	{
-		.name = "cd",
-		.ptr = NULL,
-	},
-	{
-		.name = "setenv",
-		.ptr = NULL,
-	},
-	{
-		.name = "unsetenv",
-		.ptr = NULL,
-	},
-	{
-		.name = "env",
-		.ptr = NULL,
-	},
-	{
-		.name = "echo",
-		.ptr = NULL,
-	},
-	{
-		.name = "exit",
-		.ptr = NULL,
-	},
-};
-
-t_builtin	*exec__identify_builtin(const char *const name)
+static t_error	recurse_prefix(const struct s_cmd_prefix *const prefix)//add tracker for success redirs
 {
-	size_t	iter;
+	t_error		err;
 
-	iter = 0;
-	while (iter < (sizeof(g_table) / sizeof(struct s_builtin_tbl)))
+	assert(prefix->redirect); // discuss necesity/delet
+	err = error_none();
+	if (prefix->prefix)
 	{
-		if (ft_strequ(g_table[iter].name, name))
-		{
-			return (g_table[iter].ptr);
-		}
-		iter++;
+		err = recurse_prefix(prefix);
 	}
-	return (NULL);
+	if (is_error(err))
+	{
+		return (err);
+	}
+	
+	return (err);
+}
+
+t_error			exec__handle_redirections(
+					const struct s_simple_command *const command)
+{
+	t_error				err;
+	struct s_cmd_suffix	*suffix;
+
+	err = recurse_prefix(command->prefix);
+	if (is_error(err))
+	{
+		return (err);
+	}
+	suffix = command->suffix;
+	while (suffix)
+	{
+		if (suffix->redirect)
+		{
+			
+		}
+		suffix = suffix->suffix;
+	}
+	return (err);
 }

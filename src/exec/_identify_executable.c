@@ -15,5 +15,5 @@
 void		exec__identify_executable(
 				const struct s_program_stat *const all_arg)
 {
-
+	(void)all_arg;
 }

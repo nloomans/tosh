@@ -15,9 +15,9 @@
 
 #include "private.h"
 
-t_error		create_fork(struct s_program_stat *const all_arg,
-				struct s_exec__state *const status,
-				t_env *const env)
+static t_error	create_fork(struct s_program_stat *const all_arg,
+					struct s_exec__state *const status,
+					t_env *const env)
 {
 	t_error					err;
 	__pid_t					pid;
@@ -41,12 +41,12 @@ t_error		create_fork(struct s_program_stat *const all_arg,
 	return(exec__child_process_control(env, status));
 }
 
-t_error		exec__single(struct s_exec__state *const status,
-				const struct s_simple_command *const command,
-				t_env *const env)
+t_error			exec__single(struct s_exec__state *const status,
+					const struct s_simple_command *const command,
+					t_env *const env)
 {
 	struct s_program_stat	all_arg;
-	t_builtin				builtin;
+	t_builtin				*builtin;
 	t_error					err;
 
 	ft_bzero(&all_arg, sizeof(all_arg));

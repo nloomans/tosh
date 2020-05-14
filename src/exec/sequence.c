@@ -20,7 +20,7 @@ static void		handle_execution(const struct s_simple_command *const command,
 					t_env *const env)
 {
 	struct s_program_stat	all_arg;
-	t_builtin				builtin;
+	t_builtin				*builtin;
 	t_error					err;
 
 	ft_bzero(&all_arg, sizeof(all_arg));
@@ -72,7 +72,7 @@ static t_error	hook_up_fork(t_list_meta *const pid_list,
 }
 
 static t_error	loop_sequence(struct s_exec__state *const status,
-					const int all_pipe[2][2],
+					int all_pipe[2][2],
 					const struct s_pipe_sequence *sequence,
 					t_env *const env)
 {
