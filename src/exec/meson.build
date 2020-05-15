@@ -8,8 +8,8 @@ src_files += files(
 	'child_process_control.c',
 	'_identify_builtin.c',
 	'_identify_executable.c',
-	'prepare_program.c',
-	'_clear_program.c',
+	'set_arguments.c',
+	'_clear_arguments.c',
 	'_handle_redirections.c',
 )
 

@@ -15,7 +15,7 @@
 
 #include "private.h"
 
-static t_error	create_fork(struct s_program_stat *const all_arg,
+static t_error	create_fork(struct s_program_prereqs *const all_arg,
 					struct s_exec__state *const status,
 					t_env *const env)
 {
@@ -45,17 +45,17 @@ t_error			exec__single(struct s_exec__state *const status,
 					const struct s_simple_command *const command,
 					t_env *const env)
 {
-	struct s_program_stat	all_arg;
-	t_builtin				*builtin;
-	t_error					err;
+	struct s_program_prereqs	all_arg;
+	t_builtin					*builtin;
+	t_error						err;
 
 	ft_bzero(&all_arg, sizeof(all_arg));
-	err = exec__prepare_program(&all_arg, command, env);
+	err = exec__set_arguments(&all_arg, command, env);
 	if (is_error(err))
 	{
 		return (err);
 	}
-	builtin = exec__identify_builtin(all_arg.arg[1]);
+	builtin = exec__identify_builtin(all_arg.arg[0]);
 	if (builtin != NULL)
 	{
 		env_set_exit_status(env,\
@@ -65,6 +65,6 @@ t_error			exec__single(struct s_exec__state *const status,
 	{
 		err = create_fork(&all_arg, status, env);
 	}
-	exec__clear_program(&all_arg);
+	exec__clear_arguments(&all_arg);
 	return (err);
 }

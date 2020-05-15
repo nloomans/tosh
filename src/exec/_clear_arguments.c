@@ -12,19 +12,9 @@
 
 #include "private.h"
 
-
-t_error		exec__prepare_program(struct s_program_stat *const all_arg,
-				const struct s_simple_command *const command,
-				const t_env *const env)
+void	exec__clear_arguments(struct s_program_prereqs *const all_arg)
 {
-	t_error	err;
-
-	all_arg->env = env_to_envp(env);
-	if (all_arg->env == NULL)
-	{
-		return (errorf("unable to allocate memory"));
-	}
-	err = exec__handle_redirections(command);
-
-	return (err);
+	ft_arraydel((void ***)&all_arg->arg, &ft_memdel);
+	ft_arraydel((void ***)&all_arg->env, &ft_memdel);
+	all_arg->arg_count = 0;
 }

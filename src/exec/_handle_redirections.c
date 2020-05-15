@@ -14,21 +14,27 @@
 
 #include "private.h"
 
+static t_error	redirect(const struct s_io_redirect *const redir)
+{
+	(void)redir; //ignoring redir for now
+	return (error_none());
+}
+
 static t_error	recurse_prefix(const struct s_cmd_prefix *const prefix)//add tracker for success redirs
 {
 	t_error		err;
 
-	assert(prefix->redirect); // discuss necesity/delet
-	err = error_none();
+	if (prefix == NULL)
+		return (error_none());
 	if (prefix->prefix)
 	{
 		err = recurse_prefix(prefix);
+		if (is_error(err))
+		{
+			return (err);
+		}
 	}
-	if (is_error(err))
-	{
-		return (err);
-	}
-	
+	err = redirect(prefix->redirect); //might need to be iff protected
 	return (err);
 }
 
@@ -48,7 +54,11 @@ t_error			exec__handle_redirections(
 	{
 		if (suffix->redirect)
 		{
-			
+			err = redirect(suffix->redirect);
+			if (is_error(err))
+			{
+				return (err);
+			}
 		}
 		suffix = suffix->suffix;
 	}

@@ -12,8 +12,10 @@
 
 #include "private.h"
 
+#include <stdio.h>
 void		exec__identify_executable(
-				const struct s_program_stat *const all_arg)
+				const struct s_program_prereqs *const all_arg)
 {
 	(void)all_arg;
+	dprintf(2, "running: %s....\n", all_arg->arg[0]);
 }
