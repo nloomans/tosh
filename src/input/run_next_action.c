@@ -52,7 +52,8 @@ static t_error					run_next_keypress(struct s_input__state *state,
 
 t_error							input__run_next_action(
 									struct s_input__state *state,
-									bool *did_invalidate)
+									bool *did_invalidate,
+									t_read_func read_func)
 {
 	t_error						error;
 	int							signum;
@@ -64,7 +65,7 @@ t_error							input__run_next_action(
 	{
 		return (run_next_signal(state, signum));
 	}
-	error = input__read_keypress(&keypress);
+	error = input__read_keypress(&keypress, read_func);
 	if (is_error(error))
 		return (errorf("failed to read sequence: %s", error.msg));
 	if (keypress.type != INPUT__READ_TYPE_NONE)

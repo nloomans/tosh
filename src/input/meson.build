@@ -12,5 +12,6 @@ src_files += files(
 )
 
 test_files += files(
+	'run_next_action_test.c',
 	'wrap_cursor_test.c',
 )

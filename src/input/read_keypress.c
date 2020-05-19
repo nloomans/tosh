@@ -14,13 +14,15 @@
 #include <libft.h>
 #include "private.h"
 
-t_error					input__read_keypress(struct s_input__keypress *keypress)
+t_error					input__read_keypress(
+							struct s_input__keypress *keypress,
+							t_read_func read_func)
 {
 	ssize_t				read_amount;
 	char				buffer[4 + 1];
 
 	ft_memset(&buffer, '\0', sizeof(buffer));
-	read_amount = read(STDIN_FILENO, &buffer, sizeof(buffer) - 1);
+	read_amount = read_func(STDIN_FILENO, &buffer, sizeof(buffer) - 1);
 	if (read_amount == -1)
 		return (errorf("read syscall failed"));
 	if (read_amount == 0)

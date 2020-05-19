@@ -11,12 +11,10 @@
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <unistd.h>
 #include "../error/error.h"
 #include "../term/term.h"
 #include "private.h"
-
-#include <unistd.h>
-#include <ft_printf.h>
 
 static t_error	event_loop(const struct s_input_formatted_string *prompt)
 {
@@ -34,7 +32,7 @@ static t_error	event_loop(const struct s_input_formatted_string *prompt)
 	input__draw(state, prompt);
 	while (true)
 	{
-		error = input__run_next_action(&state, &did_invalidate);
+		error = input__run_next_action(&state, &did_invalidate, read);
 		if (is_error(error))
 			return (errorf("failed to run next action: %s", error.msg));
 		if (did_invalidate)

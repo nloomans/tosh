@@ -15,6 +15,7 @@
 
 # include <stddef.h>
 # include <signal.h>
+# include <unistd.h>
 # include "input.h"
 # include "../term/term.h"
 
@@ -85,12 +86,18 @@ struct					s_input__keypress
 };
 
 /*
+**
+*/
+typedef ssize_t			t_read_func(int, void *, size_t);
+
+/*
 ** input__read_keypress reads input using read(2) and processes it to a
 ** s_input__read_keypress. seq->type will be INPUT__READ_TYPE_NONE if nothing was
 ** read.
 */
 t_error					input__read_keypress(
-							struct s_input__keypress *keypress);
+							struct s_input__keypress *keypress,
+							t_read_func read_func);
 
 /*
 ** input__action_update_width reads out the width from the terminal and stores
@@ -114,6 +121,7 @@ t_error					input__action_insert(struct s_input__state *state,
 
 t_error					input__run_next_action(
 							struct s_input__state *state,
-							bool *did_invalidate);
+							bool *did_invalidate,
+							t_read_func read_func);
 
 #endif
