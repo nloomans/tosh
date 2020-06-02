@@ -15,7 +15,7 @@
 
 # include "../lexer/lexer.h"
 
-struct s_complete_command
+struct	s_complete_command
 {
 	struct s_list			*list;
 };
@@ -43,8 +43,6 @@ struct	s_cmd_prefix
 {
 	struct s_cmd_prefix		*prefix;
 	struct s_io_redirect	*redirect;
-	// for 42 shell
-	// const char				*assignment_word;
 };
 
 struct	s_cmd_suffix
@@ -76,15 +74,13 @@ struct	s_io_file
 
 struct	s_io_here
 {
-	// for 42sh
-	// enum e_io_heredoc_type	type;
 	char						*here_end;
 };
 
-t_error		parser_parse(
-				struct s_complete_command **const complete_command,
-				bool *const extra_input_requested,
-				t_list_meta *const all_token);
-void		parser_del(struct s_complete_command **const complete_command);
+t_error	parser_parse(
+			struct s_complete_command **const complete_command,
+			bool *const extra_input_requested,
+			t_list_meta *const all_token);
+void	parser_del(struct s_complete_command **const complete_command);
 
 #endif

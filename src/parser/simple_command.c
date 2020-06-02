@@ -22,7 +22,7 @@ static char				*parse_name(t_parser *const p)
 	return (NULL);
 }
 
-struct s_simple_command *parse_simple_command(t_parser *const p)
+struct s_simple_command	*parse_simple_command(t_parser *const p)
 {
 	struct s_simple_command *simple_command;
 
@@ -41,8 +41,8 @@ struct s_simple_command *parse_simple_command(t_parser *const p)
 	return (simple_command);
 }
 
-void                    free_simple_command(
-	                        struct s_simple_command *const simple_command)
+void					free_simple_command(
+							struct s_simple_command *const simple_command)
 {
 	if (simple_command)
 	{

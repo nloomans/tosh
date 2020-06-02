@@ -15,6 +15,10 @@
 #include "../error/error.h"
 #include "private.h"
 
+/*
+** TODO: Update ft_*printf to take a const for fmt.
+*/
+
 void	parser__errorf(t_parser *const p, const char *const fmt, ...)
 {
 	va_list	vlist;
@@ -23,7 +27,6 @@ void	parser__errorf(t_parser *const p, const char *const fmt, ...)
 	if (is_error(p->error))
 		return ;
 	va_start(vlist, fmt);
-	// TODO: Update ft_*printf to take a const for fmt.
 	ret = ft_vsnprintf(p->error.msg, sizeof(p->error.msg), (char *)fmt, vlist);
 	va_end(vlist);
 	if (ret == -1)

@@ -47,9 +47,9 @@ struct s_pipe_sequence		*parse_pipe_sequence(t_parser *const p);
 void						free_pipe_sequence(
 								struct s_pipe_sequence *const pipe_sequence);
 
-struct s_simple_command 	*parse_simple_command(t_parser *const p);
-void                    	free_simple_command(
-	                    	    struct s_simple_command *const simple_command);
+struct s_simple_command		*parse_simple_command(t_parser *const p);
+void						free_simple_command(
+								struct s_simple_command *const simple_command);
 
 struct s_cmd_prefix			*parse_cmd_prefix(t_parser *const p);
 void						free_cmd_prefix(
