@@ -35,4 +35,10 @@ struct		s_input_formatted_string
 t_error		input_read(char **dest,
 				const struct s_input_formatted_string *prompt);
 
+/*
+** input_debug prints useful debug information about the current keys pressed.
+** It can be accessed using 'tosh -d input'
+*/
+int			input_debug(void);
+
 #endif

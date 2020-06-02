@@ -10,38 +10,40 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include <libft.h>
 #include <ft_printf.h>
-#include <unistd.h>
-#include "../input/input.h"
 #include "private.h"
 
-static int	debug(const char *module)
+int input_debug(void)
 {
-	if (ft_strcmp(module, "input") == 0)
-		return (input_debug());
-	else
-		return (ft_eprintf(1, "no debug main for module '%s'", module));
-}
+	t_error				error;
+	ssize_t				read_amount;
+	char				buffer[4 + 1];
 
-int			main(int argc, char **argv)
-{
-	struct s_ft_getopt	opt;
-
-	opt = FT_GETOPT_DEFAULT;
-	while (ft_getopt(&opt, argc, argv, "vhd:"))
+	error = input__configure(INPUT__CONFIGURE_SETUP);
+	if (is_error(error))
 	{
-		if (opt.opt == 'v')
-		{
-			ft_printf("tosh version " VERSION "\n");
-			return (0);
-		}
-		else if (opt.opt == 'd')
-			return (debug(opt.arg));
-		else if (opt.opt == 'h')
-			return (ft_eprintf(0, HELP_STR));
+		return (ft_eprintf(1, "tosh: failed to configure terminal for "
+			"interactive input: %s", error.msg));
 	}
-	if (opt.illegal)
-		return (ft_eprintf(1, HELP_STR));
-	tosh();
+	while (true)
+	{
+		ft_memset(&buffer, '\0', sizeof(buffer));
+		read_amount = read(STDIN_FILENO, &buffer, sizeof(buffer) - 1);
+		if (read_amount == -1)
+			return (ft_eprintf(1, "tosh: read syscall failed"));
+		if (read_amount == 0)
+			continue ;
+		if (read_amount == 1 && buffer[0] == 'q')
+			break ;
+		ft_printf("%m", buffer, read_amount);
+	}
+	error = input__configure(INPUT__CONFIGURE_RESTORE);
+	if (is_error(error))
+	{
+		return (ft_eprintf(1, "tosh: failed to restore terminal to previous "
+			"state: %s", error.msg));
+	}
+	return (0);
 }

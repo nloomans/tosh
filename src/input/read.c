@@ -53,8 +53,8 @@ t_error		input_read(char **dest,
 	error = input__configure(INPUT__CONFIGURE_SETUP);
 	if (is_error(error))
 	{
-		return (errorf("tosh: failed to configure terminal for interactive "
-			"input: %s", error.msg));
+		return (errorf("failed to configure terminal for interactive input: %s",
+			error.msg));
 	}
 	error = event_loop(prompt);
 	if (is_error(error))

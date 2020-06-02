@@ -5,6 +5,7 @@ src_files += files(
 	'action_right.c',
 	'action_update_width.c',
 	'configure.c',
+	'debug.c',
 	'draw.c',
 	'read.c',
 	'read_keypress.c',
