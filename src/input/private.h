@@ -118,6 +118,7 @@ t_error					input__action_right(struct s_input__state *state);
 */
 t_error					input__action_insert(struct s_input__state *state,
 							char c);
+t_error					input__action_backspace(struct s_input__state *state);
 
 t_error					input__run_next_action(
 							struct s_input__state *state,

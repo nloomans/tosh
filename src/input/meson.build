@@ -1,4 +1,5 @@
 src_files += files(
+	'action_backspace.c',
 	'action_insert.c',
 	'action_left.c',
 	'action_right.c',
