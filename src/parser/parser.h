@@ -55,8 +55,10 @@ struct	s_cmd_suffix
 enum	e_io_redirect_type
 {
 	REDIRECT_IN,
+	REDIRECT_IN_AND,
 	REDIRECT_OUT,
 	REDIRECT_OUT_APPEND,
+	REDIRECT_OUT_AND,
 };
 
 struct	s_io_redirect

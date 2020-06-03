@@ -39,6 +39,7 @@ class Input(Enum):
 	RIGHT_ARROW = auto()
 	NEWLINE = auto()
 	OP_CONTROL = auto()
+	AMPERSAND = auto()
 	POUNDSIGN = auto()
 
 input_map = {
@@ -52,6 +53,7 @@ input_map = {
 	Input.RIGHT_ARROW: ['>'],
 	Input.NEWLINE: ['\\n'],
 	Input.OP_CONTROL: ['\\n', ';', '|'],
+	Input.AMPERSAND: ['&'],
 	Input.POUNDSIGN: ['#'],
 }
 
@@ -133,7 +135,7 @@ output = fsm([
 		Input.DOUBLE_QUOTE: rule(State.QUOTE_DOUBLE,							add_char=True),
 		Input.BACKSLASH:	rule(State.QUOTE_SLASH,								add_char=True),
 
-	}, rule(State.WORD, add_char=True)),
+	}, catch_rule=rule(State.WORD, add_char=True)),
 
 	rules(State.REDIR_LEFT, {
 
@@ -146,7 +148,8 @@ output = fsm([
 		Input.DOUBLE_QUOTE:	rule(State.QUOTE_DOUBLE,	delimit=Token.OPERATOR,	add_char=True),
 		Input.BACKSLASH:	rule(State.QUOTE_SLASH,		delimit=Token.OPERATOR,	add_char=True),
 
-		Input.LEFT_ARROW:	rule(State.OPERATOR_EXIT,								add_char=True),
+		Input.LEFT_ARROW:	rule(State.OPERATOR_EXIT,							add_char=True),
+		Input.AMPERSAND:	rule(State.OPERATOR_EXIT,							add_char=True),
 
 	}, catch_rule=rule(State.WORD, delimit=Token.OPERATOR, add_char=True)),
 
@@ -162,6 +165,7 @@ output = fsm([
 		Input.BACKSLASH:	rule(State.QUOTE_SLASH,		delimit=Token.OPERATOR,	add_char=True),
 
 		Input.RIGHT_ARROW:	rule(State.OPERATOR_EXIT,							add_char=True),
+		Input.AMPERSAND:	rule(State.OPERATOR_EXIT,							add_char=True),
 
 	}, catch_rule=rule(State.WORD, delimit=Token.OPERATOR, add_char=True)),
 
