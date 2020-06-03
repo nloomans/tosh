@@ -19,5 +19,3 @@ t_error		input__action_right(struct s_input__state *state)
 		state->cursor_position++;
 	return (error_none());
 }
-
-

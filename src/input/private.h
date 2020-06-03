@@ -70,7 +70,7 @@ struct s_term_pos		input__wrap_cursor(
 */
 enum					e_input__read_type
 {
-    INPUT__READ_TYPE_NONE,
+	INPUT__READ_TYPE_NONE,
 	INPUT__READ_TYPE_REG,
 	INPUT__READ_TYPE_ESC,
 	INPUT__READ_TYPE_ESC_SQL,
@@ -86,14 +86,14 @@ struct					s_input__keypress
 };
 
 /*
-**
+** t_read_func is a typedef of read used for depency injection.
 */
-typedef ssize_t			t_read_func(int, void *, size_t);
+typedef ssize_t			t_read_func(int fildes, void *buf, size_t nbyte);
 
 /*
 ** input__read_keypress reads input using read(2) and processes it to a
-** s_input__read_keypress. seq->type will be INPUT__READ_TYPE_NONE if nothing was
-** read.
+** s_input__read_keypress. seq->type will be INPUT__READ_TYPE_NONE if nothing
+** was read.
 */
 t_error					input__read_keypress(
 							struct s_input__keypress *keypress,

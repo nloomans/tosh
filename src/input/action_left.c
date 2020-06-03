@@ -18,4 +18,3 @@ t_error		input__action_left(struct s_input__state *state)
 		state->cursor_position--;
 	return (error_none());
 }
-

@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <assert.h>
 #include <libft.h>
 #include <unistd.h>
 #include "../error/error.h"
@@ -25,7 +26,6 @@ static t_error	event_loop(const struct s_input_formatted_string *prompt)
 	ft_memset(&state, '\0', sizeof(state));
 	state.cursor_position = 0;
 	state.buffer = ft_strnew(0);
-
 	error = input__action_update_width(&state);
 	if (is_error(error))
 		return (errorf("failed to get terminal width: %s", error.msg));
@@ -40,16 +40,15 @@ static t_error	event_loop(const struct s_input_formatted_string *prompt)
 			input__draw(state, prompt);
 		}
 	}
-	// TODO: exit condition
+	assert(!"TODO: exit condition");
 }
 
-t_error		input_read(char **dest,
-				const struct s_input_formatted_string *prompt)
+t_error			input_read(char **dest,
+					const struct s_input_formatted_string *prompt)
 {
 	t_error						error;
 
 	(void)dest;
-
 	error = input__configure(INPUT__CONFIGURE_SETUP);
 	if (is_error(error))
 	{
@@ -59,10 +58,9 @@ t_error		input_read(char **dest,
 	error = event_loop(prompt);
 	if (is_error(error))
 	{
-		input__configure(INPUT__CONFIGURE_RESTORE); // best effort
+		input__configure(INPUT__CONFIGURE_RESTORE);
 		return (errorf("tosh: %s", error.msg));
 	}
-
 	error = input__configure(INPUT__CONFIGURE_RESTORE);
 	if (is_error(error))
 	{

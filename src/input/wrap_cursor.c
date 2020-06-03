@@ -13,6 +13,10 @@
 #include <assert.h>
 #include "private.h"
 
+/*
+** FIXME: Crashes when prompt is bigger then terminal.
+*/
+
 struct s_term_pos	input__wrap_cursor(
 						size_t terminal_width,
 						size_t prompt_width,
@@ -21,8 +25,6 @@ struct s_term_pos	input__wrap_cursor(
 	size_t				i;
 	struct s_term_pos	pos;
 
-	// TODO: calculate the cursor position when the prompt itself wrapped as
-	// well.
 	assert(prompt_width <= terminal_width);
 	i = 0;
 	pos.row = 0;
