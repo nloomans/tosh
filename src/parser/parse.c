@@ -36,7 +36,7 @@ t_error		parser_parse(
 	return (p.error);
 }
 
-void	parser_del(struct s_complete_command **const complete_command)
+void		parser_del(struct s_complete_command **const complete_command)
 {
 	free_complete_command(*complete_command);
 	*complete_command = NULL;

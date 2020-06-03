@@ -15,7 +15,9 @@
 
 static void				parse_linebreak(t_parser *const p)
 {
-	while (parser__next_if_token(p, OPERATOR, "\n"));
+	while (parser__next_if_token(p, OPERATOR, "\n"))
+	{
+	}
 }
 
 struct s_pipe_sequence	*parse_pipe_sequence(t_parser *const p)
