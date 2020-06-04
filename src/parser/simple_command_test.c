@@ -140,6 +140,85 @@ Test(parse_simple_command, parses_from_string)
 	free_simple_command(simple_command);
 }
 
+Test(parse_simple_command, parses_redirects)
+{
+	t_parser	p;
+
+	ft_memset(&p, '\0', sizeof(p));
+	ft_list_insert(&p.all_token, p.all_token.last, &((struct s_token){
+		.type = WORD,
+		.string = "ls",
+	}).conn);
+	ft_list_insert(&p.all_token, p.all_token.last, &((struct s_token){
+		.type = OPERATOR,
+		.string = "<<",
+	}).conn);
+	ft_list_insert(&p.all_token, p.all_token.last, &((struct s_token){
+		.type = WORD,
+		.string = "EOF",
+	}).conn);
+	ft_list_insert(&p.all_token, p.all_token.last, &((struct s_token){
+		.type = OPERATOR,
+		.string = ">&",
+	}).conn);
+	ft_list_insert(&p.all_token, p.all_token.last, &((struct s_token){
+		.type = WORD,
+		.string = "-",
+	}).conn);
+	ft_list_insert(&p.all_token, p.all_token.last, &((struct s_token){
+		.type = OPERATOR,
+		.string = ">>",
+	}).conn);
+	ft_list_insert(&p.all_token, p.all_token.last, &((struct s_token){
+		.type = WORD,
+		.string = "test.txt",
+	}).conn);
+
+	p.cursor = p.all_token.first;
+
+	struct s_simple_command *simple_command = parse_simple_command(&p);
+
+	cr_assert_str_empty(p.error.msg);
+	cr_expect_eq(p.cursor, NULL);
+	check_simple_command(simple_command, &(struct s_simple_command){
+		.prefix = NULL,
+		.name = "ls",
+		.suffix = &(struct s_cmd_suffix){
+			.word = NULL,
+			.redirect = &(struct s_io_redirect){
+				.fd = -1,
+				.file = NULL,
+				.here = &(struct s_io_here){
+					.here_end = "EOF",
+				},
+			},
+			.suffix = &(struct s_cmd_suffix){
+				.word = NULL,
+				.redirect = &(struct s_io_redirect){
+					.fd = -1,
+					.file = &(struct s_io_file){
+						.type = REDIRECT_OUT_AND,
+						.filename = "-",
+					},
+					.here = NULL,
+				},
+				.suffix = &(struct s_cmd_suffix){
+					.word = NULL,
+					.redirect = &(struct s_io_redirect){
+						.fd = -1,
+						.file = &(struct s_io_file){
+							.type = REDIRECT_OUT_APPEND,
+							.filename = "test.txt",
+						},
+						.here = NULL,
+					}
+				},
+			},
+		},
+	});
+	free_simple_command(simple_command);
+}
+
 Test(parse_simple_command, handles_heredoc_error)
 {
 	t_parser	p;
@@ -160,6 +239,20 @@ Test(parse_simple_command, handles_file_error)
 
 	ft_memset(&p, '\0', sizeof(p));
 	lexer_tokenize(&p.all_token, "2>foo.txt ls -a >");
+	p.cursor = p.all_token.first;
+
+	free_simple_command(parse_simple_command(&p));
+	lexer_clear(&p.all_token);
+
+	cr_assert_str_eq(p.error.msg, "no filename after redirect");
+}
+
+Test(parse_simple_command, handles_file_dup_error)
+{
+	t_parser	p;
+
+	ft_memset(&p, '\0', sizeof(p));
+	lexer_tokenize(&p.all_token, "2>foo.txt ls -a >&");
 	p.cursor = p.all_token.first;
 
 	free_simple_command(parse_simple_command(&p));

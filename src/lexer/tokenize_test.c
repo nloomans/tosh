@@ -128,6 +128,45 @@ Test(lexer_tokenize, redirect_io_number) {
 	}));
 }
 
+Test(lexer_tokenize, redirect_dup) {
+	TOKEN_TESTER("cat foo.txt >&-", ((struct s_token[]){
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "foo.txt" },
+		{ .type = OPERATOR, .string = ">&" },
+		{ .type = WORD, .string = "-" },
+	}));
+	TOKEN_TESTER("cat foo.txt >&3", ((struct s_token[]){
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "foo.txt" },
+		{ .type = OPERATOR, .string = ">&" },
+		{ .type = WORD, .string = "3" },
+	}));
+	TOKEN_TESTER("cat foo.txt <&-", ((struct s_token[]){
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "foo.txt" },
+		{ .type = OPERATOR, .string = "<&" },
+		{ .type = WORD, .string = "-" },
+	}));
+	TOKEN_TESTER("cat foo.txt <&3", ((struct s_token[]){
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "foo.txt" },
+		{ .type = OPERATOR, .string = "<&" },
+		{ .type = WORD, .string = "3" },
+	}));
+	TOKEN_TESTER("cat foo.txt <& 3", ((struct s_token[]){
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "foo.txt" },
+		{ .type = OPERATOR, .string = "<&" },
+		{ .type = WORD, .string = "3" },
+	}));
+	TOKEN_TESTER("cat foo.txt >& -", ((struct s_token[]){
+		{ .type = WORD, .string = "cat" },
+		{ .type = WORD, .string = "foo.txt" },
+		{ .type = OPERATOR, .string = ">&" },
+		{ .type = WORD, .string = "-" },
+	}));
+}
+
 Test(lexer_tokenize, op_control) {
 	TOKEN_TESTER("\n", ((struct s_token[]){
 		{ .type = OPERATOR, .string = "\n" },
