@@ -13,20 +13,36 @@
 #include <stdlib.h>
 #include "private.h"
 
-struct s_io_file		*parse_io_file(t_parser *const p)
+static struct s_io_file	*identify_redirection_type(t_parser *const p)
 {
 	struct s_io_file		*io_file;
 
 	io_file = ft_memalloc(sizeof(*io_file));
-	if (parser__next_if_token(p, OPERATOR, "<"))
+	if (parser__next_if_token(p, OPERATOR, "<&"))
+		io_file->type = REDIRECT_IN_AND;
+	else if (parser__next_if_token(p, OPERATOR, "<"))
 		io_file->type = REDIRECT_IN;
 	else if (parser__next_if_token(p, OPERATOR, ">"))
 		io_file->type = REDIRECT_OUT;
 	else if (parser__next_if_token(p, OPERATOR, ">>"))
 		io_file->type = REDIRECT_OUT_APPEND;
+	else if (parser__next_if_token(p, OPERATOR, ">&"))
+		io_file->type = REDIRECT_OUT_AND;
 	else
 	{
 		free_io_file(io_file);
+		return (NULL);
+	}
+	return (io_file);
+}
+
+struct s_io_file		*parse_io_file(t_parser *const p)
+{
+	struct s_io_file	*io_file;
+
+	io_file = identify_redirection_type(p);
+	if (io_file == NULL)
+	{
 		return (NULL);
 	}
 	if (!parser__is_token(p, WORD, NULL))
