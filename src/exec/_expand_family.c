@@ -12,7 +12,7 @@
 
 #include "private.h"
 
-t_error		exec__expand_family(t_list_meta *const pid_list, const __pid_t pid)
+t_error		exec__expand_family(t_list_meta *const pid_list, const pid_t pid)
 {
 	struct s_child	*new;
 

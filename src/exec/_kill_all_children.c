@@ -21,7 +21,7 @@
 void		exec__kill_all_children(t_list_meta *const pid_list)
 {
 	struct s_child	*child_process;
-	__pid_t			ret;
+	pid_t			ret;
 
 	while (pid_list->first)
 	{

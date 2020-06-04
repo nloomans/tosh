@@ -20,7 +20,7 @@ static t_error	create_fork(struct s_program_prereq *const all_arg,
 					t_env *const env)
 {
 	t_error					err;
-	__pid_t					pid;
+	pid_t					pid;
 
 	pid = fork();
 	if (pid == -1)

@@ -15,7 +15,7 @@
 
 #include "private.h"
 
-static t_error	remove_zombie_process(const __pid_t zombie_pid,
+static t_error	remove_zombie_process(const pid_t zombie_pid,
 					t_list_meta *const pid_list)
 {
 	struct s_child	*cur_struct;
@@ -39,7 +39,7 @@ static t_error	wait_step(struct s_child **const alast_child,
 					t_list_meta *const pid_list,
 					t_env *const env)
 {
-	__pid_t 		zombie_pid;
+	pid_t 		zombie_pid;
 	int				status;
 
 	zombie_pid = waitpid(-1, &status, WNOHANG);

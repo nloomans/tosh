@@ -34,7 +34,7 @@ struct s_exec__state{
 };
 
 struct s_child{
-	__pid_t				pid;
+	pid_t				pid;
 	struct s_list_conn	conn;
 };
 
@@ -64,7 +64,7 @@ struct s_program_prereq{
 struct s_child	*unpack_child(const struct s_list_conn *const node);
 
 t_error			exec__expand_family(t_list_meta *const pid_list,
-					const __pid_t pid);
+					const pid_t pid);
 void			exec__kill_all_children(t_list_meta *const pid_list);
 
 t_error			exec__child_process_control(t_env *const env,

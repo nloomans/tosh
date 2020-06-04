@@ -46,7 +46,7 @@ static t_error	create_fork(t_list_meta *const pid_list,
 					const struct s_simple_command *const command,
 					t_env *const env)
 {
-	__pid_t		pid;
+	pid_t		pid;
 
 	pid = fork();
 	if (pid == -1)
