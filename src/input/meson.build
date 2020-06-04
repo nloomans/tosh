@@ -2,6 +2,7 @@ src_files += files(
 	'action_backspace.c',
 	'action_insert.c',
 	'action_left.c',
+	'action_return.c',
 	'action_right.c',
 	'action_update_width.c',
 	'configure.c',

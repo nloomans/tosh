@@ -35,12 +35,14 @@ t_error					input__configure(enum e_input__configure_action action);
 **                  wrapping.
 ** cursor_position  the position of the cursor relative to the buffer. Does not
 **                  contain line wrapping.
+** finished         set to true when the user finished by pressing return.
 */
 struct					s_input__state
 {
 	size_t	terminal_columns;
 	char	*buffer;
 	size_t	cursor_position;
+	bool	finished;
 };
 
 void					input__draw(struct s_input__state state,
@@ -119,6 +121,12 @@ t_error					input__action_right(struct s_input__state *state);
 t_error					input__action_insert(struct s_input__state *state,
 							char c);
 t_error					input__action_backspace(struct s_input__state *state);
+
+/*
+** input__action_return is called when the return key is pressed and finishes
+** the input.
+*/
+t_error					input__action_return(struct s_input__state *state);
 
 t_error					input__run_next_action(
 							struct s_input__state *state,

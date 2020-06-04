@@ -47,6 +47,8 @@ static t_error					run_next_keypress(struct s_input__state *state,
 		return (input__action_right(state));
 	if (keypress_is(keypress, INPUT__READ_TYPE_REG, '\x7f'))
 		return (input__action_backspace(state));
+	if (keypress_is(keypress, INPUT__READ_TYPE_REG, '\n'))
+		return (input__action_return(state));
 	if (keypress.type == INPUT__READ_TYPE_REG && ft_isprint(keypress.c))
 		return (input__action_insert(state, keypress.c));
 	return (error_none());

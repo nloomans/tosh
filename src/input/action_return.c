@@ -10,30 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../error/error.h"
-#include "../term/term.h"
-#include "../input/input.h"
+#include "private.h"
 
-void	tosh(void)
+t_error		input__action_return(struct s_input__state *state)
 {
-	char				*input;
-	t_error				error;
-	char				prompt[32];
-
-	term_init(getenv("TERM"));
-	ft_snprintf(prompt, sizeof(prompt), "%{green}TOSH $ %{reset}");
-	while (true)
-	{
-		error = input_read(&input,
-			&(struct s_input_formatted_string){prompt, 7});
-		if (is_error(error))
-		{
-			ft_dprintf(STDERR_FILENO, "unable to read input: %s\n", error.msg);
-			return ;
-		}
-		ft_printf("input_read: %s\n", input);
-	}
+	state->finished = true;
+	return (error_none());
 }

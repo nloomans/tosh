@@ -13,11 +13,13 @@
 #include <assert.h>
 #include <libft.h>
 #include <unistd.h>
+#include <ft_printf.h>
 #include "../error/error.h"
 #include "../term/term.h"
 #include "private.h"
 
-static t_error	event_loop(const struct s_input_formatted_string *prompt)
+static t_error	event_loop(char **dest,
+	const struct s_input_formatted_string *prompt)
 {
 	t_error						error;
 	struct s_input__state		state;
@@ -30,17 +32,17 @@ static t_error	event_loop(const struct s_input_formatted_string *prompt)
 	if (is_error(error))
 		return (errorf("failed to get terminal width: %s", error.msg));
 	input__draw(state, prompt);
-	while (true)
+	while (!state.finished)
 	{
 		error = input__run_next_action(&state, &did_invalidate, read);
 		if (is_error(error))
 			return (errorf("failed to run next action: %s", error.msg));
 		if (did_invalidate)
-		{
 			input__draw(state, prompt);
-		}
 	}
-	assert(!"TODO: exit condition");
+	*dest = state.buffer;
+	ft_dprintf(STDERR_FILENO, "\n");
+	return (error_none());
 }
 
 t_error			input_read(char **dest,
@@ -48,14 +50,13 @@ t_error			input_read(char **dest,
 {
 	t_error						error;
 
-	(void)dest;
 	error = input__configure(INPUT__CONFIGURE_SETUP);
 	if (is_error(error))
 	{
 		return (errorf("failed to configure terminal for interactive input: %s",
 			error.msg));
 	}
-	error = event_loop(prompt);
+	error = event_loop(dest, prompt);
 	if (is_error(error))
 	{
 		input__configure(INPUT__CONFIGURE_RESTORE);
