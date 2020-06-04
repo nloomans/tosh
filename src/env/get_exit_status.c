@@ -12,7 +12,7 @@
 
 #include "private.h"
 
-uint8_t		env_get_exist_status(const t_env *const env)
+uint8_t		env_get_exit_status(const t_env *const env)
 {
 	return (env->exit_status);
 }

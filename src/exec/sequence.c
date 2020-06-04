@@ -19,9 +19,9 @@
 static void		handle_execution(const struct s_simple_command *const command,
 					t_env *const env)
 {
-	struct s_program_prereqs	all_arg;
-	t_builtin				*builtin;
-	t_error					err;
+	struct s_program_prereq		all_arg;
+	t_builtin					*builtin;
+	t_error						err;
 
 	ft_bzero(&all_arg, sizeof(all_arg));
 	err = exec__set_arguments(&all_arg, command, env);
@@ -37,12 +37,12 @@ static void		handle_execution(const struct s_simple_command *const command,
 	}
 	else
 	{
-		exec__identify_executable(&all_arg);
+		exec__identify_executable(&all_arg, env);
 	}
 }
 
-static t_error	hook_up_fork(t_list_meta *const pid_list,
-					const int *const fd_transform[2],
+static t_error	create_fork(t_list_meta *const pid_list,
+					const int fd_transform[2],
 					const struct s_simple_command *const command,
 					t_env *const env)
 {
@@ -55,14 +55,14 @@ static t_error	hook_up_fork(t_list_meta *const pid_list,
 	}
 	if (pid == 0)
 	{
-		if (fd_transform[read_from] != NULL)
+		if (fd_transform[read_from] != STDIN_FILENO)
 		{
-			if (dup2(*fd_transform[read_from], 0) == -1)
+			if (dup2(fd_transform[read_from], STDIN_FILENO) == -1)
 				ft_dprintf(2, "failed to dup pipes in fork");
 		}
-		if (fd_transform[write_to] != NULL)
+		if (fd_transform[write_to] != STDOUT_FILENO)
 		{
-			if (dup2(*fd_transform[write_to], 1) == -1)
+			if (dup2(fd_transform[write_to], STDOUT_FILENO) == -1)
 				ft_dprintf(2, "failed to dup pipes in fork");
 		}
 		handle_execution(command, env);
@@ -71,72 +71,51 @@ static t_error	hook_up_fork(t_list_meta *const pid_list,
 	return (exec__expand_family(pid_list, pid));
 }
 
-static t_error	loop_over_sequence(t_list_meta *const pid_list,
-					int all_pipe[2][2],
+static t_error	loop_sequence(t_list_meta *const pid_list,
 					const struct s_pipe_sequence *sequence,
 					t_env *const env)
 {
-	enum e_pipe_ends	pipe_flip;
-	const int			*redirs[2];
+	int					pipette[2];
+	int					input_fd;
 	t_error				err;
 
 	err = error_none();
-	pipe_flip = read_from;
-	while (sequence)
+	input_fd = STDIN_FILENO;
+	while (sequence && is_error(err) == false)
 	{
-		if (sequence->pipe_sequence)
+		if (sequence->pipe_sequence == NULL)
+			pipette[write_to] = STDOUT_FILENO;
+		else if (pipe(pipette) == -1)
 		{
-			if (pipe(all_pipe[pipe_flip]) == -1)
-			{
-				err = errorf("failed to create pipe");
-				break ;
-			}
-			redirs[write_to] = &all_pipe[pipe_flip][write_to];
-		}
-		redirs[read_from] = &all_pipe[!pipe_flip][read_from];
-		err = hook_up_fork(pid_list, redirs, sequence->simple_command, env);
-		if (is_error(err))
-		{
+			err = errorf("failed to create pipe");
 			break ;
 		}
-		close(all_pipe[!pipe_flip][0]);
-		close(all_pipe[!pipe_flip][1]);
-		pipe_flip = !pipe_flip;
+		err = create_fork(pid_list, (int [2]){input_fd, pipette[write_to]},
+			sequence->simple_command, env);
+		close(pipette[write_to]);
+		if (input_fd != STDIN_FILENO)
+			close(input_fd);
+		input_fd = pipette[read_from];
 		sequence = sequence->pipe_sequence;
 	}
+	if (input_fd != STDIN_FILENO)
+		close(input_fd);
 	return (err);
 }
 
 t_error			exec__sequence(struct s_exec__state *const status,
-					const struct s_pipe_sequence *sequence,
+					const struct s_pipe_sequence *const sequence,
 					t_env *const env)
 {
-	int					all_pipe[2][2];
-	t_error				err;
+	t_error		err;
 
-	if (pipe(all_pipe[write_to]) == -1)
-	{
-		return (errorf("failed to create pipe"));
-	}
-	err = hook_up_fork(&status->pid_list,\
-			(const int *[2]){NULL, &all_pipe[write_to][1]},\
-			sequence->simple_command, env);
-	if (is_error(err))
-	{
-		close(all_pipe[write_to][0]);
-		close(all_pipe[write_to][1]);
-		exec__kill_all_children(&status->pid_list);
-		return (err);
-	}
-	err = loop_over_sequence(&status->pid_list, all_pipe, sequence->pipe_sequence, env);
-	close(all_pipe[read_from][0]);
-	close(all_pipe[read_from][1]);
-	close(all_pipe[write_to][0]);
-	close(all_pipe[write_to][1]);
+	err = loop_sequence(&status->pid_list, sequence, env);
 	if (is_error(err))
 	{
 		exec__kill_all_children(&status->pid_list);
+		env_set_exit_status(env, -1);
 		return (err);
 	}
-	return (exec__child_process_control(env, status));
+	err = exec__child_process_control(env, status);
+	return (err);
 }

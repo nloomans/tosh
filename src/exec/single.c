@@ -15,7 +15,7 @@
 
 #include "private.h"
 
-static t_error	create_fork(struct s_program_prereqs *const all_arg,
+static t_error	create_fork(struct s_program_prereq *const all_arg,
 					struct s_exec__state *const status,
 					t_env *const env)
 {
@@ -29,7 +29,7 @@ static t_error	create_fork(struct s_program_prereqs *const all_arg,
 	}
 	if (pid == 0)
 	{
-		exec__identify_executable(all_arg);
+		exec__identify_executable(all_arg, env);
 		exit (-1);
 	}
 	err = exec__expand_family(&(status->pid_list), pid);
@@ -45,9 +45,9 @@ t_error			exec__single(struct s_exec__state *const status,
 					const struct s_simple_command *const command,
 					t_env *const env)
 {
-	struct s_program_prereqs	all_arg;
-	t_builtin					*builtin;
-	t_error						err;
+	struct s_program_prereq	all_arg;
+	t_builtin				*builtin;
+	t_error					err;
 
 	ft_bzero(&all_arg, sizeof(all_arg));
 	err = exec__set_arguments(&all_arg, command, env);

@@ -47,23 +47,23 @@ static t_error	wait_step(struct s_child **const alast_child,
 	{
 		return (errorf("error waiting for child process"));//unknown case
 	}
-	if (zombie_pid != 0)
+	if (zombie_pid == 0)
 	{
-		if (*alast_child && (*alast_child)->pid == zombie_pid)
-		{
-			if (WIFEXITED(status))
-			{
-				env_set_exit_status(env, WEXITSTATUS(status));//exit status
-			}
-			else
-			{
-				env_set_exit_status(env, 127);//signalled'd
-			}
-			*alast_child = NULL;
-		}
-		return (remove_zombie_process(zombie_pid, pid_list));
+		return (error_none());
 	}
-	return (error_none());
+	if (*alast_child && (*alast_child)->pid == zombie_pid)
+	{
+		if (WIFEXITED(status))
+		{
+			env_set_exit_status(env, WEXITSTATUS(status));//exit status
+		}
+		else
+		{
+			env_set_exit_status(env, 127);//signalled'd
+		}
+		*alast_child = NULL;
+	}
+	return (remove_zombie_process(zombie_pid, pid_list));
 }
 
 t_error			exec__child_process_control(t_env *const env,

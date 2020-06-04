@@ -13,9 +13,13 @@
 #include "private.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 void		exec__identify_executable(
-				const struct s_program_prereqs *const all_arg)
+				const struct s_program_prereq *const all_arg,
+				const t_env *const env)
 {
 	(void)all_arg;
+	(void)env;
 	dprintf(2, "running: %s....\n", all_arg->arg[0]);
+	exit (5);
 }

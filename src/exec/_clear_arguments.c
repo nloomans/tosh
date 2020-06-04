@@ -12,7 +12,7 @@
 
 #include "private.h"
 
-void	exec__clear_arguments(struct s_program_prereqs *const all_arg)
+void	exec__clear_arguments(struct s_program_prereq *const all_arg)
 {
 	ft_arraydel((void ***)&all_arg->arg, &ft_memdel);
 	ft_arraydel((void ***)&all_arg->env, &ft_memdel);

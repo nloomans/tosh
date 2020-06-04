@@ -44,11 +44,21 @@ struct s_redirection{
 	t_list_conn	conn;
 }; //only handles basic numbers for now
 
-struct s_program_prereqs{
+struct s_all_redirection{
+	int			back_up_fd[3];
+	t_list_meta	redirections;
+};
+
+#define			BACKUP_STDIN	(1000)
+#define			BACKUP_STDOUT	(1001)
+#define			BACKUP_STDERR	(1002)
+
+struct s_program_prereq{
 	char		**arg;
 	int			arg_count;
 	char		**env;
-	t_list_meta	redirections;
+	struct s_all_redirection\
+				fd_data;
 };
 
 struct s_child	*unpack_child(const struct s_list_conn *const node);
@@ -61,19 +71,21 @@ t_error			exec__child_process_control(t_env *const env,
 					struct s_exec__state *const status);
 
 t_error			exec__handle_redirections(
+					struct s_all_redirection *const tracker,
 					const struct s_simple_command *const command);
 
-t_error			exec__set_arguments(struct s_program_prereqs *const all_arg,
+t_error			exec__set_arguments(struct s_program_prereq *const all_arg,
 					const struct s_simple_command *const command,
 					const t_env *const env);
-void			exec__clear_arguments(struct s_program_prereqs *const all_arg);
+void			exec__clear_arguments(struct s_program_prereq *const all_arg);
 
 t_builtin		*exec__identify_builtin(const char *const name);
 void			exec__identify_executable(
-					const struct s_program_prereqs *const all_arg);
+					const struct s_program_prereq *const all_arg,
+					const t_env *const env);
 
 t_error			exec__sequence(struct s_exec__state *const status,
-					const struct s_pipe_sequence *sequence,
+					const struct s_pipe_sequence *const sequence,
 					t_env *const env);
 
 t_error			exec__single(struct s_exec__state *const status,

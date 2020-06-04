@@ -12,7 +12,7 @@
 
 #include "private.h"
 
-static t_error	initialize_arguments(struct s_program_prereqs *const all_arg,
+static t_error	initialize_arguments(struct s_program_prereq *const all_arg,
 					const struct s_simple_command *const command,
 					const t_env *const env)
 {
@@ -52,7 +52,7 @@ static t_error	initialize_arguments(struct s_program_prereqs *const all_arg,
 	return (err);
 }
 
-t_error			exec__set_arguments(struct s_program_prereqs *const all_arg,
+t_error			exec__set_arguments(struct s_program_prereq *const all_arg,
 					const struct s_simple_command *const command,
 					const t_env *const env)
 {
@@ -63,7 +63,7 @@ t_error			exec__set_arguments(struct s_program_prereqs *const all_arg,
 	{
 		return (errorf("unable to allocate memory"));
 	}
-	err = exec__handle_redirections(command);
+	err = exec__handle_redirections(&all_arg->fd_data, command);
 	if (is_error(err))
 	{
 		exec__clear_arguments(all_arg);

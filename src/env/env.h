@@ -24,7 +24,7 @@ int						env_set(t_env *const env,
 								char const *const key,
 								char const *const value);
 
-uint8_t					env_get_exist_status(const t_env *const env);
+uint8_t					env_get_exit_status(const t_env *const env);
 void					env_set_exit_status(t_env *const env,
 											const uint8_t status);
 
