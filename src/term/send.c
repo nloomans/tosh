@@ -22,5 +22,5 @@ static int	putchar_stderr(int c)
 
 void		term__send(const char *entry)
 {
-	tputs(tgetstr((char *)entry, NULL), 0, putchar_stderr);
+	tputs(tgetstr((char *)entry, NULL), 1, putchar_stderr);
 }
