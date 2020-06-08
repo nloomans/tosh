@@ -27,8 +27,9 @@ static t_error	event_loop(char **dest,
 	bool						did_invalidate;
 
 	ft_memset(&state, '\0', sizeof(state));
-	state.cursor_position = 0;
 	state.buffer = ft_strnew(0);
+	if (state.buffer == NULL)
+		return (errorf("out of memory"));
 	error = input__action_update_width(&state);
 	if (is_error(error))
 		return (errorf("failed to get terminal width: %s", error.msg));
