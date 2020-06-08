@@ -11,9 +11,10 @@
 /* ************************************************************************** */
 
 #include <term.h>
+
 #include "term.h"
 
-void	term_init(const char *term_env)
+int		term_init(const char *term_env)
 {
-	tgetent(NULL, term_env);
+	return (tgetent(NULL, term_env) == 1 ? 0 : -1);
 }

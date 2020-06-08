@@ -32,8 +32,10 @@ enum				e_term_configure_action
 /*
 ** term_init loads the termcap entry. Call this before all other term_*
 ** functions.
+**
+** Returns 0 on success and -1 on error.
 */
-void				term_init(const char *term_env);
+int					term_init(const char *term_env);
 
 /*
 ** term_configure changes the termios table in ways needed for precise terminal

@@ -17,13 +17,21 @@
 #include "../term/term.h"
 #include "../input/input.h"
 
+/*
+** TODO: Consider using ft_getline if TERM is unknown.
+*/
+
 void	tosh(void)
 {
 	char				*input;
 	t_error				error;
 	char				prompt[32];
 
-	term_init(getenv("TERM"));
+	if (term_init(getenv("TERM")) == -1)
+	{
+		ft_dprintf(STDERR_FILENO, "tosh: fatal: unknown terminal\n");
+		exit(1);
+	}
 	ft_snprintf(prompt, sizeof(prompt), "%{green}TOSH $ %{reset}");
 	while (true)
 	{
@@ -31,8 +39,9 @@ void	tosh(void)
 			&(struct s_input_formatted_string){prompt, 7});
 		if (is_error(error))
 		{
-			ft_dprintf(STDERR_FILENO, "unable to read input: %s\n", error.msg);
-			return ;
+			ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to read input: %s\n",
+				error.msg);
+			exit(1);
 		}
 		ft_printf("input_read: %s\n", input);
 	}
