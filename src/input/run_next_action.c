@@ -17,9 +17,9 @@
 
 static int						next_signal(void)
 {
-	if (g_input__sigwinch > 0)
+	if (g_input__sigwinch)
 	{
-		g_input__sigwinch--;
+		g_input__sigwinch = 0;
 		return (SIGWINCH);
 	}
 	return (0);
