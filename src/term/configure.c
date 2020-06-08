@@ -37,7 +37,7 @@ t_error		term_configure(enum e_term_configure_action action)
 		new.c_lflag &= ~(ECHO | ICANON);
 		new.c_cc[VMIN] = 0;
 		new.c_cc[VTIME] = 1;
-		if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &new) == -1)
+		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
 			return (errorf("tcsetattr failed"));
 	}
 	else
