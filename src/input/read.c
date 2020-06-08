@@ -14,12 +14,13 @@
 #include <libft.h>
 #include <unistd.h>
 #include <ft_printf.h>
+
 #include "../error/error.h"
 #include "../term/term.h"
 #include "private.h"
 
 static t_error	event_loop(char **dest,
-	const struct s_input_formatted_string *prompt)
+					const struct s_input_formatted_string *prompt)
 {
 	t_error						error;
 	struct s_input__state		state;

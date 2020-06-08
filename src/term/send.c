@@ -12,6 +12,7 @@
 
 #include <term.h>
 #include <unistd.h>
+
 #include "private.h"
 
 static int	putchar_stderr(int c)

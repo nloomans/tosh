@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <libft.h>
 #include <ft_printf.h>
+
 #include "private.h"
 
 static t_error	print_input(void)

@@ -14,6 +14,7 @@
 # define TERM_H
 
 # include <stddef.h>
+
 # include "../error/error.h"
 
 struct				s_term_pos

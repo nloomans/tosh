@@ -14,6 +14,7 @@
 #include <libft.h>
 #include <ft_printf.h>
 #include <assert.h>
+
 #include "term.h"
 #include "private.h"
 

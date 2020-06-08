@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <libft.h>
+
 #include "private.h"
 
 t_error		input__action_right(struct s_input__state *state)

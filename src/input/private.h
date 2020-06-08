@@ -63,7 +63,7 @@ struct s_term_pos		input__wrap_cursor(
 ** INPUT__READ_TYPE_NONE:
 **     Nothing was read.
 ** INPUT__READ_TYPE_REG:
-**     Just a normal chracter, like 'a', '$', and '\n'.
+**     Just a normal character, like 'a', '$', and '\n'.
 ** INPUT__READ_TYPE_ESC:
 **     A character prefixed by the '\x1b[' escape sequence.
 ** INPUT__READ_TYPE_ESC_SQL:

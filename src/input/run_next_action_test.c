@@ -13,6 +13,7 @@
 #include <criterion/criterion.h>
 #include <unistd.h>
 #include <libft.h>
+
 #include "private.h"
 
 ssize_t fake_read_keypress(int fd, void *buf, size_t count) {

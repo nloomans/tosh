@@ -13,6 +13,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <libft.h>
+
 #include "term.h"
 
 int		term_getsize(struct s_term_pos *out)

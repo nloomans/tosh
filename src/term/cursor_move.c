@@ -13,6 +13,7 @@
 #include <assert.h>
 #include <unistd.h>
 #include <ft_printf.h>
+
 #include "private.h"
 
 void	term_cursor_move(enum e_term_move direction)

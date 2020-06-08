@@ -12,6 +12,7 @@
 
 #include <unistd.h>
 #include <libft.h>
+
 #include "private.h"
 
 t_error					input__read_keypress(

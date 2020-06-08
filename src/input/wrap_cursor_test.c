@@ -12,6 +12,7 @@
 
 #include <criterion/criterion.h>
 #include <libft.h>
+
 #include "private.h"
 
 Test(input__wrap_cursor, single_line) {

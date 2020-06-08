@@ -12,6 +12,7 @@
 
 #include <assert.h>
 #include <libft.h>
+
 #include "private.h"
 
 static int						next_signal(void)
