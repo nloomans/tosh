@@ -44,18 +44,11 @@ int					term_init(const char *term_env);
 t_error				term_configure(enum e_term_configure_action action);
 
 /*
-** term_getcursor gets the position of the cursor. Terminal must be configured
-** using term_configure(TERM_CONFIGURE_SETUP) for this to work.
-*/
-t_error				term_getcursor(struct s_term_pos *out);
-
-/*
 ** term_getsize gets the size of the terminal. The returned struct s_term_pos
 ** is equal to the maximum cursor row and column plus 1.
 */
 int					term_getsize(struct s_term_pos *out);
 
-void				term_clear_line(void);
 void				term_clear_to_end(void);
 
 enum				e_term_move
