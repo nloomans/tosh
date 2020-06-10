@@ -19,8 +19,7 @@
 #include "../term/term.h"
 #include "private.h"
 
-static t_error	event_loop(char **dest,
-					const struct s_input_formatted_string *prompt)
+static t_error	event_loop(char **dest, struct s_input_formatted_string prompt)
 {
 	t_error						error;
 	struct s_input__state		state;
@@ -47,8 +46,7 @@ static t_error	event_loop(char **dest,
 	return (error_none());
 }
 
-t_error			input_read(char **dest,
-					const struct s_input_formatted_string *prompt)
+t_error			input_read(char **dest, struct s_input_formatted_string prompt)
 {
 	t_error						error;
 

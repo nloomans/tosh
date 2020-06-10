@@ -46,7 +46,7 @@ struct					s_input__state
 };
 
 void					input__draw(struct s_input__state state,
-							const struct s_input_formatted_string *prompt);
+							struct s_input_formatted_string prompt);
 
 /*
 ** input__wrap_cursor will calculate the cursor position after the wrapping was

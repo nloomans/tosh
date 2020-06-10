@@ -36,7 +36,7 @@ void	tosh(void)
 	while (true)
 	{
 		error = input_read(&input,
-			&(struct s_input_formatted_string){prompt, 7});
+			(struct s_input_formatted_string){prompt, 7});
 		if (is_error(error))
 		{
 			ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to read input: %s\n",

@@ -40,14 +40,14 @@ static void	reposition_cursor(struct s_term_pos dest)
 }
 
 void		input__draw(struct s_input__state state,
-				const struct s_input_formatted_string *prompt)
+				struct s_input_formatted_string prompt)
 {
 	struct s_term_pos	cursor_pos;
 
 	reposition_cursor((struct s_term_pos){0, 0});
 	term_clear_to_end();
-	ft_dprintf(STDERR_FILENO, "%s%s", prompt->string, state.buffer);
-	cursor_pos = input__wrap_cursor(state.terminal_columns, prompt->width,
+	ft_dprintf(STDERR_FILENO, "%s%s", prompt.string, state.buffer);
+	cursor_pos = input__wrap_cursor(state.terminal_columns, prompt.width,
 			state.cursor_position);
 	reposition_cursor(cursor_pos);
 }

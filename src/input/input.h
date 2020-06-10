@@ -22,8 +22,8 @@
 */
 struct		s_input_formatted_string
 {
-	char	*string;
-	size_t	width;
+	const char	*string;
+	size_t		width;
 };
 
 /*
@@ -32,8 +32,7 @@ struct		s_input_formatted_string
 **
 ** Text wrapping is handled automatically.
 */
-t_error		input_read(char **dest,
-				const struct s_input_formatted_string *prompt);
+t_error		input_read(char **dest, struct s_input_formatted_string prompt);
 
 /*
 ** input_debug prints useful debug information about the current keys pressed.
