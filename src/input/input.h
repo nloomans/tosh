@@ -10,38 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../input/input.h"
-#include "private.h"
+#ifndef INPUT_H
+# define INPUT_H
 
-static int	debug(const char *module)
+# include "../error/error.h"
+
+/*
+** s_input_formatted_string is a string with possibly control codes embedded
+** in it. The width represents the amount of columns the cursor will move
+** forward when printing the string.
+*/
+struct		s_input_formatted_string
 {
-	if (ft_strcmp(module, "input") == 0)
-		return (input_debug());
-	else
-		return (ft_eprintf(1, "no debug main for module '%s'", module));
-}
+	const char	*string;
+	size_t		width;
+};
 
-int			main(int argc, char **argv)
-{
-	struct s_ft_getopt	opt;
+/*
+** input_read reads a single line of input to dest. prompt contains the text to
+** display before the input.
+**
+** Text wrapping is handled automatically.
+*/
+t_error		input_read(char **dest, struct s_input_formatted_string prompt);
 
-	opt = FT_GETOPT_DEFAULT;
-	while (ft_getopt(&opt, argc, argv, "vhd:"))
-	{
-		if (opt.opt == 'v')
-		{
-			ft_printf("tosh version " VERSION "\n");
-			return (0);
-		}
-		else if (opt.opt == 'd')
-			return (debug(opt.arg));
-		else if (opt.opt == 'h')
-			return (ft_eprintf(0, HELP_STR));
-	}
-	if (opt.illegal)
-		return (ft_eprintf(1, HELP_STR));
-	tosh();
-}
+/*
+** input_debug prints useful debug information about the current keys pressed.
+** It can be accessed using 'tosh -d input'
+*/
+int			input_debug(void);
+
+#endif

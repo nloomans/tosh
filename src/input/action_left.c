@@ -10,40 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <termios.h>
-#include <unistd.h>
+#include "private.h"
 
-#include "term.h"
-#include "../error/error.h"
-
-/*
-** Modes changed:
-** - ~ECHO: Disable the printing of keypresses into the terminal.
-** - ~ICANON: Read input char-by-char instead of line-by-line.
-** - VIM = 0: Read a minimum bytes to read to 0 bytes.
-** - VTIME = 1: A maximum of 100ms per keypress;
-*/
-
-t_error		term_configure(enum e_term_configure_action action)
+t_error		input__action_left(struct s_input__state *state)
 {
-	static struct termios	original;
-	struct termios			new;
-
-	if (action == TERM_CONFIGURE_SETUP)
-	{
-		if (tcgetattr(STDIN_FILENO, &original) == -1)
-			return (errorf("tcgetattr failed"));
-		new = original;
-		new.c_lflag &= ~(ECHO | ICANON);
-		new.c_cc[VMIN] = 0;
-		new.c_cc[VTIME] = 1;
-		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
-			return (errorf("tcsetattr failed"));
-	}
-	else
-	{
-		if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &original) == -1)
-			return (errorf("tcsetattr failed"));
-	}
+	if (state->cursor_position != 0)
+		state->cursor_position--;
 	return (error_none());
 }

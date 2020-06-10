@@ -10,38 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <criterion/criterion.h>
 #include <libft.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../input/input.h"
+
 #include "private.h"
 
-static int	debug(const char *module)
-{
-	if (ft_strcmp(module, "input") == 0)
-		return (input_debug());
-	else
-		return (ft_eprintf(1, "no debug main for module '%s'", module));
+Test(input__wrap_cursor, single_line) {
+	struct s_term_pos pos = input__wrap_cursor(80, 20, 40);
+	cr_expect_eq(pos.row, 0);
+	cr_expect_eq(pos.column, 60);
 }
 
-int			main(int argc, char **argv)
-{
-	struct s_ft_getopt	opt;
+Test(input__wrap_cursor, multi_line) {
+	struct s_term_pos pos = input__wrap_cursor(80, 20, 70);
+	cr_expect_eq(pos.row, 1);
+	cr_expect_eq(pos.column, 10);
+}
 
-	opt = FT_GETOPT_DEFAULT;
-	while (ft_getopt(&opt, argc, argv, "vhd:"))
-	{
-		if (opt.opt == 'v')
-		{
-			ft_printf("tosh version " VERSION "\n");
-			return (0);
-		}
-		else if (opt.opt == 'd')
-			return (debug(opt.arg));
-		else if (opt.opt == 'h')
-			return (ft_eprintf(0, HELP_STR));
-	}
-	if (opt.illegal)
-		return (ft_eprintf(1, HELP_STR));
-	tosh();
+Test(input__wrap_cursor, edge) {
+	struct s_term_pos pos = input__wrap_cursor(80, 20, 60);
+	cr_expect_eq(pos.row, 1);
+	cr_expect_eq(pos.column, 0);
 }

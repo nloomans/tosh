@@ -10,40 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <termios.h>
+#include <sys/ioctl.h>
 #include <unistd.h>
+#include <libft.h>
 
 #include "term.h"
-#include "../error/error.h"
 
-/*
-** Modes changed:
-** - ~ECHO: Disable the printing of keypresses into the terminal.
-** - ~ICANON: Read input char-by-char instead of line-by-line.
-** - VIM = 0: Read a minimum bytes to read to 0 bytes.
-** - VTIME = 1: A maximum of 100ms per keypress;
-*/
-
-t_error		term_configure(enum e_term_configure_action action)
+int		term_getsize(struct s_term_pos *out)
 {
-	static struct termios	original;
-	struct termios			new;
+	struct winsize	w;
 
-	if (action == TERM_CONFIGURE_SETUP)
+	ft_memset(&w, '\0', sizeof(w));
+	if (ioctl(STDERR_FILENO, TIOCGWINSZ, &w) == -1)
 	{
-		if (tcgetattr(STDIN_FILENO, &original) == -1)
-			return (errorf("tcgetattr failed"));
-		new = original;
-		new.c_lflag &= ~(ECHO | ICANON);
-		new.c_cc[VMIN] = 0;
-		new.c_cc[VTIME] = 1;
-		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
-			return (errorf("tcsetattr failed"));
+		return (-1);
 	}
-	else
-	{
-		if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &original) == -1)
-			return (errorf("tcsetattr failed"));
-	}
-	return (error_none());
+	out->row = w.ws_row;
+	out->column = w.ws_col;
+	return (0);
 }

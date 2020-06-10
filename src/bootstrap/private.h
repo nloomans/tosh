@@ -13,7 +13,7 @@
 #ifndef PRIVATE_H
 # define PRIVATE_H
 
-# define HELP_STR "usage: tosh [-v | -h]\n"
+# define HELP_STR "usage: tosh [-vh] [-d module]\n"
 
 # ifndef VERSION
 #  define VERSION "?.?.?"

@@ -10,40 +10,38 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <termios.h>
 #include <unistd.h>
+#include <libft.h>
 
-#include "term.h"
-#include "../error/error.h"
+#include "private.h"
 
-/*
-** Modes changed:
-** - ~ECHO: Disable the printing of keypresses into the terminal.
-** - ~ICANON: Read input char-by-char instead of line-by-line.
-** - VIM = 0: Read a minimum bytes to read to 0 bytes.
-** - VTIME = 1: A maximum of 100ms per keypress;
-*/
-
-t_error		term_configure(enum e_term_configure_action action)
+t_error					input__read_keypress(
+							struct s_input__keypress *keypress,
+							t_read_func read_func)
 {
-	static struct termios	original;
-	struct termios			new;
+	ssize_t				read_amount;
+	char				buffer[4 + 1];
 
-	if (action == TERM_CONFIGURE_SETUP)
+	ft_memset(&buffer, '\0', sizeof(buffer));
+	read_amount = read_func(STDIN_FILENO, &buffer, sizeof(buffer) - 1);
+	if (read_amount == -1)
+		return (errorf("read syscall failed"));
+	if (read_amount == 0)
 	{
-		if (tcgetattr(STDIN_FILENO, &original) == -1)
-			return (errorf("tcgetattr failed"));
-		new = original;
-		new.c_lflag &= ~(ECHO | ICANON);
-		new.c_cc[VMIN] = 0;
-		new.c_cc[VTIME] = 1;
-		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
-			return (errorf("tcsetattr failed"));
+		keypress->type = INPUT__READ_TYPE_NONE;
+		keypress->c = '\0';
+	}
+	else if (buffer[0] == '\x1b' && buffer[1] == '[')
+	{
+		keypress->type = buffer[3] == '~'
+			? INPUT__READ_TYPE_ESC_SQL
+			: INPUT__READ_TYPE_ESC;
+		keypress->c = buffer[2];
 	}
 	else
 	{
-		if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &original) == -1)
-			return (errorf("tcsetattr failed"));
+		keypress->type = INPUT__READ_TYPE_REG;
+		keypress->c = buffer[0];
 	}
 	return (error_none());
 }

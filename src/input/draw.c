@@ -10,40 +10,44 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <termios.h>
+#include <libft.h>
+#include <ft_printf.h>
 #include <unistd.h>
 
-#include "term.h"
-#include "../error/error.h"
+#include "../term/term.h"
+#include "private.h"
 
-/*
-** Modes changed:
-** - ~ECHO: Disable the printing of keypresses into the terminal.
-** - ~ICANON: Read input char-by-char instead of line-by-line.
-** - VIM = 0: Read a minimum bytes to read to 0 bytes.
-** - VTIME = 1: A maximum of 100ms per keypress;
-*/
-
-t_error		term_configure(enum e_term_configure_action action)
+static void	reposition_cursor(struct s_term_pos dest)
 {
-	static struct termios	original;
-	struct termios			new;
+	size_t	amount_to_move;
+	size_t	i;
 
-	if (action == TERM_CONFIGURE_SETUP)
+	term_cursor_move(TERM_MOVE_RESTORE);
+	amount_to_move = dest.row;
+	i = 0;
+	while (i < amount_to_move)
 	{
-		if (tcgetattr(STDIN_FILENO, &original) == -1)
-			return (errorf("tcgetattr failed"));
-		new = original;
-		new.c_lflag &= ~(ECHO | ICANON);
-		new.c_cc[VMIN] = 0;
-		new.c_cc[VTIME] = 1;
-		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
-			return (errorf("tcsetattr failed"));
+		term_cursor_move(TERM_MOVE_DOWN);
+		i++;
 	}
-	else
+	amount_to_move = dest.column;
+	i = 0;
+	while (i < amount_to_move)
 	{
-		if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &original) == -1)
-			return (errorf("tcsetattr failed"));
+		term_cursor_move(TERM_MOVE_RIGHT);
+		i++;
 	}
-	return (error_none());
+}
+
+void		input__draw(struct s_input__state state,
+				struct s_input_formatted_string prompt)
+{
+	struct s_term_pos	cursor_pos;
+
+	reposition_cursor((struct s_term_pos){0, 0});
+	term_clear_to_end();
+	ft_dprintf(STDERR_FILENO, "%s%s", prompt.string, state.buffer);
+	cursor_pos = input__wrap_cursor(state.terminal_columns, prompt.width,
+			state.cursor_position);
+	reposition_cursor(cursor_pos);
 }

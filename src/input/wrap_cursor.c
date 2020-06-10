@@ -10,40 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <termios.h>
-#include <unistd.h>
+#include <assert.h>
 
-#include "term.h"
-#include "../error/error.h"
+#include "private.h"
 
 /*
-** Modes changed:
-** - ~ECHO: Disable the printing of keypresses into the terminal.
-** - ~ICANON: Read input char-by-char instead of line-by-line.
-** - VIM = 0: Read a minimum bytes to read to 0 bytes.
-** - VTIME = 1: A maximum of 100ms per keypress;
+** FIXME: Crashes when prompt is bigger then terminal.
 */
 
-t_error		term_configure(enum e_term_configure_action action)
+struct s_term_pos	input__wrap_cursor(
+						size_t terminal_width,
+						size_t prompt_width,
+						size_t cursor_pos)
 {
-	static struct termios	original;
-	struct termios			new;
+	size_t				i;
+	struct s_term_pos	pos;
 
-	if (action == TERM_CONFIGURE_SETUP)
+	assert(prompt_width <= terminal_width);
+	i = 0;
+	pos.row = 0;
+	pos.column = prompt_width;
+	while (i < cursor_pos)
 	{
-		if (tcgetattr(STDIN_FILENO, &original) == -1)
-			return (errorf("tcgetattr failed"));
-		new = original;
-		new.c_lflag &= ~(ECHO | ICANON);
-		new.c_cc[VMIN] = 0;
-		new.c_cc[VTIME] = 1;
-		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
-			return (errorf("tcsetattr failed"));
+		i++;
+		pos.column++;
+		if (pos.column == terminal_width)
+		{
+			pos.column = 0;
+			pos.row++;
+		}
 	}
-	else
-	{
-		if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &original) == -1)
-			return (errorf("tcsetattr failed"));
-	}
-	return (error_none());
+	return (pos);
 }

@@ -14,6 +14,7 @@ test_files = files()
 subdir('src/bootstrap')
 subdir('src/env')
 subdir('src/error')
+subdir('src/input')
 subdir('src/lexer')
 subdir('src/parser')
 subdir('src/term')
@@ -60,7 +61,7 @@ if libcriterion_deb.found()
 		test('valgrind',
 			find_program('scripts/meson-valgrind'),
 			priority: -1,
-			timeout: 60,
+			timeout: 120,
 			args: [valgrind.path(), tester.full_path(), '--verbose'])
 	endif
 endif

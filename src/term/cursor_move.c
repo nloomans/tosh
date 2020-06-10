@@ -10,40 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <termios.h>
+#include <assert.h>
 #include <unistd.h>
+#include <ft_printf.h>
 
-#include "term.h"
-#include "../error/error.h"
+#include "private.h"
 
-/*
-** Modes changed:
-** - ~ECHO: Disable the printing of keypresses into the terminal.
-** - ~ICANON: Read input char-by-char instead of line-by-line.
-** - VIM = 0: Read a minimum bytes to read to 0 bytes.
-** - VTIME = 1: A maximum of 100ms per keypress;
-*/
-
-t_error		term_configure(enum e_term_configure_action action)
+void	term_cursor_move(enum e_term_move direction)
 {
-	static struct termios	original;
-	struct termios			new;
-
-	if (action == TERM_CONFIGURE_SETUP)
-	{
-		if (tcgetattr(STDIN_FILENO, &original) == -1)
-			return (errorf("tcgetattr failed"));
-		new = original;
-		new.c_lflag &= ~(ECHO | ICANON);
-		new.c_cc[VMIN] = 0;
-		new.c_cc[VTIME] = 1;
-		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
-			return (errorf("tcsetattr failed"));
-	}
+	if (direction == TERM_MOVE_UP)
+		term__send("up");
+	else if (direction == TERM_MOVE_DOWN)
+		term__send("do");
+	else if (direction == TERM_MOVE_LINE_START)
+		ft_dprintf(STDERR_FILENO, "\r");
+	else if (direction == TERM_MOVE_RIGHT)
+		term__send("nd");
+	else if (direction == TERM_MOVE_SAVE)
+		term__send("sc");
+	else if (direction == TERM_MOVE_RESTORE)
+		term__send("rc");
 	else
-	{
-		if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &original) == -1)
-			return (errorf("tcsetattr failed"));
-	}
-	return (error_none());
+		assert(!"invalid enum e_term_move value");
 }

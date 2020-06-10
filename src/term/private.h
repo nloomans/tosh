@@ -13,6 +13,8 @@
 #ifndef PRIVATE_H
 # define PRIVATE_H
 
+# include "term.h"
+
 void	term__send(const char *entry);
 
 #endif
