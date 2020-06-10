@@ -117,3 +117,25 @@ Test(input__run_next_action, backspace) {
 
 	free(state.buffer);
 }
+
+ssize_t fake_read_error(int fd, void *buf, size_t count) {
+	(void)fd;
+	(void)buf;
+	(void)count;
+	return (-1);
+}
+
+Test(input__run_next_action, read_fails) {
+	struct s_input__state state = {
+		.buffer = strdup("hi"),
+		.cursor_position = 2,
+	};
+	bool did_invalidate = false;
+
+	t_error error = input__run_next_action(&state, &did_invalidate,
+		fake_read_error);
+
+	cr_expect_str_eq(error.msg, "failed to read keypress");
+
+	free(state.buffer);
+}
