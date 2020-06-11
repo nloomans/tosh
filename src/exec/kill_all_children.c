@@ -28,7 +28,7 @@ void		exec__kill_all_children(t_list_meta *const pid_list)
 		child_process = unpack_child(pid_list->first);
 		ft_list_unlink(pid_list, pid_list->first);
 		kill(child_process->pid, SIGINT);
-		ret = 0;
+		ret = -1;
 		while (ret != 0)
 		{
 			ret = waitpid(child_process->pid, NULL, WNOHANG);//think about zombies and error return

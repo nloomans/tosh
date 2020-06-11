@@ -16,7 +16,7 @@
 #include "private.h"
 
 static t_error	remove_zombie_process(const pid_t zombie_pid,
-					t_list_meta *const pid_list)
+					t_list_meta *const pid_list) //TODO: KILL PRIOR CHILDREN
 {
 	struct s_child	*cur_struct;
 
@@ -39,8 +39,8 @@ static t_error	wait_step(struct s_child **const alast_child,
 					t_list_meta *const pid_list,
 					t_env *const env)
 {
-	pid_t 		zombie_pid;
-	int				status;
+	pid_t		zombie_pid;
+	int			status;
 
 	zombie_pid = waitpid(-1, &status, WNOHANG);
 	if (zombie_pid == -1)
@@ -70,7 +70,7 @@ t_error			exec__child_process_control(t_env *const env,
 					struct s_exec__state *const status)
 {
 	t_error			err;
-	struct s_child *last_child;
+	struct s_child	*last_child;
 
 	err = error_none();
 	last_child = unpack_child(status->pid_list.last);
@@ -78,9 +78,7 @@ t_error			exec__child_process_control(t_env *const env,
 	{
 		err = wait_step(&last_child, &status->pid_list, env);
 		if (is_error(err))
-		{
 			break ;
-		}
 	}
 	if (g_terminate_sig == 1)
 	{

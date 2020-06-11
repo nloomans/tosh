@@ -25,12 +25,12 @@ static t_error	create_fork(struct s_program_prereq *const all_arg,
 	pid = fork();
 	if (pid == -1)
 	{
-		return(errorf("failed to fork"));
+		return (errorf("failed to fork"));
 	}
 	if (pid == 0)
 	{
 		exec__identify_executable(all_arg, env);
-		exit (-1);
+		exit(-1);
 	}
 	err = exec__expand_family(&(status->pid_list), pid);
 	if (is_error(err))
@@ -38,7 +38,7 @@ static t_error	create_fork(struct s_program_prereq *const all_arg,
 		exec__kill_all_children(&(status->pid_list));
 		return (err);
 	}
-	return(exec__child_process_control(env, status));
+	return (exec__child_process_control(env, status));
 }
 
 t_error			exec__single(struct s_exec__state *const status,

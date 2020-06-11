@@ -21,5 +21,5 @@ void		exec__identify_executable(
 	(void)all_arg;
 	(void)env;
 	dprintf(2, "running: %s....\n", all_arg->arg[0]);
-	exit (5);
+	exit(5);
 }

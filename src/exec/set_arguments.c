@@ -14,7 +14,7 @@
 
 static t_error	initialize_arguments(struct s_program_prereq *const all_arg,
 					const struct s_simple_command *const command,
-					const t_env *const env)
+					const t_env *const env) //placeholder
 {
 	t_error	err;
 
@@ -63,13 +63,13 @@ t_error			exec__set_arguments(struct s_program_prereq *const all_arg,
 	{
 		return (errorf("unable to allocate memory"));
 	}
-	err = exec__handle_redirections(&all_arg->fd_data, command);
+	err = exec__handle_redirections(&all_arg->fd_data, command); //order swap?
 	if (is_error(err))
 	{
 		exec__clear_arguments(all_arg);
 		return (err);
 	}
-	err = initialize_arguments(all_arg, command, env);
+	err = initialize_arguments(all_arg, command, env); //order swap?
 	if (is_error(err))
 	{
 		exec__clear_arguments(all_arg);

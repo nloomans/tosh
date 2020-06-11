@@ -28,7 +28,7 @@ static void		handle_execution(const struct s_simple_command *const command,
 	if (is_error(err))
 	{
 		ft_dprintf(2, "tosh: %s\n", err.msg);
-		exit (-1); //arg creation err
+		exit(-1);
 	}
 	builtin = exec__identify_builtin(all_arg.arg[0]);
 	if (builtin != NULL)
@@ -75,9 +75,9 @@ static t_error	loop_sequence(t_list_meta *const pid_list,
 					const struct s_pipe_sequence *sequence,
 					t_env *const env)
 {
-	int					pipette[2];
-	int					input_fd;
-	t_error				err;
+	int			pipette[2];
+	int			input_fd;
+	t_error		err;
 
 	err = error_none();
 	input_fd = STDIN_FILENO;
@@ -90,7 +90,7 @@ static t_error	loop_sequence(t_list_meta *const pid_list,
 			err = errorf("failed to create pipe");
 			break ;
 		}
-		err = create_fork(pid_list, (int [2]){input_fd, pipette[write_to]},
+		err = create_fork(pid_list, (int[2]){input_fd, pipette[write_to]},
 			sequence->simple_command, env);
 		close(pipette[write_to]);
 		if (input_fd != STDIN_FILENO)
