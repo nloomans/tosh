@@ -16,7 +16,7 @@
 #include "private.h"
 
 static t_error	create_fork(struct s_program_prereq *const all_arg,
-					struct s_exec__state *const status,
+					struct s_exec_state *const status,
 					t_env *const env)
 {
 	t_error					err;
@@ -35,13 +35,13 @@ static t_error	create_fork(struct s_program_prereq *const all_arg,
 	err = exec__expand_family(&(status->pid_list), pid);
 	if (is_error(err))
 	{
-		exec__kill_all_children(&(status->pid_list));
+		exec__kill_all_children(&(status->pid_list), SIGTERM);
 		return (err);
 	}
 	return (exec__child_process_control(env, status));
 }
 
-t_error			exec__single(struct s_exec__state *const status,
+t_error			exec__single(struct s_exec_state *const status,
 					const struct s_simple_command *const command,
 					t_env *const env)
 {

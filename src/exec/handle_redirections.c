@@ -15,18 +15,39 @@
 
 #include "private.h"
 
-#include <stdio.h>
+const struct s_redirection_kvp	g_redir_tbl[] = {
+	[REDIRECT_IN] = {.default_fd = 0, .handler = NULL},// O_WRONLY
+	[REDIRECT_IN_AND] = {.default_fd = 0, .handler = NULL},
+	[REDIRECT_OUT] = {.default_fd = 1, .handler = NULL}, // O_RDONLY | O_TRUNC | O_CREAT
+	[REDIRECT_OUT_APPEND] = {.default_fd = 1, .handler = NULL}, // O_RDONLY | O_APPEND | O_CREAT
+	[REDIRECT_OUT_AND] = {.default_fd = 1, .handler = NULL},
+};
+
 static t_error	redirect(struct s_all_redirection *const tracker,
 					const struct s_io_redirect *const redir)
 {
+	int								first_fd;
+	const struct s_redirection_kvp	*redir_type;
+
 	if (redir->file)
 	{
-		printf("%s\n", redir->file->filename);
-		return (exec__basic_redirect(tracker, redir));
+		redir_type = &g_redir_tbl[redir->file->type];
+		first_fd = (redir->fd == -1) ? redir_type->default_fd : redir->fd;
+		if (exec__is_protected_fd(first_fd) == true)
+		{
+			return (errorf("%d is a protected fd", redir->fd));
+		}
+		return (redir_type->handler(tracker, redir));
 	}
 	else
 	{
-		return (errorf("is heredoc"));
+		first_fd = (redir->fd == -1) ? 0 : redir->fd;
+		if (exec__is_protected_fd(first_fd) == true)
+		{
+			return (errorf("%d is a protected fd", redir->fd));
+		}
+		//return (setup_heredoc(tracker, redir));
+		assert(!"Help this is a heredoc i'm not qualified for that");
 	}
 }
 

@@ -10,18 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/wait.h>
+#include <signal.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "private.h"
 
-void		exec__kill_all_children(t_list_meta *const pid_list, const int sig)
+void	exec__kill_child(struct s_child *const child_process, const int sig)
 {
-	struct s_child	*child_process;
+	pid_t			ret;
 
-	while (pid_list->first)
-	{
-		child_process = unpack_child(pid_list->first);
-		ft_list_unlink(pid_list, &child_process->conn);
-		exec__kill_child(child_process, sig);
-	}
+	kill(child_process->pid, sig);
+	ret = waitpid(child_process->pid, NULL, 0);
+	assert(ret != -1);
+	ft_bzero(child_process, sizeof(*child_process));
+	free(child_process);
 }

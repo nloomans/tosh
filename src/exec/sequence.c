@@ -103,7 +103,7 @@ static t_error	loop_sequence(t_list_meta *const pid_list,
 	return (err);
 }
 
-t_error			exec__sequence(struct s_exec__state *const status,
+t_error			exec__sequence(struct s_exec_state *const status,
 					const struct s_pipe_sequence *const sequence,
 					t_env *const env)
 {
@@ -112,7 +112,7 @@ t_error			exec__sequence(struct s_exec__state *const status,
 	err = loop_sequence(&status->pid_list, sequence, env);
 	if (is_error(err))
 	{
-		exec__kill_all_children(&status->pid_list);
+		exec__kill_all_children(&status->pid_list, SIGTERM);
 		env_set_exit_status(env, -1);
 		return (err);
 	}

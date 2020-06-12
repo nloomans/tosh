@@ -21,7 +21,7 @@ void		exec_run(
 				const struct s_complete_command *const complete_command,
 				t_env *const env)
 {
-	struct s_exec__state	status;
+	struct s_exec_state	status;
 	t_error					err;
 	const struct s_list		*list;
 

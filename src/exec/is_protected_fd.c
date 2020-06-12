@@ -10,18 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
 #include "private.h"
 
-void		exec__kill_all_children(t_list_meta *const pid_list, const int sig)
+bool	exec__is_protected_fd(const int fd)
 {
-	struct s_child	*child_process;
-
-	while (pid_list->first)
+	if (fd == BACKUP_STDIN || fd == BACKUP_STDOUT || fd == BACKUP_STDERR)
 	{
-		child_process = unpack_child(pid_list->first);
-		ft_list_unlink(pid_list, &child_process->conn);
-		exec__kill_child(child_process, sig);
+		return (true);
 	}
+	return (false);
 }
