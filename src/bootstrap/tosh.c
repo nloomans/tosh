@@ -13,6 +13,10 @@
 #include <stdlib.h>
 #include <ft_printf.h>
 #include <unistd.h>
+#include "../env/env.h"
+#include "../lexer/lexer.h"
+#include "../parser/parser.h"
+#include "../exec/exec.h"
 #include "../error/error.h"
 #include "../term/term.h"
 #include "../input/input.h"
@@ -21,16 +25,34 @@
 ** TODO: Consider using ft_getline if TERM is unknown.
 */
 
-void	tosh(void)
+static void		run(const char *input, t_env *const env)
 {
+	t_list_meta					tokens;
+	struct s_complete_command	*complete_command;
+	bool						extra_input_requested;
+
+	lexer_tokenize(&tokens, input); // error chec[jiadsio[ad]]
+
+	parser_parse(&complete_command, &extra_input_requested, &tokens); // error c
+	lexer_clear(&tokens);
+
+	exec_run(complete_command, env);
+
+	parser_del(&complete_command);
+}
+
+void			tosh(char **envp)
+{
+	t_env				*env;
 	char				*input;
 	t_error				error;
 	char				prompt[32];
 
+	env = env_from_envp(envp); //error check
 	if (term_init(getenv("TERM")) == -1)
 	{
 		ft_dprintf(STDERR_FILENO, "tosh: fatal: unknown terminal\n");
-		exit(1);
+		// exit(1);
 	}
 	ft_snprintf(prompt, sizeof(prompt), "%{green}TOSH $ %{reset}");
 	while (true)
@@ -44,5 +66,7 @@ void	tosh(void)
 			exit(1);
 		}
 		ft_printf("input_read: %s\n", input);
+
+		run (input, env); //error check
 	}
 }

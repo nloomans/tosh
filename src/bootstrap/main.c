@@ -24,7 +24,7 @@ static int	debug(const char *module)
 		return (ft_eprintf(1, "no debug main for module '%s'", module));
 }
 
-int			main(int argc, char **argv)
+int			main(int argc, char **argv, char **envp)
 {
 	struct s_ft_getopt	opt;
 
@@ -43,5 +43,5 @@ int			main(int argc, char **argv)
 	}
 	if (opt.illegal)
 		return (ft_eprintf(1, HELP_STR));
-	tosh();
+	tosh(envp);
 }
