@@ -21,7 +21,7 @@ void		exec_run(
 				const struct s_complete_command *const complete_command,
 				t_env *const env)
 {
-	struct s_exec_state	status;
+	struct s_exec_state		status;
 	t_error					err;
 	const struct s_list		*list;
 
@@ -42,7 +42,7 @@ void		exec_run(
 		}
 		if (is_error(err))
 		{
-			ft_dprintf(2, "Tosh: %s\n", err.msg); //malloc, fork err etc
+			ft_dprintf(2, "Tosh: %s\n", err.msg);
 		}
 		list = list->list;
 	}

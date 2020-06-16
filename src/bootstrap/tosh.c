@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <ft_printf.h>
 #include <unistd.h>
+
 #include "../env/env.h"
 #include "../lexer/lexer.h"
 #include "../parser/parser.h"
@@ -30,15 +31,29 @@ static void		run(const char *input, t_env *const env)
 	t_list_meta					tokens;
 	struct s_complete_command	*complete_command;
 	bool						extra_input_requested;
+	t_error						err;
 
-	lexer_tokenize(&tokens, input); // error chec[jiadsio[ad]]
-
-	parser_parse(&complete_command, &extra_input_requested, &tokens); // error c
-	lexer_clear(&tokens);
-
-	exec_run(complete_command, env);
-
-	parser_del(&complete_command);
+	if (lexer_tokenize(&tokens, input) == -1)
+	{
+		ft_dprintf(STDERR_FILENO, "tosh: lexer could not allocate memory\n");
+	}
+	if (tokens.len != 0)
+	{
+		err = parser_parse(&complete_command, &extra_input_requested, &tokens);
+		lexer_clear(&tokens);
+		if (is_error(err))
+		{
+			ft_dprintf(STDERR_FILENO, "tosh: %s\n", err.msg);
+			return ;
+		}
+		if (extra_input_requested)
+		{
+			ft_dprintf(STDERR_FILENO, "extra input requested\n");
+			return ; //not sure how to hack this in
+		}
+		exec_run(complete_command, env);
+		parser_del(&complete_command);
+	}
 }
 
 void			tosh(char **envp)
@@ -68,5 +83,6 @@ void			tosh(char **envp)
 		ft_printf("input_read: %s\n", input);
 
 		run (input, env); //error check
+		ft_strdel(&input);
 	}
 }

@@ -30,7 +30,7 @@ static t_error	initialize_arguments(struct s_program_prereq *const all_arg,
 			len++;
 		iter = iter->suffix;
 	}
-	all_arg->arg = ft_memalloc(len * sizeof(char *) + 1);
+	all_arg->arg = ft_memalloc((len + 1)* sizeof(char *));
 	if (all_arg->arg == NULL)
 	{
 		return (errorf("unable to allocate memory"));
