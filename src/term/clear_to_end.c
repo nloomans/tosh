@@ -12,7 +12,7 @@
 
 #include "private.h"
 
-void	term_clear_to_end(void)
+void	term__clear_to_end(void)
 {
 	term__send("cd");
 }

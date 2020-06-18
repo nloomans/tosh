@@ -31,7 +31,7 @@ Test(input__run_next_action, keypress) {
 
 	bool did_invalidate = false;
 	t_error error = input__run_next_action(
-		&state, &did_invalidate, fake_read_keypress);
+		&state, NULL, &did_invalidate, fake_read_keypress);
 
 	cr_expect_not(is_error(error));
 	cr_expect_str_eq(state.buffer, "Hello, World!");
@@ -68,7 +68,7 @@ Test(input__run_next_action, build_message) {
 	{
 		bool did_invalidate = false;
 		t_error error = input__run_next_action(
-			&state, &did_invalidate, fake_read_build_message);
+			&state, NULL, &did_invalidate, fake_read_build_message);
 		cr_expect(did_invalidate);
 		cr_expect_not(is_error(error));
 	}
@@ -94,7 +94,7 @@ Test(input__run_next_action, backspace_empty) {
 
 	bool did_invalidate = false;
 	t_error error = input__run_next_action(
-		&state, &did_invalidate, fake_read_backspace);
+		&state, NULL, &did_invalidate, fake_read_backspace);
 
 	cr_expect_not(is_error(error));
 	cr_expect_str_eq(state.buffer, "");
@@ -113,7 +113,7 @@ Test(input__run_next_action, backspace) {
 
 	bool did_invalidate = false;
 	t_error error = input__run_next_action(
-		&state, &did_invalidate, fake_read_backspace);
+		&state, NULL, &did_invalidate, fake_read_backspace);
 
 	cr_expect_not(is_error(error));
 	cr_expect_str_eq(state.buffer, "Hello, World!");

@@ -39,8 +39,9 @@ static t_error	print_input(void)
 int				input_debug(void)
 {
 	t_error				error;
+	t_term				*term;
 
-	error = input__configure(INPUT__CONFIGURE_SETUP);
+	error = input__configure(&term, INPUT__CONFIGURE_SETUP);
 	if (is_error(error))
 	{
 		return (ft_eprintf(1, "tosh: failed to configure terminal for "
@@ -49,7 +50,7 @@ int				input_debug(void)
 	error = print_input();
 	if (is_error(error))
 		return (ft_eprintf(1, "tosh: %s\n", error.msg));
-	error = input__configure(INPUT__CONFIGURE_RESTORE);
+	error = input__configure(&term, INPUT__CONFIGURE_RESTORE);
 	if (is_error(error))
 	{
 		return (ft_eprintf(1, "tosh: failed to restore terminal to previous "

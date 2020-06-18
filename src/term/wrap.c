@@ -10,11 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <term.h>
+#include "private.h"
 
-#include "term.h"
-
-int		term_init(const char *term_env)
+struct s_term_pos		term_wrap(size_t terminal_width,
+							struct s_term_pos start, size_t width)
 {
-	return (tgetent(NULL, term_env) == 1 ? 0 : -1);
+	size_t				i;
+	struct s_term_pos	pos;
+
+	i = 0;
+	pos = start;
+	while (i < width)
+	{
+		i++;
+		pos.column++;
+		if (pos.column == terminal_width)
+		{
+			pos.column = 0;
+			pos.row++;
+		}
+	}
+	if (pos.column == 0 && i > 0)
+	{
+		pos.row--;
+		pos.column = terminal_width;
+	}
+	return (pos);
 }

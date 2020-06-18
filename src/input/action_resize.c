@@ -10,18 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRIVATE_H
-# define PRIVATE_H
+#include "private.h"
 
-# include "term.h"
-
-void		term__send(const char *entry);
-t_error		term__getcursor(struct s_term_pos *out);
-
-t_error		term__handle_resize(t_term *self);
-void		term__cursor_goto(t_term *self, struct s_term_pos new_pos);
-void		term__print(t_term *self,
-				struct s_term_formatted_string formatted_string);
-void		term__clear_to_end(void);
-
-#endif
+t_error		input__action_resize(t_term *term)
+{
+	return (term->handle_resize(term));
+}

@@ -10,35 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
-
 #include "private.h"
+#include <unistd.h>
 
-/*
-** FIXME: Crashes when prompt is bigger then terminal.
-*/
-
-struct s_term_pos	input__wrap_cursor(
-						size_t terminal_width,
-						size_t prompt_width,
-						size_t cursor_pos)
+t_error		term__handle_resize(t_term *self)
 {
-	size_t				i;
-	struct s_term_pos	pos;
+	t_error error;
 
-	assert(prompt_width <= terminal_width);
-	i = 0;
-	pos.row = 0;
-	pos.column = prompt_width;
-	while (i < cursor_pos)
-	{
-		i++;
-		pos.column++;
-		if (pos.column == terminal_width)
-		{
-			pos.column = 0;
-			pos.row++;
-		}
-	}
-	return (pos);
+	if (term_getsize(&self->terminal_size) == -1)
+		return (errorf("unable to get terminal size"));
+	term__send("rc");
+	error = term__getcursor(&self->cursor_pos);
+	if (is_error(error))
+		return (errorf("unable to get cursor position: %s", error.msg));
+	return (error_none());
 }

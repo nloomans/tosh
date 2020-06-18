@@ -14,7 +14,6 @@
 #include <ft_printf.h>
 #include <unistd.h>
 #include "../error/error.h"
-#include "../term/term.h"
 #include "../input/input.h"
 
 /*
@@ -27,16 +26,11 @@ void	tosh(void)
 	t_error				error;
 	char				prompt[32];
 
-	if (term_init(getenv("TERM")) == -1)
-	{
-		ft_dprintf(STDERR_FILENO, "tosh: fatal: unknown terminal\n");
-		exit(1);
-	}
 	ft_snprintf(prompt, sizeof(prompt), "%{green}TOSH $ %{reset}");
 	while (true)
 	{
 		error = input_read(&input,
-			(struct s_input_formatted_string){prompt, 7});
+			(struct s_term_formatted_string){prompt, 7});
 		if (is_error(error))
 		{
 			ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to read input: %s\n",

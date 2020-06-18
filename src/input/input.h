@@ -14,17 +14,7 @@
 # define INPUT_H
 
 # include "../error/error.h"
-
-/*
-** s_input_formatted_string is a string with possibly control codes embedded
-** in it. The width represents the amount of columns the cursor will move
-** forward when printing the string.
-*/
-struct		s_input_formatted_string
-{
-	const char	*string;
-	size_t		width;
-};
+# include "../term/term.h"
 
 /*
 ** input_read reads a single line of input to dest. prompt contains the text to
@@ -32,7 +22,7 @@ struct		s_input_formatted_string
 **
 ** Text wrapping is handled automatically.
 */
-t_error		input_read(char **dest, struct s_input_formatted_string prompt);
+t_error		input_read(char **dest, struct s_term_formatted_string prompt);
 
 /*
 ** input_debug prints useful debug information about the current keys pressed.
