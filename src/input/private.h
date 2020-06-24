@@ -60,26 +60,27 @@ struct s_term_pos		input__wrap_cursor(
 /*
 ** e_input__read_type contains the type of input that was read by read(2).
 **
-** INPUT__READ_TYPE_NONE:
-**     Nothing was read.
-** INPUT__READ_TYPE_REG:
-**     Just a normal character, like 'a', '$', and '\n'.
-** INPUT__READ_TYPE_ESC:
-**     A character prefixed by the '\x1b[' escape sequence.
-** INPUT__READ_TYPE_ESC_SQL:
-**     A character prefixed by the '\x1b[' escape sequence and suffixed by a
-**     '~'.
+** Some special types include:
+**
+** INPUT__READ_NONE
+**     Either nothing was read or something unrecognized was read.
+** INPUT__READ_TEXT
+**     Just a normal character, like 'a' and '$'.
 */
 enum					e_input__read_type
 {
-	INPUT__READ_TYPE_NONE,
-	INPUT__READ_TYPE_REG,
-	INPUT__READ_TYPE_ESC,
-	INPUT__READ_TYPE_ESC_SQL,
+	INPUT__READ_NONE,
+	INPUT__READ_TEXT,
+	INPUT__READ_ARROW_LEFT,
+	INPUT__READ_ARROW_RIGHT,
+	INPUT__READ_BACKSPACE,
+	INPUT__READ_RETURN,
 };
 
 /*
 ** s_input__keypress contains the processed input read by input__read_keypress.
+**
+** if .type == INPUT__READ_TEXT then .c contains the the char read.
 */
 struct					s_input__keypress
 {
@@ -97,7 +98,7 @@ typedef ssize_t			t_read_func(int fildes, void *buf, size_t nbyte);
 ** s_input__read_keypress. seq->type will be INPUT__READ_TYPE_NONE if nothing
 ** was read.
 */
-t_error					input__read_keypress(
+int						input__read_keypress(
 							struct s_input__keypress *keypress,
 							t_read_func read_func);
 

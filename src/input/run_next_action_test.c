@@ -41,19 +41,16 @@ Test(input__run_next_action, keypress) {
 	free(state.buffer);
 }
 
-char *keypresses_build_message[] = {
-	"H", "e", "l", "l", "o", " ", "o", "r", "l", "d", "!",
-	"\x1b[D", "\x1b[D", "\x1b[D", "\x1b[D", "\x1b[D", "\x1b[D", ",",
-	"\x1b[C", "W",
-};
+size_t index_build_message = 0;
+
+char keypresses_build_message[] =
+	"Hello orld!\x1b[D\x1b[D\x1b[D\x1b[D\x1b[D\x1b[D,\x1b[CW";
 
 ssize_t fake_read_build_message(int fd, void *buf, size_t count) {
-	static int i = 0;
 	cr_expect_eq(fd, STDIN_FILENO);
-	ft_strlcpy(buf, keypresses_build_message[i], count);
-	size_t ret = strlen(keypresses_build_message[i]);
-	i++;
-	return (ret);
+	strncpy(buf, keypresses_build_message + index_build_message, count);
+	index_build_message += count;
+	return (count);
 }
 
 Test(input__run_next_action, build_message) {
@@ -62,9 +59,7 @@ Test(input__run_next_action, build_message) {
 		.cursor_position = 0,
 	};
 
-	for (size_t i = 0;
-		i < sizeof(keypresses_build_message) / sizeof(*keypresses_build_message);
-		i++)
+	while (index_build_message < strlen(keypresses_build_message))
 	{
 		bool did_invalidate = false;
 		t_error error = input__run_next_action(
@@ -119,6 +114,28 @@ Test(input__run_next_action, backspace) {
 	cr_expect_str_eq(state.buffer, "Hello, World!");
 	cr_expect_eq(state.cursor_position, 5);
 	cr_expect(did_invalidate);
+
+	free(state.buffer);
+}
+
+ssize_t fake_read_error(int fd, void *buf, size_t count) {
+	(void)fd;
+	(void)buf;
+	(void)count;
+	return (-1);
+}
+
+Test(input__run_next_action, read_fails) {
+	struct s_input__state state = {
+		.buffer = strdup("hi"),
+		.cursor_position = 2,
+	};
+	bool did_invalidate = false;
+
+	t_error error = input__run_next_action(&state, &did_invalidate,
+		fake_read_error);
+
+	cr_expect_str_eq(error.msg, "failed to read keypress");
 
 	free(state.buffer);
 }

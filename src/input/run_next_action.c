@@ -33,26 +33,20 @@ static t_error					run_next_signal(struct s_input__state *state,
 	assert(!"unknown signum");
 }
 
-static bool						keypress_is(struct s_input__keypress keypress,
-									enum e_input__read_type type, char c)
-{
-	return (keypress.type == type && keypress.c == c);
-}
-
 static t_error					run_next_keypress(struct s_input__state *state,
 									struct s_input__keypress keypress)
 {
-	if (keypress_is(keypress, INPUT__READ_TYPE_ESC, 'D'))
+	if (keypress.type == INPUT__READ_ARROW_LEFT)
 		return (input__action_left(state));
-	if (keypress_is(keypress, INPUT__READ_TYPE_ESC, 'C'))
+	if (keypress.type == INPUT__READ_ARROW_RIGHT)
 		return (input__action_right(state));
-	if (keypress_is(keypress, INPUT__READ_TYPE_REG, '\x7f'))
+	if (keypress.type == INPUT__READ_BACKSPACE)
 		return (input__action_backspace(state));
-	if (keypress_is(keypress, INPUT__READ_TYPE_REG, '\n'))
+	if (keypress.type == INPUT__READ_RETURN)
 		return (input__action_return(state));
-	if (keypress.type == INPUT__READ_TYPE_REG && ft_isprint(keypress.c))
+	if (keypress.type == INPUT__READ_TEXT)
 		return (input__action_insert(state, keypress.c));
-	return (error_none());
+	assert(!"unhandled keypress type");
 }
 
 t_error							input__run_next_action(
@@ -60,7 +54,6 @@ t_error							input__run_next_action(
 									bool *did_invalidate,
 									t_read_func read_func)
 {
-	t_error						error;
 	int							signum;
 	struct s_input__keypress	keypress;
 
@@ -70,10 +63,9 @@ t_error							input__run_next_action(
 	{
 		return (run_next_signal(state, signum));
 	}
-	error = input__read_keypress(&keypress, read_func);
-	if (is_error(error))
-		return (errorf("failed to read sequence: %s", error.msg));
-	if (keypress.type != INPUT__READ_TYPE_NONE)
+	if (input__read_keypress(&keypress, read_func) == -1)
+		return (errorf("failed to read keypress"));
+	if (keypress.type != INPUT__READ_NONE)
 	{
 		return (run_next_keypress(state, keypress));
 	}
