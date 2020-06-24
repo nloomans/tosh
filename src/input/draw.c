@@ -17,37 +17,16 @@
 #include "../term/term.h"
 #include "private.h"
 
-static void	reposition_cursor(struct s_term_pos dest)
+void		input__draw(
+				struct s_input__state state,
+				t_term *term,
+				struct s_term_formatted_string prompt)
 {
-	size_t	amount_to_move;
-	size_t	i;
-
-	term_cursor_move(TERM_MOVE_RESTORE);
-	amount_to_move = dest.row;
-	i = 0;
-	while (i < amount_to_move)
-	{
-		term_cursor_move(TERM_MOVE_DOWN);
-		i++;
-	}
-	amount_to_move = dest.column;
-	i = 0;
-	while (i < amount_to_move)
-	{
-		term_cursor_move(TERM_MOVE_RIGHT);
-		i++;
-	}
-}
-
-void		input__draw(struct s_input__state state,
-				struct s_input_formatted_string prompt)
-{
-	struct s_term_pos	cursor_pos;
-
-	reposition_cursor((struct s_term_pos){0, 0});
-	term_clear_to_end();
-	ft_dprintf(STDERR_FILENO, "%s%s", prompt.string, state.buffer);
-	cursor_pos = input__wrap_cursor(state.terminal_columns, prompt.width,
-			state.cursor_position);
-	reposition_cursor(cursor_pos);
+	term->cursor_goto(term, term->saved_pos);
+	term->clear_to_end();
+	term->print(term, prompt);
+	term->print(term, (struct s_term_formatted_string){
+		state.buffer, ft_strlen(state.buffer)});
+	term->cursor_goto(term, term_wrap(term->terminal_size.column,
+		term->saved_pos, prompt.width + state.cursor_position));
 }

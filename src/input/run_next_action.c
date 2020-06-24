@@ -25,11 +25,10 @@ static int						next_signal(void)
 	return (0);
 }
 
-static t_error					run_next_signal(struct s_input__state *state,
-									int signum)
+static t_error					run_next_signal(t_term *term, int signum)
 {
 	if (signum == SIGWINCH)
-		return (input__action_update_width(state));
+		return (input__action_resize(term));
 	assert(!"unknown signum");
 }
 
@@ -51,6 +50,7 @@ static t_error					run_next_keypress(struct s_input__state *state,
 
 t_error							input__run_next_action(
 									struct s_input__state *state,
+									t_term *term,
 									bool *did_invalidate,
 									t_read_func read_func)
 {
@@ -61,7 +61,7 @@ t_error							input__run_next_action(
 	signum = next_signal();
 	if (signum != 0)
 	{
-		return (run_next_signal(state, signum));
+		return (run_next_signal(term, signum));
 	}
 	if (input__read_keypress(&keypress, read_func) == -1)
 		return (errorf("failed to read keypress"));

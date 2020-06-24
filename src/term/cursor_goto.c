@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft_printf.h>
+#include <unistd.h>
+
 #include "private.h"
 
-t_error		input__action_update_width(struct s_input__state *state)
+void				term__cursor_goto(t_term *self, struct s_term_pos new_pos)
 {
-	struct s_term_pos		term_size;
-
-	if (term_getsize(&term_size) == -1)
-		return (errorf("unable to get terminal size"));
-	state->terminal_columns = term_size.column;
-	return (error_none());
+	ft_dprintf(STDERR_FILENO, "\033[%u;%uH",
+		new_pos.row + 1, new_pos.column + 1);
+	self->cursor_pos = new_pos;
 }

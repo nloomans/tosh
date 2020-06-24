@@ -27,10 +27,10 @@ enum					e_input__configure_action
 	INPUT__CONFIGURE_RESTORE,
 };
 
-t_error					input__configure(enum e_input__configure_action action);
+t_error					input__configure(t_term **term,
+							enum e_input__configure_action action);
 
 /*
-** terminal_columns the current width of the terminal.
 ** buffer           the text that the user has entered. Does not contain line
 **                  wrapping.
 ** cursor_position  the position of the cursor relative to the buffer. Does not
@@ -39,14 +39,14 @@ t_error					input__configure(enum e_input__configure_action action);
 */
 struct					s_input__state
 {
-	size_t	terminal_columns;
 	char	*buffer;
 	size_t	cursor_position;
 	bool	finished;
 };
 
 void					input__draw(struct s_input__state state,
-							struct s_input_formatted_string prompt);
+							t_term *term,
+							struct s_term_formatted_string prompt);
 
 /*
 ** input__wrap_cursor will calculate the cursor position after the wrapping was
@@ -102,12 +102,7 @@ int						input__read_keypress(
 							struct s_input__keypress *keypress,
 							t_read_func read_func);
 
-/*
-** input__action_update_width reads out the width from the terminal and stores
-** it in the state.
-*/
-t_error					input__action_update_width(
-							struct s_input__state *state);
+t_error					input__action_resize(t_term *term);
 
 /*
 ** input__action_{left,right} moves the cursor by one. No action is taken if the
@@ -131,6 +126,7 @@ t_error					input__action_return(struct s_input__state *state);
 
 t_error					input__run_next_action(
 							struct s_input__state *state,
+							t_term *term,
 							bool *did_invalidate,
 							t_read_func read_func);
 
