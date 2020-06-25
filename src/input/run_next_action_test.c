@@ -132,8 +132,8 @@ Test(input__run_next_action, read_fails) {
 	};
 	bool did_invalidate = false;
 
-	t_error error = input__run_next_action(&state, &did_invalidate,
-		fake_read_error);
+	t_error error = input__run_next_action(
+		&state, NULL, &did_invalidate, fake_read_error);
 
 	cr_expect_str_eq(error.msg, "failed to read keypress");
 
