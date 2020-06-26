@@ -10,41 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <ft_printf.h>
 #include <unistd.h>
-#include "../input/input.h"
-#include "../history/history.h"
-#include "private.h"
+#include "history.h"
 
-static int	debug(const char *module)
+void			history_destroy(t_history **history)
 {
-	if (ft_strcmp(module, "input") == 0)
-		return (input_debug());
-	else if (ft_strcmp(module, "history") == 0)
-		return (history_debug());
-	else
-		return (ft_eprintf(1, "no debug main for module '%s'", module));
-}
+	struct s_history_node	*node;
 
-int			main(int argc, char **argv)
-{
-	struct s_ft_getopt	opt;
-
-	opt = FT_GETOPT_DEFAULT;
-	while (ft_getopt(&opt, argc, argv, "vhd:"))
+	close((*history)->fd);
+	while ((*history)->history.len > 0)
 	{
-		if (opt.opt == 'v')
-		{
-			ft_printf("tosh version " VERSION "\n");
-			return (0);
-		}
-		else if (opt.opt == 'd')
-			return (debug(opt.arg));
-		else if (opt.opt == 'h')
-			return (ft_eprintf(0, HELP_STR));
+		node = unpack_history_node((*history)->history.first);
+		ft_list_unlink(&(*history)->history, (*history)->history.first);
+		ft_strdel(&node->buffer);
+		ft_memdel((void **)&node);
 	}
-	if (opt.illegal)
-		return (ft_eprintf(1, HELP_STR));
-	tosh();
+	ft_memdel((void **)history);
 }

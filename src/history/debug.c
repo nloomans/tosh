@@ -10,41 +10,36 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <stdlib.h>
 #include <ft_printf.h>
-#include <unistd.h>
-#include "../input/input.h"
-#include "../history/history.h"
-#include "private.h"
 
-static int	debug(const char *module)
+#include "history.h"
+
+static void		print_history(const t_list_meta *history)
 {
-	if (ft_strcmp(module, "input") == 0)
-		return (input_debug());
-	else if (ft_strcmp(module, "history") == 0)
-		return (history_debug());
-	else
-		return (ft_eprintf(1, "no debug main for module '%s'", module));
+	const struct s_history_node	*node;
+
+	node = unpack_history_node(history->first);
+	while (node != NULL)
+	{
+		ft_printf("buffer |%s|\n", node->buffer);
+		node = unpack_history_node(node->conn.next);
+	}
 }
 
-int			main(int argc, char **argv)
+int				history_debug(void)
 {
-	struct s_ft_getopt	opt;
+	t_error		error;
+	t_history	*history;
+	char		*path;
 
-	opt = FT_GETOPT_DEFAULT;
-	while (ft_getopt(&opt, argc, argv, "vhd:"))
-	{
-		if (opt.opt == 'v')
-		{
-			ft_printf("tosh version " VERSION "\n");
-			return (0);
-		}
-		else if (opt.opt == 'd')
-			return (debug(opt.arg));
-		else if (opt.opt == 'h')
-			return (ft_eprintf(0, HELP_STR));
-	}
-	if (opt.illegal)
-		return (ft_eprintf(1, HELP_STR));
-	tosh();
+	if (ft_asprintf(&path, "%s/.tosh_history", getenv("HOME")) == -1)
+		return (ft_eprintf(1, "tosh: out of memory\n"));
+	error = history_create(&history, path);
+	ft_strdel(&path);
+	if (is_error(error))
+		return (ft_eprintf(1, "tosh: %s\n", error.msg));
+	print_history(&history->history);
+	history_destroy(&history);
+	return (0);
 }
