@@ -49,4 +49,11 @@ int							history_debug(void);
 char						*history_up(struct s_history *history);
 char						*history_down(struct s_history *history);
 
+/*
+** history_push adds a new item to the bottom of the history. The cursor
+** position will be reset.
+*/
+t_error						history_push(struct s_history *history,
+								const char *new);
+
 #endif

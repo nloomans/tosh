@@ -3,6 +3,7 @@ src_files += files(
 	'debug.c',
 	'destroy.c',
 	'down.c',
+	'push.c',
 	'unpack.c',
 	'up.c',
 )
