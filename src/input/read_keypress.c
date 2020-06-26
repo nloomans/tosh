@@ -36,6 +36,10 @@ static int				read_escape(struct s_input__keypress *keypress,
 			keypress->type = INPUT__READ_ARROW_LEFT;
 		else if (c == 'C')
 			keypress->type = INPUT__READ_ARROW_RIGHT;
+		else if (c == 'A')
+			keypress->type = INPUT__READ_ARROW_UP;
+		else if (c == 'B')
+			keypress->type = INPUT__READ_ARROW_DOWN;
 	}
 	return (0);
 }

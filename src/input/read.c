@@ -19,7 +19,7 @@
 #include "../term/term.h"
 #include "private.h"
 
-static t_error	event_loop(char **dest, t_term *term,
+static t_error	event_loop(char **dest, t_term *term, t_history *history,
 					struct s_term_formatted_string prompt)
 {
 	t_error						error;
@@ -30,6 +30,7 @@ static t_error	event_loop(char **dest, t_term *term,
 	state.buffer = ft_strnew(0);
 	if (state.buffer == NULL)
 		return (errorf("out of memory"));
+	state.history = history;
 	input__draw(state, term, prompt);
 	while (!state.finished)
 	{
@@ -44,7 +45,8 @@ static t_error	event_loop(char **dest, t_term *term,
 	return (error_none());
 }
 
-t_error			input_read(char **dest, struct s_term_formatted_string prompt)
+t_error			input_read(char **dest, t_history *history,
+					struct s_term_formatted_string prompt)
 {
 	t_error						error;
 	t_term						*term;
@@ -55,7 +57,7 @@ t_error			input_read(char **dest, struct s_term_formatted_string prompt)
 		return (errorf("failed to configure terminal for interactive input: %s",
 			error.msg));
 	}
-	error = event_loop(dest, term, prompt);
+	error = event_loop(dest, term, history, prompt);
 	if (is_error(error))
 	{
 		input__configure(&term, INPUT__CONFIGURE_RESTORE);

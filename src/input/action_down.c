@@ -10,26 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_H
-# define INPUT_H
+#include "private.h"
 
-# include "../error/error.h"
-# include "../history/history.h"
-# include "../term/term.h"
+t_error		input__action_down(struct s_input__state *state)
+{
+	char *new_buffer;
 
-/*
-** input_read reads a single line of input to dest. prompt contains the text to
-** display before the input.
-**
-** Text wrapping is handled automatically.
-*/
-t_error		input_read(char **dest, t_history *history,
-				struct s_term_formatted_string prompt);
-
-/*
-** input_debug prints useful debug information about the current keys pressed.
-** It can be accessed using 'tosh -d input'
-*/
-int			input_debug(void);
-
-#endif
+	if (!state->history)
+		return (error_none());
+	new_buffer = history_down(state->history);
+	if (new_buffer == NULL)
+		return (error_none());
+	new_buffer = ft_strdup(new_buffer);
+	if (new_buffer == NULL)
+		return (errorf("out of memory"));
+	ft_strreplace(&state->buffer, new_buffer);
+	state->cursor_position = ft_strlen(state->buffer);
+	return (error_none());
+}
