@@ -18,7 +18,7 @@
 
 static t_error	print_input(void)
 {
-	char				buffer[4 + 1];
+	char				buffer[16 + 1];
 	ssize_t				read_amount;
 
 	while (true)
