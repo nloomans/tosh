@@ -21,9 +21,6 @@ t_error		input__action_down(struct s_input__state *state)
 	new_buffer = history_down(state->history);
 	if (new_buffer == NULL)
 		return (error_none());
-	new_buffer = ft_strdup(new_buffer);
-	if (new_buffer == NULL)
-		return (errorf("out of memory"));
 	ft_strreplace(&state->buffer, new_buffer);
 	state->cursor_position = ft_strlen(state->buffer);
 	return (error_none());

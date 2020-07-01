@@ -10,21 +10,45 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <unistd.h>
 
 #include "private.h"
 
-void			history_destroy(t_history **history)
+static char		*strdup_size(const char *str, size_t len)
 {
-	struct s_history__line	*line;
+	char	*dup;
 
-	close((*history)->fd);
-	while ((*history)->lines.len > 0)
+	dup = ft_strnew(len);
+	if (dup == NULL)
+		return (NULL);
+	if (str)
+		ft_strlcpy(dup, str, len + 1);
+	return (dup);
+}
+
+t_error			history__read_all(char **out, int fd)
+{
+	int		ret;
+	size_t	offset;
+	size_t	size;
+
+	size = 32;
+	offset = 0;
+	while (true)
 	{
-		line = unpack_line((*history)->lines.first);
-		ft_list_unlink(&(*history)->lines, (*history)->lines.first);
-		ft_strdel(&line->buffer);
-		ft_memdel((void **)&line);
+		size *= 2;
+		ft_strreplace(out, strdup_size(*out, size));
+		if (*out == NULL)
+			return (errorf("out of memory"));
+		ret = read(fd, *out + offset, size / 2);
+		if (ret == -1)
+		{
+			ft_strdel(out);
+			return (errorf("read syscall failed"));
+		}
+		if (ret == 0)
+			return (error_none());
+		offset += ret;
 	}
-	ft_memdel((void **)history);
 }

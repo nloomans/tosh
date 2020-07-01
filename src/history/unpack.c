@@ -12,9 +12,9 @@
 
 #include <stddef.h>
 
-#include "history.h"
+#include "private.h"
 
-struct s_history_node		*unpack_history_node(const t_list_conn *conn)
+struct s_history__line		*unpack_line(const t_list_conn *conn)
 {
 	if (conn == NULL)
 	{
@@ -22,7 +22,7 @@ struct s_history_node		*unpack_history_node(const t_list_conn *conn)
 	}
 	else
 	{
-		return ((struct s_history_node *)
-			((char *)conn - offsetof(struct s_history_node, conn)));
+		return ((struct s_history__line *)
+			((char *)conn - offsetof(struct s_history__line, conn)));
 	}
 }

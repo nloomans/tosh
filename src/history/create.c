@@ -15,50 +15,14 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include "history.h"
+#include <limits.h>
 
-static char		*strdup_size(const char *str, size_t len)
-{
-	char	*dup;
-
-	dup = ft_strnew(len);
-	if (dup == NULL)
-		return (NULL);
-	if (str)
-		ft_strlcpy(dup, str, len + 1);
-	return (dup);
-}
-
-static t_error	read_all(char **out, int fd)
-{
-	int		ret;
-	size_t	offset;
-	size_t	size;
-
-	size = 32;
-	offset = 0;
-	while (true)
-	{
-		size *= 2;
-		ft_strreplace(out, strdup_size(*out, size));
-		if (*out == NULL)
-			return (errorf("out of memory"));
-		ret = read(fd, *out + offset, size / 2);
-		if (ret == -1)
-		{
-			ft_strdel(out);
-			return (errorf("read syscall failed"));
-		}
-		if (ret == 0)
-			return (error_none());
-		offset += ret;
-	}
-}
+#include "private.h"
 
 static t_error	fill_list(t_list_meta *list, const char *input)
 {
 	const char				*newline;
-	struct s_history_node	*new;
+	struct s_history__line	*new;
 
 	while (true)
 	{
@@ -88,13 +52,13 @@ static t_error	initialize(t_history *self, const char *history_file_path)
 	self->fd = open(history_file_path, O_RDWR | O_APPEND | O_CREAT, 0600);
 	if (self->fd == -1)
 		return (errorf("unable to open %s", history_file_path));
-	error = read_all(&contents, self->fd);
+	error = history__read_all(&contents, self->fd);
 	if (is_error(error))
 	{
 		close(self->fd);
 		return (errorf("unable to read %s: %s", history_file_path, error.msg));
 	}
-	error = fill_list(&self->history, contents);
+	error = fill_list(&self->lines, contents);
 	ft_strdel(&contents);
 	if (is_error(error))
 	{
@@ -104,7 +68,7 @@ static t_error	initialize(t_history *self, const char *history_file_path)
 	return (error_none());
 }
 
-t_error			history_create(t_history **history,
+static t_error	history_create_at(t_history **history,
 					const char *history_file_path)
 {
 	t_error	error;
@@ -119,4 +83,21 @@ t_error			history_create(t_history **history,
 		return (error);
 	}
 	return (error_none());
+}
+
+t_error			history_create(t_history **history)
+{
+	ssize_t	ret;
+	char	*home_env;
+	char	path_name[PATH_MAX];
+
+	home_env = getenv("HOME");
+	if (home_env == NULL)
+		return (errorf("HOME not set"));
+	ret = snprintf(path_name, sizeof(path_name), "%s/.tosh_history", home_env);
+	if (ret == -1)
+		return (errorf("unable to expand ~/.tosh_history"));
+	if (ret > (ssize_t)sizeof(path_name) - 1)
+		return (errorf("~/.tosh_history is longer then PATH_MAX"));
+	return (history_create_at(history, path_name));
 }

@@ -11,15 +11,16 @@
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include "history.h"
+
+#include "private.h"
 
 char	*history_up(struct s_history *history)
 {
 	if (history->cursor == NULL)
 	{
-		if (history->history.last == NULL)
+		if (history->lines.len == 0)
 			return (NULL);
-		history->cursor = history->history.last;
+		history->cursor = history->lines.last;
 	}
 	else
 	{
@@ -27,5 +28,5 @@ char	*history_up(struct s_history *history)
 			return (NULL);
 		history->cursor = history->cursor->prev;
 	}
-	return (unpack_history_node(history->cursor)->buffer);
+	return (ft_strdup(unpack_line(history->cursor)->buffer));
 }

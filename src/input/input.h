@@ -23,7 +23,8 @@
 **
 ** Text wrapping is handled automatically.
 */
-t_error		input_read(char **dest, t_history *history,
+t_error		input_read(char **dest,
+				t_history *history,
 				struct s_term_formatted_string prompt);
 
 /*

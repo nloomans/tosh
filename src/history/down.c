@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include "history.h"
+
+#include "private.h"
 
 char	*history_down(struct s_history *history)
 {
@@ -20,5 +21,5 @@ char	*history_down(struct s_history *history)
 	history->cursor = history->cursor->next;
 	if (history->cursor == NULL)
 		return ("");
-	return (unpack_history_node(history->cursor)->buffer);
+	return (ft_strdup(unpack_line(history->cursor)->buffer));
 }

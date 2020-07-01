@@ -10,21 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#ifndef PRIVATE_H
+# define PRIVATE_H
 
-#include "private.h"
+# include "history.h"
 
-void			history_destroy(t_history **history)
+struct						s_history__line
 {
-	struct s_history__line	*line;
+	char					*buffer;
+	t_list_conn				conn;
+};
 
-	close((*history)->fd);
-	while ((*history)->lines.len > 0)
-	{
-		line = unpack_line((*history)->lines.first);
-		ft_list_unlink(&(*history)->lines, (*history)->lines.first);
-		ft_strdel(&line->buffer);
-		ft_memdel((void **)&line);
-	}
-	ft_memdel((void **)history);
-}
+struct s_history__line		*unpack_line(const t_list_conn *conn);
+
+struct						s_history
+{
+	int						fd;
+	t_list_meta				lines;
+	t_list_conn				*cursor;
+};
+
+t_error						history__read_all(char **out, int fd);
+
+#endif
