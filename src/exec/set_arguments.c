@@ -63,13 +63,13 @@ t_error			exec__set_arguments(struct s_program_prereq *const all_arg,
 	{
 		return (errorf("unable to allocate memory"));
 	}
-	err = exec__handle_redirections(&all_arg->fd_data, command); //order swap?
+	err = exec__handle_redirections(&all_arg->redir_tracker, command);
 	if (is_error(err))
 	{
 		exec__clear_arguments(all_arg);
 		return (err);
 	}
-	err = initialize_arguments(all_arg, command, env); //order swap?
+	err = initialize_arguments(all_arg, command, env);
 	if (is_error(err))
 	{
 		exec__clear_arguments(all_arg);

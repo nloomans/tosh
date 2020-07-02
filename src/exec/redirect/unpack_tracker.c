@@ -10,26 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <stddef.h>
 
-#include "private.h"
+#include "../private.h"
 
-t_error	exec__clear_arguments(struct s_program_prereq *const all_arg)
+struct s_redirection	*unpack_tracker(const t_list_conn *const node)
 {
-	t_error	err;
-
-	err = exec__undo_and_del_redir(&all_arg->redir_tracker);
-	close(BACKUP_STDIN);
-	close(BACKUP_STDOUT);
-	close(BACKUP_STDERR);
-	if (all_arg->arg)
+	if (node == NULL)
 	{
-		ft_arraydel((void ***)&all_arg->arg, &ft_memdel);
+		return (NULL);
 	}
-	if (all_arg->env)
+	else
 	{
-		ft_arraydel((void ***)&all_arg->env, &ft_memdel);
+		return ((struct s_redirection *)
+			(char *)node - offsetof(struct s_redirection, conn));
 	}
-	all_arg->arg_count = 0;
-	return (err);
 }

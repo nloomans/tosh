@@ -41,7 +41,7 @@ static t_error		find_command_path(char path[PATH_MAX],
 			if (sub_len + name_len >= PATH_MAX)
 				return (errorf("%s: File name too long", name));
 			ft_snprintf(path, PATH_MAX, "%.*s/%s", sub_len, iter, name);
-			if (access(path, F_OK) == 0)
+			if (access(path, F_OK | X_OK) == 0)
 				return (error_none());
 			iter += sub_len;
 		}

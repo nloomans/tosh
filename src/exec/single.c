@@ -65,6 +65,8 @@ t_error			exec__single(struct s_exec_state *const status,
 	{
 		err = create_fork(&all_arg, status, env);
 	}
+	if (is_error(err) == false)
+		return (exec__clear_arguments(&all_arg));
 	exec__clear_arguments(&all_arg);
 	return (err);
 }
