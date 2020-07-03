@@ -21,6 +21,33 @@ static int				read_char(char *c, t_read_func read_func)
 	return (read_func(STDIN_FILENO, c, 1));
 }
 
+/*
+** Reference: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
+**            #h2-PC-Style-Function-Keys
+*/
+
+static int				read_modifier(struct s_input__keypress *keypress,
+							t_read_func read_func)
+{
+	char c;
+
+	if (read_char(&c, read_func) == -1)
+		return (-1);
+	if (c != ';')
+		return (0);
+	if (read_char(&c, read_func) == -1)
+		return (-1);
+	if (c != '5')
+		return (0);
+	if (read_char(&c, read_func) == -1)
+		return (-1);
+	if (c == 'D')
+		keypress->type = INPUT__READ_CONTROL_ARROW_LEFT;
+	if (c == 'C')
+		keypress->type = INPUT__READ_CONTROL_ARROW_RIGHT;
+	return (0);
+}
+
 static int				read_escape(struct s_input__keypress *keypress,
 							t_read_func read_func)
 {
@@ -32,7 +59,9 @@ static int				read_escape(struct s_input__keypress *keypress,
 	{
 		if (read_char(&c, read_func) == -1)
 			return (-1);
-		if (c == 'D')
+		if (c == '1')
+			return (read_modifier(keypress, read_func));
+		else if (c == 'D')
 			keypress->type = INPUT__READ_ARROW_LEFT;
 		else if (c == 'C')
 			keypress->type = INPUT__READ_ARROW_RIGHT;

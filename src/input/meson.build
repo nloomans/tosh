@@ -7,6 +7,8 @@ src_files += files(
 	'action_resize.c',
 	'action_return.c',
 	'action_right.c',
+	'action_word_left.c',
+	'action_word_right.c',
 	'configure.c',
 	'debug.c',
 	'draw.c',
