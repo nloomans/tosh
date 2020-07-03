@@ -115,10 +115,11 @@ t_error					input__action_left(struct s_input__state *state);
 t_error					input__action_right(struct s_input__state *state);
 
 /*
-** input__action_{up,down} moves through the history.
+** input__action_history_{up,down} moves through the history.
 */
-t_error					input__action_up(struct s_input__state *state);
-t_error					input__action_down(struct s_input__state *state);
+t_error					input__action_history_up(struct s_input__state *state);
+t_error					input__action_history_down(
+							struct s_input__state *state);
 
 /*
 ** input__action_insert inserts the character c at the cursor position.

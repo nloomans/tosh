@@ -12,7 +12,7 @@
 
 #include "private.h"
 
-t_error		input__action_down(struct s_input__state *state)
+t_error		input__action_history_down(struct s_input__state *state)
 {
 	char *new_buffer;
 
