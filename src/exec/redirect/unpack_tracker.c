@@ -23,6 +23,6 @@ struct s_redirection	*unpack_tracker(const t_list_conn *const node)
 	else
 	{
 		return ((struct s_redirection *)
-			(char *)node - offsetof(struct s_redirection, conn));
+			((char *)node - offsetof(struct s_redirection, conn)));
 	}
 }

@@ -15,6 +15,20 @@
 
 #include "../private.h"
 
+#include <assert.h>
+static int	parse_num(char const *num_str)
+{
+	while (*num_str != '\0')
+	{
+		if (ft_isdigit(*num_str))
+		{
+			return (-1);
+		}
+		num_str++;
+	}
+	return (ft_atoi(num_str));
+}
+
 t_error		redirect_in(t_list_meta *const tracker_lst,
 				const int first_fd,
 				const struct s_io_file *const current_redirect)
@@ -37,12 +51,33 @@ t_error		redirect_in(t_list_meta *const tracker_lst,
 	return (error_none());
 }
 
-// t_error		redirect_in_and(t_list_meta *const tracker_lst,
-// 				const int first_fd,
-// 				const struct s_io_file *const current_redirect)
-// {
+t_error		redirect_in_and(t_list_meta *const tracker_lst,
+				const int first_fd,
+				const struct s_io_file *const current_redirect)
+{
+	int		redir_fd;
+	t_error	err;
 
-// }
+	assert(current_redirect->filename[0] != '&');
+	redir_fd = parse_num(current_redirect->filename + 1);
+	if (redir_fd == -1)
+	{
+		ft_memmove(current_redirect->filename, current_redirect->filename + 1,
+			ft_strlen(current_redirect->filename));
+		return (redirect_in(tracker_lst, first_fd, current_redirect));
+	}
+	if (exec__is_protected_fd(redir_fd) == true)
+	{
+		return (errorf("%d is a protected fd", redir_fd));
+	}
+	err = exec__add_tracker(first_fd, redir_fd, tracker_lst);
+	if (is_error(err))
+	{
+		return (errorf("redirecting %s to %d: %s",
+			current_redirect->filename, first_fd, err.msg));
+	}
+	return (error_none());
+}
 
 t_error		redirect_out(t_list_meta *const tracker_lst,
 				const int first_fd,

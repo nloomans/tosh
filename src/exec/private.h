@@ -43,10 +43,6 @@ struct	s_redirection{
 	t_list_conn			conn;
 };
 
-struct	s_all_redirection{ 
-	t_list_meta			redirect_tracker;
-};
-
 typedef t_error			(t_redirect_func)(t_list_meta *const,
 							const int,
 							const struct s_io_file *const);
@@ -64,8 +60,6 @@ struct	s_program_prereq{
 	char				**arg;
 	int					arg_count;
 	char				**env;
-	struct s_all_redirection\
-						fd_data;
 	t_list_meta			redir_tracker;
 };
 
@@ -100,6 +94,9 @@ t_error					exec__undo_and_del_redir(
 							t_list_meta *const tracker_lst);
 
 t_error					redirect_in(t_list_meta *const tracker_lst,
+							const int first_fd,
+							const struct s_io_file *const current_redirect);
+t_error					redirect_in_and(t_list_meta *const tracker_lst,
 							const int first_fd,
 							const struct s_io_file *const current_redirect);
 

@@ -15,6 +15,7 @@
 
 #include "../private.h"
 
+#include <stdio.h>
 t_error			exec__add_tracker(const int dest_fd,
 					const int new_fd,
 					t_list_meta *const tracker_lst)
@@ -28,6 +29,7 @@ t_error			exec__add_tracker(const int dest_fd,
 	}
 	new_entry->origin_fd = new_fd;
 	new_entry->dest_fd = dest_fd;
+	dprintf(2, "dupping %d to %d\n", new_entry->origin_fd, new_entry->dest_fd);
 	if (dup2(new_entry->origin_fd, new_entry->dest_fd) == -1)
 	{
 		free(new_entry);
