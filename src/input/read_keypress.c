@@ -69,6 +69,10 @@ static int				read_escape(struct s_input__keypress *keypress,
 			keypress->type = INPUT__READ_ARROW_UP;
 		else if (c == 'B')
 			keypress->type = INPUT__READ_ARROW_DOWN;
+		else if (c == 'H')
+			keypress->type = INPUT__READ_HOME;
+		else if (c == 'F')
+			keypress->type = INPUT__READ_END;
 	}
 	return (0);
 }
@@ -91,6 +95,10 @@ int						input__read_keypress(
 		keypress->type = INPUT__READ_BACKSPACE;
 	else if (c == '\n')
 		keypress->type = INPUT__READ_RETURN;
+	else if (c == 1 + 'A' - 'A')
+		keypress->type = INPUT__READ_CONTROL_A;
+	else if (c == 1 + 'E' - 'A')
+		keypress->type = INPUT__READ_CONTROL_E;
 	else if (ft_isprint(c))
 	{
 		keypress->type = INPUT__READ_TEXT;

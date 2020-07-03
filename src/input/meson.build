@@ -4,6 +4,8 @@ src_files += files(
 	'action_history_up.c',
 	'action_insert.c',
 	'action_left.c',
+	'action_max_left.c',
+	'action_max_right.c',
 	'action_resize.c',
 	'action_return.c',
 	'action_right.c',
