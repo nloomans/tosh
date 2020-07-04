@@ -10,26 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
 #include <unistd.h>
 
-#include "private.h"
+#include "../private.h"
 
-t_error	exec__clear_arguments(struct s_program_prereq *const all_arg)
+t_error		redir__open_file(int *const afd,
+				const char *const filename,
+				const int oflags)
 {
-	t_error	err;
-
-	err = exec__undo_and_del_redir(&all_arg->redir_tracker);
-	close(BACKUP_STDIN);
-	close(BACKUP_STDOUT);
-	close(BACKUP_STDERR);
-	if (all_arg->argv)
+	if (access(filename, X_OK) == -1 && (oflags & O_CREAT) == 0)
 	{
-		ft_arraydel((void ***)&all_arg->argv, &ft_memdel);
+		return (errorf("no such file or directory: %s", filename));
 	}
-	if (all_arg->envp)
+	*afd = open(filename, oflags, 0644);
+	if (*afd == -1)
 	{
-		ft_arraydel((void ***)&all_arg->envp, &ft_memdel);
+		return (errorf("could not open: %s", filename));
 	}
-	all_arg->arg_count = 0;
-	return (err);
+	return (error_none());
 }

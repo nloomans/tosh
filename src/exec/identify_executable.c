@@ -80,13 +80,21 @@ void				exec__identify_executable(
 	char	path[PATH_MAX];
 	t_error	err;
 
-	dprintf(2, "running: %s....\n", all_arg->arg[0]);
-	err = identify_executable_type(path, env, all_arg->arg[0]);
+	dprintf(2, "running: %s....\n", all_arg->argv[0]);
+	err = identify_executable_type(path, env, all_arg->argv[0]);
 	if (is_error(err))
 	{
 		ft_dprintf(STDERR_FILENO, "tosh: %s\n", err.msg);
 		return ;
 	}
 	dprintf(2, "identified as '%s'\n", path);
-	exit(5);
+	if (access(path, X_OK) == -1)
+	{
+		ft_dprintf(STDERR_FILENO, "tosh: %s: no execute permission\n", path);
+		return ;
+	}
+	if (execve(path, all_arg->argv, all_arg->envp) == -1)
+	{
+		ft_dprintf(STDERR_FILENO, "tosh: %s: execve syscall failed\n", path);
+	}
 }

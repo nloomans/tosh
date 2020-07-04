@@ -57,9 +57,9 @@ struct	s_redirection_kvp{
 # define BACKUP_STDERR	1002
 
 struct	s_program_prereq{
-	char				**arg;
+	char				**argv;
 	int					arg_count;
-	char				**env;
+	char				**envp;
 	t_list_meta			redir_tracker;
 };
 
@@ -87,6 +87,9 @@ t_error					exec__handle_redirections(
 bool					exec__is_protected_fd(const int fd);
 struct s_redirection	*unpack_tracker(const t_list_conn *const node);
 
+t_error					redir__open_file(int *const afd,
+							const char *const filename,
+							const int oflags);
 t_error					exec__add_tracker(const int dest_fd,
 							const int new_fd,
 							t_list_meta *const tracker_lst);
@@ -95,17 +98,17 @@ t_error					exec__undo_and_del_redir(
 
 t_error					redirect_in(t_list_meta *const tracker_lst,
 							const int first_fd,
-							const struct s_io_file *const current_redirect);
+							const struct s_io_file *const cur_redir);
 t_error					redirect_in_and(t_list_meta *const tracker_lst,
 							const int first_fd,
-							const struct s_io_file *const current_redirect);
+							const struct s_io_file *const cur_redir);
 
 t_error					redirect_out(t_list_meta *const tracker_lst,
 							const int first_fd,
-							const struct s_io_file *const current_redirect);
+							const struct s_io_file *const cur_redir);
 t_error					redirect_out_append(t_list_meta *const tracker_lst,
 							const int first_fd,
-							 const struct s_io_file *const current_redirect);
+							 const struct s_io_file *const cur_redir);
 
 /*
 **		////set_arg.h////

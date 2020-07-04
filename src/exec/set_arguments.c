@@ -30,20 +30,20 @@ static t_error	initialize_arguments(struct s_program_prereq *const all_arg,
 			len++;
 		iter = iter->suffix;
 	}
-	all_arg->arg = ft_memalloc((len + 1)* sizeof(char *));
-	if (all_arg->arg == NULL)
+	all_arg->argv = ft_memalloc((len + 1)* sizeof(char *));
+	if (all_arg->argv == NULL)
 	{
 		return (errorf("unable to allocate memory"));
 	}
 	all_arg->arg_count = len;
 	len = 1;
-	all_arg->arg[0] = ft_strdup(command->name);
+	all_arg->argv[0] = ft_strdup(command->name);
 	iter = command->suffix;
 	while (iter)
 	{
 		if (iter->word)
 		{
-			all_arg->arg[len] = ft_strdup(iter->word);
+			all_arg->argv[len] = ft_strdup(iter->word);
 			len++;
 		}
 		iter = iter->suffix;
@@ -58,8 +58,8 @@ t_error			exec__set_arguments(struct s_program_prereq *const all_arg,
 {
 	t_error	err;
 
-	all_arg->env = env_to_envp(env);
-	if (all_arg->env == NULL)
+	all_arg->envp = env_to_envp(env);
+	if (all_arg->envp == NULL)
 	{
 		return (errorf("unable to allocate memory"));
 	}

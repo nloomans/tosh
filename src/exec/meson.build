@@ -13,7 +13,9 @@ src_files += files(
 	'unpack_child.c',
 	'redirect/handle_redirections.c',
 	'redirect/is_protected_fd.c',
-	'redirect/all_redirector.c',
+	'redirect/all_adv_redirector.c',
+	'redirect/all_basic_redirector.c',
+	'redirect/open_file.c',
 	'redirect/trackers.c',
 	'redirect/unpack_tracker.c',
 )

@@ -30,10 +30,10 @@ static void		handle_execution(const struct s_simple_command *const command,
 		ft_dprintf(2, "tosh: %s\n", err.msg);
 		exit(-1);
 	}
-	builtin = exec__identify_builtin(all_arg.arg[0]);
+	builtin = exec__identify_builtin(all_arg.argv[0]);
 	if (builtin != NULL)
 	{
-		exit(builtin(all_arg.arg_count, all_arg.arg, env));
+		exit(builtin(all_arg.arg_count, all_arg.argv, env));
 	}
 	else
 	{

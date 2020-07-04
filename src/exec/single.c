@@ -55,11 +55,11 @@ t_error			exec__single(struct s_exec_state *const status,
 	{
 		return (err);
 	}
-	builtin = exec__identify_builtin(all_arg.arg[0]);
+	builtin = exec__identify_builtin(all_arg.argv[0]);
 	if (builtin != NULL)
 	{
 		env_set_exit_status(env,\
-			builtin(all_arg.arg_count, all_arg.arg, env));
+			builtin(all_arg.arg_count, all_arg.argv, env));
 	}
 	else
 	{
