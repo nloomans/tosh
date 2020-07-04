@@ -80,7 +80,6 @@ void				exec__identify_executable(
 	char	path[PATH_MAX];
 	t_error	err;
 
-	dprintf(2, "running: %s....\n", all_arg->argv[0]);
 	err = identify_executable_type(path, env, all_arg->argv[0]);
 	if (is_error(err))
 	{

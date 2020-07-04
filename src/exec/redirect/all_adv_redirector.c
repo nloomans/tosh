@@ -17,13 +17,16 @@
 
 static int	parse_num(char const *num_str)
 {
-	while (*num_str != '\0')
+	size_t	index;
+
+	index = 0;
+	while (num_str[index] != '\0')
 	{
-		if (ft_isdigit(*num_str))
+		if (ft_isdigit(num_str[index]) != true)
 		{
 			return (-1);
 		}
-		num_str++;
+		index++;
 	}
 	return (ft_atoi(num_str));
 }
@@ -35,11 +38,42 @@ t_error		redirect_in_and(t_list_meta *const tracker_lst,
 	int		redir_fd;
 	t_error	err;
 
-	redir_fd = parse_num(cur_redir->filename + 1);
+	if (ft_strequ(cur_redir->filename, "-"))
+	{
+		close(first_fd);
+		return (error_none());
+	}
+	redir_fd = parse_num(cur_redir->filename);
+	if (redir_fd == -1)
+		return (redirect_in(tracker_lst, first_fd, cur_redir));
+	if (exec__is_protected_fd(redir_fd) == true)
+	{
+		return (errorf("%d is a protected fd", redir_fd));
+	}
+	err = exec__add_tracker(first_fd, redir_fd, tracker_lst);
+	if (is_error(err))
+	{
+		return (errorf("redirecting %s to %d: %s",
+			cur_redir->filename, first_fd, err.msg));
+	}
+	return (error_none());
+}
+
+t_error		redirect_out_and(t_list_meta *const tracker_lst,
+				const int first_fd,
+				const struct s_io_file *const cur_redir)
+{
+	int		redir_fd;
+	t_error	err;
+
+	if (ft_strequ(cur_redir->filename, "-"))
+	{
+		close(first_fd);
+		return (error_none());
+	}
+	redir_fd = parse_num(cur_redir->filename);
 	if (redir_fd == -1)
 	{
-		ft_memmove(cur_redir->filename, cur_redir->filename + 1,
-			ft_strlen(cur_redir->filename));//maybe a terrible idea
 		return (redirect_in(tracker_lst, first_fd, cur_redir));
 	}
 	if (exec__is_protected_fd(redir_fd) == true)
@@ -54,12 +88,3 @@ t_error		redirect_in_and(t_list_meta *const tracker_lst,
 	}
 	return (error_none());
 }
-
-
-
-// t_error		redirect_out_and(t_list_meta *const tracker_lst,
-// 				const int first_fd,
-// 				const struct s_io_file *const cur_redir)
-// {
-
-// }

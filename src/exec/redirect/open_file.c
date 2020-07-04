@@ -19,7 +19,7 @@ t_error		redir__open_file(int *const afd,
 				const char *const filename,
 				const int oflags)
 {
-	if (access(filename, X_OK) == -1 && (oflags & O_CREAT) == 0)
+	if (access(filename, F_OK) == -1 && (oflags & O_CREAT) == 0)
 	{
 		return (errorf("no such file or directory: %s", filename));
 	}
