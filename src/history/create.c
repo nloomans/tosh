@@ -68,7 +68,7 @@ static t_error	initialize(t_history *self, const char *history_file_path)
 	return (error_none());
 }
 
-static t_error	history_create_at(t_history **history,
+t_error			history_create_at(t_history **history,
 					const char *history_file_path)
 {
 	t_error	error;

@@ -19,6 +19,8 @@
 typedef struct s_history	t_history;
 
 t_error						history_create(t_history **history);
+t_error						history_create_at(t_history **history,
+								const char *history_file_path);
 void						history_destroy(t_history **history);
 
 int							history_debug(void);

@@ -20,6 +20,6 @@ char	*history_down(struct s_history *history)
 		return (NULL);
 	history->cursor = history->cursor->next;
 	if (history->cursor == NULL)
-		return ("");
+		return (ft_strdup(""));
 	return (ft_strdup(unpack_line(history->cursor)->buffer));
 }
