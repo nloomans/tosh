@@ -10,22 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
+#ifndef HISTORY_H
+# define HISTORY_H
 
-#include "private.h"
+# include <libft.h>
+# include "../error/error.h"
 
-t_error		input__action_return(struct s_input__state *state)
-{
-	t_error		error;
+typedef struct s_history	t_history;
 
-	if (state->history)
-	{
-		error = history_push(state->history, state->buffer);
-		if (is_error(error))
-		{
-			return (errorf("failed to save command in history: %s", error.msg));
-		}
-	}
-	state->finished = true;
-	return (error_none());
-}
+t_error						history_create(t_history **history);
+t_error						history_create_at(t_history **history,
+								const char *history_file_path);
+void						history_destroy(t_history **history);
+
+int							history_debug(void);
+
+/*
+** history_up and history_down allow you to scroll through the history.
+** Returns the buffer of the new history item, empty string if we are at the
+** bottom, and NULL of the action was a no-op.
+**
+** Result must be freed.
+*/
+char						*history_up(t_history *history);
+char						*history_down(t_history *history);
+
+/*
+** history_push adds a new item to the bottom of the history. The cursor
+** position will be reset.
+*/
+t_error						history_push(t_history *history, const char *new);
+
+#endif

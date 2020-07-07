@@ -10,22 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
+#include <unistd.h>
 
 #include "private.h"
 
-t_error		input__action_return(struct s_input__state *state)
+void			history_destroy(t_history **history)
 {
-	t_error		error;
+	struct s_history__line	*line;
 
-	if (state->history)
+	close((*history)->fd);
+	while ((*history)->lines.len > 0)
 	{
-		error = history_push(state->history, state->buffer);
-		if (is_error(error))
-		{
-			return (errorf("failed to save command in history: %s", error.msg));
-		}
+		line = unpack_line((*history)->lines.first);
+		ft_list_unlink(&(*history)->lines, (*history)->lines.first);
+		ft_strdel(&line->buffer);
+		ft_memdel((void **)&line);
 	}
-	state->finished = true;
-	return (error_none());
+	ft_memdel((void **)history);
 }

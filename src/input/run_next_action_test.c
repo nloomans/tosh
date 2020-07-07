@@ -10,9 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#define _POSIX_C_SOURCE 200809L
 #include <criterion/criterion.h>
 #include <unistd.h>
 #include <libft.h>
+#include <fcntl.h>
+#include <stdio.h>
 
 #include "private.h"
 
@@ -138,4 +141,41 @@ Test(input__run_next_action, read_fails) {
 	cr_expect_str_eq(error.msg, "failed to read keypress");
 
 	free(state.buffer);
+}
+
+size_t index_history = 0;
+
+char history_message[] = "\x1b[A\x1b[B\x1b[A";
+
+ssize_t fake_read_history(int fd, void *buf, size_t count) {
+	cr_expect_eq(fd, STDIN_FILENO);
+	strncpy(buf, history_message + index_history, count);
+	index_history += count;
+	return (count);
+}
+
+Test(input__run_next_action, history) {
+	struct s_input__state state = {
+		.buffer = strdup(""),
+	};
+
+	int fd = open("/tmp/tosh_history", O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	dprintf(fd, "ls -al\n");
+	close(fd);
+	history_create_at(&state.history, "/tmp/tosh_history");
+
+	while (index_history < strlen(history_message))
+	{
+		bool did_invalidate = false;
+		t_error error = input__run_next_action(
+			&state, NULL, &did_invalidate, fake_read_history);
+		cr_expect(did_invalidate);
+		cr_expect_not(is_error(error));
+	}
+
+	cr_expect_str_eq(state.buffer, "ls -al");
+	cr_expect_eq(state.cursor_position, 6);
+
+	free(state.buffer);
+	history_destroy(&state.history);
 }

@@ -39,9 +39,10 @@ t_error					input__configure(t_term **term,
 */
 struct					s_input__state
 {
-	char	*buffer;
-	size_t	cursor_position;
-	bool	finished;
+	char		*buffer;
+	size_t		cursor_position;
+	bool		finished;
+	t_history	*history;
 };
 
 void					input__draw(struct s_input__state state,
@@ -73,6 +74,8 @@ enum					e_input__read_type
 	INPUT__READ_TEXT,
 	INPUT__READ_ARROW_LEFT,
 	INPUT__READ_ARROW_RIGHT,
+	INPUT__READ_ARROW_UP,
+	INPUT__READ_ARROW_DOWN,
 	INPUT__READ_BACKSPACE,
 	INPUT__READ_RETURN,
 };
@@ -110,6 +113,13 @@ t_error					input__action_resize(t_term *term);
 */
 t_error					input__action_left(struct s_input__state *state);
 t_error					input__action_right(struct s_input__state *state);
+
+/*
+** input__action_history_{up,down} moves through the history.
+*/
+t_error					input__action_history_up(struct s_input__state *state);
+t_error					input__action_history_down(
+							struct s_input__state *state);
 
 /*
 ** input__action_insert inserts the character c at the cursor position.

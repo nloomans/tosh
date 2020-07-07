@@ -14,12 +14,15 @@
 #include <ft_printf.h>
 #include <unistd.h>
 #include "../input/input.h"
+#include "../history/history.h"
 #include "private.h"
 
 static int	debug(const char *module)
 {
 	if (ft_strcmp(module, "input") == 0)
 		return (input_debug());
+	else if (ft_strcmp(module, "history") == 0)
+		return (history_debug());
 	else
 		return (ft_eprintf(1, "no debug main for module '%s'", module));
 }

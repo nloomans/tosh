@@ -10,22 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
+#ifndef PRIVATE_H
+# define PRIVATE_H
 
-#include "private.h"
+# include "history.h"
 
-t_error		input__action_return(struct s_input__state *state)
+struct						s_history__line
 {
-	t_error		error;
+	char					*buffer;
+	t_list_conn				conn;
+};
 
-	if (state->history)
-	{
-		error = history_push(state->history, state->buffer);
-		if (is_error(error))
-		{
-			return (errorf("failed to save command in history: %s", error.msg));
-		}
-	}
-	state->finished = true;
-	return (error_none());
-}
+struct s_history__line		*unpack_line(const t_list_conn *conn);
+
+struct						s_history
+{
+	int						fd;
+	t_list_meta				lines;
+	t_list_conn				*cursor;
+};
+
+t_error						history__read_all(char **out, int fd);
+
+#endif

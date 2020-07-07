@@ -10,22 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
+#include <stddef.h>
 
 #include "private.h"
 
-t_error		input__action_return(struct s_input__state *state)
+struct s_history__line		*unpack_line(const t_list_conn *conn)
 {
-	t_error		error;
-
-	if (state->history)
+	if (conn == NULL)
 	{
-		error = history_push(state->history, state->buffer);
-		if (is_error(error))
-		{
-			return (errorf("failed to save command in history: %s", error.msg));
-		}
+		return (NULL);
 	}
-	state->finished = true;
-	return (error_none());
+	else
+	{
+		return ((struct s_history__line *)
+			((char *)conn - offsetof(struct s_history__line, conn)));
+	}
 }

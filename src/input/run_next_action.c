@@ -39,6 +39,10 @@ static t_error					run_next_keypress(struct s_input__state *state,
 		return (input__action_left(state));
 	if (keypress.type == INPUT__READ_ARROW_RIGHT)
 		return (input__action_right(state));
+	if (keypress.type == INPUT__READ_ARROW_UP)
+		return (input__action_history_up(state));
+	if (keypress.type == INPUT__READ_ARROW_DOWN)
+		return (input__action_history_down(state));
 	if (keypress.type == INPUT__READ_BACKSPACE)
 		return (input__action_backspace(state));
 	if (keypress.type == INPUT__READ_RETURN)

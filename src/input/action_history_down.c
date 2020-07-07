@@ -10,22 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
-
 #include "private.h"
 
-t_error		input__action_return(struct s_input__state *state)
+t_error		input__action_history_down(struct s_input__state *state)
 {
-	t_error		error;
+	char *new_buffer;
 
-	if (state->history)
-	{
-		error = history_push(state->history, state->buffer);
-		if (is_error(error))
-		{
-			return (errorf("failed to save command in history: %s", error.msg));
-		}
-	}
-	state->finished = true;
+	if (!state->history)
+		return (error_none());
+	new_buffer = history_down(state->history);
+	if (new_buffer == NULL)
+		return (error_none());
+	ft_strreplace(&state->buffer, new_buffer);
+	state->cursor_position = ft_strlen(state->buffer);
 	return (error_none());
 }

@@ -14,22 +14,30 @@
 #include <ft_printf.h>
 #include <unistd.h>
 #include "../error/error.h"
+#include "../history/history.h"
 #include "../input/input.h"
 
 /*
 ** TODO: Consider using ft_getline if TERM is unknown.
 */
 
-void	tosh(void)
+void			tosh(void)
 {
-	char				*input;
 	t_error				error;
+	char				*input;
 	char				prompt[32];
+	t_history			*history;
 
+	error = history_create(&history);
+	if (is_error(error))
+	{
+		ft_dprintf(STDERR_FILENO,
+			"tosh: failed to enable history support: %s\n", error.msg);
+	}
 	ft_snprintf(prompt, sizeof(prompt), "%{green}TOSH $ %{reset}");
 	while (true)
 	{
-		error = input_read(&input,
+		error = input_read(&input, history,
 			(struct s_term_formatted_string){prompt, 7});
 		if (is_error(error))
 		{

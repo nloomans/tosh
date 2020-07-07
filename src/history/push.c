@@ -10,22 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <ft_printf.h>
 
 #include "private.h"
 
-t_error		input__action_return(struct s_input__state *state)
+t_error						history_push(struct s_history *history,
+								const char *new_buffer)
 {
-	t_error		error;
+	struct s_history__line	*line;
 
-	if (state->history)
+	line = ft_memalloc(sizeof(*line));
+	if (line == NULL)
+		return (errorf("out of memory"));
+	line->buffer = ft_strdup(new_buffer);
+	if (line->buffer == NULL)
 	{
-		error = history_push(state->history, state->buffer);
-		if (is_error(error))
-		{
-			return (errorf("failed to save command in history: %s", error.msg));
-		}
+		ft_memdel((void **)&line);
+		return (errorf("out of memory"));
 	}
-	state->finished = true;
+	ft_list_insert(&history->lines, history->lines.last, &line->conn);
+	history->cursor = NULL;
+	if (ft_dprintf(history->fd, "%s\n", new_buffer) == -1)
+		return (errorf("failed to write to history file"));
 	return (error_none());
 }

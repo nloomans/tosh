@@ -14,6 +14,7 @@
 # define INPUT_H
 
 # include "../error/error.h"
+# include "../history/history.h"
 # include "../term/term.h"
 
 /*
@@ -22,7 +23,9 @@
 **
 ** Text wrapping is handled automatically.
 */
-t_error		input_read(char **dest, struct s_term_formatted_string prompt);
+t_error		input_read(char **dest,
+				t_history *history,
+				struct s_term_formatted_string prompt);
 
 /*
 ** input_debug prints useful debug information about the current keys pressed.

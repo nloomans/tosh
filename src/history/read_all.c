@@ -10,22 +10,45 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
+#include <libft.h>
+#include <unistd.h>
 
 #include "private.h"
 
-t_error		input__action_return(struct s_input__state *state)
+static char		*strdup_size(const char *str, size_t len)
 {
-	t_error		error;
+	char	*dup;
 
-	if (state->history)
+	dup = ft_strnew(len);
+	if (dup == NULL)
+		return (NULL);
+	if (str)
+		ft_strlcpy(dup, str, len + 1);
+	return (dup);
+}
+
+t_error			history__read_all(char **out, int fd)
+{
+	int		ret;
+	size_t	offset;
+	size_t	size;
+
+	size = 32;
+	offset = 0;
+	while (true)
 	{
-		error = history_push(state->history, state->buffer);
-		if (is_error(error))
+		size *= 2;
+		ft_strreplace(out, strdup_size(*out, size));
+		if (*out == NULL)
+			return (errorf("out of memory"));
+		ret = read(fd, *out + offset, size / 2);
+		if (ret == -1)
 		{
-			return (errorf("failed to save command in history: %s", error.msg));
+			ft_strdel(out);
+			return (errorf("read syscall failed"));
 		}
+		if (ret == 0)
+			return (error_none());
+		offset += ret;
 	}
-	state->finished = true;
-	return (error_none());
 }

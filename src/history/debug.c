@@ -10,22 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <ft_printf.h>
 
 #include "private.h"
 
-t_error		input__action_return(struct s_input__state *state)
+static void		print_history(const t_list_meta *history)
+{
+	const struct s_history__line	*node;
+
+	node = unpack_line(history->first);
+	while (node != NULL)
+	{
+		ft_printf("buffer |%s|\n", node->buffer);
+		node = unpack_line(node->conn.next);
+	}
+}
+
+int				history_debug(void)
 {
 	t_error		error;
+	t_history	*history;
 
-	if (state->history)
-	{
-		error = history_push(state->history, state->buffer);
-		if (is_error(error))
-		{
-			return (errorf("failed to save command in history: %s", error.msg));
-		}
-	}
-	state->finished = true;
-	return (error_none());
+	error = history_create(&history);
+	if (is_error(error))
+		return (ft_eprintf(1, "tosh: %s\n", error.msg));
+	print_history(&history->lines);
+	history_destroy(&history);
+	return (0);
 }
