@@ -15,7 +15,7 @@
 
 #include "private.h"
 
-extern volatile sig_atomic_t	g_input__sigwinch;
+volatile sig_atomic_t	g_input__sigwinch;
 
 static void						handle_sigwinch(int signum)
 {
