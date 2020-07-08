@@ -19,7 +19,7 @@
 # include "input.h"
 # include "../term/term.h"
 
-volatile sig_atomic_t	g_input__sigwinch;
+extern volatile sig_atomic_t	g_input__sigwinch;
 
 enum					e_input__configure_action
 {
