@@ -19,6 +19,6 @@
 #  define VERSION "?.?.?"
 # endif
 
-void	tosh(void);
+void	tosh(char **envp);
 
 #endif

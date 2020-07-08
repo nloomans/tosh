@@ -13,28 +13,84 @@
 #include <stdlib.h>
 #include <ft_printf.h>
 #include <unistd.h>
-#include "../error/error.h"
+
+#include <assert.h>
+
+#include "../env/env.h"
 #include "../history/history.h"
 #include "../input/input.h"
+#include "../lexer/lexer.h"
+#include "../parser/parser.h"
+#include "../error/error.h"
 
 /*
-** TODO: Consider using ft_getline if TERM is unknown.
+** todo: replace (void)env; with the executor module
+**
+** assert is placeholder for actual code
 */
 
-void			tosh(void)
+static void		run_command(const char *const input, t_env *const env)
 {
-	t_error				error;
-	char				*input;
-	char				prompt[32];
-	t_history			*history;
+	t_list_meta					tokens;
+	struct s_complete_command	*complete_command;
+	bool						extra_input_requested;
+	t_error						err;
 
-	error = history_create(&history);
+	if (lexer_tokenize(&tokens, input) == -1)
+		ft_dprintf(STDERR_FILENO, "tosh: lexer could not allocate memory\n");
+	if (tokens.len != 0)
+	{
+		err = parser_parse(&complete_command, &extra_input_requested, &tokens);
+		lexer_clear(&tokens);
+		if (is_error(err))
+		{
+			ft_dprintf(STDERR_FILENO, "tosh: %s\n", err.msg);
+			return ;
+		}
+		if (extra_input_requested)
+		{
+			ft_dprintf(STDERR_FILENO, "extra input requested\n");
+			assert(true);
+		}
+		(void)env;
+		parser_del(&complete_command);
+	}
+}
+
+static void		initialize_tosh(t_env **const env,
+					t_history **const history,
+					char **const envp)
+{
+	t_error	error;
+
+	error = history_create(history);
 	if (is_error(error))
 	{
 		ft_dprintf(STDERR_FILENO,
 			"tosh: failed to enable history support: %s\n", error.msg);
 	}
+	*env = env_from_envp(envp);
+	if (*env == NULL)
+	{
+		ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to create enviroment\n");
+		exit(1);
+	}
+}
+
+/*
+** TODO: Consider using ft_getline if TERM is unknown.
+*/
+
+void			tosh(char **envp)
+{
+	t_env				*env;
+	t_error				error;
+	char				*input;
+	char				prompt[32];
+	t_history			*history;
+
 	ft_snprintf(prompt, sizeof(prompt), "%{green}TOSH $ %{reset}");
+	initialize_tosh(&env, &history, envp);
 	while (true)
 	{
 		error = input_read(&input, history,
@@ -45,6 +101,7 @@ void			tosh(void)
 				error.msg);
 			exit(1);
 		}
-		ft_printf("input_read: %s\n", input);
+		run_command(input, env);
+		ft_strdel(&input);
 	}
 }
