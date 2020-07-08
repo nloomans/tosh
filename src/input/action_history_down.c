@@ -10,41 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../input/input.h"
-#include "../history/history.h"
 #include "private.h"
 
-static int	debug(const char *module)
+t_error		input__action_history_down(struct s_input__state *state)
 {
-	if (ft_strcmp(module, "input") == 0)
-		return (input_debug());
-	else if (ft_strcmp(module, "history") == 0)
-		return (history_debug());
-	else
-		return (ft_eprintf(1, "no debug main for module '%s'", module));
-}
+	char *new_buffer;
 
-int			main(int argc, char **argv, char **envp)
-{
-	struct s_ft_getopt	opt;
-
-	opt = FT_GETOPT_DEFAULT;
-	while (ft_getopt(&opt, argc, argv, "vhd:"))
-	{
-		if (opt.opt == 'v')
-		{
-			ft_printf("tosh version " VERSION "\n");
-			return (0);
-		}
-		else if (opt.opt == 'd')
-			return (debug(opt.arg));
-		else if (opt.opt == 'h')
-			return (ft_eprintf(0, HELP_STR));
-	}
-	if (opt.illegal)
-		return (ft_eprintf(1, HELP_STR));
-	tosh(envp);
+	if (!state->history)
+		return (error_none());
+	new_buffer = history_down(state->history);
+	if (new_buffer == NULL)
+		return (error_none());
+	ft_strreplace(&state->buffer, new_buffer);
+	state->cursor_position = ft_strlen(state->buffer);
+	return (error_none());
 }

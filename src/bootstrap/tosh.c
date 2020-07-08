@@ -14,19 +14,23 @@
 #include <ft_printf.h>
 #include <unistd.h>
 
+#include <assert.h>
+
 #include "../env/env.h"
+#include "../exec/exec.h"
+#include "../history/history.h"
+#include "../input/input.h"
 #include "../lexer/lexer.h"
 #include "../parser/parser.h"
-#include "../exec/exec.h"
 #include "../error/error.h"
-#include "../term/term.h"
-#include "../input/input.h"
 
 /*
-** TODO: Consider using ft_getline if TERM is unknown.
+** todo: replace (void)env; with the executor module
+**
+** assert is placeholder for actual code
 */
 
-static void		run(const char *input, t_env *const env)
+static void		run_command(const char *const input, t_env *const env)
 {
 	t_list_meta					tokens;
 	struct s_complete_command	*complete_command;
@@ -34,9 +38,7 @@ static void		run(const char *input, t_env *const env)
 	t_error						err;
 
 	if (lexer_tokenize(&tokens, input) == -1)
-	{
 		ft_dprintf(STDERR_FILENO, "tosh: lexer could not allocate memory\n");
-	}
 	if (tokens.len != 0)
 	{
 		err = parser_parse(&complete_command, &extra_input_requested, &tokens);
@@ -49,40 +51,58 @@ static void		run(const char *input, t_env *const env)
 		if (extra_input_requested)
 		{
 			ft_dprintf(STDERR_FILENO, "extra input requested\n");
-			return ; //not sure how to hack this in
+			assert(true);
 		}
 		exec_run(complete_command, env);
 		parser_del(&complete_command);
 	}
 }
 
+static void		initialize_tosh(t_env **const env,
+					t_history **const history,
+					char **const envp)
+{
+	t_error	error;
+
+	error = history_create(history);
+	if (is_error(error))
+	{
+		ft_dprintf(STDERR_FILENO,
+			"tosh: failed to enable history support: %s\n", error.msg);
+	}
+	*env = env_from_envp(envp);
+	if (*env == NULL)
+	{
+		ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to create enviroment\n");
+		exit(1);
+	}
+}
+
+/*
+** TODO: Consider using ft_getline if TERM is unknown.
+*/
+
 void			tosh(char **envp)
 {
 	t_env				*env;
-	char				*input;
 	t_error				error;
+	char				*input;
 	char				prompt[32];
+	t_history			*history;
 
-	env = env_from_envp(envp); //error check
-	if (term_init(getenv("TERM")) == -1)
-	{
-		ft_dprintf(STDERR_FILENO, "tosh: fatal: unknown terminal\n");
-		// exit(1);
-	}
 	ft_snprintf(prompt, sizeof(prompt), "%{green}TOSH $ %{reset}");
+	initialize_tosh(&env, &history, envp);
 	while (true)
 	{
-		error = input_read(&input,
-			(struct s_input_formatted_string){prompt, 7});
+		error = input_read(&input, history,
+			(struct s_term_formatted_string){prompt, 7});
 		if (is_error(error))
 		{
 			ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to read input: %s\n",
 				error.msg);
 			exit(1);
 		}
-		ft_printf("input_read: %s\n", input);
-
-		run (input, env); //error check
+		run_command(input, env);
 		ft_strdel(&input);
 	}
 }

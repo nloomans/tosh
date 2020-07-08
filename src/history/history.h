@@ -10,41 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../input/input.h"
-#include "../history/history.h"
-#include "private.h"
+#ifndef HISTORY_H
+# define HISTORY_H
 
-static int	debug(const char *module)
-{
-	if (ft_strcmp(module, "input") == 0)
-		return (input_debug());
-	else if (ft_strcmp(module, "history") == 0)
-		return (history_debug());
-	else
-		return (ft_eprintf(1, "no debug main for module '%s'", module));
-}
+# include <libft.h>
+# include "../error/error.h"
 
-int			main(int argc, char **argv, char **envp)
-{
-	struct s_ft_getopt	opt;
+typedef struct s_history	t_history;
 
-	opt = FT_GETOPT_DEFAULT;
-	while (ft_getopt(&opt, argc, argv, "vhd:"))
-	{
-		if (opt.opt == 'v')
-		{
-			ft_printf("tosh version " VERSION "\n");
-			return (0);
-		}
-		else if (opt.opt == 'd')
-			return (debug(opt.arg));
-		else if (opt.opt == 'h')
-			return (ft_eprintf(0, HELP_STR));
-	}
-	if (opt.illegal)
-		return (ft_eprintf(1, HELP_STR));
-	tosh(envp);
-}
+t_error						history_create(t_history **history);
+t_error						history_create_at(t_history **history,
+								const char *history_file_path);
+void						history_destroy(t_history **history);
+
+int							history_debug(void);
+
+/*
+** history_up and history_down allow you to scroll through the history.
+** Returns the buffer of the new history item, empty string if we are at the
+** bottom, and NULL of the action was a no-op.
+**
+** Result must be freed.
+*/
+char						*history_up(t_history *history);
+char						*history_down(t_history *history);
+
+/*
+** history_push adds a new item to the bottom of the history. The cursor
+** position will be reset.
+*/
+t_error						history_push(t_history *history, const char *new);
+
+#endif

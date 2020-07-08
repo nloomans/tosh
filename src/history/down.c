@@ -10,41 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../input/input.h"
-#include "../history/history.h"
+#include <stddef.h>
+
 #include "private.h"
 
-static int	debug(const char *module)
+char	*history_down(struct s_history *history)
 {
-	if (ft_strcmp(module, "input") == 0)
-		return (input_debug());
-	else if (ft_strcmp(module, "history") == 0)
-		return (history_debug());
-	else
-		return (ft_eprintf(1, "no debug main for module '%s'", module));
-}
-
-int			main(int argc, char **argv, char **envp)
-{
-	struct s_ft_getopt	opt;
-
-	opt = FT_GETOPT_DEFAULT;
-	while (ft_getopt(&opt, argc, argv, "vhd:"))
-	{
-		if (opt.opt == 'v')
-		{
-			ft_printf("tosh version " VERSION "\n");
-			return (0);
-		}
-		else if (opt.opt == 'd')
-			return (debug(opt.arg));
-		else if (opt.opt == 'h')
-			return (ft_eprintf(0, HELP_STR));
-	}
-	if (opt.illegal)
-		return (ft_eprintf(1, HELP_STR));
-	tosh(envp);
+	if (history->cursor == NULL)
+		return (NULL);
+	history->cursor = history->cursor->next;
+	if (history->cursor == NULL)
+		return (ft_strdup(""));
+	return (ft_strdup(unpack_line(history->cursor)->buffer));
 }

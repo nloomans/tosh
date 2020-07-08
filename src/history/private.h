@@ -10,41 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../input/input.h"
-#include "../history/history.h"
-#include "private.h"
+#ifndef PRIVATE_H
+# define PRIVATE_H
 
-static int	debug(const char *module)
+# include "history.h"
+
+struct						s_history__line
 {
-	if (ft_strcmp(module, "input") == 0)
-		return (input_debug());
-	else if (ft_strcmp(module, "history") == 0)
-		return (history_debug());
-	else
-		return (ft_eprintf(1, "no debug main for module '%s'", module));
-}
+	char					*buffer;
+	t_list_conn				conn;
+};
 
-int			main(int argc, char **argv, char **envp)
+struct s_history__line		*unpack_line(const t_list_conn *conn);
+
+struct						s_history
 {
-	struct s_ft_getopt	opt;
+	int						fd;
+	t_list_meta				lines;
+	t_list_conn				*cursor;
+};
 
-	opt = FT_GETOPT_DEFAULT;
-	while (ft_getopt(&opt, argc, argv, "vhd:"))
-	{
-		if (opt.opt == 'v')
-		{
-			ft_printf("tosh version " VERSION "\n");
-			return (0);
-		}
-		else if (opt.opt == 'd')
-			return (debug(opt.arg));
-		else if (opt.opt == 'h')
-			return (ft_eprintf(0, HELP_STR));
-	}
-	if (opt.illegal)
-		return (ft_eprintf(1, HELP_STR));
-	tosh(envp);
-}
+t_error						history__read_all(char **out, int fd);
+
+#endif

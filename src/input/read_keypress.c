@@ -15,33 +15,57 @@
 
 #include "private.h"
 
-t_error					input__read_keypress(
+static int				read_char(char *c, t_read_func read_func)
+{
+	*c = '\0';
+	return (read_func(STDIN_FILENO, c, 1));
+}
+
+static int				read_escape(struct s_input__keypress *keypress,
+							t_read_func read_func)
+{
+	char c;
+
+	if (read_char(&c, read_func) == -1)
+		return (-1);
+	if (c == '[')
+	{
+		if (read_char(&c, read_func) == -1)
+			return (-1);
+		if (c == 'D')
+			keypress->type = INPUT__READ_ARROW_LEFT;
+		else if (c == 'C')
+			keypress->type = INPUT__READ_ARROW_RIGHT;
+		else if (c == 'A')
+			keypress->type = INPUT__READ_ARROW_UP;
+		else if (c == 'B')
+			keypress->type = INPUT__READ_ARROW_DOWN;
+	}
+	return (0);
+}
+
+int						input__read_keypress(
 							struct s_input__keypress *keypress,
 							t_read_func read_func)
 {
-	ssize_t				read_amount;
-	char				buffer[4 + 1];
+	char	c;
 
-	ft_memset(&buffer, '\0', sizeof(buffer));
-	read_amount = read_func(STDIN_FILENO, &buffer, sizeof(buffer) - 1);
-	if (read_amount == -1)
-		return (errorf("read syscall failed"));
-	if (read_amount == 0)
+	ft_memset(keypress, '\0', sizeof(*keypress));
+	if (read_char(&c, read_func) == -1)
+		return (-1);
+	if (c == '\x1b')
 	{
-		keypress->type = INPUT__READ_TYPE_NONE;
-		keypress->c = '\0';
+		if (read_escape(keypress, read_func) == -1)
+			return (-1);
 	}
-	else if (buffer[0] == '\x1b' && buffer[1] == '[')
+	else if (c == '\x7f')
+		keypress->type = INPUT__READ_BACKSPACE;
+	else if (c == '\n')
+		keypress->type = INPUT__READ_RETURN;
+	else if (ft_isprint(c))
 	{
-		keypress->type = buffer[3] == '~'
-			? INPUT__READ_TYPE_ESC_SQL
-			: INPUT__READ_TYPE_ESC;
-		keypress->c = buffer[2];
+		keypress->type = INPUT__READ_TEXT;
+		keypress->c = c;
 	}
-	else
-	{
-		keypress->type = INPUT__READ_TYPE_REG;
-		keypress->c = buffer[0];
-	}
-	return (error_none());
+	return (0);
 }

@@ -10,26 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include <unistd.h>
-#include <ft_printf.h>
 
 #include "private.h"
 
-void	term_cursor_move(enum e_term_move direction)
+void			history_destroy(t_history **history)
 {
-	if (direction == TERM_MOVE_UP)
-		term__send("up");
-	else if (direction == TERM_MOVE_DOWN)
-		term__send("do");
-	else if (direction == TERM_MOVE_LINE_START)
-		ft_dprintf(STDERR_FILENO, "\r");
-	else if (direction == TERM_MOVE_RIGHT)
-		term__send("nd");
-	else if (direction == TERM_MOVE_SAVE)
-		term__send("sc");
-	else if (direction == TERM_MOVE_RESTORE)
-		term__send("rc");
-	else
-		assert(!"invalid enum e_term_move value");
+	struct s_history__line	*line;
+
+	close((*history)->fd);
+	while ((*history)->lines.len > 0)
+	{
+		line = unpack_line((*history)->lines.first);
+		ft_list_unlink(&(*history)->lines, (*history)->lines.first);
+		ft_strdel(&line->buffer);
+		ft_memdel((void **)&line);
+	}
+	ft_memdel((void **)history);
 }

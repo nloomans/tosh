@@ -10,35 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
+#include <stddef.h>
 
 #include "private.h"
 
-/*
-** FIXME: Crashes when prompt is bigger then terminal.
-*/
-
-struct s_term_pos	input__wrap_cursor(
-						size_t terminal_width,
-						size_t prompt_width,
-						size_t cursor_pos)
+char	*history_up(struct s_history *history)
 {
-	size_t				i;
-	struct s_term_pos	pos;
-
-	assert(prompt_width <= terminal_width);
-	i = 0;
-	pos.row = 0;
-	pos.column = prompt_width;
-	while (i < cursor_pos)
+	if (history->cursor == NULL)
 	{
-		i++;
-		pos.column++;
-		if (pos.column == terminal_width)
-		{
-			pos.column = 0;
-			pos.row++;
-		}
+		if (history->lines.len == 0)
+			return (NULL);
+		history->cursor = history->lines.last;
 	}
-	return (pos);
+	else
+	{
+		if (history->cursor->prev == NULL)
+			return (NULL);
+		history->cursor = history->cursor->prev;
+	}
+	return (ft_strdup(unpack_line(history->cursor)->buffer));
 }

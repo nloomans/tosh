@@ -13,6 +13,8 @@
 #ifndef ENV_H
 # define ENV_H
 
+# include <stdint.h>
+
 typedef struct s_env	t_env;
 
 t_env					*env_from_envp(char **const envp);

@@ -11,40 +11,44 @@
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <ft_printf.h>
 #include <unistd.h>
-#include "../input/input.h"
-#include "../history/history.h"
+
 #include "private.h"
 
-static int	debug(const char *module)
+static char		*strdup_size(const char *str, size_t len)
 {
-	if (ft_strcmp(module, "input") == 0)
-		return (input_debug());
-	else if (ft_strcmp(module, "history") == 0)
-		return (history_debug());
-	else
-		return (ft_eprintf(1, "no debug main for module '%s'", module));
+	char	*dup;
+
+	dup = ft_strnew(len);
+	if (dup == NULL)
+		return (NULL);
+	if (str)
+		ft_strlcpy(dup, str, len + 1);
+	return (dup);
 }
 
-int			main(int argc, char **argv, char **envp)
+t_error			history__read_all(char **out, int fd)
 {
-	struct s_ft_getopt	opt;
+	int		ret;
+	size_t	offset;
+	size_t	size;
 
-	opt = FT_GETOPT_DEFAULT;
-	while (ft_getopt(&opt, argc, argv, "vhd:"))
+	size = 32;
+	offset = 0;
+	while (true)
 	{
-		if (opt.opt == 'v')
+		size *= 2;
+		ft_strreplace(out, strdup_size(*out, size));
+		if (*out == NULL)
+			return (errorf("out of memory"));
+		ret = read(fd, *out + offset, size / 2);
+		if (ret == -1)
 		{
-			ft_printf("tosh version " VERSION "\n");
-			return (0);
+			ft_strdel(out);
+			return (errorf("read syscall failed"));
 		}
-		else if (opt.opt == 'd')
-			return (debug(opt.arg));
-		else if (opt.opt == 'h')
-			return (ft_eprintf(0, HELP_STR));
+		if (ret == 0)
+			return (error_none());
+		offset += ret;
 	}
-	if (opt.illegal)
-		return (ft_eprintf(1, HELP_STR));
-	tosh(envp);
 }

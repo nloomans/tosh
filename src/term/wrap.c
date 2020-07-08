@@ -10,25 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <criterion/criterion.h>
-#include <libft.h>
-
 #include "private.h"
 
-Test(input__wrap_cursor, single_line) {
-	struct s_term_pos pos = input__wrap_cursor(80, 20, 40);
-	cr_expect_eq(pos.row, 0);
-	cr_expect_eq(pos.column, 60);
-}
+struct s_term_pos		term_wrap(size_t terminal_width,
+							struct s_term_pos start, size_t width)
+{
+	size_t				i;
+	struct s_term_pos	pos;
 
-Test(input__wrap_cursor, multi_line) {
-	struct s_term_pos pos = input__wrap_cursor(80, 20, 70);
-	cr_expect_eq(pos.row, 1);
-	cr_expect_eq(pos.column, 10);
-}
-
-Test(input__wrap_cursor, edge) {
-	struct s_term_pos pos = input__wrap_cursor(80, 20, 60);
-	cr_expect_eq(pos.row, 1);
-	cr_expect_eq(pos.column, 0);
+	i = 0;
+	pos = start;
+	while (i < width)
+	{
+		i++;
+		pos.column++;
+		if (pos.column == terminal_width)
+		{
+			pos.column = 0;
+			pos.row++;
+		}
+	}
+	if (pos.column == 0 && i > 0)
+	{
+		pos.row--;
+		pos.column = terminal_width;
+	}
+	return (pos);
 }

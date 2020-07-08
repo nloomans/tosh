@@ -10,41 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <ft_printf.h>
-#include <unistd.h>
-#include "../input/input.h"
-#include "../history/history.h"
+#include <stddef.h>
+
 #include "private.h"
 
-static int	debug(const char *module)
+struct s_history__line		*unpack_line(const t_list_conn *conn)
 {
-	if (ft_strcmp(module, "input") == 0)
-		return (input_debug());
-	else if (ft_strcmp(module, "history") == 0)
-		return (history_debug());
-	else
-		return (ft_eprintf(1, "no debug main for module '%s'", module));
-}
-
-int			main(int argc, char **argv, char **envp)
-{
-	struct s_ft_getopt	opt;
-
-	opt = FT_GETOPT_DEFAULT;
-	while (ft_getopt(&opt, argc, argv, "vhd:"))
+	if (conn == NULL)
 	{
-		if (opt.opt == 'v')
-		{
-			ft_printf("tosh version " VERSION "\n");
-			return (0);
-		}
-		else if (opt.opt == 'd')
-			return (debug(opt.arg));
-		else if (opt.opt == 'h')
-			return (ft_eprintf(0, HELP_STR));
+		return (NULL);
 	}
-	if (opt.illegal)
-		return (ft_eprintf(1, HELP_STR));
-	tosh(envp);
+	else
+	{
+		return ((struct s_history__line *)
+			((char *)conn - offsetof(struct s_history__line, conn)));
+	}
 }

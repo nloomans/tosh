@@ -16,9 +16,10 @@ do
 	esac
 done
 
+FILES=$(find src -name '*.c')
 missing=
 invalid=
-for file in src/**/**/*.c src/**/**/*.h; do
+for file in $FILES; do
 	if ! diff <(head -n1 "$file") <(head -n1 .header) >/dev/null; then
 		if [ -n "$dryrun" ]; then
 			echo "missing header: $file"

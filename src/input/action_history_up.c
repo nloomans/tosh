@@ -10,11 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <term.h>
+#include "private.h"
 
-#include "term.h"
-
-int		term_init(const char *term_env)
+t_error		input__action_history_up(struct s_input__state *state)
 {
-	return (tgetent(NULL, term_env) == 1 ? 0 : -1);
+	char *new_buffer;
+
+	if (!state->history)
+		return (error_none());
+	new_buffer = history_up(state->history);
+	if (new_buffer == NULL)
+		return (error_none());
+	ft_strreplace(&state->buffer, new_buffer);
+	state->cursor_position = ft_strlen(state->buffer);
+	return (error_none());
 }

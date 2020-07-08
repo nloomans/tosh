@@ -11,10 +11,11 @@
 /* ************************************************************************** */
 
 #include <assert.h>
+#include <stdlib.h>
 
 #include "private.h"
 
-extern volatile sig_atomic_t	g_input__sigwinch;
+volatile sig_atomic_t	g_input__sigwinch;
 
 static void						handle_sigwinch(int signum)
 {
@@ -35,6 +36,7 @@ static void						handle_sigwinch(int signum)
 */
 
 t_error							input__configure(
+									t_term **term,
 									enum e_input__configure_action action)
 {
 	t_error			error;
@@ -42,17 +44,16 @@ t_error							input__configure(
 
 	if (action == INPUT__CONFIGURE_SETUP)
 	{
-		error = term_configure(TERM_CONFIGURE_SETUP);
+		error = term_setup(term, getenv("TERM"));
 		if (is_error(error))
 			return (errorf("failed to setup terminal: %s", error.msg));
 		g_input__sigwinch = 0;
 		prev_handler_sigwinch = signal(SIGWINCH, handle_sigwinch);
 		assert(prev_handler_sigwinch != SIG_ERR);
-		term_cursor_move(TERM_MOVE_SAVE);
 	}
 	else
 	{
-		error = term_configure(TERM_CONFIGURE_RESTORE);
+		error = term_restore(term);
 		if (is_error(error))
 			return (errorf("failed to restore terminal: %s", error.msg));
 		assert(signal(SIGWINCH, prev_handler_sigwinch) != SIG_ERR);

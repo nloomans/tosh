@@ -10,51 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include <libft.h>
 #include <ft_printf.h>
 
 #include "private.h"
 
-static t_error	print_input(void)
+t_error						history_push(struct s_history *history,
+								const char *new_buffer)
 {
-	char				buffer[4 + 1];
-	ssize_t				read_amount;
+	struct s_history__line	*line;
 
-	while (true)
+	line = ft_memalloc(sizeof(*line));
+	if (line == NULL)
+		return (errorf("out of memory"));
+	line->buffer = ft_strdup(new_buffer);
+	if (line->buffer == NULL)
 	{
-		ft_memset(&buffer, '\0', sizeof(buffer));
-		read_amount = read(STDIN_FILENO, &buffer, sizeof(buffer) - 1);
-		if (read_amount == -1)
-			return (errorf("read syscall failed"));
-		if (read_amount == 0)
-			continue ;
-		if (read_amount == 1 && buffer[0] == 'q')
-			break ;
-		ft_printf("%m", buffer, read_amount);
+		ft_memdel((void **)&line);
+		return (errorf("out of memory"));
 	}
+	ft_list_insert(&history->lines, history->lines.last, &line->conn);
+	history->cursor = NULL;
+	if (ft_dprintf(history->fd, "%s\n", new_buffer) == -1)
+		return (errorf("failed to write to history file"));
 	return (error_none());
-}
-
-int				input_debug(void)
-{
-	t_error				error;
-	t_term				*term;
-
-	error = input__configure(&term, INPUT__CONFIGURE_SETUP);
-	if (is_error(error))
-	{
-		return (ft_eprintf(1, "tosh: failed to configure terminal for "
-			"interactive input: %s\n", error.msg));
-	}
-	error = print_input();
-	if (is_error(error))
-		return (ft_eprintf(1, "tosh: %s\n", error.msg));
-	error = input__configure(&term, INPUT__CONFIGURE_RESTORE);
-	if (is_error(error))
-	{
-		return (ft_eprintf(1, "tosh: failed to restore terminal to previous "
-			"state: %s\n", error.msg));
-	}
-	return (0);
 }
