@@ -76,24 +76,33 @@ enum					e_input__read_type
 	INPUT__READ_ARROW_RIGHT,
 	INPUT__READ_ARROW_UP,
 	INPUT__READ_ARROW_DOWN,
-	INPUT__READ_CONTROL_ARROW_LEFT,
-	INPUT__READ_CONTROL_ARROW_RIGHT,
+	INPUT__READ_HOME,
+	INPUT__READ_END,
 	INPUT__READ_CONTROL_A,
 	INPUT__READ_CONTROL_E,
 	INPUT__READ_BACKSPACE,
 	INPUT__READ_RETURN,
-	INPUT__READ_HOME,
-	INPUT__READ_END,
+};
+
+enum					e_input__modifier
+{
+	INPUT__MODIFIER_CONTROL = 1 << 0,
+	INPUT__MODIFIER_SHIFT = 1 << 1,
 };
 
 /*
 ** s_input__keypress contains the processed input read by input__read_keypress.
 **
 ** if .type == INPUT__READ_TEXT then .c contains the the char read.
+**
+** .modifier contains a bitmap of the modifiers pressed in combination with a
+** "cursor key". These keys are INPUT__READ_ARROW_*, INPUT__READ_HOME, and
+** INPUT__READ_END.
 */
 struct					s_input__keypress
 {
 	enum e_input__read_type	type;
+	enum e_input__modifier	modifier;
 	char					c;
 };
 

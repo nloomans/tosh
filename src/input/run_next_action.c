@@ -32,9 +32,22 @@ static t_error					run_next_signal(t_term *term, int signum)
 	assert(!"unknown signum");
 }
 
+static t_error					run_next_control_keypress(
+									struct s_input__state *state,
+									enum e_input__read_type keypress_type)
+{
+	if (keypress_type == INPUT__READ_ARROW_LEFT)
+		return (input__action_word_left(state));
+	else if (keypress_type == INPUT__READ_ARROW_RIGHT)
+		return (input__action_word_right(state));
+	return (error_none());
+}
+
 static t_error					run_next_keypress(struct s_input__state *state,
 									struct s_input__keypress keypress)
 {
+	if (keypress.modifier == INPUT__MODIFIER_CONTROL)
+		return (run_next_control_keypress(state, keypress.type));
 	if (keypress.type == INPUT__READ_ARROW_LEFT)
 		return (input__action_left(state));
 	if (keypress.type == INPUT__READ_ARROW_RIGHT)
@@ -43,10 +56,6 @@ static t_error					run_next_keypress(struct s_input__state *state,
 		return (input__action_history_up(state));
 	if (keypress.type == INPUT__READ_ARROW_DOWN)
 		return (input__action_history_down(state));
-	if (keypress.type == INPUT__READ_CONTROL_ARROW_LEFT)
-		return (input__action_word_left(state));
-	if (keypress.type == INPUT__READ_CONTROL_ARROW_RIGHT)
-		return (input__action_word_right(state));
 	if (keypress.type == INPUT__READ_CONTROL_A
 			|| keypress.type == INPUT__READ_HOME)
 		return (input__action_max_left(state));
@@ -59,7 +68,7 @@ static t_error					run_next_keypress(struct s_input__state *state,
 		return (input__action_return(state));
 	if (keypress.type == INPUT__READ_TEXT)
 		return (input__action_insert(state, keypress.c));
-	assert(!"unhandled keypress type");
+	return (error_none());
 }
 
 t_error							input__run_next_action(
