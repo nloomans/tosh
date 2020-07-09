@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include "private.h"
 
 t_error		input__action_word_right(struct s_input__state *state)
@@ -18,18 +17,15 @@ t_error		input__action_word_right(struct s_input__state *state)
 	size_t	buffer_len;
 
 	buffer_len = ft_strlen(state->buffer);
-	if (state->cursor_position + 1 >= buffer_len)
-		return (error_none());
 	while (state->cursor_position < buffer_len &&
 		ft_isspace(state->buffer[state->cursor_position]))
 	{
 		state->cursor_position++;
 	}
-	while (state->cursor_position + 1 < buffer_len &&
-		!ft_isspace(state->buffer[state->cursor_position + 1]))
+	while (state->cursor_position < buffer_len &&
+		!ft_isspace(state->buffer[state->cursor_position]))
 	{
 		state->cursor_position++;
 	}
-	state->cursor_position++;
 	return (error_none());
 }

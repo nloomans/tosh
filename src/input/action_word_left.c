@@ -14,8 +14,6 @@
 
 t_error		input__action_word_left(struct s_input__state *state)
 {
-	if (state->cursor_position == 0)
-		return (error_none());
 	while (state->cursor_position > 0 &&
 		ft_isspace(state->buffer[state->cursor_position - 1]))
 	{
