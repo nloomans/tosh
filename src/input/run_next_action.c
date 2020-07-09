@@ -46,7 +46,7 @@ static t_error					run_next_control_keypress(
 static t_error					run_next_keypress(struct s_input__state *state,
 									struct s_input__keypress keypress)
 {
-	if (keypress.modifier == INPUT__MODIFIER_CONTROL)
+	if (keypress.modifier & INPUT__MODIFIER_CONTROL)
 		return (run_next_control_keypress(state, keypress.type));
 	if (keypress.type == INPUT__READ_ARROW_LEFT)
 		return (input__action_left(state));
@@ -90,6 +90,10 @@ t_error							input__run_next_action(
 		return (errorf("failed to read keypress"));
 	if (keypress.type != INPUT__READ_NONE)
 	{
+		if (keypress.modifier & INPUT__MODIFIER_SHIFT)
+			input__action_select_start(state);
+		else
+			input__action_select_cancel(state);
 		return (run_next_keypress(state, keypress));
 	}
 	*did_invalidate = false;

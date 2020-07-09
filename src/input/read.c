@@ -30,6 +30,7 @@ static t_error	event_loop(char **dest, t_term *term, t_history *history,
 	state.buffer = ft_strnew(0);
 	if (state.buffer == NULL)
 		return (errorf("out of memory"));
+	state.select_start = -1;
 	state.history = history;
 	input__draw(state, term, prompt);
 	while (!state.finished)

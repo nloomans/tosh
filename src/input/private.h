@@ -35,14 +35,17 @@ t_error					input__configure(t_term **term,
 **                  wrapping.
 ** cursor_position  the position of the cursor relative to the buffer. Does not
 **                  contain line wrapping.
+** select_start     the start of the selection for cut/copy/paste. Offset in
+**                  buffer if something is selected. -1 if nothing is selected.
 ** finished         set to true when the user finished by pressing return.
 */
 struct					s_input__state
 {
 	char		*buffer;
 	size_t		cursor_position;
-	bool		finished;
+	ssize_t		select_start;
 	t_history	*history;
+	bool		finished;
 };
 
 void					input__draw(struct s_input__state state,
@@ -161,6 +164,19 @@ t_error					input__action_backspace(struct s_input__state *state);
 ** the input.
 */
 t_error					input__action_return(struct s_input__state *state);
+
+/*
+** input__select_start marks the start of a new cut/copy selection at the
+** current cursor position if non has already been started.
+*/
+void					input__action_select_start(
+							struct s_input__state *state);
+
+/*
+** input__select_cancel removes the current cut/copy selection, if any.
+*/
+void					input__action_select_cancel(
+							struct s_input__state *state);
 
 t_error					input__run_next_action(
 							struct s_input__state *state,
