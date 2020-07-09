@@ -11,15 +11,16 @@
 /* ************************************************************************** */
 
 #include "private.h"
+#include "builtin/builtin.h"
 
 static const struct s_builtin_tbl g_table[] = {
 	{
 		.name = "cd",
-		.ptr = NULL,
+		.ptr = &builtin_cd,
 	},
 	{
 		.name = "setenv",
-		.ptr = NULL,
+		.ptr = &builtin_setenv,
 	},
 	{
 		.name = "unsetenv",
@@ -31,11 +32,11 @@ static const struct s_builtin_tbl g_table[] = {
 	},
 	{
 		.name = "echo",
-		.ptr = NULL,
+		.ptr = &builtin_echo,
 	},
 	{
 		.name = "exit",
-		.ptr = NULL,
+		.ptr = &builtin_exit,
 	},
 };
 

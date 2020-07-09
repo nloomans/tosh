@@ -20,16 +20,16 @@ enum	e_pipe_ends{
 	write_to = 1,
 };
 
-typedef uint8_t	(t_builtin)(int, char **, t_env *const);
+typedef uint8_t			(t_builtin)(int, char **, t_env *const);
 
 struct	s_builtin_tbl{
-	const char	*name;
-	t_builtin	*ptr;
+	const char			*name;
+	t_builtin			*ptr;
 };
 
 struct	s_exec_state{
-	bool		must_halt;
-	t_list_meta	pid_list;
+	bool				must_halt;
+	t_list_meta			pid_list;
 };//this struct should possibly be deleted
 
 struct	s_child{

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <limits.h>
+
 #include <unistd.h>
 
 #include <libft.h>
@@ -20,6 +21,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
 static t_error		find_command_path(char path[PATH_MAX],
 						const t_env *const env,
 						char const *const name)

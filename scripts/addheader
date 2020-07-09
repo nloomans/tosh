@@ -16,7 +16,7 @@ do
 	esac
 done
 
-FILES=$(find src -name '*.c')
+FILES=$(find src -name '*.c' -o -name '*.h')
 missing=
 invalid=
 for file in $FILES; do

@@ -18,6 +18,10 @@ src_files += files(
 	'redirect/open_file.c',
 	'redirect/trackers.c',
 	'redirect/unpack_tracker.c',
+	'builtin/cd.c',
+	'builtin/exit.c',
+	'builtin/setenv.c',
+	'builtin/echo.c',
+	'builtin/unsetenv.c',
 )
-
 test_files += files()

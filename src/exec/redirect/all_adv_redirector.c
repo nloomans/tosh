@@ -45,7 +45,9 @@ t_error		redirect_in_and(t_list_meta *const tracker_lst,
 	}
 	redir_fd = parse_num(cur_redir->filename);
 	if (redir_fd == -1)
-		return (redirect_in(tracker_lst, first_fd, cur_redir));
+	{
+		return (errorf("ambigious redirect: %s", cur_redir->filename));
+	}
 	if (exec__is_protected_fd(redir_fd) == true)
 	{
 		return (errorf("%d is a protected fd", redir_fd));
@@ -74,7 +76,7 @@ t_error		redirect_out_and(t_list_meta *const tracker_lst,
 	redir_fd = parse_num(cur_redir->filename);
 	if (redir_fd == -1)
 	{
-		return (redirect_in(tracker_lst, first_fd, cur_redir));
+		return (errorf("ambigious redirect: %s", cur_redir->filename));
 	}
 	if (exec__is_protected_fd(redir_fd) == true)
 	{
