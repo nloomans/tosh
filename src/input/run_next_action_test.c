@@ -47,7 +47,7 @@ Test(input__run_next_action, keypress) {
 size_t index_build_message = 0;
 
 char keypresses_build_message[] =
-	"Hello orld!\x1b[D\x1b[D\x1b[D\x1b[D\x1b[D\x1b[D,\x1b[CW";
+	"Hello orld!\x1b[D\x1b[D\x1b[D\x1b[D\x1b[D\x1b[D,\x1b[CW\x1b[1;5C est\x1b[1;5DT";
 
 ssize_t fake_read_build_message(int fd, void *buf, size_t count) {
 	cr_expect_eq(fd, STDIN_FILENO);
@@ -71,8 +71,8 @@ Test(input__run_next_action, build_message) {
 		cr_expect_not(is_error(error));
 	}
 
-	cr_expect_str_eq(state.buffer, "Hello, World!");
-	cr_expect_eq(state.cursor_position, 8);
+	cr_expect_str_eq(state.buffer, "Hello, World! Test");
+	cr_expect_eq(state.cursor_position, 15);
 
 	free(state.buffer);
 }

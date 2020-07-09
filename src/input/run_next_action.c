@@ -43,6 +43,16 @@ static t_error					run_next_keypress(struct s_input__state *state,
 		return (input__action_history_up(state));
 	if (keypress.type == INPUT__READ_ARROW_DOWN)
 		return (input__action_history_down(state));
+	if (keypress.type == INPUT__READ_CONTROL_ARROW_LEFT)
+		return (input__action_word_left(state));
+	if (keypress.type == INPUT__READ_CONTROL_ARROW_RIGHT)
+		return (input__action_word_right(state));
+	if (keypress.type == INPUT__READ_CONTROL_A
+			|| keypress.type == INPUT__READ_HOME)
+		return (input__action_max_left(state));
+	if (keypress.type == INPUT__READ_CONTROL_E
+			|| keypress.type == INPUT__READ_END)
+		return (input__action_max_right(state));
 	if (keypress.type == INPUT__READ_BACKSPACE)
 		return (input__action_backspace(state));
 	if (keypress.type == INPUT__READ_RETURN)

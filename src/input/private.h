@@ -76,8 +76,14 @@ enum					e_input__read_type
 	INPUT__READ_ARROW_RIGHT,
 	INPUT__READ_ARROW_UP,
 	INPUT__READ_ARROW_DOWN,
+	INPUT__READ_CONTROL_ARROW_LEFT,
+	INPUT__READ_CONTROL_ARROW_RIGHT,
+	INPUT__READ_CONTROL_A,
+	INPUT__READ_CONTROL_E,
 	INPUT__READ_BACKSPACE,
 	INPUT__READ_RETURN,
+	INPUT__READ_HOME,
+	INPUT__READ_END,
 };
 
 /*
@@ -113,6 +119,19 @@ t_error					input__action_resize(t_term *term);
 */
 t_error					input__action_left(struct s_input__state *state);
 t_error					input__action_right(struct s_input__state *state);
+
+/*
+** input__action_word_{left,right} move the cursor word by word.
+*/
+t_error					input__action_word_left(struct s_input__state *state);
+t_error					input__action_word_right(struct s_input__state *state);
+
+/*
+** input__action_max_{left,right} move the cursor to the start and end of the
+** buffer.
+*/
+t_error					input__action_max_left(struct s_input__state *state);
+t_error					input__action_max_right(struct s_input__state *state);
 
 /*
 ** input__action_history_{up,down} moves through the history.
