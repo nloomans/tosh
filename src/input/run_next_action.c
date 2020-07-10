@@ -32,42 +32,42 @@ static t_error					run_next_signal(t_term *term, int signum)
 	assert(!"unknown signum");
 }
 
-static t_error					run_next_control_keypress(
-									struct s_input__state *state,
-									enum e_input__read_type keypress_type)
-{
-	if (keypress_type == INPUT__READ_ARROW_LEFT)
-		return (input__action_word_left(state));
-	else if (keypress_type == INPUT__READ_ARROW_RIGHT)
-		return (input__action_word_right(state));
-	return (error_none());
-}
+t_normal_action *g_action_type_table[] = {
+	[INPUT__READ_ARROW_LEFT] = input__action_left,
+	[INPUT__READ_ARROW_RIGHT] = input__action_right,
+	[INPUT__READ_ARROW_UP] = input__action_history_up,
+	[INPUT__READ_ARROW_DOWN] = input__action_history_down,
+	[INPUT__READ_HOME] = input__action_max_left,
+	[INPUT__READ_END] = input__action_max_right,
+	[INPUT__READ_BACKSPACE] = input__action_backspace,
+	[INPUT__READ_RETURN] = input__action_return,
+};
+
+t_normal_action *g_action_control_table[] = {
+	['A'] = input__action_max_left,
+	['E'] = input__action_max_right,
+	['X'] = input__action_cut,
+	['C'] = input__action_copy,
+	['V'] = input__action_paste,
+};
 
 static t_error					run_next_keypress(struct s_input__state *state,
 									struct s_input__keypress keypress)
 {
 	if (keypress.modifier & INPUT__MODIFIER_CONTROL)
-		return (run_next_control_keypress(state, keypress.type));
-	if (keypress.type == INPUT__READ_ARROW_LEFT)
-		return (input__action_left(state));
-	if (keypress.type == INPUT__READ_ARROW_RIGHT)
-		return (input__action_right(state));
-	if (keypress.type == INPUT__READ_ARROW_UP)
-		return (input__action_history_up(state));
-	if (keypress.type == INPUT__READ_ARROW_DOWN)
-		return (input__action_history_down(state));
-	if (keypress.type == INPUT__READ_CONTROL_A
-			|| keypress.type == INPUT__READ_HOME)
-		return (input__action_max_left(state));
-	if (keypress.type == INPUT__READ_CONTROL_E
-			|| keypress.type == INPUT__READ_END)
-		return (input__action_max_right(state));
-	if (keypress.type == INPUT__READ_BACKSPACE)
-		return (input__action_backspace(state));
-	if (keypress.type == INPUT__READ_RETURN)
-		return (input__action_return(state));
+	{
+		if (keypress.type == INPUT__READ_ARROW_LEFT)
+			return (input__action_word_left(state));
+		if (keypress.type == INPUT__READ_ARROW_RIGHT)
+			return (input__action_word_right(state));
+		if (keypress.type == INPUT__READ_TEXT
+				&& g_action_control_table[(int)keypress.c] != NULL)
+			return (g_action_control_table[(int)keypress.c](state));
+	}
 	if (keypress.type == INPUT__READ_TEXT)
 		return (input__action_insert(state, keypress.c));
+	if (g_action_type_table[keypress.type] != NULL)
+		return (g_action_type_table[keypress.type](state));
 	return (error_none());
 }
 
@@ -77,6 +77,7 @@ t_error							input__run_next_action(
 									bool *did_invalidate,
 									t_read_func read_func)
 {
+	t_error						error;
 	int							signum;
 	struct s_input__keypress	keypress;
 
@@ -92,9 +93,10 @@ t_error							input__run_next_action(
 	{
 		if (keypress.modifier & INPUT__MODIFIER_SHIFT)
 			input__action_select_start(state);
-		else
+		error = run_next_keypress(state, keypress);
+		if (!(keypress.modifier & INPUT__MODIFIER_SHIFT))
 			input__action_select_cancel(state);
-		return (run_next_keypress(state, keypress));
+		return (error);
 	}
 	*did_invalidate = false;
 	return (error_none());

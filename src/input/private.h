@@ -37,6 +37,7 @@ t_error					input__configure(t_term **term,
 **                  contain line wrapping.
 ** select_start     the start of the selection for cut/copy/paste. Offset in
 **                  buffer if something is selected. -1 if nothing is selected.
+** copied_buffer    the text to be pasted if the user wishes so.
 ** finished         set to true when the user finished by pressing return.
 */
 struct					s_input__state
@@ -44,6 +45,7 @@ struct					s_input__state
 	char		*buffer;
 	size_t		cursor_position;
 	ssize_t		select_start;
+	char		*copied_buffer;
 	t_history	*history;
 	bool		finished;
 };
@@ -81,8 +83,6 @@ enum					e_input__read_type
 	INPUT__READ_ARROW_DOWN,
 	INPUT__READ_HOME,
 	INPUT__READ_END,
-	INPUT__READ_CONTROL_A,
-	INPUT__READ_CONTROL_E,
 	INPUT__READ_BACKSPACE,
 	INPUT__READ_RETURN,
 };
@@ -145,6 +145,10 @@ t_error					input__action_word_right(struct s_input__state *state);
 t_error					input__action_max_left(struct s_input__state *state);
 t_error					input__action_max_right(struct s_input__state *state);
 
+t_error					input__action_cut(struct s_input__state *state);
+t_error					input__action_copy(struct s_input__state *state);
+t_error					input__action_paste(struct s_input__state *state);
+
 /*
 ** input__action_history_{up,down} moves through the history.
 */
@@ -164,6 +168,8 @@ t_error					input__action_backspace(struct s_input__state *state);
 ** the input.
 */
 t_error					input__action_return(struct s_input__state *state);
+
+typedef	t_error			t_normal_action(struct s_input__state *state);
 
 /*
 ** input__select_start marks the start of a new cut/copy selection at the

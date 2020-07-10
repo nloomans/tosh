@@ -82,8 +82,7 @@ static int						read_escape(struct s_input__keypress *keypress,
 			return (-1);
 		if (c == '1')
 			return (read_modifier(keypress, read_func));
-		else
-			keypress->type = cursor_key(c);
+		keypress->type = cursor_key(c);
 	}
 	return (0);
 }
@@ -98,18 +97,17 @@ int								input__read_keypress(
 	if (read_char(&c, read_func) == -1)
 		return (-1);
 	if (c == '\x1b')
-	{
-		if (read_escape(keypress, read_func) == -1)
-			return (-1);
-	}
-	else if (c == '\x7f')
+		return (read_escape(keypress, read_func));
+	if (c == '\x7f')
 		keypress->type = INPUT__READ_BACKSPACE;
 	else if (c == '\n')
 		keypress->type = INPUT__READ_RETURN;
-	else if (c == 1 + 'A' - 'A')
-		keypress->type = INPUT__READ_CONTROL_A;
-	else if (c == 1 + 'E' - 'A')
-		keypress->type = INPUT__READ_CONTROL_E;
+	else if (c >= 1 && c <= 1 + 'Z' - 'A')
+	{
+		keypress->modifier = INPUT__MODIFIER_CONTROL;
+		keypress->type = INPUT__READ_TEXT;
+		keypress->c = c + 'A' - 1;
+	}
 	else if (ft_isprint(c))
 	{
 		keypress->type = INPUT__READ_TEXT;
