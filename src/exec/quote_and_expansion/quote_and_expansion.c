@@ -10,46 +10,55 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
-#include <ft_printf.h>
+#include "quote_and_expansion.h"
 
-#include "private.h"
-#include "quote_and_expansion/quote_and_expansion.h"
+static t_error		rev_iter_prefix(struct s_cmd_prefix *prefix,
+						t_env *const env)
+{
+	t_error		err;
 
-volatile sig_atomic_t	g_terminate_sig;
+	if (prefix == NULL)
+	{
+		return (error_none());
+	}
+	err = rev_iter_prefix(prefix->prefix, env);
+	if (is_error(err))
+	{
+		return (err);
+	}
+	return (iter_redirection(prefix->redirect, env));
+}
 
-void		exec_run(
-				const struct s_complete_command *const complete_command,
+t_error		quote_and_expansion(struct s_pipe_sequence *ast_section,
 				t_env *const env)
 {
-	struct s_exec_state		status;
-	t_error					err;
-	struct s_list			*list;
+	t_error				err;
+	struct s_cmd_suffix	*suffix;
 
-	g_terminate_sig = 0; //remove later
-	list = complete_command->list;
-	ft_bzero(&status, sizeof(status));
-	while (list && status.must_halt == 0)
+	while (ast_section)
 	{
-		assert(list->pipe_sequence != NULL); //parser error?
-		err = quote_and_expansion(complete_command, env);
+		err = replacer_fsm(&ast_section->simple_command->name, env);
 		if (is_error(err))
 		{
-			ft_dprintf(2, "Tosh: %s\n", err.msg);
+			return (err);
 		}
-		if (list->pipe_sequence->pipe_sequence)
+		suffix =  ast_section->simple_command->suffix;
+		while (suffix)
 		{
-			err = exec__sequence(&status, list->pipe_sequence, env);
+			if (suffix->word)
+			{
+				err = replacer_fsm(&suffix->word, env);
+			}
+			else
+			{
+				err =  iter_redirection(suffix->redirect, env);
+			}
+			if (is_error(err))
+			{
+				return (err);
+			}
+			suffix =  suffix->suffix;
 		}
-		else
-		{
-			err = exec__single(&status, list->pipe_sequence->simple_command, env);
-		}
-		if (is_error(err))
-		{
-			ft_dprintf(2, "Tosh: %s\n", err.msg);
-		}
-		list = list->list;
+		ast_section = ast_section->pipe_sequence;
 	}
-	g_terminate_sig = 0; //nonsense if handling background proccesses(?)
 }

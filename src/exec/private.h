@@ -113,6 +113,7 @@ t_error					redirect_out_and(t_list_meta *const tracker_lst,
 							const int first_fd,
 							const struct s_io_file *const cur_redir);
 
+
 /*
 **		////set_arg.h////
 */
@@ -122,6 +123,14 @@ t_error					exec__set_arguments(
 							const t_env *const env);
 t_error					exec__clear_arguments(
 							struct s_program_prereq *const all_arg);
+
+/*
+**		quote_and_expansion
+*/
+
+t_error					quote_and_expansion(
+							struct s_pipe_sequence *ast_section,
+							t_env *const env);
 
 /*
 **		exec types
