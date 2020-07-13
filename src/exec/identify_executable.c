@@ -70,7 +70,7 @@ static t_error		identify_executable_type(char path[PATH_MAX],
 		{
 			return (errorf("%s: No such file or directory", name));
 		}
-		ft_memcpy(path, name, ft_strlen(name));
+		ft_memcpy(path, name, ft_strlen(name) + 1);
 		return (error_none());
 	}
 }
