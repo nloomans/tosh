@@ -15,7 +15,7 @@
 
 #include "private.h"
 
-extern volatile sig_atomic_t	g_terminate_sig;
+volatile sig_atomic_t	g_terminate_sig;
 
 void		exec_run(
 				const struct s_complete_command *const complete_command,
