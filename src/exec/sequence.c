@@ -45,7 +45,6 @@ static t_error	create_fork(t_list_meta *const pid_list,
 					const int fd_transform[2],
 					const struct s_simple_command *const command,
 					t_env *const env)
-{
 	pid_t		pid;
 
 	pid = fork();
@@ -92,7 +91,8 @@ static t_error	loop_sequence(t_list_meta *const pid_list,
 		}
 		err = create_fork(pid_list, (int[2]){input_fd, pipette[write_to]},
 			sequence->simple_command, env);
-		close(pipette[write_to]);
+		if (pipette[write_to] != STDOUT_FILENO)
+			close(pipette[write_to]);
 		if (input_fd != STDIN_FILENO)
 			close(input_fd);
 		input_fd = pipette[read_from];
