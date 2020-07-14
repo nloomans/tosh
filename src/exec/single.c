@@ -55,6 +55,8 @@ t_error			exec__single(struct s_exec_state *const status,
 	{
 		return (err);
 	}
+	if (all_arg.argv == NULL)
+		return (exec__clear_arguments(&all_arg));
 	builtin = exec__identify_builtin(all_arg.argv[0]);
 	if (builtin != NULL)
 	{

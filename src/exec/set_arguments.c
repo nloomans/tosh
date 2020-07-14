@@ -21,6 +21,10 @@ static t_error	initialize_arguments(struct s_program_prereq *const all_arg,
 	size_t	len;
 	struct s_cmd_suffix *iter;
 
+	if (command->name == NULL)
+	{
+		return (error_none());
+	}
 	err = error_none();
 	iter = command->suffix;
 	len = 1;

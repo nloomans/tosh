@@ -25,6 +25,8 @@ static void		handle_execution(const struct s_simple_command *const command,
 
 	ft_bzero(&all_arg, sizeof(all_arg));
 	err = exec__set_arguments(&all_arg, command, env);
+	if (all_arg.argv == NULL)
+		exit(0);
 	if (is_error(err))
 	{
 		ft_dprintf(2, "tosh: %s\n", err.msg);
