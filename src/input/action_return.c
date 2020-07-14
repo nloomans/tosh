@@ -18,9 +18,9 @@ t_error		input__action_return(struct s_input__state *state)
 {
 	t_error		error;
 
-	if (state->history)
+	if (state->persistent->history)
 	{
-		error = history_push(state->history, state->buffer);
+		error = history_push(state->persistent->history, state->buffer);
 		if (is_error(error))
 		{
 			return (errorf("failed to save command in history: %s", error.msg));

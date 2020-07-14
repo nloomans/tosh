@@ -37,7 +37,7 @@ t_error					input__configure(t_term **term,
 **                  contain line wrapping.
 ** select_start     the start of the selection for cut/copy/paste. Offset in
 **                  buffer if something is selected. -1 if nothing is selected.
-** copied_buffer    the text to be pasted if the user wishes so.
+** persistent       contains state which is kept between instances of input_read
 ** finished         set to an exit reason when input_read should finish.
 */
 struct					s_input__state
@@ -45,8 +45,7 @@ struct					s_input__state
 	char						*buffer;
 	size_t						cursor_position;
 	ssize_t						select_start;
-	char						*copied_buffer;
-	t_history					*history;
+	struct s_input_persistent	*persistent;
 	enum e_input_exit_reason	finished;
 };
 

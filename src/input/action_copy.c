@@ -34,9 +34,9 @@ t_error					input__action_copy(struct s_input__state *state)
 	end = state->cursor_position;
 	if ((size_t)state->select_start > state->cursor_position)
 		swap(&start, &end);
-	ft_strreplace(&state->copied_buffer, ft_strsub(state->buffer,
+	ft_strreplace(&state->persistent->copied_text, ft_strsub(state->buffer,
 		start, end - start));
-	if (state->copied_buffer == NULL)
+	if (state->persistent->copied_text == NULL)
 		return (errorf("out of memory"));
 	return (error_none());
 }

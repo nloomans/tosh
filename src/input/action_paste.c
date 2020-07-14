@@ -19,15 +19,15 @@ t_error					input__action_paste(struct s_input__state *state)
 {
 	char	*new;
 
-	if (state->copied_buffer == NULL)
+	if (state->persistent->copied_text == NULL)
 		return (error_none());
 	ft_asprintf(&new, "%.*s%s%s",
 		state->cursor_position, state->buffer,
-		state->copied_buffer,
+		state->persistent->copied_text,
 		state->buffer + state->cursor_position);
 	if (new == NULL)
 		return (errorf("out of memory"));
 	ft_strreplace(&state->buffer, new);
-	state->cursor_position += ft_strlen(state->copied_buffer);
+	state->cursor_position += ft_strlen(state->persistent->copied_text);
 	return (error_none());
 }

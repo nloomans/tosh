@@ -21,7 +21,7 @@
 
 static t_error	event_loop(struct s_input_read_result *dest,
 					t_term *term,
-					t_history *history,
+					struct s_input_persistent *persistent_state,
 					struct s_term_formatted_string prompt)
 {
 	t_error						error;
@@ -33,7 +33,7 @@ static t_error	event_loop(struct s_input_read_result *dest,
 	if (state.buffer == NULL)
 		return (errorf("out of memory"));
 	state.select_start = -1;
-	state.history = history;
+	state.persistent = persistent_state;
 	input__draw(state, term, prompt);
 	while (state.finished == INPUT_EXIT_REASON_NONE)
 	{
@@ -49,7 +49,7 @@ static t_error	event_loop(struct s_input_read_result *dest,
 }
 
 t_error			input_read(struct s_input_read_result *dest,
-					t_history *history,
+					struct s_input_persistent *persistent_state,
 					struct s_term_formatted_string prompt)
 {
 	t_error						error;
@@ -61,7 +61,7 @@ t_error			input_read(struct s_input_read_result *dest,
 		return (errorf("failed to configure terminal for interactive input: %s",
 			error.msg));
 	}
-	error = event_loop(dest, term, history, prompt);
+	error = event_loop(dest, term, persistent_state, prompt);
 	if (is_error(error))
 	{
 		input__configure(&term, INPUT__CONFIGURE_RESTORE);

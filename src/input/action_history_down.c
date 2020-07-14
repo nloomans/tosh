@@ -16,9 +16,9 @@ t_error		input__action_history_down(struct s_input__state *state)
 {
 	char *new_buffer;
 
-	if (!state->history)
+	if (!state->persistent->history)
 		return (error_none());
-	new_buffer = history_down(state->history);
+	new_buffer = history_down(state->persistent->history);
 	if (new_buffer == NULL)
 		return (error_none());
 	ft_strreplace(&state->buffer, new_buffer);

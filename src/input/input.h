@@ -42,13 +42,25 @@ struct		s_input_read_result
 };
 
 /*
+** history        opaque struct for managing the history. Can be NULL for
+**                disabled history support.
+** copied_text    the text to be pasted if the user wishes so.
+*/
+
+struct		s_input_persistent
+{
+	t_history	*history;
+	char		*copied_text;
+};
+
+/*
 ** input_read reads a single line of input. prompt contains the text to
 ** display before the input.
 **
 ** Text wrapping is handled automatically.
 */
 t_error		input_read(struct s_input_read_result *dest,
-				t_history *history,
+				struct s_input_persistent *persistent_state,
 				struct s_term_formatted_string prompt);
 
 /*
