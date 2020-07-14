@@ -10,7 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "quote_and_expansion.h"
+#include "machine_definitions.h"
+
+static t_error		expand_redirection(struct s_io_redirect *const redirect,
+						t_env *const env)
+{
+	if (redirect->file)
+	{
+		return (replacer_fsm(&redirect->file->filename, g_basic_table, env));
+	}
+	else
+	{
+		return (replacer_fsm(&redirect->here->here_end, NULL, env));
+	}
+}
 
 static t_error		rev_iter_prefix(struct s_cmd_prefix *prefix,
 						t_env *const env)
@@ -26,39 +39,56 @@ static t_error		rev_iter_prefix(struct s_cmd_prefix *prefix,
 	{
 		return (err);
 	}
-	return (iter_redirection(prefix->redirect, env));
+	return (expand_redirection(prefix->redirect, env));
 }
 
-t_error		quote_and_expansion(struct s_pipe_sequence *ast_section,
-				t_env *const env)
+static t_error		iter_suffix(struct s_cmd_suffix *suffix, t_env *const env)
 {
-	t_error				err;
-	struct s_cmd_suffix	*suffix;
+	t_error	err;
 
-	while (ast_section)
+	while (suffix)
 	{
-		err = replacer_fsm(&ast_section->simple_command->name, env);
+		if (suffix->word)
+		{
+			err = replacer_fsm(&suffix->word, g_basic_table, env);
+		}
+		else
+		{
+			err =  expand_redirection(suffix->redirect, env);
+		}
 		if (is_error(err))
 		{
 			return (err);
 		}
-		suffix =  ast_section->simple_command->suffix;
-		while (suffix)
+		suffix =  suffix->suffix;
+	}
+	return (error_none());
+}
+
+t_error				quote_and_expansion(struct s_pipe_sequence *ast_section,
+						t_env *const env)
+{
+	t_error				err;
+
+	while (ast_section)
+	{
+		err = replacer_fsm(&ast_section->simple_command->name, 
+				g_basic_table, env);
+		if (is_error(err))
 		{
-			if (suffix->word)
-			{
-				err = replacer_fsm(&suffix->word, env);
-			}
-			else
-			{
-				err =  iter_redirection(suffix->redirect, env);
-			}
-			if (is_error(err))
-			{
-				return (err);
-			}
-			suffix =  suffix->suffix;
+			return (err);
+		}
+		err = rev_iter_prefix(ast_section->simple_command->prefix, env);
+		if (is_error(err))
+		{
+			return (err);
+		}
+		err = iter_suffix(ast_section->simple_command->suffix, env);
+		if (is_error(err))
+		{
+			return (err);
 		}
 		ast_section = ast_section->pipe_sequence;
 	}
+	return (error_none());
 }

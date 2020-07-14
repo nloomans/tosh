@@ -17,5 +17,32 @@
 # include "../../error/error.h"
 # include "../../parser/parser.h"
 
+enum    e_machine_state{
+	UNDEF,
+	FIRST_CHAR,
+	UNQUOTED,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE,
+	SLASH,
+	EOS,
+	QUOTE_INCOMPLETE,
+};
+
+struct  s_quote_fsm_rule{
+	enum e_machine_state	new_state;
+	bool					ignore_char;
+};
+
+struct  s_quote_fsm_complete_state{
+	struct s_quote_fsm_rule	rules[256];
+	struct s_quote_fsm_rule	catch_case;
+	bool					can_env_expand;
+};
+
+typedef struct s_quote_fsm_complete_state	t_machine_def;
+
+t_error     replacer_fsm(char **const tape,
+                const t_machine_def *machine,
+                t_env *const env);
 
 #endif

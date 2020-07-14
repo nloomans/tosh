@@ -32,7 +32,7 @@ void		exec_run(
 	while (list && status.must_halt == 0)
 	{
 		assert(list->pipe_sequence != NULL); //parser error?
-		err = quote_and_expansion(complete_command, env);
+		err = quote_and_expansion(list->pipe_sequence, env);
 		if (is_error(err))
 		{
 			ft_dprintf(2, "Tosh: %s\n", err.msg);
