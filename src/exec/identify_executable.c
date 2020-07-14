@@ -26,29 +26,36 @@ static t_error		find_command_path(char path[PATH_MAX],
 						const t_env *const env,
 						char const *const name)
 {
-	char						*iter = env_get(env, "PATH");
-	int							sub_len;
-	const size_t				name_len = ft_strlen(name);
+	char					*env_path;
+	size_t					i;
+	int						sub_len;
+	const size_t			name_len = ft_strlen(name);
 
-	if (iter != NULL)
+	env_path = env_get(env, "PATH");
+	i = 0;
+	if (path != NULL)
 	{
-		while (*iter != '\0')
+		while (env_path[i] != '\0')
 		{
-			if (*iter == ':')
-				iter++;
-			if (ft_strchr(iter, ':') != NULL)
-				sub_len = ft_strchr(iter, ':') - iter;
+			if (env_path[i] == ':')
+				i++;
+			if (ft_strchr(env_path + i, ':') != NULL)
+				sub_len = ft_strchr(env_path + i, ':') - (env_path + i);
 			else
-				sub_len = ft_strlen(iter);
+				sub_len = ft_strlen(env_path + i);
 			if (sub_len + name_len >= PATH_MAX)
 				return (errorf("%s: File name too long", name));
-			ft_snprintf(path, PATH_MAX, "%.*s/%s", sub_len, iter, name);
+			ft_snprintf(path, PATH_MAX, "%.*s/%s", sub_len, env_path + i, name);
 			if (access(path, F_OK | X_OK) == 0)
+			{
+				ft_strdel(&env_path);
 				return (error_none());
-			iter += sub_len;
+			}
+			i += sub_len;
 		}
 		ft_bzero(path, PATH_MAX);
 	}
+	ft_strdel(&env_path);
 	return (errorf("%s: command not found", name));
 }
 
