@@ -20,7 +20,7 @@ const struct s_redirection_kvp	g_redir_tbl[] = {
 	[REDIRECT_IN_AND] = {.default_fd = 0, .handler = &redirect_in_and},
 	[REDIRECT_OUT] = {.default_fd = 1, .handler = &redirect_out}, // O_RDONLY | O_TRUNC | O_CREAT
 	[REDIRECT_OUT_APPEND] = {.default_fd = 1, .handler = &redirect_out_append}, // O_RDONLY | O_APPEND | O_CREAT
-	// [REDIRECT_OUT_AND] = {.default_fd = 1, .handler = &redirect_out_and},
+	[REDIRECT_OUT_AND] = {.default_fd = 1, .handler = &redirect_out_and},
 };
 
 static t_error	redirect(t_list_meta *const tracker_lst,

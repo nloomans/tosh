@@ -108,7 +108,10 @@ t_error					redirect_out(t_list_meta *const tracker_lst,
 							const struct s_io_file *const cur_redir);
 t_error					redirect_out_append(t_list_meta *const tracker_lst,
 							const int first_fd,
-							 const struct s_io_file *const cur_redir);
+							const struct s_io_file *const cur_redir);
+t_error					redirect_out_and(t_list_meta *const tracker_lst,
+							const int first_fd,
+							const struct s_io_file *const cur_redir);
 
 /*
 **		////set_arg.h////
