@@ -13,6 +13,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
+# include "../error/error.h"
 # include "../lexer/lexer.h"
 
 struct	s_complete_command

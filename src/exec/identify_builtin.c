@@ -10,31 +10,48 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#include "private.h"
+#include "builtin/builtin.h"
 
-# include <stdbool.h>
-# include <stdint.h>
+static const struct s_builtin_tbl g_table[] = {
+	{
+		.name = "cd",
+		.ptr = &builtin_cd,
+	},
+	{
+		.name = "setenv",
+		.ptr = &builtin_setenv,
+	},
+	{
+		.name = "unsetenv",
+		.ptr = NULL,
+	},
+	{
+		.name = "env",
+		.ptr = NULL,
+	},
+	{
+		.name = "echo",
+		.ptr = &builtin_echo,
+	},
+	{
+		.name = "exit",
+		.ptr = &builtin_exit,
+	},
+};
 
-typedef struct s_env	t_env;
+t_builtin	*exec__identify_builtin(const char *const name)
+{
+	size_t	iter;
 
-bool					env_is_key_char(const char character);
-
-t_env					*env_from_envp(char **const envp);
-char					**env_to_envp(const t_env *const env);
-
-char					*env_get(t_env const *const env, char const *const key);
-char					*env_get_unsafe(t_env const *const env,
-							char const *const key);
-void					env_unset(t_env *env, char const *const key);
-int						env_set(t_env *const env,
-								char const *const key,
-								char const *const value);
-
-uint8_t					env_get_exit_status(const t_env *const env);
-void					env_set_exit_status(t_env *const env,
-											const uint8_t status);
-
-void					env_delete(t_env **const env);
-
-#endif
+	iter = 0;
+	while (iter < (sizeof(g_table) / sizeof(struct s_builtin_tbl)))
+	{
+		if (ft_strequ(g_table[iter].name, name))
+		{
+			return (g_table[iter].ptr);
+		}
+		iter++;
+	}
+	return (NULL);
+}

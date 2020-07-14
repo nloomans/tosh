@@ -17,6 +17,7 @@
 #include <assert.h>
 
 #include "../env/env.h"
+#include "../exec/exec.h"
 #include "../history/history.h"
 #include "../input/input.h"
 #include "../lexer/lexer.h"
@@ -50,9 +51,9 @@ static void		run_command(const char *const input, t_env *const env)
 		if (extra_input_requested)
 		{
 			ft_dprintf(STDERR_FILENO, "extra input requested\n");
-			assert(true);
+			assert(0);
 		}
-		(void)env;
+		exec_run(complete_command, env);
 		parser_del(&complete_command);
 	}
 }

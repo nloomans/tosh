@@ -10,31 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#include <assert.h>
+#include <ft_printf.h>
 
-# include <stdbool.h>
-# include <stdint.h>
+#include "private.h"
 
-typedef struct s_env	t_env;
+volatile sig_atomic_t	g_terminate_sig;
 
-bool					env_is_key_char(const char character);
+void		exec_run(
+				const struct s_complete_command *const complete_command,
+				t_env *const env)
+{
+	struct s_exec_state		status;
+	t_error					err;
+	const struct s_list		*list;
 
-t_env					*env_from_envp(char **const envp);
-char					**env_to_envp(const t_env *const env);
-
-char					*env_get(t_env const *const env, char const *const key);
-char					*env_get_unsafe(t_env const *const env,
-							char const *const key);
-void					env_unset(t_env *env, char const *const key);
-int						env_set(t_env *const env,
-								char const *const key,
-								char const *const value);
-
-uint8_t					env_get_exit_status(const t_env *const env);
-void					env_set_exit_status(t_env *const env,
-											const uint8_t status);
-
-void					env_delete(t_env **const env);
-
-#endif
+	g_terminate_sig = 0; //remove later
+	list = complete_command->list;
+	ft_bzero(&status, sizeof(status));
+	while (list && status.must_halt == 0)
+	{
+		assert(list->pipe_sequence != NULL); //parser error?
+		err = error_none();
+		if (list->pipe_sequence->pipe_sequence)
+		{
+			err = exec__sequence(&status, list->pipe_sequence, env);
+		}
+		else
+		{
+			err = exec__single(&status, list->pipe_sequence->simple_command, env);
+		}
+		if (is_error(err))
+		{
+			ft_dprintf(2, "Tosh: %s\n", err.msg);
+		}
+		list = list->list;
+	}
+	g_terminate_sig = 0; //nonsense if handling background proccesses(?)
+}

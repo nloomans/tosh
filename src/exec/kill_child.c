@@ -10,31 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#include <sys/wait.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <assert.h>
 
-# include <stdbool.h>
-# include <stdint.h>
+#include "private.h"
 
-typedef struct s_env	t_env;
+void	exec__kill_child(struct s_child *const child_process, const int sig)
+{
+	pid_t			ret;
 
-bool					env_is_key_char(const char character);
-
-t_env					*env_from_envp(char **const envp);
-char					**env_to_envp(const t_env *const env);
-
-char					*env_get(t_env const *const env, char const *const key);
-char					*env_get_unsafe(t_env const *const env,
-							char const *const key);
-void					env_unset(t_env *env, char const *const key);
-int						env_set(t_env *const env,
-								char const *const key,
-								char const *const value);
-
-uint8_t					env_get_exit_status(const t_env *const env);
-void					env_set_exit_status(t_env *const env,
-											const uint8_t status);
-
-void					env_delete(t_env **const env);
-
-#endif
+	kill(child_process->pid, sig);
+	ret = waitpid(child_process->pid, NULL, 0);
+	assert(ret != -1);
+	ft_bzero(child_process, sizeof(*child_process));
+	free(child_process);
+}

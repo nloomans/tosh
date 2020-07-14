@@ -10,31 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#include <unistd.h>
 
-# include <stdbool.h>
-# include <stdint.h>
+#include "private.h"
 
-typedef struct s_env	t_env;
+t_error	exec__clear_arguments(struct s_program_prereq *const all_arg)
+{
+	t_error	err;
 
-bool					env_is_key_char(const char character);
-
-t_env					*env_from_envp(char **const envp);
-char					**env_to_envp(const t_env *const env);
-
-char					*env_get(t_env const *const env, char const *const key);
-char					*env_get_unsafe(t_env const *const env,
-							char const *const key);
-void					env_unset(t_env *env, char const *const key);
-int						env_set(t_env *const env,
-								char const *const key,
-								char const *const value);
-
-uint8_t					env_get_exit_status(const t_env *const env);
-void					env_set_exit_status(t_env *const env,
-											const uint8_t status);
-
-void					env_delete(t_env **const env);
-
-#endif
+	err = exec__undo_and_del_redir(&all_arg->redir_tracker);
+	close(BACKUP_STDIN);
+	close(BACKUP_STDOUT);
+	close(BACKUP_STDERR);
+	if (all_arg->argv)
+	{
+		ft_arraydel((void ***)&all_arg->argv, &ft_memdel);
+	}
+	if (all_arg->envp)
+	{
+		ft_arraydel((void ***)&all_arg->envp, &ft_memdel);
+	}
+	all_arg->arg_count = 0;
+	return (err);
+}
