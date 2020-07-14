@@ -91,6 +91,7 @@ t_error			history_create(t_history **history)
 	char	*home_env;
 	char	path_name[PATH_MAX];
 
+	*history = NULL;
 	home_env = getenv("HOME");
 	if (home_env == NULL)
 		return (errorf("HOME not set"));
