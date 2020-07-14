@@ -18,12 +18,36 @@
 # include "../term/term.h"
 
 /*
-** input_read reads a single line of input to dest. prompt contains the text to
+** e_input_exit_reason describes the reason input_read finished.
+**
+** INPUT_EXIT_REASON_NONE:   We didn't exit yet. Only used internally.
+** INPUT_EXIT_REASON_SUBMIT: The user pressed return.
+** INPUT_EXIT_REASON_CANCEL: The user pressed control + c or an internal error
+**                           occurred.
+** INPUT_EXIT_REASON_DONE:   The user pressed control + d at the start of the
+**                           line.
+*/
+enum		e_input_exit_reason
+{
+	INPUT_EXIT_REASON_NONE,
+	INPUT_EXIT_REASON_SUBMIT,
+	INPUT_EXIT_REASON_CANCEL,
+	INPUT_EXIT_REASON_DONE,
+};
+
+struct		s_input_read_result
+{
+	enum e_input_exit_reason	exit_reason;
+	char						*text;
+};
+
+/*
+** input_read reads a single line of input. prompt contains the text to
 ** display before the input.
 **
 ** Text wrapping is handled automatically.
 */
-t_error		input_read(char **dest,
+t_error		input_read(struct s_input_read_result *dest,
 				t_history *history,
 				struct s_term_formatted_string prompt);
 

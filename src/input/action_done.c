@@ -14,18 +14,9 @@
 
 #include "private.h"
 
-t_error		input__action_return(struct s_input__state *state)
+t_error		input__action_done(struct s_input__state *state)
 {
-	t_error		error;
-
-	if (state->history)
-	{
-		error = history_push(state->history, state->buffer);
-		if (is_error(error))
-		{
-			return (errorf("failed to save command in history: %s", error.msg));
-		}
-	}
-	state->finished = INPUT_EXIT_REASON_SUBMIT;
+	if (ft_strlen(state->buffer) == 0)
+		state->finished = INPUT_EXIT_REASON_DONE;
 	return (error_none());
 }

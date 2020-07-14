@@ -1,7 +1,9 @@
 src_files += files(
 	'action_backspace.c',
+	'action_cancel.c',
 	'action_copy.c',
 	'action_cut.c',
+	'action_done.c',
 	'action_history_down.c',
 	'action_history_up.c',
 	'action_insert.c',

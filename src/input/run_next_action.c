@@ -45,9 +45,9 @@ t_normal_action *g_action_type_table[] = {
 
 t_normal_action *g_action_control_table[] = {
 	['A'] = input__action_max_left,
+	['D'] = input__action_done,
 	['E'] = input__action_max_right,
 	['X'] = input__action_cut,
-	['C'] = input__action_copy,
 	['V'] = input__action_paste,
 };
 
@@ -60,9 +60,15 @@ static t_error					run_next_keypress(struct s_input__state *state,
 			return (input__action_word_left(state));
 		if (keypress.type == INPUT__READ_ARROW_RIGHT)
 			return (input__action_word_right(state));
-		if (keypress.type == INPUT__READ_TEXT
-				&& g_action_control_table[(int)keypress.c] != NULL)
-			return (g_action_control_table[(int)keypress.c](state));
+		if (keypress.type == INPUT__READ_TEXT)
+		{
+			if (keypress.c == 'C' && state->select_start == -1)
+				return (input__action_cancel(state));
+			if (keypress.c == 'C' && state->select_start != -1)
+				return (input__action_copy(state));
+			if (g_action_control_table[(int)keypress.c] != NULL)
+				return (g_action_control_table[(int)keypress.c](state));
+		}
 	}
 	if (keypress.type == INPUT__READ_TEXT)
 		return (input__action_insert(state, keypress.c));

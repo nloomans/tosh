@@ -84,11 +84,11 @@ static void		initialize_tosh(t_env **const env,
 
 void			tosh(char **envp)
 {
-	t_env				*env;
-	t_error				error;
-	char				*input;
-	char				prompt[32];
-	t_history			*history;
+	t_env						*env;
+	t_error						error;
+	struct s_input_read_result	input;
+	char						prompt[32];
+	t_history					*history;
 
 	ft_snprintf(prompt, sizeof(prompt), "%{green}TOSH $ %{reset}");
 	initialize_tosh(&env, &history, envp);
@@ -102,7 +102,10 @@ void			tosh(char **envp)
 				error.msg);
 			exit(1);
 		}
-		run_command(input, env);
-		ft_strdel(&input);
+		if (input.exit_reason == INPUT_EXIT_REASON_DONE)
+			exit(env_get_exit_status(env));
+		if (input.exit_reason == INPUT_EXIT_REASON_SUBMIT)
+			run_command(input.text, env);
+		ft_strdel(&input.text);
 	}
 }

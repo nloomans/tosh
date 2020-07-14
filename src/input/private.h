@@ -38,16 +38,16 @@ t_error					input__configure(t_term **term,
 ** select_start     the start of the selection for cut/copy/paste. Offset in
 **                  buffer if something is selected. -1 if nothing is selected.
 ** copied_buffer    the text to be pasted if the user wishes so.
-** finished         set to true when the user finished by pressing return.
+** finished         set to an exit reason when input_read should finish.
 */
 struct					s_input__state
 {
-	char		*buffer;
-	size_t		cursor_position;
-	ssize_t		select_start;
-	char		*copied_buffer;
-	t_history	*history;
-	bool		finished;
+	char						*buffer;
+	size_t						cursor_position;
+	ssize_t						select_start;
+	char						*copied_buffer;
+	t_history					*history;
+	enum e_input_exit_reason	finished;
 };
 
 void					input__draw(struct s_input__state state,
@@ -168,6 +168,8 @@ t_error					input__action_backspace(struct s_input__state *state);
 ** the input.
 */
 t_error					input__action_return(struct s_input__state *state);
+t_error					input__action_done(struct s_input__state *state);
+t_error					input__action_cancel(struct s_input__state *state);
 
 typedef	t_error			t_normal_action(struct s_input__state *state);
 

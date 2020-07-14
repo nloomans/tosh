@@ -19,7 +19,9 @@
 #include "../term/term.h"
 #include "private.h"
 
-static t_error	event_loop(char **dest, t_term *term, t_history *history,
+static t_error	event_loop(struct s_input_read_result *dest,
+					t_term *term,
+					t_history *history,
 					struct s_term_formatted_string prompt)
 {
 	t_error						error;
@@ -33,7 +35,7 @@ static t_error	event_loop(char **dest, t_term *term, t_history *history,
 	state.select_start = -1;
 	state.history = history;
 	input__draw(state, term, prompt);
-	while (!state.finished)
+	while (state.finished == INPUT_EXIT_REASON_NONE)
 	{
 		error = input__run_next_action(&state, term, &did_invalidate, read);
 		if (is_error(error))
@@ -41,12 +43,13 @@ static t_error	event_loop(char **dest, t_term *term, t_history *history,
 		if (did_invalidate)
 			input__draw(state, term, prompt);
 	}
-	*dest = state.buffer;
+	*dest = (struct s_input_read_result){state.finished, state.buffer};
 	ft_dprintf(STDERR_FILENO, "\n");
 	return (error_none());
 }
 
-t_error			input_read(char **dest, t_history *history,
+t_error			input_read(struct s_input_read_result *dest,
+					t_history *history,
 					struct s_term_formatted_string prompt)
 {
 	t_error						error;
