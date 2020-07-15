@@ -73,9 +73,9 @@ static void		get_next_rule(
 					const enum e_machine_state old_state,
 					const t_machine_def *machine)
 {
-	const t_machine_def	*current_subsection;
+	const struct s_quote_fsm_subsection	*current_subsection;
 
-	current_subsection = &machine[old_state];
+	current_subsection = &machine->all_state[old_state];
 	if (current_subsection->rules[input_char].new_state != UNDEF)
 	{
 		*acur_rule = &current_subsection->rules[input_char];
@@ -94,7 +94,7 @@ t_error			iter_fsm(const char *input_tape,
 	enum e_machine_state			current_state;
 	const struct s_quote_fsm_rule	*current_rule;
 
-	current_state = FIRST_CHAR;
+	current_state = machine->first_state;
 	while (current_state != EOS && current_state != QUOTE_INCOMPLETE)
 	{
 		get_next_rule(&current_rule, *input_tape, current_state, machine);
@@ -127,7 +127,16 @@ t_error     	replacer_fsm(char **const tape,
 	t_error	err;
 
 	new_tape = NULL;
-	err = iter_fsm(*tape, &new_tape, machine, env);
+	if (machine->first_state == FIRST_CHAR && **tape == '~' && \
+		((*tape)[1] == '\0' || (*tape)[1] == '/'))
+	{
+		new_tape = env_get(env, "HOME");
+		err = iter_fsm((*tape) + 1, &new_tape, machine, env);
+	}
+	else
+	{
+		err = iter_fsm(*tape, &new_tape, machine, env);
+	}
 	if (is_error(err))
 	{
 		return (errorf("%s: %s", *tape, err.msg));

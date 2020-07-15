@@ -30,9 +30,7 @@ typedef enum	e_tok_machine_state{
 	redir_right,
 	operator_exit,
 	quote_single,
-	quote_slash,
 	quote_double,
-	quote_double_slash,
 	comment,
 	eof,
 }				t_tok_machine_state;

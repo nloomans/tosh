@@ -17,7 +17,7 @@ static t_error		expand_redirection(struct s_io_redirect *const redirect,
 {
 	if (redirect->file)
 	{
-		return (replacer_fsm(&redirect->file->filename, g_basic_table, env));
+		return (replacer_fsm(&redirect->file->filename, &g_basic_table, env));
 	}
 	else
 	{
@@ -50,7 +50,7 @@ static t_error		iter_suffix(struct s_cmd_suffix *suffix, t_env *const env)
 	{
 		if (suffix->word)
 		{
-			err = replacer_fsm(&suffix->word, g_basic_table, env);
+			err = replacer_fsm(&suffix->word, &g_basic_table, env);
 		}
 		else
 		{
@@ -73,7 +73,7 @@ t_error				quote_and_expansion(struct s_pipe_sequence *ast_section,
 	while (ast_section)
 	{
 		err = replacer_fsm(&ast_section->simple_command->name, 
-				g_basic_table, env);
+				&g_basic_table, env);
 		if (is_error(err))
 		{
 			return (err);
