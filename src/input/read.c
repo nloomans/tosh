@@ -19,7 +19,9 @@
 #include "../term/term.h"
 #include "private.h"
 
-static t_error	event_loop(char **dest, t_term *term, t_history *history,
+static t_error	event_loop(struct s_input_read_result *dest,
+					t_term *term,
+					struct s_input_persistent *persistent_state,
 					struct s_term_formatted_string prompt)
 {
 	t_error						error;
@@ -30,9 +32,10 @@ static t_error	event_loop(char **dest, t_term *term, t_history *history,
 	state.buffer = ft_strnew(0);
 	if (state.buffer == NULL)
 		return (errorf("out of memory"));
-	state.history = history;
+	state.select_start = -1;
+	state.persistent = persistent_state;
 	input__draw(state, term, prompt);
-	while (!state.finished)
+	while (state.finished == INPUT_EXIT_REASON_NONE)
 	{
 		error = input__run_next_action(&state, term, &did_invalidate, read);
 		if (is_error(error))
@@ -40,12 +43,13 @@ static t_error	event_loop(char **dest, t_term *term, t_history *history,
 		if (did_invalidate)
 			input__draw(state, term, prompt);
 	}
-	*dest = state.buffer;
+	*dest = (struct s_input_read_result){state.finished, state.buffer};
 	ft_dprintf(STDERR_FILENO, "\n");
 	return (error_none());
 }
 
-t_error			input_read(char **dest, t_history *history,
+t_error			input_read(struct s_input_read_result *dest,
+					struct s_input_persistent *persistent_state,
 					struct s_term_formatted_string prompt)
 {
 	t_error						error;
@@ -57,7 +61,7 @@ t_error			input_read(char **dest, t_history *history,
 		return (errorf("failed to configure terminal for interactive input: %s",
 			error.msg));
 	}
-	error = event_loop(dest, term, history, prompt);
+	error = event_loop(dest, term, persistent_state, prompt);
 	if (is_error(error))
 	{
 		input__configure(&term, INPUT__CONFIGURE_RESTORE);

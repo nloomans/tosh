@@ -21,6 +21,8 @@
 ** Modes changed:
 ** - ~ECHO: Disable the printing of keypresses into the terminal.
 ** - ~ICANON: Read input char-by-char instead of line-by-line.
+** - ~ISIG: Read CTRL+C, CTRL+\, CTRL+Z, CTRL+Y directly instead if firing a
+**   signal. We only care about CTRL+C.
 ** - VIM = 0: Read a minimum bytes to read to 0 bytes.
 ** - VTIME = 1: A maximum of 100ms per keypress;
 */
@@ -32,7 +34,7 @@ static t_error	configure(t_term *term)
 	if (tcgetattr(STDIN_FILENO, &term->original_termios) == -1)
 		return (errorf("tcgetattr failed"));
 	new = term->original_termios;
-	new.c_lflag &= ~(ECHO | ICANON);
+	new.c_lflag &= ~(ECHO | ICANON | ISIG);
 	new.c_cc[VMIN] = 0;
 	new.c_cc[VTIME] = 1;
 	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)

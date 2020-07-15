@@ -15,10 +15,27 @@
 
 #include "private.h"
 
-static int				read_char(char *c, t_read_func read_func)
+static int						read_char(char *c, t_read_func read_func)
 {
 	*c = '\0';
 	return (read_func(STDIN_FILENO, c, 1));
+}
+
+static enum e_input__read_type	cursor_key(char c)
+{
+	if (c == 'D')
+		return (INPUT__READ_ARROW_LEFT);
+	if (c == 'C')
+		return (INPUT__READ_ARROW_RIGHT);
+	if (c == 'A')
+		return (INPUT__READ_ARROW_UP);
+	if (c == 'B')
+		return (INPUT__READ_ARROW_DOWN);
+	if (c == 'H')
+		return (INPUT__READ_HOME);
+	if (c == 'F')
+		return (INPUT__READ_END);
+	return (INPUT__READ_NONE);
 }
 
 /*
@@ -26,10 +43,11 @@ static int				read_char(char *c, t_read_func read_func)
 **            #h2-PC-Style-Function-Keys
 */
 
-static int				read_modifier(struct s_input__keypress *keypress,
-							t_read_func read_func)
+static int						read_modifier(
+									struct s_input__keypress *keypress,
+									t_read_func read_func)
 {
-	char c;
+	char	c;
 
 	if (read_char(&c, read_func) == -1)
 		return (-1);
@@ -37,19 +55,22 @@ static int				read_modifier(struct s_input__keypress *keypress,
 		return (0);
 	if (read_char(&c, read_func) == -1)
 		return (-1);
-	if (c != '5')
+	if (c == '2')
+		keypress->modifier = INPUT__MODIFIER_SHIFT;
+	else if (c == '5')
+		keypress->modifier = INPUT__MODIFIER_CONTROL;
+	else if (c == '6')
+		keypress->modifier = INPUT__MODIFIER_SHIFT | INPUT__MODIFIER_CONTROL;
+	else
 		return (0);
 	if (read_char(&c, read_func) == -1)
 		return (-1);
-	if (c == 'D')
-		keypress->type = INPUT__READ_CONTROL_ARROW_LEFT;
-	if (c == 'C')
-		keypress->type = INPUT__READ_CONTROL_ARROW_RIGHT;
+	keypress->type = cursor_key(c);
 	return (0);
 }
 
-static int				read_escape(struct s_input__keypress *keypress,
-							t_read_func read_func)
+static int						read_escape(struct s_input__keypress *keypress,
+									t_read_func read_func)
 {
 	char c;
 
@@ -61,25 +82,14 @@ static int				read_escape(struct s_input__keypress *keypress,
 			return (-1);
 		if (c == '1')
 			return (read_modifier(keypress, read_func));
-		else if (c == 'D')
-			keypress->type = INPUT__READ_ARROW_LEFT;
-		else if (c == 'C')
-			keypress->type = INPUT__READ_ARROW_RIGHT;
-		else if (c == 'A')
-			keypress->type = INPUT__READ_ARROW_UP;
-		else if (c == 'B')
-			keypress->type = INPUT__READ_ARROW_DOWN;
-		else if (c == 'H')
-			keypress->type = INPUT__READ_HOME;
-		else if (c == 'F')
-			keypress->type = INPUT__READ_END;
+		keypress->type = cursor_key(c);
 	}
 	return (0);
 }
 
-int						input__read_keypress(
-							struct s_input__keypress *keypress,
-							t_read_func read_func)
+int								input__read_keypress(
+									struct s_input__keypress *keypress,
+									t_read_func read_func)
 {
 	char	c;
 
@@ -87,18 +97,17 @@ int						input__read_keypress(
 	if (read_char(&c, read_func) == -1)
 		return (-1);
 	if (c == '\x1b')
-	{
-		if (read_escape(keypress, read_func) == -1)
-			return (-1);
-	}
-	else if (c == '\x7f')
+		return (read_escape(keypress, read_func));
+	if (c == '\x7f')
 		keypress->type = INPUT__READ_BACKSPACE;
 	else if (c == '\n')
 		keypress->type = INPUT__READ_RETURN;
-	else if (c == 1 + 'A' - 'A')
-		keypress->type = INPUT__READ_CONTROL_A;
-	else if (c == 1 + 'E' - 'A')
-		keypress->type = INPUT__READ_CONTROL_E;
+	else if (c >= 1 && c <= 1 + 'Z' - 'A')
+	{
+		keypress->modifier = INPUT__MODIFIER_CONTROL;
+		keypress->type = INPUT__READ_TEXT;
+		keypress->c = c + 'A' - 1;
+	}
 	else if (ft_isprint(c))
 	{
 		keypress->type = INPUT__READ_TEXT;

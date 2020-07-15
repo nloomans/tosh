@@ -35,14 +35,18 @@ t_error					input__configure(t_term **term,
 **                  wrapping.
 ** cursor_position  the position of the cursor relative to the buffer. Does not
 **                  contain line wrapping.
-** finished         set to true when the user finished by pressing return.
+** select_start     the start of the selection for cut/copy/paste. Offset in
+**                  buffer if something is selected. -1 if nothing is selected.
+** persistent       contains state which is kept between instances of input_read
+** finished         set to an exit reason when input_read should finish.
 */
 struct					s_input__state
 {
-	char		*buffer;
-	size_t		cursor_position;
-	bool		finished;
-	t_history	*history;
+	char						*buffer;
+	size_t						cursor_position;
+	ssize_t						select_start;
+	struct s_input_persistent	*persistent;
+	enum e_input_exit_reason	finished;
 };
 
 void					input__draw(struct s_input__state state,
@@ -76,24 +80,31 @@ enum					e_input__read_type
 	INPUT__READ_ARROW_RIGHT,
 	INPUT__READ_ARROW_UP,
 	INPUT__READ_ARROW_DOWN,
-	INPUT__READ_CONTROL_ARROW_LEFT,
-	INPUT__READ_CONTROL_ARROW_RIGHT,
-	INPUT__READ_CONTROL_A,
-	INPUT__READ_CONTROL_E,
-	INPUT__READ_BACKSPACE,
-	INPUT__READ_RETURN,
 	INPUT__READ_HOME,
 	INPUT__READ_END,
+	INPUT__READ_BACKSPACE,
+	INPUT__READ_RETURN,
+};
+
+enum					e_input__modifier
+{
+	INPUT__MODIFIER_CONTROL = 1 << 0,
+	INPUT__MODIFIER_SHIFT = 1 << 1,
 };
 
 /*
 ** s_input__keypress contains the processed input read by input__read_keypress.
 **
 ** if .type == INPUT__READ_TEXT then .c contains the the char read.
+**
+** .modifier contains a bitmap of the modifiers pressed in combination with a
+** "cursor key". These keys are INPUT__READ_ARROW_*, INPUT__READ_HOME, and
+** INPUT__READ_END.
 */
 struct					s_input__keypress
 {
 	enum e_input__read_type	type;
+	enum e_input__modifier	modifier;
 	char					c;
 };
 
@@ -133,6 +144,10 @@ t_error					input__action_word_right(struct s_input__state *state);
 t_error					input__action_max_left(struct s_input__state *state);
 t_error					input__action_max_right(struct s_input__state *state);
 
+t_error					input__action_cut(struct s_input__state *state);
+t_error					input__action_copy(struct s_input__state *state);
+t_error					input__action_paste(struct s_input__state *state);
+
 /*
 ** input__action_history_{up,down} moves through the history.
 */
@@ -152,6 +167,23 @@ t_error					input__action_backspace(struct s_input__state *state);
 ** the input.
 */
 t_error					input__action_return(struct s_input__state *state);
+t_error					input__action_done(struct s_input__state *state);
+t_error					input__action_cancel(struct s_input__state *state);
+
+typedef	t_error			t_normal_action(struct s_input__state *state);
+
+/*
+** input__select_start marks the start of a new cut/copy selection at the
+** current cursor position if non has already been started.
+*/
+void					input__action_select_start(
+							struct s_input__state *state);
+
+/*
+** input__select_cancel removes the current cut/copy selection, if any.
+*/
+void					input__action_select_cancel(
+							struct s_input__state *state);
 
 t_error					input__run_next_action(
 							struct s_input__state *state,

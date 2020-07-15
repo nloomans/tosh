@@ -10,18 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
+#include <ft_printf.h>
+
 #include "private.h"
 
-t_error		input__action_history_up(struct s_input__state *state)
+t_error					input__action_paste(struct s_input__state *state)
 {
-	char *new_buffer;
+	char	*new;
 
-	if (!state->persistent->history)
+	if (state->persistent->copied_text == NULL)
 		return (error_none());
-	new_buffer = history_up(state->persistent->history);
-	if (new_buffer == NULL)
-		return (error_none());
-	ft_strreplace(&state->buffer, new_buffer);
-	state->cursor_position = ft_strlen(state->buffer);
+	ft_asprintf(&new, "%.*s%s%s",
+		state->cursor_position, state->buffer,
+		state->persistent->copied_text,
+		state->buffer + state->cursor_position);
+	if (new == NULL)
+		return (errorf("out of memory"));
+	ft_strreplace(&state->buffer, new);
+	state->cursor_position += ft_strlen(state->persistent->copied_text);
 	return (error_none());
 }

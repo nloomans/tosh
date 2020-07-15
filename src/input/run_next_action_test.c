@@ -157,12 +157,14 @@ ssize_t fake_read_history(int fd, void *buf, size_t count) {
 Test(input__run_next_action, history) {
 	struct s_input__state state = {
 		.buffer = strdup(""),
+		.persistent = &(struct s_input_persistent){NULL, NULL},
+		.finished = INPUT_EXIT_REASON_NONE,
 	};
 
 	int fd = open("/tmp/tosh_history", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	dprintf(fd, "ls -al\n");
 	close(fd);
-	history_create_at(&state.history, "/tmp/tosh_history");
+	history_create_at(&state.persistent->history, "/tmp/tosh_history");
 
 	while (index_history < strlen(history_message))
 	{
@@ -177,5 +179,5 @@ Test(input__run_next_action, history) {
 	cr_expect_eq(state.cursor_position, 6);
 
 	free(state.buffer);
-	history_destroy(&state.history);
+	history_destroy(&state.persistent->history);
 }

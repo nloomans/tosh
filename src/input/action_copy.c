@@ -10,18 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
+#include <ft_printf.h>
 #include "private.h"
 
-t_error		input__action_history_up(struct s_input__state *state)
+static void				swap(size_t *a, size_t *b)
 {
-	char *new_buffer;
+	int tmp;
 
-	if (!state->persistent->history)
+	tmp = *b;
+	*b = *a;
+	*a = tmp;
+}
+
+t_error					input__action_copy(struct s_input__state *state)
+{
+	size_t	start;
+	size_t	end;
+
+	if (state->select_start == -1)
 		return (error_none());
-	new_buffer = history_up(state->persistent->history);
-	if (new_buffer == NULL)
-		return (error_none());
-	ft_strreplace(&state->buffer, new_buffer);
-	state->cursor_position = ft_strlen(state->buffer);
+	start = state->select_start;
+	end = state->cursor_position;
+	if ((size_t)state->select_start > state->cursor_position)
+		swap(&start, &end);
+	ft_strreplace(&state->persistent->copied_text, ft_strsub(state->buffer,
+		start, end - start));
+	if (state->persistent->copied_text == NULL)
+		return (errorf("out of memory"));
 	return (error_none());
 }

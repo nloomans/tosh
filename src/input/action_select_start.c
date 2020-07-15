@@ -12,16 +12,8 @@
 
 #include "private.h"
 
-t_error		input__action_history_up(struct s_input__state *state)
+void		input__action_select_start(struct s_input__state *state)
 {
-	char *new_buffer;
-
-	if (!state->persistent->history)
-		return (error_none());
-	new_buffer = history_up(state->persistent->history);
-	if (new_buffer == NULL)
-		return (error_none());
-	ft_strreplace(&state->buffer, new_buffer);
-	state->cursor_position = ft_strlen(state->buffer);
-	return (error_none());
+	if (state->select_start == -1)
+		state->select_start = state->cursor_position;
 }
