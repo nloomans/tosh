@@ -52,7 +52,7 @@ static int	split_kvp_str(char *const key, t_env *const env)
 	return (0);
 }
 
-uint8_t			builtin_setenv(int argc, char **argv, t_env *const env)
+uint8_t		builtin_setenv(int argc, char **argv, t_env *const env)
 {
 	int		index;
 	int		err;

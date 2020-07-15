@@ -14,7 +14,7 @@
 
 #include "quote_and_expansion.h"
 
-static int		add_to_out_tape(char **const output_tape,
+static int		add_to_tape(char **const output_tape,
 					const char *const new_addition)
 {
 	char	*holder;
@@ -35,7 +35,7 @@ static int		add_to_out_tape(char **const output_tape,
 	return (0);
 }
 
-static int		insert_enviromental_expansion(const char **const ainput_tape,
+static int		insert_env_expansion(const char **const ainput_tape,
 					char **const output_tape,
 					t_env *const env)
 {
@@ -46,7 +46,7 @@ static int		insert_enviromental_expansion(const char **const ainput_tape,
 	(*ainput_tape)++;
 	if (ft_isdigit(**ainput_tape) || !env_is_key_char(**ainput_tape))
 	{
-		return (add_to_out_tape(output_tape, "$"));
+		return (add_to_tape(output_tape, "$"));
 	}
 	index = 0;
 	while (env_is_key_char((*ainput_tape)[index]))
@@ -56,14 +56,12 @@ static int		insert_enviromental_expansion(const char **const ainput_tape,
 	holder = ft_strsub(*ainput_tape, 0, index + 1);
 	*ainput_tape += index;
 	if (holder == NULL)
-	{
 		return (-1);
-	}
 	holder[index] = '\0';
 	env_var = env_get_unsafe(env, holder);
 	ft_strdel(&holder);
 	if (env_var)
-		return (add_to_out_tape(output_tape, env_var));
+		return (add_to_tape(output_tape, env_var));
 	return (0);
 }
 
@@ -100,16 +98,14 @@ t_error			iter_fsm(const char *input_tape,
 		get_next_rule(&current_rule, *input_tape, current_state, machine);
 		if (current_rule->env_expand)
 		{
-			if (insert_enviromental_expansion(&input_tape, output_tape, env) == -1)
+			if (insert_env_expansion(&input_tape, output_tape, env) == -1)
 				return (errorf("unable to allocate memory"));
 		}
 		else
 		{
-			if (current_rule->ignore_char == false)
-			{
-				if (add_to_out_tape(output_tape, (char [2]){*input_tape, '\0'}) ==-1)
-					return (errorf("unable to allocate memory"));
-			}
+			if (current_rule->ignore_char == false && add_to_tape(output_tape,
+				(char[2]){*input_tape, '\0'}) == -1)
+				return (errorf("unable to allocate memory"));
 			input_tape++;
 		}
 		current_state = current_rule->new_state;
@@ -119,9 +115,9 @@ t_error			iter_fsm(const char *input_tape,
 	return (error_none());
 }
 
-t_error     	replacer_fsm(char **const tape,
-            	    const t_machine_def *machine,
-            	    t_env *const env)
+t_error			replacer_fsm(char **const tape,
+					const t_machine_def *machine,
+					t_env *const env)
 {
 	char	*new_tape;
 	t_error	err;
