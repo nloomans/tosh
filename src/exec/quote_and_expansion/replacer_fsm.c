@@ -10,9 +10,63 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
+
 #include "quote_and_expansion.h"
 
-#include <stdio.h>
+static int		add_to_out_tape(char **const output_tape,
+					const char *const new_addition)
+{
+	char	*holder;
+
+	if (*output_tape == NULL)
+	{
+		holder = ft_strdup(new_addition);
+	}
+	else
+	{
+		holder = ft_strjoin(*output_tape, new_addition);
+	}
+	if (holder == NULL)
+	{
+		return (-1);
+	}
+	ft_strreplace(output_tape, holder);
+	return (0);
+}
+
+static int		insert_enviromental_expansion(const char **const ainput_tape,
+					char **const output_tape,
+					t_env *const env)
+{
+	size_t	index;
+	char	*holder;
+	char	*env_var;
+
+	(*ainput_tape)++;
+	if (ft_isdigit(**ainput_tape) || !env_is_key_char(**ainput_tape))
+	{
+		return (add_to_out_tape(output_tape, "$"));
+	}
+	index = 0;
+	while (env_is_key_char((*ainput_tape)[index]))
+	{
+		index++;
+	}
+	holder = ft_strsub(*ainput_tape, 0, index + 1);
+	*ainput_tape += index;
+	if (holder == NULL)
+	{
+		return (-1);
+	}
+	holder[index] = '\0';
+	env_var = env_get_unsafe(env, holder);
+	ft_strdel(&holder);
+	if (env_var)
+		return (add_to_out_tape(output_tape, env_var));
+	return (0);
+}
+
 static void		get_next_rule(
 					const struct s_quote_fsm_rule **const acur_rule,
 					unsigned char const input_char,
@@ -44,24 +98,24 @@ t_error			iter_fsm(const char *input_tape,
 	while (current_state != EOS && current_state != QUOTE_INCOMPLETE)
 	{
 		get_next_rule(&current_rule, *input_tape, current_state, machine);
-		if (current_rule->ignore_char == false)
+		if (current_rule->env_expand)
 		{
-			printf("%c", *input_tape);
+			if (insert_enviromental_expansion(&input_tape, output_tape, env) == -1)
+				return (errorf("unable to allocate memory"));
 		}
-		if (machine[current_state].can_env_expand && *input_tape == '$')
+		else
 		{
-			
+			if (current_rule->ignore_char == false)
+			{
+				if (add_to_out_tape(output_tape, (char [2]){*input_tape, '\0'}) ==-1)
+					return (errorf("unable to allocate memory"));
+			}
+			input_tape++;
 		}
-		input_tape++;
 		current_state = current_rule->new_state;
 	}
-	printf("\n");
-	(void)env;
-	(void)output_tape;
 	if (current_state == QUOTE_INCOMPLETE)
-	{
 		return (errorf("parser error: qoutation incomplete"));
-	}
 	return (error_none());
 }
 
@@ -78,6 +132,6 @@ t_error     	replacer_fsm(char **const tape,
 	{
 		return (errorf("%s: %s", *tape, err.msg));
 	}
-	//ft_strreplace(tape, new_tape);
+	ft_strreplace(tape, new_tape);
 	return (error_none());
 }

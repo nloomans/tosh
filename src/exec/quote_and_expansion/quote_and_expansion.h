@@ -31,12 +31,12 @@ enum    e_machine_state{
 struct  s_quote_fsm_rule{
 	enum e_machine_state	new_state;
 	bool					ignore_char;
+	bool					env_expand;
 };
 
 struct  s_quote_fsm_complete_state{
 	struct s_quote_fsm_rule	rules[256];
 	struct s_quote_fsm_rule	catch_case;
-	bool					can_env_expand;
 };
 
 typedef struct s_quote_fsm_complete_state	t_machine_def;

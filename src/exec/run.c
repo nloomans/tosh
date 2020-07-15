@@ -37,17 +37,20 @@ void		exec_run(
 		{
 			ft_dprintf(2, "Tosh: %s\n", err.msg);
 		}
-		if (list->pipe_sequence->pipe_sequence)
-		{
-			err = exec__sequence(&status, list->pipe_sequence, env);
-		}
 		else
-		{
-			err = exec__single(&status, list->pipe_sequence->simple_command, env);
-		}
-		if (is_error(err))
-		{
-			ft_dprintf(2, "Tosh: %s\n", err.msg);
+		{	
+			if (list->pipe_sequence->pipe_sequence)
+			{
+				err = exec__sequence(&status, list->pipe_sequence, env);
+			}
+			else
+			{
+				err = exec__single(&status, list->pipe_sequence->simple_command, env);
+			}
+			if (is_error(err))
+			{
+				ft_dprintf(2, "Tosh: %s\n", err.msg);
+			}
 		}
 		list = list->list;
 	}
