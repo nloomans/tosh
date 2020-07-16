@@ -157,7 +157,7 @@ ssize_t fake_read_history(int fd, void *buf, size_t count) {
 Test(input__run_next_action, history) {
 	struct s_input__state state = {
 		.buffer = strdup(""),
-		.persistent = &(struct s_input_persistent){NULL, NULL},
+		.persistent = &(struct s_input__persistent){NULL, NULL},
 		.finished = INPUT_EXIT_REASON_NONE,
 	};
 

@@ -21,7 +21,7 @@
 
 static t_error	event_loop(struct s_input_read_result *dest,
 					t_term *term,
-					struct s_input_persistent *persistent_state,
+					struct s_input__persistent *persistent_state,
 					struct s_term_formatted_string prompt)
 {
 	t_error						error;
@@ -48,20 +48,42 @@ static t_error	event_loop(struct s_input_read_result *dest,
 	return (error_none());
 }
 
-t_error			input_read(struct s_input_read_result *dest,
-					struct s_input_persistent *persistent_state,
-					struct s_term_formatted_string prompt)
+static t_error	setup_persistent_state(bool *is_static_setup,
+					struct s_input__persistent *persistent_state)
 {
-	t_error						error;
-	t_term						*term;
+	t_error	error;
 
-	error = input__configure(&term, INPUT__CONFIGURE_SETUP);
+	if (*is_static_setup)
+		return (error_none());
+	persistent_state->copied_text = ft_strnew(0);
+	if (persistent_state->copied_text == NULL)
+		return (errorf("out of memory"));
+	error = history_create(&persistent_state->history);
 	if (is_error(error))
 	{
-		return (errorf("failed to configure terminal for interactive input: %s",
-			error.msg));
+		ft_dprintf(STDERR_FILENO,
+			"tosh: failed to enable history support: %s\n", error.msg);
 	}
-	error = event_loop(dest, term, persistent_state, prompt);
+	*is_static_setup = true;
+	return (error_none());
+}
+
+t_error			input_read(struct s_input_read_result *dest,
+					const char *prompt, size_t prompt_width)
+{
+	t_error								error;
+	static bool							is_static_setup;
+	static struct s_input__persistent	persistent_state;
+	t_term								*term;
+
+	error = setup_persistent_state(&is_static_setup, &persistent_state);
+	if (is_error(error))
+		return (errorf("failed to setup persistent state: %s", error.msg));
+	error = input__configure(&term, INPUT__CONFIGURE_SETUP);
+	if (is_error(error))
+		return (errorf("failed to enable interactive input: %s", error.msg));
+	error = event_loop(dest, term, &persistent_state,
+		(struct s_term_formatted_string){prompt, prompt_width});
 	if (is_error(error))
 	{
 		input__configure(&term, INPUT__CONFIGURE_RESTORE);

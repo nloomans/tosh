@@ -25,8 +25,6 @@
 #include "../error/error.h"
 
 /*
-** todo: replace (void)env; with the executor module
-**
 ** assert is placeholder for actual code
 */
 
@@ -58,50 +56,21 @@ static void		run_command(const char *const input, t_env *const env)
 	}
 }
 
-static void		initialize_tosh(t_env **const env,
-					struct s_input_persistent *const persistent_state,
-					char **const envp)
-{
-	t_error	error;
-
-	persistent_state->copied_text = ft_strnew(0);
-	if (persistent_state->copied_text == NULL)
-	{
-		ft_dprintf(STDERR_FILENO, "tosh: fatal: out of memory\n", error.msg);
-		exit(1);
-	}
-	error = history_create(&persistent_state->history);
-	if (is_error(error))
-	{
-		ft_dprintf(STDERR_FILENO,
-			"tosh: failed to enable history support: %s\n", error.msg);
-	}
-	*env = env_from_envp(envp);
-	if (*env == NULL)
-	{
-		ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to create enviroment\n");
-		exit(1);
-	}
-}
-
-/*
-** TODO: Consider using ft_getline if TERM is unknown.
-*/
-
 void			tosh(char **envp)
 {
 	t_env						*env;
 	t_error						error;
 	struct s_input_read_result	input;
-	char						prompt[32];
-	struct s_input_persistent	persistent_state;
 
-	ft_snprintf(prompt, sizeof(prompt), "%{green}TOSH $ %{reset}");
-	initialize_tosh(&env, &persistent_state, envp);
+	env = env_from_envp(envp);
+	if (env == NULL)
+	{
+		ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to create enviroment\n");
+		exit(1);
+	}
 	while (true)
 	{
-		error = input_read(&input, &persistent_state,
-			(struct s_term_formatted_string){prompt, 7});
+		error = input_read(&input, "\x1b[0;32mTOSH $ \x1b[0;0m", 7);
 		if (is_error(error))
 		{
 			ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to read input: %s\n",
