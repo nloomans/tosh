@@ -17,6 +17,7 @@
 # include <signal.h>
 # include <unistd.h>
 # include "input.h"
+# include "../history/history.h"
 # include "../term/term.h"
 
 extern volatile sig_atomic_t	g_input__sigwinch;
@@ -29,6 +30,18 @@ enum					e_input__configure_action
 
 t_error					input__configure(t_term **term,
 							enum e_input__configure_action action);
+
+/*
+** history        opaque struct for managing the history. Can be NULL for
+**                disabled history support.
+** copied_text    the text to be pasted if the user wishes so.
+*/
+
+struct					s_input__persistent
+{
+	t_history	*history;
+	char		*copied_text;
+};
 
 /*
 ** buffer           the text that the user has entered. Does not contain line
@@ -45,7 +58,7 @@ struct					s_input__state
 	char						*buffer;
 	size_t						cursor_position;
 	ssize_t						select_start;
-	struct s_input_persistent	*persistent;
+	struct s_input__persistent	*persistent;
 	enum e_input_exit_reason	finished;
 };
 
