@@ -18,6 +18,7 @@ src_files += files(
 	'redirect/open_file.c',
 	'redirect/trackers.c',
 	'redirect/unpack_tracker.c',
+	'redirect/redirect_heredoc.c',
 	'builtin/cd.c',
 	'builtin/exit.c',
 	'builtin/setenv.c',

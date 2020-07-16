@@ -50,6 +50,6 @@ typedef struct	s_machine_def{
 
 t_error			replacer_fsm(char **const tape,
 					const t_machine_def *machine,
-					t_env *const env);
+					const t_env *const env);
 
 #endif

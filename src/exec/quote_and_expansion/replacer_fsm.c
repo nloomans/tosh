@@ -37,7 +37,7 @@ static int		add_to_tape(char **const output_tape,
 
 static int		insert_env_expansion(const char **const ainput_tape,
 					char **const output_tape,
-					t_env *const env)
+					const t_env *const env)
 {
 	size_t	index;
 	char	*holder;
@@ -87,7 +87,7 @@ static void		get_next_rule(
 t_error			iter_fsm(const char *input_tape,
 					char **const output_tape,
 					const t_machine_def *machine,
-					t_env *const env)
+					const t_env *const env)
 {
 	enum e_machine_state			current_state;
 	const struct s_quote_fsm_rule	*current_rule;
@@ -117,7 +117,7 @@ t_error			iter_fsm(const char *input_tape,
 
 t_error			replacer_fsm(char **const tape,
 					const t_machine_def *machine,
-					t_env *const env)
+					const t_env *const env)
 {
 	char	*new_tape;
 	t_error	err;

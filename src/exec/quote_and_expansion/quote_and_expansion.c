@@ -22,6 +22,11 @@ static t_error		expand_redirection(struct s_io_redirect *const redirect,
 	}
 	else
 	{
+		if (ft_strchr(redirect->here->here_end, '\"') != NULL ||
+			ft_strchr(redirect->here->here_end, '\'') != NULL)
+		{
+			redirect->here->was_quoted = true;
+		}
 		return (replacer_fsm(&redirect->here->here_end,
 			&g_here_end_table, env));
 	}

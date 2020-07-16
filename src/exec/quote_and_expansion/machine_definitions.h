@@ -15,7 +15,7 @@
 
 # include "quote_and_expansion.h"
 
-const t_machine_def	g_basic_table = {
+static const t_machine_def	g_basic_table = {
 	.all_state = {
 		[FIRST_CHAR] = {.rules = {
 				['\"'] = {DOUBLE_QUOTE, true, false},
@@ -50,7 +50,7 @@ const t_machine_def	g_basic_table = {
 	.first_state = FIRST_CHAR,
 };
 
-const t_machine_def	g_here_end_table = {
+static const t_machine_def	g_here_end_table = {
 	.all_state = {
 		[UNQUOTED] = {.rules = {
 				['\"'] = {DOUBLE_QUOTE, true, false},
@@ -70,6 +70,18 @@ const t_machine_def	g_here_end_table = {
 				['\0'] = {QUOTE_INCOMPLETE, true, false},
 			},
 			.catch_case = {DOUBLE_QUOTE, false, false},
+		},
+	},
+	.first_state = UNQUOTED,
+};
+
+static const t_machine_def	g_here_content_table = {
+	.all_state = {
+		[UNQUOTED] = {.rules = {
+				['\0'] = {EOS, true, false},
+				['$'] = {UNQUOTED, true, true},
+			},
+			.catch_case = {UNQUOTED, false, false},
 		},
 	},
 	.first_state = UNQUOTED,

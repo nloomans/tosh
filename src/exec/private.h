@@ -83,7 +83,8 @@ void					exec__kill_child(struct s_child *const child_process,
 */
 t_error					exec__handle_redirections(
 							t_list_meta *const tracker_lst,
-							const struct s_simple_command *const command);
+							const struct s_simple_command *const command,
+							const t_env *const env);
 bool					exec__is_protected_fd(const int fd);
 struct s_redirection	*unpack_tracker(const t_list_conn *const node);
 
@@ -113,6 +114,10 @@ t_error					redirect_out_and(t_list_meta *const tracker_lst,
 							const int first_fd,
 							const struct s_io_file *const cur_redir);
 
+t_error					redirect_heredoc(t_list_meta *const tracker_lst,
+							const int first_fd,
+							const struct s_io_here *const heredoc,
+							const t_env *const env);
 
 /*
 **		////set_arg.h////
