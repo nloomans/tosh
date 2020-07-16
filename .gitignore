@@ -1,3 +1,4 @@
 /*build*
 !/meson.build
 /.vscode
+/normified
