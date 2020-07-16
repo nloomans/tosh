@@ -52,9 +52,7 @@ t_error			exec__single(struct s_exec_state *const status,
 	ft_bzero(&all_arg, sizeof(all_arg));
 	err = exec__set_arguments(&all_arg, command, env);
 	if (is_error(err))
-	{
 		return (err);
-	}
 	if (all_arg.argv == NULL)
 		return (exec__clear_arguments(&all_arg));
 	builtin = exec__identify_builtin(all_arg.argv[0]);

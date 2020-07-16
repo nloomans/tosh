@@ -56,18 +56,38 @@ static void		run_command(const char *const input, t_env *const env)
 	}
 }
 
+/*
+** TODO: Consider using ft_getline if TERM is unknown.
+*/
+
+static void		sigint_replacement(int sig)
+{
+	g_terminate_sig = 1;
+	(void)sig;
+}
+
+static void		initialize_tosh(t_env **const aenv, char **envp)
+{
+	if (signal(SIGINT, &sigint_replacement) == SIG_ERR)
+	{
+		ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to set signal handler");
+		exit(1);
+	}
+	*aenv = env_from_envp(envp);
+	if (*aenv == NULL)
+	{
+		ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to create enviroment\n");
+		exit(1);
+	}
+}
+
 void			tosh(char **envp)
 {
 	t_env						*env;
 	t_error						error;
 	struct s_input_read_result	input;
 
-	env = env_from_envp(envp);
-	if (env == NULL)
-	{
-		ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to create enviroment\n");
-		exit(1);
-	}
+	initialize_tosh(&env, envp);
 	while (true)
 	{
 		error = input_read(&input, "\x1b[0;32mTOSH $ \x1b[0;0m", 7);

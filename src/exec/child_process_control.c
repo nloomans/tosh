@@ -12,7 +12,7 @@
 
 #include <stdlib.h>
 #include <sys/wait.h>
-#include <assert.h>
+#include <unistd.h>
 
 #include "private.h"
 
@@ -82,7 +82,6 @@ t_error			exec__child_process_control(t_env *const env,
 	t_error			err;
 	struct s_child	*last_child;
 
-	assert(status->pid_list.len != 0);
 	last_child = unpack_child(status->pid_list.last);
 	while (status->pid_list.len != 0 && g_terminate_sig == 0)
 	{
@@ -102,6 +101,7 @@ t_error			exec__child_process_control(t_env *const env,
 		env_set_exit_status(env, 255);
 		g_terminate_sig = 0;
 		status->must_halt = 1;
+		write(1, "\n", 1);
 	}
 	return (error_none());
 }

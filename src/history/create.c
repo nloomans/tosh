@@ -95,7 +95,8 @@ t_error			history_create(t_history **history)
 	home_env = getenv("HOME");
 	if (home_env == NULL)
 		return (errorf("HOME not set"));
-	ret = snprintf(path_name, sizeof(path_name), "%s/.tosh_history", home_env);
+	ret = ft_snprintf(path_name, sizeof(path_name),
+		"%s/.tosh_history", home_env);
 	if (ret == -1)
 		return (errorf("unable to expand ~/.tosh_history"));
 	if (ret > (ssize_t)sizeof(path_name) - 1)

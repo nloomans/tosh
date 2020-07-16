@@ -12,48 +12,52 @@
 
 #include "private.h"
 
-static t_error	initialize_arguments(struct s_program_prereq *const all_arg,
-					const struct s_simple_command *const command,
-					const t_env *const env) //placeholder
+static size_t	calculate_array(const struct s_simple_command *const command)
 {
-	t_error	err;
-
-	size_t	len;
-	struct s_cmd_suffix *iter;
+	size_t						len;
+	const struct s_cmd_suffix	*iter;
 
 	if (command->name == NULL)
-	{
-		return (error_none());
-	}
-	err = error_none();
-	iter = command->suffix;
+		return (0);
 	len = 1;
+	iter = command->suffix;
 	while (iter)
 	{
 		if (iter->word)
 			len++;
 		iter = iter->suffix;
 	}
-	all_arg->argv = ft_memalloc((len + 1)* sizeof(char *));
+	return (len);
+}
+
+static t_error	initialize_arguments(struct s_program_prereq *const all_arg,
+					const struct s_simple_command *const command)
+{
+	size_t						len;
+	const struct s_cmd_suffix	*iter;
+
+	len = calculate_array(command);
+	all_arg->argv = ft_memalloc((len + 1) * sizeof(char *));
 	if (all_arg->argv == NULL)
-	{
 		return (errorf("unable to allocate memory"));
-	}
 	all_arg->arg_count = len;
 	len = 1;
 	all_arg->argv[0] = ft_strdup(command->name);
+	if (all_arg->argv[0] == NULL)
+		return (errorf("unable to allocate memory"));
 	iter = command->suffix;
 	while (iter)
 	{
 		if (iter->word)
 		{
 			all_arg->argv[len] = ft_strdup(iter->word);
+			if (all_arg->argv[len] == NULL)
+				return (errorf("unable to allocate memory"));
 			len++;
 		}
 		iter = iter->suffix;
 	}
-	(void)env;
-	return (err);
+	return (error_none());
 }
 
 t_error			exec__set_arguments(struct s_program_prereq *const all_arg,
@@ -73,7 +77,7 @@ t_error			exec__set_arguments(struct s_program_prereq *const all_arg,
 		exec__clear_arguments(all_arg);
 		return (err);
 	}
-	err = initialize_arguments(all_arg, command, env);
+	err = initialize_arguments(all_arg, command);
 	if (is_error(err))
 	{
 		exec__clear_arguments(all_arg);

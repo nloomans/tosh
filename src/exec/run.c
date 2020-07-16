@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include <ft_printf.h>
 
 #include "private.h"
@@ -26,33 +25,23 @@ void		exec_run(
 	t_error					err;
 	struct s_list			*list;
 
-	g_terminate_sig = 0; //remove later
 	list = complete_command->list;
 	ft_bzero(&status, sizeof(status));
 	while (list && status.must_halt == 0)
 	{
-		assert(list->pipe_sequence != NULL); //parser error?
 		err = quote_and_expansion(list->pipe_sequence, env);
 		if (is_error(err))
-		{
 			ft_dprintf(2, "Tosh: %s\n", err.msg);
-		}
 		else
-		{	
+		{
 			if (list->pipe_sequence->pipe_sequence)
-			{
 				err = exec__sequence(&status, list->pipe_sequence, env);
-			}
 			else
-			{
-				err = exec__single(&status, list->pipe_sequence->simple_command, env);
-			}
+				err = exec__single(&status,
+					list->pipe_sequence->simple_command, env);
 			if (is_error(err))
-			{
 				ft_dprintf(2, "Tosh: %s\n", err.msg);
-			}
 		}
 		list = list->list;
 	}
-	g_terminate_sig = 0; //nonsense if handling background proccesses(?)
 }
