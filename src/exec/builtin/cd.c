@@ -48,13 +48,13 @@ uint8_t			builtin_cd(int argc, char **argv, t_env *const env)
 		return (ft_eprintf(1, "cd: to many arguments\n"));
 	if (argc == 1)
 	{
-		if (env_get_unsafe(env, "HOME") != NULL)
+		if (env_get_unsafe(env, "HOME") == NULL)
 			return (ft_eprintf(1, "cd: $HOME not set\n"));
 		ft_strlcpy(new_path, env_get_unsafe(env, "HOME"), PATH_MAX);
 	}
 	else if (ft_strcmp(argv[1], "-") == 0)
 	{
-		if (env_get_unsafe(env, "OLDPWD") != NULL)
+		if (env_get_unsafe(env, "OLDPWD") == NULL)
 			return (ft_eprintf(1, "cd: $OLDPWD not set\n"));
 		ft_strlcpy(new_path, env_get_unsafe(env, "OLDPWD"), PATH_MAX);
 		ft_printf("%s\n", new_path);
