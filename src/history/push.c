@@ -20,6 +20,8 @@ t_error						history_push(struct s_history *history,
 {
 	struct s_history__line	*line;
 
+	if (*ft_strdropwhile(new_buffer, ft_isspace) == '\0')
+		return (error_none());
 	line = ft_memalloc(sizeof(*line));
 	if (line == NULL)
 		return (errorf("out of memory"));
