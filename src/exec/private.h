@@ -22,22 +22,22 @@ enum	e_pipe_ends{
 
 typedef uint8_t			(t_builtin)(int, char **, t_env *const);
 
-struct	s_builtin_tbl{
+struct					s_builtin_tbl{
 	const char			*name;
 	t_builtin			*ptr;
 };
 
-struct	s_exec_state{
+struct					s_exec_state{
 	bool				must_halt;
 	t_list_meta			pid_list;
-};//this struct should possibly be deleted
+};
 
-struct	s_child{
+struct					s_child{
 	pid_t				pid;
 	struct s_list_conn	conn;
 };
 
-struct	s_redirection{
+struct					s_redirection{
 	int					origin_fd;
 	int					dest_fd;
 	t_list_conn			conn;
@@ -47,7 +47,7 @@ typedef t_error			(t_redirect_func)(t_list_meta *const,
 							const int,
 							const struct s_io_file *const);
 
-struct	s_redirection_kvp{
+struct					s_redirection_kvp{
 	int					default_fd;
 	t_redirect_func		*handler;
 };
@@ -56,7 +56,7 @@ struct	s_redirection_kvp{
 # define BACKUP_STDOUT	1001
 # define BACKUP_STDERR	1002
 
-struct	s_program_prereq{
+struct					s_program_prereq{
 	char				**argv;
 	int					arg_count;
 	char				**envp;

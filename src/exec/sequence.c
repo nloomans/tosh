@@ -75,13 +75,12 @@ static t_error	create_fork(t_list_meta *const pid_list,
 
 static t_error	loop_sequence(t_list_meta *const pid_list,
 					const struct s_pipe_sequence *sequence,
-					t_env *const env)
+					t_env *const env,
+					t_error err)
 {
 	int			pipette[2];
 	int			input_fd;
-	t_error		err;
 
-	err = error_none();
 	input_fd = STDIN_FILENO;
 	while (sequence && is_error(err) == false)
 	{
@@ -112,7 +111,7 @@ t_error			exec__sequence(struct s_exec_state *const status,
 {
 	t_error		err;
 
-	err = loop_sequence(&status->pid_list, sequence, env);
+	err = loop_sequence(&status->pid_list, sequence, env, error_none());
 	if (is_error(err))
 	{
 		exec__kill_all_children(&status->pid_list, SIGTERM);

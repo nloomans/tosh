@@ -19,22 +19,19 @@
 
 #include "private.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 
 static t_error		find_command_path(char path[PATH_MAX],
 						const t_env *const env,
 						char const *const name)
 {
-	char					*env_path;
+	const char				*env_path = env_get_unsafe(env, "PATH");
 	size_t					i;
 	int						sub_len;
 	const size_t			name_len = ft_strlen(name);
 
-	env_path = env_get(env, "PATH");
 	i = 0;
 	if (path != NULL)
-	{
 		while (env_path[i] != '\0')
 		{
 			if (env_path[i] == ':')
@@ -47,15 +44,10 @@ static t_error		find_command_path(char path[PATH_MAX],
 				return (errorf("%s: File name too long", name));
 			ft_snprintf(path, PATH_MAX, "%.*s/%s", sub_len, env_path + i, name);
 			if (access(path, F_OK | X_OK) == 0)
-			{
-				ft_strdel(&env_path);
 				return (error_none());
-			}
 			i += sub_len;
 		}
-		ft_bzero(path, PATH_MAX);
-	}
-	ft_strdel(&env_path);
+	ft_bzero(path, PATH_MAX);
 	return (errorf("%s: command not found", name));
 }
 
@@ -95,7 +87,6 @@ void				exec__identify_executable(
 		ft_dprintf(STDERR_FILENO, "tosh: %s\n", err.msg);
 		return ;
 	}
-	dprintf(2, "identified as '%s'\n", path);
 	if (access(path, X_OK) == -1)
 	{
 		ft_dprintf(STDERR_FILENO, "tosh: %s: no execute permission\n", path);

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <ft_printf.h>
 #include "private.h"
 
 static void				swap(size_t *a, size_t *b)
