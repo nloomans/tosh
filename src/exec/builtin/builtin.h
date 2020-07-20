@@ -19,5 +19,7 @@ uint8_t		builtin_cd(int argc, char **argv, t_env *const env);
 uint8_t		builtin_echo(int argc, char **argv, t_env *const env);
 uint8_t		builtin_exit(int argc, char **argv, t_env *const env);
 uint8_t		builtin_setenv(int argc, char **argv, t_env *const env);
+uint8_t		builtin_unsetenv(int argc, char **argv, t_env *const env);
+uint8_t		builtin_env(int argc, char **argv, t_env *const env);
 
 #endif

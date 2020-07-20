@@ -24,6 +24,7 @@ src_files += files(
 	'builtin/setenv.c',
 	'builtin/echo.c',
 	'builtin/unsetenv.c',
+	'builtin/env.c',
 	'quote_and_expansion/replacer_fsm.c',
 	'quote_and_expansion/quote_and_expansion.c',
 )

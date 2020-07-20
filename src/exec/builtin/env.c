@@ -10,48 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private.h"
-#include "builtin/builtin.h"
+#include <libft.h>
+#include <ft_printf.h>
 
-static const struct s_builtin_tbl g_table[] = {
-	{
-		.name = "cd",
-		.ptr = &builtin_cd,
-	},
-	{
-		.name = "setenv",
-		.ptr = &builtin_setenv,
-	},
-	{
-		.name = "unsetenv",
-		.ptr = &builtin_unsetenv,
-	},
-	{
-		.name = "env",
-		.ptr = &builtin_env,
-	},
-	{
-		.name = "echo",
-		.ptr = &builtin_echo,
-	},
-	{
-		.name = "exit",
-		.ptr = &builtin_exit,
-	},
-};
+#include "../../env/env.h"
 
-t_builtin	*exec__identify_builtin(const char *const name)
+uint8_t		builtin_env(int argc, char **argv, t_env *const env)
 {
-	size_t	iter;
+	char	**envp;
+	size_t	index;
 
-	iter = 0;
-	while (iter < (sizeof(g_table) / sizeof(struct s_builtin_tbl)))
+	(void)argv;
+	if (argc > 1)
 	{
-		if (ft_strequ(g_table[iter].name, name))
-		{
-			return (g_table[iter].ptr);
-		}
-		iter++;
+		return (ft_eprintf(1, "env: too many arguments\n"));
 	}
-	return (NULL);
+	envp = env_to_envp(env);
+	if (envp == NULL)
+	{
+		return (ft_eprintf(1, "env: failed to allocate memory\n"));
+	}
+	index = 0;
+	while (envp[index] != NULL)
+	{
+		ft_printf("%s\n", envp[index]);
+		index++;
+	}
+	ft_arraydel((void ***)&envp, &ft_memdel);
+	return (0);
 }
