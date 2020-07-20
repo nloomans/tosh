@@ -14,6 +14,7 @@
 #include <ft_printf.h>
 
 #include "private.h"
+#include "quote_and_expansion/quote_and_expansion.h"
 
 volatile sig_atomic_t	g_terminate_sig;
 
@@ -23,7 +24,7 @@ void		exec_run(
 {
 	struct s_exec_state		status;
 	t_error					err;
-	const struct s_list		*list;
+	struct s_list			*list;
 
 	g_terminate_sig = 0; //remove later
 	list = complete_command->list;
@@ -31,18 +32,25 @@ void		exec_run(
 	while (list && status.must_halt == 0)
 	{
 		assert(list->pipe_sequence != NULL); //parser error?
-		err = error_none();
-		if (list->pipe_sequence->pipe_sequence)
-		{
-			err = exec__sequence(&status, list->pipe_sequence, env);
-		}
-		else
-		{
-			err = exec__single(&status, list->pipe_sequence->simple_command, env);
-		}
+		err = quote_and_expansion(list->pipe_sequence, env);
 		if (is_error(err))
 		{
 			ft_dprintf(2, "Tosh: %s\n", err.msg);
+		}
+		else
+		{	
+			if (list->pipe_sequence->pipe_sequence)
+			{
+				err = exec__sequence(&status, list->pipe_sequence, env);
+			}
+			else
+			{
+				err = exec__single(&status, list->pipe_sequence->simple_command, env);
+			}
+			if (is_error(err))
+			{
+				ft_dprintf(2, "Tosh: %s\n", err.msg);
+			}
 		}
 		list = list->list;
 	}

@@ -35,6 +35,6 @@ uint8_t		builtin_exit(int argc, char **argv, t_env *const env)
 	}
 	else
 	{
-		return(ft_eprintf(1, "exit: too many arguments\n"));
+		return (ft_eprintf(1, "exit: too many arguments\n"));
 	}
 }

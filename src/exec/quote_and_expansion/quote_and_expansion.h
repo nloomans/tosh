@@ -10,44 +10,46 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRIVATE_H
-# define PRIVATE_H
+#ifndef QUOTE_AND_EXPANSION_H
+# define QUOTE_AND_EXPANSION_H
 
-# include <stdbool.h>
-
-# include "lexer.h"
+# include "../../env/env.h"
+# include "../../error/error.h"
+# include "../../parser/parser.h"
 
 /*
-**	noop shall be mathematically 0 and not overlap w/ other states.
+** USING FIRST_CHAR STATE = TILDE EXPANSION
 */
 
-typedef enum	e_tok_machine_state{
-	noop,
-	blank,
-	word,
-	io_number,
-	redir_left,
-	redir_right,
-	operator_exit,
-	quote_single,
-	quote_double,
-	comment,
-	eof,
-}				t_tok_machine_state;
-
-struct			s_fsm_rule
-{
-	t_tok_machine_state	new_state;
-	enum e_token_type	delimit;
-	bool				add_char;
+enum	e_machine_state{
+	UNDEF,
+	FIRST_CHAR,
+	UNQUOTED,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE,
+	TILDE,
+	EOS,
+	QUOTE_INCOMPLETE,
 };
 
-struct			s_fsm_state
-{
-	struct s_fsm_rule	rules[256];
-	struct s_fsm_rule	catch_rule;
+struct			s_quote_fsm_rule{
+	enum e_machine_state	new_state;
+	bool					ignore_char;
+	bool					env_expand;
 };
 
-extern const struct s_fsm_state g_machine_table[];
+struct			s_quote_fsm_subsection{
+	struct s_quote_fsm_rule	rules[256];
+	struct s_quote_fsm_rule	catch_case;
+};
+
+typedef struct	s_machine_def{
+	struct s_quote_fsm_subsection	all_state[8];
+	enum e_machine_state			first_state;
+}				t_machine_def;
+
+t_error			replacer_fsm(char **const tape,
+					const t_machine_def *machine,
+					const t_env *const env);
 
 #endif

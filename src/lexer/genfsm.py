@@ -18,9 +18,7 @@ class State(Enum):
 	REDIR_RIGHT = 'redir_right'
 	OPERATOR_EXIT = 'operator_exit'
 	QUOTE_SINGLE = 'quote_single'
-	QUOTE_SLASH = 'quote_slash'
 	QUOTE_DOUBLE = 'quote_double'
-	QUOTE_DOUBLE_SLASH = 'quote_double_slash'
 	COMMENT = 'comment'
 
 class Token(Enum):
@@ -34,7 +32,6 @@ class Input(Enum):
 	DIGIT = auto()
 	SINGLE_QUOTE = auto()
 	DOUBLE_QUOTE = auto()
-	BACKSLASH = auto()
 	LEFT_ARROW = auto()
 	RIGHT_ARROW = auto()
 	NEWLINE = auto()
@@ -48,7 +45,6 @@ input_map = {
 	Input.DIGIT: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
 	Input.SINGLE_QUOTE: ['\\\''],
 	Input.DOUBLE_QUOTE: ['"'],
-	Input.BACKSLASH: ['\\\\'],
 	Input.LEFT_ARROW: ['<'],
 	Input.RIGHT_ARROW: ['>'],
 	Input.NEWLINE: ['\\n'],
@@ -99,7 +95,6 @@ output = fsm([
 
 		Input.SINGLE_QUOTE: rule(State.QUOTE_SINGLE,							add_char=True),
 		Input.DOUBLE_QUOTE: rule(State.QUOTE_DOUBLE,							add_char=True),
-		Input.BACKSLASH:	rule(State.QUOTE_SLASH,								add_char=True),
 
 	}, catch_rule=rule(State.WORD, add_char=True)),
 
@@ -115,7 +110,6 @@ output = fsm([
 
 		Input.SINGLE_QUOTE: rule(State.QUOTE_SINGLE,							add_char=True),
 		Input.DOUBLE_QUOTE: rule(State.QUOTE_DOUBLE,							add_char=True),
-		Input.BACKSLASH:	rule(State.QUOTE_SLASH,								add_char=True),
 
 	}, catch_rule=rule(State.WORD, add_char=True)),
 
@@ -133,7 +127,6 @@ output = fsm([
 
 		Input.SINGLE_QUOTE: rule(State.QUOTE_SINGLE,							add_char=True),
 		Input.DOUBLE_QUOTE: rule(State.QUOTE_DOUBLE,							add_char=True),
-		Input.BACKSLASH:	rule(State.QUOTE_SLASH,								add_char=True),
 
 	}, catch_rule=rule(State.WORD, add_char=True)),
 
@@ -146,7 +139,6 @@ output = fsm([
 
 		Input.SINGLE_QUOTE:	rule(State.QUOTE_SINGLE,	delimit=Token.OPERATOR,	add_char=True),
 		Input.DOUBLE_QUOTE:	rule(State.QUOTE_DOUBLE,	delimit=Token.OPERATOR,	add_char=True),
-		Input.BACKSLASH:	rule(State.QUOTE_SLASH,		delimit=Token.OPERATOR,	add_char=True),
 
 		Input.LEFT_ARROW:	rule(State.OPERATOR_EXIT,							add_char=True),
 		Input.AMPERSAND:	rule(State.OPERATOR_EXIT,							add_char=True),
@@ -162,7 +154,6 @@ output = fsm([
 
 		Input.SINGLE_QUOTE:	rule(State.QUOTE_SINGLE,	delimit=Token.OPERATOR,	add_char=True),
 		Input.DOUBLE_QUOTE:	rule(State.QUOTE_DOUBLE,	delimit=Token.OPERATOR,	add_char=True),
-		Input.BACKSLASH:	rule(State.QUOTE_SLASH,		delimit=Token.OPERATOR,	add_char=True),
 
 		Input.RIGHT_ARROW:	rule(State.OPERATOR_EXIT,							add_char=True),
 		Input.AMPERSAND:	rule(State.OPERATOR_EXIT,							add_char=True),
@@ -180,7 +171,6 @@ output = fsm([
 
 		Input.SINGLE_QUOTE:	rule(State.QUOTE_SINGLE,	delimit=Token.OPERATOR,	add_char=True),
 		Input.DOUBLE_QUOTE:	rule(State.QUOTE_DOUBLE,	delimit=Token.OPERATOR,	add_char=True),
-		Input.BACKSLASH:	rule(State.QUOTE_SLASH,		delimit=Token.OPERATOR,	add_char=True),
 
 		Input.LEFT_ARROW:	rule(State.REDIR_LEFT,		delimit=Token.OPERATOR, add_char=True),
 		Input.RIGHT_ARROW:	rule(State.REDIR_RIGHT,		delimit=Token.OPERATOR, add_char=True),
@@ -194,23 +184,10 @@ output = fsm([
 
 	}, catch_rule=rule(State.QUOTE_SINGLE, add_char=True)),
 
-	rules(State.QUOTE_SLASH, {
-
-		Input.NULL:			rule(State.EOF, 			delimit=Token.WORD),
-
-	}, catch_rule=rule(State.WORD, add_char=True)),
-
 	rules(State.QUOTE_DOUBLE, {
 
 		Input.NULL:			rule(State.EOF,				delimit=Token.WORD),
 		Input.DOUBLE_QUOTE: rule(State.WORD,									add_char=True),
-		Input.BACKSLASH:	rule(State.QUOTE_DOUBLE_SLASH,						add_char=True),
-
-	}, catch_rule=rule(State.QUOTE_DOUBLE, add_char=True)),
-
-	rules(State.QUOTE_DOUBLE_SLASH, {
-
-		Input.NULL:			rule(State.EOF,				delimit=Token.WORD),
 
 	}, catch_rule=rule(State.QUOTE_DOUBLE, add_char=True)),
 

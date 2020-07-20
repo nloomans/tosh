@@ -18,10 +18,13 @@ src_files += files(
 	'redirect/open_file.c',
 	'redirect/trackers.c',
 	'redirect/unpack_tracker.c',
+	'redirect/redirect_heredoc.c',
 	'builtin/cd.c',
 	'builtin/exit.c',
 	'builtin/setenv.c',
 	'builtin/echo.c',
 	'builtin/unsetenv.c',
+	'quote_and_expansion/replacer_fsm.c',
+	'quote_and_expansion/quote_and_expansion.c',
 )
 test_files += files()

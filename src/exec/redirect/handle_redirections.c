@@ -24,7 +24,8 @@ const struct s_redirection_kvp	g_redir_tbl[] = {
 };
 
 static t_error	redirect(t_list_meta *const tracker_lst,
-					const struct s_io_redirect *const redir)
+					const struct s_io_redirect *const redir,
+					const t_env *const env)
 {
 	int								first_fd;
 	const struct s_redirection_kvp	*redir_type;
@@ -45,13 +46,13 @@ static t_error	redirect(t_list_meta *const tracker_lst,
 			first_fd = 0;
 		if (exec__is_protected_fd(first_fd) == true)
 			return (errorf("%d is a protected fd", redir->fd));
-		//return (setup_heredoc(tracker, first_fd, redir));
-		assert(!"Help this is a heredoc i'm not qualified for that");
+		return (redirect_heredoc(tracker_lst, first_fd, redir->here, env));
 	}
 }
 
 static t_error	recurse_prefix(t_list_meta *const tracker_lst,
-					const struct s_cmd_prefix *const prefix)
+					const struct s_cmd_prefix *const prefix,
+					const t_env *const env)
 {
 	t_error		err;
 
@@ -61,13 +62,13 @@ static t_error	recurse_prefix(t_list_meta *const tracker_lst,
 	}
 	if (prefix->prefix)
 	{
-		err = recurse_prefix(tracker_lst, prefix);
+		err = recurse_prefix(tracker_lst, prefix, env);
 		if (is_error(err))
 		{
 			return (err);
 		}
 	}
-	err = redirect(tracker_lst, prefix->redirect);
+	err = redirect(tracker_lst, prefix->redirect, env);
 	return (err);
 }
 
@@ -93,7 +94,8 @@ static t_error	backup_fds(void)
 
 t_error			exec__handle_redirections(
 					t_list_meta *const tracker_lst,
-					const struct s_simple_command *const command)
+					const struct s_simple_command *const command,
+					const t_env *const env)
 {
 	t_error				err;
 	struct s_cmd_suffix	*suffix;
@@ -101,7 +103,7 @@ t_error			exec__handle_redirections(
 	err = backup_fds();
 	if (is_error(err))
 		return (err);
-	err = recurse_prefix(tracker_lst, command->prefix);
+	err = recurse_prefix(tracker_lst, command->prefix, env);
 	if (is_error(err))
 		return (err);
 	suffix = command->suffix;
@@ -109,7 +111,7 @@ t_error			exec__handle_redirections(
 	{
 		if (suffix->redirect)
 		{
-			err = redirect(tracker_lst, suffix->redirect);
+			err = redirect(tracker_lst, suffix->redirect, env);
 			if (is_error(err))
 			{
 				return (err);
