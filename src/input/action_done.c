@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
-
 #include "private.h"
 
 t_error		input__action_done(struct s_input__state *state)
