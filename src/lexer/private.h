@@ -33,6 +33,8 @@ typedef enum	e_tok_machine_state{
 	quote_double,
 	comment,
 	eof,
+	unterm_single,
+	unterm_double,
 }				t_tok_machine_state;
 
 struct			s_fsm_rule
@@ -49,5 +51,9 @@ struct			s_fsm_state
 };
 
 extern const struct s_fsm_state g_machine_table[];
+
+int				lexer_tokenize(t_tok_machine_state *const state,
+					t_list_meta *const all_token,
+					char const *memory_tape);
 
 #endif

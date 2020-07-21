@@ -69,7 +69,7 @@ static void	clean_all(
 	lexer_clear(all_token);
 }
 
-static int	handle_current_state(
+static int	run_current_state(
 				t_list_meta *const all_token,
 				struct s_string *const cur_token,
 				const struct s_fsm_rule cur_rule,
@@ -94,31 +94,30 @@ static int	handle_current_state(
 	return (0);
 }
 
-int			lexer_tokenize(
+int			lexer_tokenize(t_tok_machine_state *const state,
 				t_list_meta *const all_token,
 				char const *memory_tape)
 {
-	t_tok_machine_state			state;
 	struct s_string				cur_token;
 	struct s_fsm_state			cur_state;
 	struct s_fsm_rule			cur_rule;
 
-	state = blank;
+	*state = blank;
 	ft_bzero(all_token, sizeof(*all_token));
 	ft_bzero(&cur_token, sizeof(cur_token));
 	cur_token.buffer = ft_memalloc(INITIAL_BUFF);
 	if (cur_token.buffer == NULL)
 		return (-1);
 	cur_token.capacity = INITIAL_BUFF;
-	while (state != eof)
+	while (*state != eof && *state != unterm_double && *state != unterm_single)
 	{
-		cur_state = g_machine_table[state];
-		cur_rule = (cur_state.rules[(*memory_tape & 0xff)].new_state == noop)
-			? cur_state.catch_rule
-			: cur_state.rules[(*memory_tape & 0xff)];
-		if (handle_current_state(all_token, &cur_token, cur_rule, *memory_tape))
+		cur_state = g_machine_table[*state];
+		cur_rule = (cur_state.rules[(*memory_tape & 0xff)]);
+		if (cur_rule.new_state == noop)
+			cur_rule = cur_state.catch_rule;
+		if (run_current_state(all_token, &cur_token, cur_rule, *memory_tape))
 			return (-1);
-		state = cur_rule.new_state;
+		*state = cur_rule.new_state;
 		memory_tape++;
 	}
 	ft_strdel(&cur_token.buffer);

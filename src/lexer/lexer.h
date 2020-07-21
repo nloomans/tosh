@@ -15,6 +15,8 @@
 
 # include <libft.h>
 
+# include "../error/error.h"
+
 /*
 ** CAUSION: Update the array in token.c when updating the enum below.
 */
@@ -46,9 +48,9 @@ struct						s_string
 };
 
 struct s_token				*unpack_token(t_list_conn *const node);
-int							lexer_tokenize(
+t_error						lexer_handler(
 								t_list_meta *const all_token,
-								char const *memory_tape);
+								char **const memory_tape);
 void						lexer_clear(t_list_meta *const all_token);
 
 #endif

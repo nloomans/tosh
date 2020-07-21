@@ -9,6 +9,7 @@ fsm_c = custom_target('fsm_c',
 src_files += files(
 	'token.c',
 	'tokenize.c',
+	'handler.c',
 	'unpack_token.c',
 	'clear.c',
 )

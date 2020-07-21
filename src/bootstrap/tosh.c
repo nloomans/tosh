@@ -28,16 +28,17 @@
 ** assert is placeholder for actual code
 */
 
-static void		run_command(const char *const input, t_env *const env)
+static void		run_command(char **input, t_env *const env)
 {
 	t_list_meta					tokens;
 	struct s_complete_command	*complete_command;
 	bool						extra_input_requested;
 	t_error						err;
 
-	if (lexer_tokenize(&tokens, input) == -1)
-		ft_dprintf(STDERR_FILENO, "tosh: lexer could not allocate memory\n");
-	if (tokens.len != 0)
+	err = lexer_handler(&tokens, input);
+	if (is_error(err))
+		ft_dprintf(STDERR_FILENO, "tosh: %s\n", err.msg);
+	else if (tokens.len != 0)
 	{
 		err = parser_parse(&complete_command, &extra_input_requested, &tokens);
 		lexer_clear(&tokens);
@@ -96,7 +97,7 @@ void			tosh(char **envp)
 		if (input.exit_reason == INPUT_EXIT_REASON_DONE)
 			exit(env_get_exit_status(env));
 		if (input.exit_reason == INPUT_EXIT_REASON_SUBMIT)
-			run_command(input.text, env);
+			run_command(&input.text, env);
 		ft_strdel(&input.text);
 	}
 }
