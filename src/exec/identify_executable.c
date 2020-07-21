@@ -31,7 +31,7 @@ static t_error		find_command_path(char path[PATH_MAX],
 	const size_t			name_len = ft_strlen(name);
 
 	i = 0;
-	if (path != NULL)
+	if (env_path != NULL)
 		while (env_path[i] != '\0')
 		{
 			if (env_path[i] == ':')
