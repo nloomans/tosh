@@ -70,9 +70,9 @@ static t_error					run_next_keypress(struct s_input__state *state,
 				return (g_action_control_table[(int)keypress.c](state));
 		}
 	}
-	if (keypress.type == INPUT__READ_TEXT)
+	else if (keypress.type == INPUT__READ_TEXT)
 		return (input__action_insert(state, keypress.c));
-	if (g_action_type_table[keypress.type] != NULL)
+	else if (g_action_type_table[keypress.type] != NULL)
 		return (g_action_type_table[keypress.type](state));
 	return (error_none());
 }
