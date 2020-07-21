@@ -47,8 +47,11 @@ t_error			term_setup(t_term **out, const char *term_env)
 	t_error					error;
 	static t_term			term;
 
-	if (!tgetent(NULL, term_env))
-		return (errorf("tgetent failed: unknown $TERM"));
+	if (tgetent(NULL, term_env) != 1)
+	{
+		if (tgetent(NULL, "xterm") != 1)
+			return (errorf("tgetent failed: unknown $TERM and xterm is invalid"));
+	}
 	error = configure(&term);
 	if (is_error(error))
 		return (error);

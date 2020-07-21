@@ -56,10 +56,6 @@ static void		run_command(const char *const input, t_env *const env)
 	}
 }
 
-/*
-** TODO: Consider using ft_getline if TERM is unknown.
-*/
-
 static void		sigint_replacement(int sig)
 {
 	g_terminate_sig = 1;
