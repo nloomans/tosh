@@ -20,6 +20,8 @@ class State(Enum):
 	QUOTE_SINGLE = 'quote_single'
 	QUOTE_DOUBLE = 'quote_double'
 	COMMENT = 'comment'
+	UNTERM_SINGLE = 'unterm_single'
+	UNTERM_DOUBLE = 'unterm_double'
 
 class Token(Enum):
 	WORD = 'WORD'
@@ -179,14 +181,14 @@ output = fsm([
 
 	rules(State.QUOTE_SINGLE, {
 
-		Input.NULL:			rule(State.EOF,				delimit=Token.WORD),
+		Input.NULL:			rule(State.UNTERM_SINGLE,	delimit=Token.WORD),
 		Input.SINGLE_QUOTE: rule(State.WORD,									add_char=True),
 
 	}, catch_rule=rule(State.QUOTE_SINGLE, add_char=True)),
 
 	rules(State.QUOTE_DOUBLE, {
 
-		Input.NULL:			rule(State.EOF,				delimit=Token.WORD),
+		Input.NULL:			rule(State.UNTERM_DOUBLE,	delimit=Token.WORD),
 		Input.DOUBLE_QUOTE: rule(State.WORD,									add_char=True),
 
 	}, catch_rule=rule(State.QUOTE_DOUBLE, add_char=True)),
