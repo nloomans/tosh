@@ -41,6 +41,7 @@ t_normal_action *g_action_type_table[] = {
 	[INPUT__READ_END] = input__action_max_right,
 	[INPUT__READ_BACKSPACE] = input__action_backspace,
 	[INPUT__READ_RETURN] = input__action_return,
+	[INPUT__READ_TAB] = input__action_tab,
 };
 
 t_normal_action *g_action_control_table[] = {
