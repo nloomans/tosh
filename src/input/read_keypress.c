@@ -102,6 +102,8 @@ int								input__read_keypress(
 		keypress->type = INPUT__READ_BACKSPACE;
 	else if (c == '\n')
 		keypress->type = INPUT__READ_RETURN;
+	else if (c == '\t')
+		keypress->type = INPUT__READ_TAB;
 	else if (c >= 1 && c <= 1 + 'Z' - 'A')
 	{
 		keypress->modifier = INPUT__MODIFIER_CONTROL;
