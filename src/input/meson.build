@@ -16,6 +16,7 @@ src_files += files(
 	'action_right.c',
 	'action_select_cancel.c',
 	'action_select_start.c',
+	'action_tab.c',
 	'action_word_left.c',
 	'action_word_right.c',
 	'configure.c',
