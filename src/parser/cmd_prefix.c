@@ -18,13 +18,23 @@ struct s_cmd_prefix	*parse_cmd_prefix(t_parser *const p)
 	struct s_cmd_prefix *cmd_prefix;
 
 	cmd_prefix = ft_memalloc(sizeof(*cmd_prefix));
+	if (cmd_prefix == NULL)
+	{
+		parser__errorf(p, "unable to allocate memory");
+		return (NULL);
+	}
 	cmd_prefix->redirect = parse_io_redirect(p);
-	if (!cmd_prefix->redirect)
+	if (is_error(p->error) || !cmd_prefix->redirect)
 	{
 		free_cmd_prefix(cmd_prefix);
 		return (NULL);
 	}
 	cmd_prefix->prefix = parse_cmd_prefix(p);
+	if (is_error(p->error))
+	{
+		free_cmd_prefix(cmd_prefix);
+		return (NULL);
+	}
 	return (cmd_prefix);
 }
 

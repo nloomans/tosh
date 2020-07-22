@@ -14,7 +14,6 @@
 
 t_error		parser_parse(
 				struct s_complete_command **const complete_command,
-				bool *const extra_input_requested,
 				t_list_meta *const all_token)
 {
 	t_parser p;
@@ -23,15 +22,9 @@ t_error		parser_parse(
 	p.all_token = *all_token;
 	p.cursor = p.all_token.first;
 	*complete_command = parse_complete_command(&p);
-	*extra_input_requested = p.extra_input_requested;
-	if (p.extra_input_requested || is_error(p.error))
+	if (is_error(p.error))
 	{
-		free_complete_command(*complete_command);
-		*complete_command = NULL;
-	}
-	if (*extra_input_requested)
-	{
-		return (error_none());
+		parser_del(complete_command);
 	}
 	return (p.error);
 }

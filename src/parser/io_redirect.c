@@ -28,13 +28,18 @@ struct s_io_redirect	*parse_io_redirect(t_parser *const p)
 	struct s_io_redirect	*io_redirect;
 
 	io_redirect = ft_memalloc(sizeof(*io_redirect));
+	if (io_redirect == NULL)
+	{
+		parser__errorf(p, "unable to allocate memory");
+		return (NULL);
+	}
 	io_redirect->fd = parse_io_number(p);
 	io_redirect->file = parse_io_file(p);
 	if (!io_redirect->file)
 	{
 		io_redirect->here = parse_io_here(p);
 	}
-	if (!io_redirect->file && !io_redirect->here)
+	if (is_error(p->error) || (!io_redirect->file && !io_redirect->here))
 	{
 		free_io_redirect(io_redirect);
 		return (NULL);

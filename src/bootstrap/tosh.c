@@ -32,24 +32,18 @@ static void		run_command(const char *const input, t_env *const env)
 {
 	t_list_meta					tokens;
 	struct s_complete_command	*complete_command;
-	bool						extra_input_requested;
 	t_error						err;
 
 	if (lexer_tokenize(&tokens, input) == -1)
 		ft_dprintf(STDERR_FILENO, "tosh: lexer could not allocate memory\n");
 	if (tokens.len != 0)
 	{
-		err = parser_parse(&complete_command, &extra_input_requested, &tokens);
+		err = parser_parse(&complete_command, &tokens);
 		lexer_clear(&tokens);
 		if (is_error(err))
 		{
 			ft_dprintf(STDERR_FILENO, "tosh: %s\n", err.msg);
 			return ;
-		}
-		if (extra_input_requested)
-		{
-			ft_dprintf(STDERR_FILENO, "extra input requested\n");
-			assert(0);
 		}
 		exec_run(complete_command, env);
 		parser_del(&complete_command);

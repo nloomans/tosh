@@ -18,6 +18,11 @@ struct s_io_here		*parse_io_here(t_parser *const p)
 	struct s_io_here		*io_here;
 
 	io_here = ft_memalloc(sizeof(*io_here));
+	if (io_here == NULL)
+	{
+		parser__errorf(p, "unable to allocate memory");
+		return (NULL);
+	}
 	if (!parser__next_if_token(p, OPERATOR, "<<"))
 	{
 		free_io_here(io_here);
@@ -30,6 +35,12 @@ struct s_io_here		*parse_io_here(t_parser *const p)
 		return (NULL);
 	}
 	io_here->here_end = ft_strdup(parser__next_token(p)->string);
+	if (io_here->here_end)
+	{
+		parser__errorf(p, "unable to allocate memory");
+		free_io_here(io_here);
+		return (NULL);
+	}
 	return (io_here);
 }
 

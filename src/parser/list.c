@@ -18,8 +18,13 @@ struct s_list	*parse_list(t_parser *const p)
 	struct s_list *list;
 
 	list = ft_memalloc(sizeof(*list));
+	if (list == NULL)
+	{
+		parser__errorf(p, "unable to allocate memory");
+		return (NULL);
+	}
 	list->pipe_sequence = parse_pipe_sequence(p);
-	if (!list->pipe_sequence)
+	if (is_error(p->error) || !list->pipe_sequence)
 	{
 		free_list(list);
 		return (NULL);

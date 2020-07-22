@@ -25,8 +25,13 @@ struct s_pipe_sequence	*parse_pipe_sequence(t_parser *const p)
 	struct s_pipe_sequence *pipe_sequence;
 
 	pipe_sequence = ft_memalloc(sizeof(*pipe_sequence));
+	if (pipe_sequence == NULL)
+	{
+		parser__errorf(p, "unable to allocate memory");
+		return (NULL);
+	}
 	pipe_sequence->simple_command = parse_simple_command(p);
-	if (!pipe_sequence->simple_command)
+	if (is_error(p->error) || !pipe_sequence->simple_command)
 	{
 		free_pipe_sequence(pipe_sequence);
 		return (NULL);
@@ -35,9 +40,9 @@ struct s_pipe_sequence	*parse_pipe_sequence(t_parser *const p)
 	{
 		parse_linebreak(p);
 		pipe_sequence->pipe_sequence = parse_pipe_sequence(p);
-		if (!pipe_sequence->pipe_sequence)
+		if (is_error(p->error) || !pipe_sequence->pipe_sequence)
 		{
-			parser__request_extra_input(p);
+			parser__errorf(p, "incomplete pipe");
 			free_pipe_sequence(pipe_sequence);
 			return (NULL);
 		}
