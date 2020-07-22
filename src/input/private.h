@@ -97,7 +97,6 @@ enum					e_input__read_type
 	INPUT__READ_END,
 	INPUT__READ_BACKSPACE,
 	INPUT__READ_RETURN,
-	INPUT__READ_TAB,
 };
 
 enum					e_input__modifier
@@ -175,7 +174,6 @@ t_error					input__action_history_down(
 t_error					input__action_insert(struct s_input__state *state,
 							char c);
 t_error					input__action_backspace(struct s_input__state *state);
-t_error					input__action_tab(struct s_input__state *state);
 
 /*
 ** input__action_return is called when the return key is pressed and finishes
