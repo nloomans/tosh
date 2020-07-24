@@ -13,7 +13,28 @@
 #include <stdlib.h>
 #include "private.h"
 
-struct s_io_here		*parse_io_here(t_parser *const p)
+static struct s_io_here		*fill_io_here(struct s_io_here *const io_here,
+								t_parser *const p)
+{
+	if (!parser__next_if_token(p, OPERATOR, "<<"))
+	{
+		return (NULL);
+	}
+	if (!parser__is_token(p, WORD, NULL))
+	{
+		parser__errorf(p, "incomplete heredoc");
+		return (NULL);
+	}
+	io_here->here_end = ft_strdup(parser__next_token(p)->string);
+	if (io_here->here_end)
+	{
+		parser__errorf(p, "unable to allocate memory");
+		return (NULL);
+	}
+	return (io_here);
+}
+
+struct s_io_here			*parse_io_here(t_parser *const p)
 {
 	struct s_io_here		*io_here;
 
@@ -23,29 +44,15 @@ struct s_io_here		*parse_io_here(t_parser *const p)
 		parser__errorf(p, "unable to allocate memory");
 		return (NULL);
 	}
-	if (!parser__next_if_token(p, OPERATOR, "<<"))
+	if (fill_io_here(io_here, p) == NULL || is_error(p->error))
 	{
-		free_io_here(io_here);
-		return (NULL);
-	}
-	if (!parser__is_token(p, WORD, NULL))
-	{
-		parser__errorf(p, "incomplete heredoc");
-		free_io_here(io_here);
-		return (NULL);
-	}
-	io_here->here_end = ft_strdup(parser__next_token(p)->string);
-	if (io_here->here_end)
-	{
-		parser__errorf(p, "unable to allocate memory");
 		free_io_here(io_here);
 		return (NULL);
 	}
 	return (io_here);
 }
 
-void					free_io_here(
-							struct s_io_here *const io_here)
+void						free_io_here(struct s_io_here *const io_here)
 {
 	if (io_here)
 	{
