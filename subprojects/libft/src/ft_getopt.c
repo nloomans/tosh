@@ -46,13 +46,13 @@
 
 static void	print_error(char *argv0, char *msg, char opt)
 {
-	ssize_t _;
+	ssize_t ignore;
 
-	_ = write(STDERR_FILENO, argv0, ft_strlen(argv0));
-	_ = write(STDERR_FILENO, msg, ft_strlen(msg));
-	_ = write(STDERR_FILENO, &opt, 1);
-	_ = write(STDERR_FILENO, "\n", sizeof("\n"));
-	(void)_;
+	ignore = write(STDERR_FILENO, argv0, ft_strlen(argv0));
+	ignore = write(STDERR_FILENO, msg, ft_strlen(msg));
+	ignore = write(STDERR_FILENO, &opt, 1);
+	ignore = write(STDERR_FILENO, "\n", sizeof("\n"));
+	(void)ignore;
 }
 
 static int	process_arg(struct s_ft_getopt *opt, char **argv)
