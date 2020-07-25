@@ -23,6 +23,8 @@ static uint8_t	cd(t_env *const env,
 				const bool is_old_set,
 				const char *const new_path)
 {
+	char	*new_path_full;
+
 	if (chdir(new_path) == -1)
 	{
 		return (ft_eprintf(1, "cd: unable to change dir '%s'\n", new_path));
@@ -31,10 +33,17 @@ static uint8_t	cd(t_env *const env,
 	{
 		return (ft_eprintf(2, "cd: could not set $OLDPWD\n"));
 	}
-	if (env_set(env, "PWD", new_path) == -1)
+	new_path_full = getcwd(NULL, 0);
+	if (new_path_full == NULL)
 	{
+		return (ft_eprintf(2, "cd: could not allocate memory\n"));
+	}
+	if (env_set(env, "PWD", new_path_full) == -1)
+	{
+		ft_strdel(&new_path_full);
 		return (ft_eprintf(2, "cd: could not set $PWD\n"));
 	}
+	ft_strdel(&new_path_full);
 	return (0);
 }
 
