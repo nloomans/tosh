@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include <libft.h>
 #include <ft_printf.h>
 
@@ -22,8 +21,6 @@ static void	print_with_selection(t_term *term,
 {
 	char	*marked_buffer;
 
-	assert(start <= end);
-	assert(end <= ft_strlen(buffer));
 	ft_asprintf(&marked_buffer, "%.*s%{underline}%.*s%{reset}%s",
 		start, buffer,
 		end - start, buffer + start,

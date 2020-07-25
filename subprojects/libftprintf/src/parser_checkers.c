@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include <stddef.h>
 #include "std.h"
 #include "token.h"
@@ -18,12 +17,10 @@
 
 int			is_conversion_specification(const char *stream)
 {
-	assert(stream != NULL);
 	return (*stream == '%');
 }
 
 int			is_color_specification(const char *stream)
 {
-	assert(stream != NULL);
 	return (stream[0] == '%' && stream[1] == '{');
 }

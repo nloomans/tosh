@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include <stddef.h>
 #include "std.h"
 #include "token.h"
@@ -18,8 +17,6 @@
 
 static int			parse_color_specification(t_token *dest, char **stream)
 {
-	assert(dest != NULL && stream != NULL && *stream != NULL);
-	assert(is_color_specification(*stream));
 	(*stream) += 2;
 	dest->type = E_COLOR;
 	dest->s_value = *stream;
@@ -37,7 +34,6 @@ static int			parse_flags(char **stream, int *has_errored)
 {
 	t_flags		flags;
 
-	assert(stream != NULL && *stream != NULL);
 	flags = 0;
 	while (std_strchr("# 0+-", **stream))
 	{
@@ -53,8 +49,6 @@ static int			parse_flags(char **stream, int *has_errored)
 			flags |= FLAGS_LEFTALIGN;
 		else if (**stream == '\0')
 			*has_errored = 1;
-		else
-			assert(0);
 		(*stream)++;
 	}
 	return (flags);
@@ -64,8 +58,6 @@ static int			parse_conversion_specification(t_token *dest, char **stream)
 {
 	int		has_errored;
 
-	assert(dest != NULL && stream != NULL && *stream != NULL);
-	assert(is_conversion_specification(*stream));
 	has_errored = 0;
 	(*stream)++;
 	dest->flags = parse_flags(stream, &has_errored);
@@ -83,8 +75,6 @@ static int			parse_conversion_specification(t_token *dest, char **stream)
 
 static int			parse_string_literal(t_token *dest, char **stream)
 {
-	assert(dest != NULL && stream != NULL && *stream != NULL);
-	assert(!is_conversion_specification(*stream));
 	dest->type = E_TXT;
 	dest->s_value = *stream;
 	while (!is_conversion_specification(*stream) && **stream != '\0')
@@ -95,7 +85,6 @@ static int			parse_string_literal(t_token *dest, char **stream)
 
 int					parse_token(t_token *dest, char **stream)
 {
-	assert(dest != NULL && stream != NULL && *stream != NULL);
 	std_memset(dest, '\0', sizeof(t_token));
 	if (is_color_specification(*stream))
 		return (parse_color_specification(dest, stream));

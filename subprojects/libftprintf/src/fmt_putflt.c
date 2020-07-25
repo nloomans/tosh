@@ -13,7 +13,6 @@
 #include "std.h"
 #include <stdarg.h>
 #include <stdio.h>
-#include <assert.h>
 #include "writer.h"
 #include "token.h"
 #include "fmt.h"
@@ -110,8 +109,6 @@ static void		print_fake_float(
 			writer_write(writer, "INF", 3);
 		else if (n == -1.0 / 0.0)
 			writer_write(writer, "-INF", 4);
-		else
-			assert(0);
 	}
 	else
 	{
@@ -121,8 +118,6 @@ static void		print_fake_float(
 			writer_write(writer, "inf", 3);
 		else if (n == -1.0 / 0.0)
 			writer_write(writer, "-inf", 4);
-		else
-			assert(0);
 	}
 }
 

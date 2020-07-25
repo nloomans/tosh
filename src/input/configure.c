@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include <stdlib.h>
 
 #include "private.h"
@@ -40,7 +39,6 @@ t_error							input__configure(
 									enum e_input__configure_action action)
 {
 	t_error			error;
-	static void		(*prev_handler_sigwinch)(int);
 
 	if (action == INPUT__CONFIGURE_SETUP)
 	{
@@ -48,15 +46,13 @@ t_error							input__configure(
 		if (is_error(error))
 			return (errorf("failed to setup terminal: %s", error.msg));
 		g_input__sigwinch = 0;
-		prev_handler_sigwinch = signal(SIGWINCH, handle_sigwinch);
-		assert(prev_handler_sigwinch != SIG_ERR);
+		signal(SIGWINCH, handle_sigwinch);
 	}
 	else
 	{
 		error = term_restore(term);
 		if (is_error(error))
 			return (errorf("failed to restore terminal: %s", error.msg));
-		assert(signal(SIGWINCH, prev_handler_sigwinch) != SIG_ERR);
 	}
 	return (error_none());
 }

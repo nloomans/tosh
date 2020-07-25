@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
-
 #include "private.h"
 
 static int						next_signal(void)
@@ -28,7 +26,7 @@ static t_error					run_next_signal(t_term *term, int signum)
 {
 	if (signum == SIGWINCH)
 		return (input__action_resize(term));
-	assert(!"unknown signum");
+	return (errorf("unknown signum"));
 }
 
 t_normal_action *g_action_type_table[] = {

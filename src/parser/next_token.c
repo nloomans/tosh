@@ -10,14 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include "private.h"
 
 struct s_token			*parser__next_token(t_parser *const p)
 {
 	struct s_token *ret;
 
-	assert(p->cursor != NULL);
 	ret = unpack_token(p->cursor);
 	p->cursor = p->cursor->next;
 	return (ret);

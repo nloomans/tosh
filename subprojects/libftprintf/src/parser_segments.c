@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include <stddef.h>
 #include "std.h"
 #include "token.h"
@@ -31,7 +30,6 @@ t_size							parse_size(char **stream)
 	size_t				str_len;
 	const t_str2size	*elem;
 
-	assert(stream != NULL && *stream != NULL);
 	i = 0;
 	while (i < sizeof(g_map_str2size) / sizeof(t_str2size))
 	{
@@ -44,7 +42,7 @@ t_size							parse_size(char **stream)
 		}
 		i++;
 	}
-	assert(0);
+	return (0);
 }
 
 static const t_char2descriptor	g_map_char2descriptor[] = {
@@ -69,7 +67,6 @@ t_descriptor					parse_conversion_specifier(
 	char	c;
 	size_t	i;
 
-	assert(flags != NULL && stream != NULL && *stream != NULL);
 	c = **stream;
 	(*stream)++;
 	if (c == '\0')
@@ -95,13 +92,11 @@ t_descriptor					parse_conversion_specifier(
 
 int								parse_width(char **stream)
 {
-	assert(stream != NULL && *stream != NULL);
 	return (parse_atoi_wildcard(stream));
 }
 
 int								parse_precision(t_flags *flags, char **stream)
 {
-	assert(flags != NULL && stream != NULL && *stream != NULL);
 	if (**stream != '.')
 		return (0);
 	(*stream)++;

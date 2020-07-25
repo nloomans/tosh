@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include <stdlib.h>
 #include "private.h"
 
@@ -27,8 +26,6 @@ static void					check_unexpected_token(t_parser *const p)
 		parser__errorf(p, "unexpected operator '%s'", unexpected->string);
 	else if (unexpected->type == IO_NUMBER)
 		parser__errorf(p, "unexpected io_number '%s'", unexpected->string);
-	else
-		assert(0);
 }
 
 struct s_complete_command	*parse_complete_command(t_parser *const p)

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <assert.h>
 #include "private.h"
 #include "ft_printf.h"
 
@@ -28,7 +27,6 @@ char					**env_to_envp(const t_env *const env)
 		return (NULL);
 	while (i < env->list.len)
 	{
-		assert(iter != NULL);
 		temp = unpack_env(iter);
 		ft_asprintf(&env_arr[i], "%s=%s", temp->key, temp->value);
 		if (env_arr[i] == NULL)
