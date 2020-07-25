@@ -98,6 +98,17 @@ static int	process(struct s_ft_getopt *opt,
 	return (0);
 }
 
+t_ft_getopt	ft_getopt_default(void)
+{
+	return ((struct s_ft_getopt){
+		.arg = NULL,
+		.index = 1,
+		.group_index = 1,
+		.opt = '\0',
+		.illegal = false,
+	});
+}
+
 bool		ft_getopt(struct s_ft_getopt *opt, int argc, char **argv,
 				const char *optstring)
 {
