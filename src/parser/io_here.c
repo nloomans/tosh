@@ -26,7 +26,7 @@ static struct s_io_here		*fill_io_here(struct s_io_here *const io_here,
 		return (NULL);
 	}
 	io_here->here_end = ft_strdup(parser__next_token(p)->string);
-	if (io_here->here_end)
+	if (io_here->here_end == NULL)
 	{
 		parser__errorf(p, "unable to allocate memory");
 		return (NULL);
