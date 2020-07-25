@@ -83,7 +83,6 @@ struct	s_io_here
 
 t_error	parser_parse(
 			struct s_complete_command **const complete_command,
-			bool *const extra_input_requested,
 			t_list_meta *const all_token);
 void	parser_del(struct s_complete_command **const complete_command);
 

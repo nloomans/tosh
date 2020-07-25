@@ -20,11 +20,9 @@ typedef struct				s_parser
 {
 	t_list_meta				all_token;
 	t_list_conn				*cursor;
-	bool					extra_input_requested;
 	t_error					error;
 }							t_parser;
 
-void						parser__request_extra_input(t_parser *const p);
 void						parser__errorf(t_parser *const p,
 								const char *const fmt, ...);
 struct s_token				*parser__next_token(t_parser *const p);

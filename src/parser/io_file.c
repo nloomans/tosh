@@ -18,6 +18,11 @@ static struct s_io_file	*identify_redirection_type(t_parser *const p)
 	struct s_io_file		*io_file;
 
 	io_file = ft_memalloc(sizeof(*io_file));
+	if (io_file == NULL)
+	{
+		parser__errorf(p, "unable to allocate memory");
+		return (NULL);
+	}
 	if (parser__next_if_token(p, OPERATOR, "<&"))
 		io_file->type = REDIRECT_IN_AND;
 	else if (parser__next_if_token(p, OPERATOR, "<"))
@@ -52,6 +57,12 @@ struct s_io_file		*parse_io_file(t_parser *const p)
 		return (NULL);
 	}
 	io_file->filename = ft_strdup(parser__next_token(p)->string);
+	if (io_file->filename == NULL)
+	{
+		parser__errorf(p, "unable to allocate memory");
+		free_io_file(io_file);
+		return (NULL);
+	}
 	return (io_file);
 }
 

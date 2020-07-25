@@ -13,7 +13,6 @@ src_files += files(
 	'parse.c',
 	'peek_token.c',
 	'pipe_sequence.c',
-	'request_extra_input.c',
 	'simple_command.c',
 )
 

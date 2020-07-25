@@ -15,9 +15,17 @@
 
 static char				*parse_name(t_parser *const p)
 {
+	char	*name;
+
 	if (parser__is_token(p, WORD, NULL))
 	{
-		return (ft_strdup(parser__next_token(p)->string));
+		name = ft_strdup(parser__next_token(p)->string);
+		if (name == NULL)
+		{
+			parser__errorf(p, "unable to allocate memory");
+			return (NULL);
+		}
+		return (name);
 	}
 	return (NULL);
 }
@@ -27,13 +35,19 @@ struct s_simple_command	*parse_simple_command(t_parser *const p)
 	struct s_simple_command *simple_command;
 
 	simple_command = ft_memalloc(sizeof(*simple_command));
+	if (simple_command == NULL)
+	{
+		parser__errorf(p, "unable to allocate memory");
+		return (NULL);
+	}
 	simple_command->prefix = parse_cmd_prefix(p);
 	simple_command->name = parse_name(p);
 	if (simple_command->name)
 	{
 		simple_command->suffix = parse_cmd_suffix(p);
 	}
-	if (!simple_command->prefix && !simple_command->name)
+	if (is_error(p->error) ||
+		(!simple_command->prefix && !simple_command->name))
 	{
 		free_simple_command(simple_command);
 		return (NULL);
