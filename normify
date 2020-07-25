@@ -11,6 +11,8 @@ os.mkdir("normified")
 shutil.copytree("src", "normified/src")
 for spec_file in glob("normified/src/**/*_test.c"):
   os.remove(spec_file)
+for spec_file in glob("normified/src/**/meson.build"):
+  os.remove(spec_file)
 
 shutil.copy("author", "normified/author")
 shutil.copy("normify.mk", "normified/Makefile")
