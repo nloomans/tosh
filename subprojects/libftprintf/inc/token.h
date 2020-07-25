@@ -5,7 +5,7 @@
 /*                                                     +:+                    */
 /*   By: nmartins <nmartins@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/22 14:02:33 by nmartins       #+#    #+#                */
+/*   Created: 2019/05/22 14:02:33 by nmartins      #+#    #+#                 */
 /*   Updated: 2019/06/26 18:53:44 by nmartins      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
@@ -33,17 +33,18 @@ typedef enum	e_descriptor
 	E_COLOR,
 }				t_descriptor;
 
-typedef	short	t_flags;
+typedef enum	e_flags
+{
+	FLAGS_ZEROPAD = 1 << 0,
+	FLAGS_LEFTALIGN = 1 << 1,
+	FLAGS_PLUS = 1 << 2,
+	FLAGS_SPACE = 1 << 3,
+	FLAGS_HASH = 1 << 4,
+	FLAGS_PRECISION = 1 << 5,
+	FLAGS_CAPITAL = 1 << 6,
+}				t_flags;
 
-# define FLAGS_ZEROPAD		(1 << 0)
-# define FLAGS_LEFTALIGN	(1 << 1)
-# define FLAGS_PLUS			(1 << 2)
-# define FLAGS_SPACE		(1 << 3)
-# define FLAGS_HASH			(1 << 4)
-# define FLAGS_PRECISION	(1 << 5)
-# define FLAGS_CAPITAL		(1 << 6)
-
-# define DEFERRED_WILDCARD (-1)
+# define DEFERRED_WILDCARD -1
 
 typedef enum	e_size
 {

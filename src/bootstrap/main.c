@@ -31,7 +31,7 @@ int			main(int argc, char **argv, char **envp)
 {
 	struct s_ft_getopt	opt;
 
-	opt = FT_GETOPT_DEFAULT;
+	opt = ft_getopt_default();
 	while (ft_getopt(&opt, argc, argv, "vhd:"))
 	{
 		if (opt.opt == 'v')

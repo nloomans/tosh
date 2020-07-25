@@ -5,7 +5,7 @@
 /*                                                     +:+                    */
 /*   By: nloomans <nloomans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/03/19 18:27:26 by nloomans       #+#    #+#                */
+/*   Created: 2019/03/19 18:27:26 by nloomans      #+#    #+#                 */
 /*   Updated: 2019/10/17 18:21:53 by nloomans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
@@ -21,16 +21,16 @@
 ** TYPES
 */
 
-struct			s_ft_getopt
+typedef struct	s_ft_getopt
 {
 	char	*arg;
 	int		index;
 	int		group_index;
 	char	opt;
 	bool	illegal;
-};
+}				t_ft_getopt;
 
-# define FT_GETOPT_DEFAULT (struct s_ft_getopt){0, 1, 1, 0, false}
+t_ft_getopt		ft_getopt_default(void);
 
 /*
 ** PART 1 - LIBC FUNCTIONS
