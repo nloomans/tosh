@@ -203,5 +203,5 @@ output = fsm([
 
 with open(header_file_name, 'r') as header_file:
 	header = header_file.read()
-print(header)
+print(header, end='')
 print(output, end='')

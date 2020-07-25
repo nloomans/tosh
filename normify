@@ -13,6 +13,7 @@ for spec_file in glob("normified/src/**/*_test.c"):
   os.remove(spec_file)
 for spec_file in glob("normified/src/**/meson.build"):
   os.remove(spec_file)
+os.remove("normified/src/lexer/genfsm.py")
 
 shutil.copy("author", "normified/author")
 shutil.copy("normify.mk", "normified/Makefile")
