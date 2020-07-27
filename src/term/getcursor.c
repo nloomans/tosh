@@ -28,7 +28,7 @@ t_error				term__getcursor(struct s_term_pos *out)
 
 	ft_memset(&response, '\0', sizeof(response));
 	term__send("u7");
-	n = read(STDIN_FILENO, &response, sizeof(response) - 1);
+	n = read(BACKUP_STDIN, &response, sizeof(response) - 1);
 	if (ft_strncmp(response, "\033[", 2) != 0)
 		return (errorf("expected terminal response to start with \\033["));
 	out->row = ft_atoi(response + 2) - 1;

@@ -71,26 +71,6 @@ static t_error	recurse_prefix(t_list_meta *const tracker_lst,
 	return (err);
 }
 
-static t_error	backup_fds(void)
-{
-	if (dup2(STDIN_FILENO, BACKUP_STDIN) == -1)
-	{
-		return (errorf("failed to duplicate stdinr"));
-	}
-	if (dup2(STDOUT_FILENO, BACKUP_STDOUT) == -1)
-	{
-		close(BACKUP_STDIN);
-		return (errorf("failed to duplicate stdout"));
-	}
-	if (dup2(STDERR_FILENO, BACKUP_STDERR) == -1)
-	{
-		close(BACKUP_STDIN);
-		close(BACKUP_STDOUT);
-		return (errorf("failed to duplicate stderr"));
-	}
-	return (error_none());
-}
-
 t_error			exec__handle_redirections(
 					t_list_meta *const tracker_lst,
 					const struct s_simple_command *const command,
@@ -99,9 +79,6 @@ t_error			exec__handle_redirections(
 	t_error				err;
 	struct s_cmd_suffix	*suffix;
 
-	err = backup_fds();
-	if (is_error(err))
-		return (err);
 	err = recurse_prefix(tracker_lst, command->prefix, env);
 	if (is_error(err))
 		return (err);

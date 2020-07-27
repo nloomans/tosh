@@ -14,6 +14,7 @@
 #include <stdlib.h>
 
 #include "../private.h"
+#include "../../term/term.h"
 
 t_error			exec__add_tracker(const int dest_fd,
 					const int new_fd,

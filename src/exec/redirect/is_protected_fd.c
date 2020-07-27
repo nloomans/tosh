@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../private.h"
+#include "../../term/term.h"
 
 bool	exec__is_protected_fd(const int fd)
 {

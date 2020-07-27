@@ -17,7 +17,7 @@
 
 void				term__cursor_goto(t_term *self, struct s_term_pos new_pos)
 {
-	ft_dprintf(STDERR_FILENO, "\033[%u;%uH",
+	ft_dprintf(BACKUP_STDERR, "\033[%u;%uH",
 		new_pos.row + 1, new_pos.column + 1);
 	self->cursor_pos = new_pos;
 }

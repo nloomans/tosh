@@ -52,10 +52,6 @@ struct					s_redirection_kvp{
 	t_redirect_func		*handler;
 };
 
-# define BACKUP_STDIN	0xF0
-# define BACKUP_STDOUT	0xF1
-# define BACKUP_STDERR	0xF2
-
 struct					s_program_prereq{
 	char				**argv;
 	int					arg_count;

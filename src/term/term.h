@@ -17,6 +17,10 @@
 # include <termios.h>
 # include "../error/error.h"
 
+# define BACKUP_STDIN	0xF0
+# define BACKUP_STDOUT	0xF1
+# define BACKUP_STDERR	0xF2
+
 struct					s_term_pos
 {
 	size_t	row;

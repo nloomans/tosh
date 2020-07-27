@@ -20,7 +20,7 @@
 
 ssize_t fake_read_keypress(int fd, void *buf, size_t count) {
 	(void)count;
-	cr_expect_eq(fd, STDIN_FILENO);
+	cr_expect_eq(fd, BACKUP_STDIN);
 	((char *)buf)[0] = ',';
 	return (1);
 }
@@ -49,7 +49,7 @@ char keypresses_build_message[] =
 	"Hello orld!\x1b[D\x1b[D\x1b[D\x1b[D\x1b[D\x1b[D,\x1b[CW\x1b[1;5C est\x1b[1;5DT";
 
 ssize_t fake_read_build_message(int fd, void *buf, size_t count) {
-	cr_expect_eq(fd, STDIN_FILENO);
+	cr_expect_eq(fd, BACKUP_STDIN);
 	strncpy(buf, keypresses_build_message + index_build_message, count);
 	index_build_message += count;
 	return (count);
@@ -78,7 +78,7 @@ Test(input__run_next_action, build_message) {
 
 ssize_t fake_read_backspace(int fd, void *buf, size_t count) {
 	(void)count;
-	cr_expect_eq(fd, STDIN_FILENO);
+	cr_expect_eq(fd, BACKUP_STDIN);
 	((char *)buf)[0] = '\x7f';
 	return (1);
 }
@@ -147,7 +147,7 @@ size_t index_history = 0;
 char history_message[] = "\x1b[A\x1b[B\x1b[A";
 
 ssize_t fake_read_history(int fd, void *buf, size_t count) {
-	cr_expect_eq(fd, STDIN_FILENO);
+	cr_expect_eq(fd, BACKUP_STDIN);
 	strncpy(buf, history_message + index_history, count);
 	index_history += count;
 	return (count);

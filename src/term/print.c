@@ -14,6 +14,7 @@
 #include <unistd.h>
 
 #include "private.h"
+#include "term.h"
 
 static void				correct_positions(t_term *self)
 {
@@ -35,7 +36,7 @@ static void				correct_positions(t_term *self)
 void					term__print(t_term *self,
 							struct s_term_formatted_string formatted_string)
 {
-	ft_dprintf(STDERR_FILENO, "%s", formatted_string.string);
+	ft_dprintf(BACKUP_STDERR, "%s", formatted_string.string);
 	self->cursor_pos = term_wrap(self->terminal_size.column, self->cursor_pos,
 		formatted_string.width);
 	correct_positions(self);

@@ -22,7 +22,7 @@ t_error		term_restore(t_term **out)
 
 	original = (*out)->original_termios;
 	*out = NULL;
-	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &original) == -1)
+	if (tcsetattr(BACKUP_STDIN, TCSAFLUSH, &original) == -1)
 		return (errorf("tcsetattr failed"));
 	return (error_none());
 }

@@ -31,13 +31,13 @@ static t_error	configure(t_term *term)
 {
 	struct termios			new;
 
-	if (tcgetattr(STDIN_FILENO, &term->original_termios) == -1)
+	if (tcgetattr(BACKUP_STDIN, &term->original_termios) == -1)
 		return (errorf("tcgetattr failed"));
 	new = term->original_termios;
 	new.c_lflag &= ~(ECHO | ICANON | ISIG);
 	new.c_cc[VMIN] = 0;
 	new.c_cc[VTIME] = 1;
-	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) == -1)
+	if (tcsetattr(BACKUP_STDIN, TCSADRAIN, &new) == -1)
 		return (errorf("tcsetattr failed"));
 	return (error_none());
 }

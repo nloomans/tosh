@@ -18,7 +18,7 @@
 static int						read_char(char *c, t_read_func read_func)
 {
 	*c = '\0';
-	return (read_func(STDIN_FILENO, c, 1));
+	return (read_func(BACKUP_STDIN, c, 1));
 }
 
 static enum e_input__read_type	cursor_key(char c)

@@ -24,7 +24,7 @@ static t_error	print_input(void)
 	while (true)
 	{
 		ft_memset(&buffer, '\0', sizeof(buffer));
-		read_amount = read(STDIN_FILENO, &buffer, sizeof(buffer) - 1);
+		read_amount = read(BACKUP_STDIN, &buffer, sizeof(buffer) - 1);
 		if (read_amount == -1)
 			return (errorf("read syscall failed"));
 		if (read_amount == 0)

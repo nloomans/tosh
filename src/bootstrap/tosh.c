@@ -22,6 +22,27 @@
 #include "../lexer/lexer.h"
 #include "../parser/parser.h"
 #include "../error/error.h"
+#include "../term/term.h"
+
+static t_error	backup_fds(void)
+{
+	if (dup2(STDIN_FILENO, BACKUP_STDIN) == -1)
+	{
+		return (errorf("failed to duplicate stdinr"));
+	}
+	if (dup2(STDOUT_FILENO, BACKUP_STDOUT) == -1)
+	{
+		close(BACKUP_STDIN);
+		return (errorf("failed to duplicate stdout"));
+	}
+	if (dup2(STDERR_FILENO, BACKUP_STDERR) == -1)
+	{
+		close(BACKUP_STDIN);
+		close(BACKUP_STDOUT);
+		return (errorf("failed to duplicate stderr"));
+	}
+	return (error_none());
+}
 
 /*
 ** assert is placeholder for actual code
@@ -58,6 +79,8 @@ static void		sigint_replacement(int sig)
 
 static void		initialize_tosh(t_env **const aenv, char **envp)
 {
+	t_error	err;
+
 	if (signal(SIGINT, &sigint_replacement) == SIG_ERR)
 	{
 		ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to set signal handler");
@@ -67,6 +90,13 @@ static void		initialize_tosh(t_env **const aenv, char **envp)
 	if (*aenv == NULL)
 	{
 		ft_dprintf(STDERR_FILENO, "tosh: fatal: unable to create enviroment\n");
+		exit(1);
+	}
+	err = backup_fds();
+	if (is_error(err))
+	{
+		ft_dprintf(STDERR_FILENO,
+			"tosh: fatal: unable to create backup fds:%s\n", err.msg);
 		exit(1);
 	}
 }

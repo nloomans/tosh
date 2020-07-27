@@ -17,7 +17,7 @@
 
 static int	putchar_stderr(int c)
 {
-	return (write(STDERR_FILENO, &c, 1));
+	return (write(BACKUP_STDERR, &c, 1));
 }
 
 void		term__send(const char *entry)

@@ -21,7 +21,7 @@ int		term_getsize(struct s_term_pos *out)
 	struct winsize	w;
 
 	ft_memset(&w, '\0', sizeof(w));
-	if (ioctl(STDERR_FILENO, TIOCGWINSZ, &w) == -1)
+	if (ioctl(BACKUP_STDERR, TIOCGWINSZ, &w) == -1)
 	{
 		return (-1);
 	}

@@ -43,7 +43,7 @@ static t_error	event_loop(struct s_input_read_result *dest,
 			input__draw(state, term, prompt);
 	}
 	*dest = (struct s_input_read_result){state.finished, state.buffer};
-	ft_dprintf(STDERR_FILENO, "\n");
+	ft_dprintf(BACKUP_STDERR, "\n");
 	return (error_none());
 }
 
@@ -60,7 +60,7 @@ static t_error	setup_persistent_state(bool *is_static_setup,
 	error = history_create(&persistent_state->history);
 	if (is_error(error))
 	{
-		ft_dprintf(STDERR_FILENO,
+		ft_dprintf(BACKUP_STDERR,
 			"tosh: failed to enable history support: %s\n", error.msg);
 	}
 	*is_static_setup = true;
