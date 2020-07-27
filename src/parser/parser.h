@@ -78,6 +78,7 @@ struct	s_io_file
 struct	s_io_here
 {
 	char						*here_end;
+	char						*contents;
 	bool						was_quoted;
 };
 

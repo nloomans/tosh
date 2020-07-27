@@ -11,6 +11,7 @@ src_files += files(
 	'set_arguments.c',
 	'single.c',
 	'unpack_child.c',
+	'redirect/pre_redirections.c',
 	'redirect/handle_redirections.c',
 	'redirect/is_protected_fd.c',
 	'redirect/all_adv_redirector.c',

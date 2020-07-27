@@ -23,8 +23,7 @@ const struct s_redirection_kvp	g_redir_tbl[] = {
 };
 
 static t_error	redirect(t_list_meta *const tracker_lst,
-					const struct s_io_redirect *const redir,
-					const t_env *const env)
+					const struct s_io_redirect *const redir)
 {
 	int								first_fd;
 	const struct s_redirection_kvp	*redir_type;
@@ -45,13 +44,12 @@ static t_error	redirect(t_list_meta *const tracker_lst,
 			first_fd = 0;
 		if (exec__is_protected_fd(first_fd) == true)
 			return (errorf("%d is a protected fd", redir->fd));
-		return (redirect_heredoc(tracker_lst, first_fd, redir->here, env));
+		return (redirect_heredoc(tracker_lst, first_fd, redir->here));
 	}
 }
 
 static t_error	recurse_prefix(t_list_meta *const tracker_lst,
-					const struct s_cmd_prefix *const prefix,
-					const t_env *const env)
+					const struct s_cmd_prefix *const prefix)
 {
 	t_error		err;
 
@@ -61,25 +59,24 @@ static t_error	recurse_prefix(t_list_meta *const tracker_lst,
 	}
 	if (prefix->prefix)
 	{
-		err = recurse_prefix(tracker_lst, prefix, env);
+		err = recurse_prefix(tracker_lst, prefix->prefix);
 		if (is_error(err))
 		{
 			return (err);
 		}
 	}
-	err = redirect(tracker_lst, prefix->redirect, env);
+	err = redirect(tracker_lst, prefix->redirect);
 	return (err);
 }
 
 t_error			exec__handle_redirections(
 					t_list_meta *const tracker_lst,
-					const struct s_simple_command *const command,
-					const t_env *const env)
+					const struct s_simple_command *const command)
 {
 	t_error				err;
 	struct s_cmd_suffix	*suffix;
 
-	err = recurse_prefix(tracker_lst, command->prefix, env);
+	err = recurse_prefix(tracker_lst, command->prefix);
 	if (is_error(err))
 		return (err);
 	suffix = command->suffix;
@@ -87,7 +84,7 @@ t_error			exec__handle_redirections(
 	{
 		if (suffix->redirect)
 		{
-			err = redirect(tracker_lst, suffix->redirect, env);
+			err = redirect(tracker_lst, suffix->redirect);
 			if (is_error(err))
 			{
 				return (err);

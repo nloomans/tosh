@@ -71,7 +71,7 @@ t_error			exec__set_arguments(struct s_program_prereq *const all_arg,
 	{
 		return (errorf("unable to allocate memory"));
 	}
-	err = exec__handle_redirections(&all_arg->redir_tracker, command, env);
+	err = exec__handle_redirections(&all_arg->redir_tracker, command);
 	if (is_error(err))
 	{
 		exec__clear_arguments(all_arg);
