@@ -16,17 +16,15 @@
 #include "private.h"
 
 t_error		expand_tape(char **const memory_tape,
-				char **const new_text)
+				char *const append)
 {
-	char						*holder;
+	char						*new;
 
-	if (ft_asprintf(&holder, "%s\n%s", *memory_tape, *new_text) == -1)
+	if (ft_asprintf(&new, "%s\n%s", *memory_tape, append) == -1)
 	{
-		ft_strdel(new_text);
 		return (errorf("unable to allocate memory"));
 	}
-	ft_strdel(memory_tape);
-	*memory_tape = holder;
+	ft_strreplace(memory_tape, new);
 	return (error_none());
 }
 
@@ -35,8 +33,10 @@ t_error		request_qoutation_completion(char **const memory_tape,
 {
 	struct s_input_read_result	new;
 	t_error						err;
+	bool						found_quote;
 
-	while (true)
+	found_quote = false;
+	while (!found_quote)
 	{
 		err = input_read(&new, "> ", 2);
 		if (is_error(err))
@@ -48,13 +48,13 @@ t_error		request_qoutation_completion(char **const memory_tape,
 				return (errorf("User hit Ctrl-C"));
 			return (errorf("unexpected EOF while looking for`%c'", qoute));
 		}
-		err = expand_tape(memory_tape, &new.text);
+		if (ft_strchr(new.text, qoute) != NULL)
+			found_quote = true;
+		err = expand_tape(memory_tape, new.text);
+		ft_strdel(&new.text);
 		if (is_error(err))
 			return (err);
-		if (ft_strchr(new.text, qoute) != NULL)
-			break ;
 	}
-	ft_strdel(&new.text);
 	return (error_none());
 }
 
