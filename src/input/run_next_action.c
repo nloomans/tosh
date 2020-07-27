@@ -44,7 +44,7 @@ t_normal_action *g_action_type_table[] = {
 	[INPUT__READ_TAB] = input__action_tab,
 };
 
-t_normal_action *g_action_control_table[] = {
+t_normal_action *g_action_control_table[128] = {
 	['A'] = input__action_max_left,
 	['D'] = input__action_done,
 	['E'] = input__action_max_right,
