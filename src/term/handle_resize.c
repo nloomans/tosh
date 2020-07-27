@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "private.h"
-#include <unistd.h>
 
 t_error		term__handle_resize(t_term *self)
 {

@@ -12,7 +12,7 @@
 
 #include <libft.h>
 #include <ft_printf.h>
-#include <unistd.h>
+
 #include "../input/input.h"
 #include "../history/history.h"
 #include "private.h"

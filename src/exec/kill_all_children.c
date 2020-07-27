@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
 #include "private.h"
 
 void		exec__kill_all_children(t_list_meta *const pid_list, const int sig)
