@@ -13,7 +13,6 @@
 #define _POSIX_C_SOURCE 200809L
 #include <criterion/criterion.h>
 #include <unistd.h>
-#include <libft.h>
 #include <fcntl.h>
 #include <stdio.h>
 

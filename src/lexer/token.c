@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-
 const char *const	g_token_type_names[] = {
 	"UNDETERMINED",
 	"WORD",

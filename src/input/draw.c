@@ -13,7 +13,6 @@
 #include <assert.h>
 #include <libft.h>
 #include <ft_printf.h>
-#include <unistd.h>
 
 #include "../term/term.h"
 #include "private.h"

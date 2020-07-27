@@ -13,12 +13,11 @@
 #include <stdlib.h>
 #include <ft_printf.h>
 #include <unistd.h>
-
-#include <assert.h>
+#include <signal.h>
+#include <stdbool.h>
 
 #include "../env/env.h"
 #include "../exec/exec.h"
-#include "../history/history.h"
 #include "../input/input.h"
 #include "../lexer/lexer.h"
 #include "../parser/parser.h"
