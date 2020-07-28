@@ -21,22 +21,8 @@ static int	expand_heredoc(char **const heredoc_contents,
 {
 	char	*holder;
 
-	if (*heredoc_contents == NULL)
-	{
-		if (ft_asprintf(&holder, "%s\n", new_addition) == -1)
-		{
-			holder = NULL;
-		}
-	}
-	else
-	{
-		if (ft_asprintf(&holder, "%s%s\n",
-			*heredoc_contents, new_addition) == -1)
-		{
-			holder = NULL;
-		}
-	}
-	if (holder == NULL)
+	if (ft_asprintf(&holder, "%s%s\n",
+		*heredoc_contents, new_addition) == -1)
 	{
 		return (-1);
 	}
@@ -51,6 +37,9 @@ t_error		acquire_heredoc(struct s_io_here *const heredoc,
 	struct s_input_read_result	read_return;
 	t_error						err;
 
+	heredoc->contents = ft_strnew(0);
+	if (heredoc->contents == NULL)
+		return (errorf("could not allocate memory"));
 	while (true)
 	{
 		err = input_read(&read_return, "> ", 2);
@@ -60,13 +49,9 @@ t_error		acquire_heredoc(struct s_io_here *const heredoc,
 			return (errorf("heredoc cancelled by ctrl-c"));
 		if (read_return.exit_reason == INPUT_EXIT_REASON_DONE ||
 				ft_strequ(read_return.text, heredoc->here_end))
-		{
 			break ;
-		}
 		if (expand_heredoc(&heredoc->contents, read_return.text) == -1)
-		{
 			err = errorf("could not allocate memory");
-		}
 		ft_strdel(&read_return.text);
 	}
 	ft_strdel(&read_return.text);
