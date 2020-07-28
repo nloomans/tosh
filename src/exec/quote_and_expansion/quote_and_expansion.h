@@ -51,5 +51,8 @@ typedef struct	s_machine_def{
 t_error			replacer_fsm(char **const tape,
 					const t_machine_def *machine,
 					const t_env *const env);
+t_error			acquire_heredoc(struct s_io_here *const heredoc,
+					bool is_quoted,
+					const t_env *const env);
 
 #endif
