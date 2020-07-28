@@ -61,7 +61,7 @@ static t_error	recurse_prefix(t_list_meta *const tracker_lst,
 	}
 	if (prefix->prefix)
 	{
-		err = recurse_prefix(tracker_lst, prefix, env);
+		err = recurse_prefix(tracker_lst, prefix->prefix, env);
 		if (is_error(err))
 		{
 			return (err);
