@@ -79,22 +79,19 @@ t_error				quote_and_expansion(struct s_pipe_sequence *ast_section,
 
 	while (ast_section)
 	{
-		err = replacer_fsm(&ast_section->simple_command->name,
-				&g_basic_table, env);
-		if (is_error(err))
+		if (ast_section->simple_command->name)
 		{
-			return (err);
+			err = replacer_fsm(&ast_section->simple_command->name,
+				&g_basic_table, env);
+			if (is_error(err))
+				return (err);
 		}
 		err = rev_iter_prefix(ast_section->simple_command->prefix, env);
 		if (is_error(err))
-		{
 			return (err);
-		}
 		err = iter_suffix(ast_section->simple_command->suffix, env);
 		if (is_error(err))
-		{
 			return (err);
-		}
 		ast_section = ast_section->pipe_sequence;
 	}
 	return (error_none());
