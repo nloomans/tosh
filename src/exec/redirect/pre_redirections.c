@@ -81,10 +81,13 @@ static t_error	request_heredoc(const struct s_io_redirect *const redirect,
 {
 	t_error		err;
 
-	err = acquire_heredoc(&redirect->here->contents, redirect->here, env);
-	if (is_error(err))
+	if (redirect->here)
 	{
-		return (err);
+		err = acquire_heredoc(&redirect->here->contents, redirect->here, env);
+		if (is_error(err))
+		{
+			return (err);
+		}
 	}
 	return (error_none());
 }
