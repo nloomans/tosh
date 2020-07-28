@@ -77,11 +77,14 @@ t_error			exec__set_arguments(struct s_program_prereq *const all_arg,
 		exec__clear_arguments(all_arg);
 		return (err);
 	}
-	err = initialize_arguments(all_arg, command);
-	if (is_error(err))
+	if (command->name)
 	{
-		exec__clear_arguments(all_arg);
-		return (err);
+		err = initialize_arguments(all_arg, command);
+		if (is_error(err))
+		{
+			exec__clear_arguments(all_arg);
+			return (err);
+		}
 	}
 	return (err);
 }
