@@ -116,8 +116,7 @@ t_error					redirect_out_and(t_list_meta *const tracker_lst,
 
 t_error					redirect_heredoc(t_list_meta *const tracker_lst,
 							const int first_fd,
-							const struct s_io_here *const heredoc,
-							const t_env *const env);
+							const struct s_io_here *const heredoc);
 
 /*
 **		////set_arg.h////

@@ -78,7 +78,7 @@ struct	s_io_file
 struct	s_io_here
 {
 	char						*here_end;
-	bool						was_quoted;
+	char						*contents;
 };
 
 t_error	parser_parse(

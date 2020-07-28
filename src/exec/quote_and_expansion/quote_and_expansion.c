@@ -11,10 +11,13 @@
 /* ************************************************************************** */
 
 #include "machine_definitions.h"
+#include "quote_and_expansion.h"
 
 static t_error		expand_redirection(struct s_io_redirect *const redirect,
 						t_env *const env)
 {
+	bool is_quoted;
+
 	if (redirect->file)
 	{
 		return (replacer_fsm(&redirect->file->filename,
@@ -22,11 +25,9 @@ static t_error		expand_redirection(struct s_io_redirect *const redirect,
 	}
 	else
 	{
-		if (ft_strchr(redirect->here->here_end, '\"') != NULL ||
-			ft_strchr(redirect->here->here_end, '\'') != NULL)
-		{
-			redirect->here->was_quoted = true;
-		}
+		is_quoted = ft_strchr(redirect->here->here_end, '\"') != NULL ||
+			ft_strchr(redirect->here->here_end, '\'') != NULL;
+		acquire_heredoc(redirect->here, is_quoted, env);
 		return (replacer_fsm(&redirect->here->here_end,
 			&g_here_end_table, env));
 	}
