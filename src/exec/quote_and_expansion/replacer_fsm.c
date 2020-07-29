@@ -19,14 +19,7 @@ static int		add_to_tape(char **const output_tape,
 {
 	char	*holder;
 
-	if (*output_tape == NULL)
-	{
-		holder = ft_strdup(new_addition);
-	}
-	else
-	{
-		holder = ft_strjoin(*output_tape, new_addition);
-	}
+	holder = ft_strjoin(*output_tape, new_addition);
 	if (holder == NULL)
 	{
 		return (-1);
@@ -122,7 +115,9 @@ t_error			replacer_fsm(char **const tape,
 	char	*new_tape;
 	t_error	err;
 
-	new_tape = NULL;
+	new_tape = ft_strnew(0);
+	if (new_tape == NULL)
+		return (errorf("unable to allocate memory"));
 	if (machine->first_state == FIRST_CHAR && **tape == '~' && \
 		((*tape)[1] == '\0' || (*tape)[1] == '/'))
 	{
