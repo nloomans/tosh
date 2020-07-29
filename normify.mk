@@ -29,7 +29,11 @@ FTPRINTF_NAME=		ftprintf
 FTPRINTF_DIR=		libftprintf
 FTPRINTF_A=			$(FTPRINTF_DIR)/lib$(FTPRINTF_NAME).a
 FTPRINTF_IFLAGS=	-I $(FTPRINTF_DIR)
+ifeq ($(shell uname),Darwin)
+FTPRINTF_LFLAGS=	-L $(FTPRINTF_DIR) -l$(FTPRINTF_NAME) -ltermcap
+else
 FTPRINTF_LFLAGS=	-L $(FTPRINTF_DIR) -l$(FTPRINTF_NAME) -lcurses
+endif
 
 $(FTPRINTF_A):
 	$(MAKE) -C $(FTPRINTF_DIR)
