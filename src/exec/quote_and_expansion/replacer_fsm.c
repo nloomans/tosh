@@ -121,7 +121,7 @@ t_error			replacer_fsm(char **const tape,
 	if (machine->first_state == FIRST_CHAR && **tape == '~' && \
 		((*tape)[1] == '\0' || (*tape)[1] == '/'))
 	{
-		new_tape = env_get(env, "HOME");
+		ft_strreplace(&new_tape, env_get(env, "HOME"));
 		err = iter_fsm((*tape) + 1, &new_tape, machine, env);
 	}
 	else

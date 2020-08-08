@@ -82,6 +82,7 @@ static int						read_escape(struct s_input__keypress *keypress,
 			return (-1);
 		if (c == '1')
 			return (read_modifier(keypress, read_func));
+		c == '3' && read_char(&c, read_func);
 		keypress->type = cursor_key(c);
 	}
 	return (0);
