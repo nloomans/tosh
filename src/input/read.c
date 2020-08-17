@@ -85,14 +85,15 @@ t_error			input_read(struct s_input_read_result *dest,
 		(struct s_term_formatted_string){prompt, prompt_width});
 	if (is_error(error))
 	{
-		input__configure(&term, INPUT__CONFIGURE_RESTORE);
-		return (errorf("tosh: %s", error.msg));
+		*dest = (struct s_input_read_result){INPUT_EXIT_REASON_CANCEL, NULL};
+		ft_dprintf(STDERR_FILENO, "tosh: %s\n", error.msg);
 	}
 	error = input__configure(&term, INPUT__CONFIGURE_RESTORE);
 	if (is_error(error))
 	{
-		return (errorf("failed to restore terminal to previous state: %s",
-			error.msg));
+		ft_dprintf(STDERR_FILENO,
+			"tosh: failed to restore terminal to previous state: %s\n",
+			error.msg);
 	}
 	return (error_none());
 }

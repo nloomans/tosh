@@ -46,7 +46,7 @@ t_error		acquire_heredoc(struct s_io_here *const heredoc,
 		if (is_error(err))
 			return (err);
 		if (read_return.exit_reason == INPUT_EXIT_REASON_CANCEL)
-			return (errorf("heredoc cancelled by ctrl-c"));
+			return (errorf("heredoc cancelled"));
 		if (read_return.exit_reason == INPUT_EXIT_REASON_DONE ||
 				ft_strequ(read_return.text, heredoc->here_end))
 			break ;
