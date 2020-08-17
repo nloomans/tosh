@@ -45,7 +45,7 @@ t_error		request_qoutation_completion(char **const memory_tape,
 		{
 			ft_strdel(&new.text);
 			if (new.exit_reason == INPUT_EXIT_REASON_CANCEL)
-				return (errorf("User hit Ctrl-C"));
+				return (errorf("quote completion cancelled"));
 			return (errorf("unexpected EOF while looking for`%c'", qoute));
 		}
 		if (ft_strchr(new.text, qoute) != NULL)
