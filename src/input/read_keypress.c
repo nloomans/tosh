@@ -69,6 +69,12 @@ static int						read_modifier(
 	return (0);
 }
 
+/*
+** HACK: The escape sequence CSI 3 ~ used to cause ~ to be typed as we just
+** aborted after seeing the 3. Consume the next character to fix^Whide the
+** issue.
+*/
+
 static int						read_escape(struct s_input__keypress *keypress,
 									t_read_func read_func)
 {
@@ -82,6 +88,13 @@ static int						read_escape(struct s_input__keypress *keypress,
 			return (-1);
 		if (c == '1')
 			return (read_modifier(keypress, read_func));
+		if (c == '3')
+		{
+			if (read_char(&c, read_func) == -1)
+				return (-1);
+			keypress->type = INPUT__READ_NONE;
+			return (0);
+		}
 		keypress->type = cursor_key(c);
 	}
 	return (0);
