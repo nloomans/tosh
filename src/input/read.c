@@ -90,10 +90,8 @@ t_error			input_read(struct s_input_read_result *dest,
 	}
 	error = input__configure(&term, INPUT__CONFIGURE_RESTORE);
 	if (is_error(error))
-	{
 		ft_dprintf(STDERR_FILENO,
 			"tosh: failed to restore terminal to previous state: %s\n",
 			error.msg);
-	}
 	return (error_none());
 }
